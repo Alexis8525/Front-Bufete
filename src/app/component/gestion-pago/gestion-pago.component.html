@@ -1,27 +1,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <script src="gestion-pago.js" type="text/javascript"></script>
     <title>Formulario de Expediente</title>
 </head>
 <body>
     <!-- FORMULARIO PARA PAGO -->
     <div>
-        <img src="../../../assets/imagen/logo.png" alt="LexVargas Logo" class="d-inline-block align-text-top">
-        <h1>Formulario de Expediente</h1>
+        <!-- <img src="../../../assets/imagen/logo.png" alt="LexVargas Logo" class="d-inline-block align-text-top"> -->
+        <h1>Registro de pagos</h1>
     </div>
     
-<div>    
+
     <form>
+        
         <!-- Datos del expediente -->
-        <label for="nombre-caso">Nombre del caso:</label>
-        <input type="text" id="nombre-caso" name="nombre-caso" required>
+        <label for="folioExpediente">Folio expediente:</label>       
+        <select id="folioExpediente" class="form-select">
+            <option>Seleccione una opción</option>
+            <option value="1">Opción 1</option>
+            <option value="2">Opción 2</option>
+            <!-- Agregar las opciones correspondientes al select de la BD -->
+        </select>
+
+        <label for="nombre-caso">Nombre del caso:</label>       
+        <input type="text" id="nombre-caso" name="nombre-caso" value="Nombre traído desde BD" readonly>
+
 
         <label for="nombre-cliente">Nombre del cliente:</label>
-        <input type="text" id="nombre-cliente" name="nombre-cliente" required>
+        <input type="text" id="nombre-cliente" name="nombre-cliente" value="Nombre traído desde BD" readonly>
 
         <label for="monto-total">Monto Total:</label>
-        <input type="number" id="monto-total" name="monto-total" required>
+        <input type="text" id="monto-total" name="monto-total" value="Monto traido de tabla servicio" readonly>
 
         <!-- Tabla de pagos realizados -->
         <h2>Pagos Realizados</h2>
@@ -48,27 +59,67 @@
 
         <!-- Botones -->
         <div class="button-container">
-            <button id="openModalBtn" type="button">Realizar Pago</button>
+            <button type="button" id="openModalBtn"  data-bs-toggle="modal" data-bs-target="#modalRealizarPagoSec">Registrar Pago</button>
+            <button type="button" id="openModalBtn"  data-bs-toggle="modal" data-bs-target="#modalRealizarPagoCli">Realizar Pago</button>
             <button type="button">Expediente Pagos</button>
         </div>
     </form>
 
-
-<div class="modal" id="modalRealizarPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- MODAL PARA PAGO  DESDE SECRETARIA     -->
+    <div class="modal" id="modalRealizarPagoSec" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog"  role="document">
         <div class="modal-content">
-            <div class="modal-body">
-                <!-- <button type="button" class="close-btn" id="closeModalBtn">x</button>     -->
-                <h3>Realizar pago</h3>
-                <div>
-                    <!-- Contenido del modal (inputs, opciones, etc.) -->
-                </div>
+            <div class="modal-body">                
+                <h3>Registrar pago</h3>                                 
+                    <label for="saldo-inicial">Saldo restante:</label>
+                    <input type="number" id="saldo-restante" class="form-control" value="" readonly>
+                    <label for="cantidad-pago">Cantidad pago:</label>
+                    <input type="number" id="cantidad-pago" class="form-control" value="" readonly>
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" class="form-control" value="" required>
+                <br>
                 <div class="modal-buttons">
-                    <button type="button">ACEPTAR</button>
-                    <button type="button" id="btnCancelar">CANCELAR</button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button">REGISTAR PAGO</button>                    
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                        </div>
+                    </div>                    
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> 
 
+
+<!-- MODAL PARA PAGO  DESDE CLIENTE     -->
+<div class="modal" id="modalRealizarPagoCli" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog"  role="document">
+        <div class="modal-content">
+            <div class="modal-body">                
+                <h3>Realizar pago</h3>                                 
+                    <label for="saldo-inicial">Saldo restante:</label>
+                    <input type="number" id="saldo-restante" class="form-control" value="" readonly>
+                    <label for="cantidad-pago">Cantidad pago:</label>
+                    <input type="number" id="cantidad-pago" class="form-control" [(ngModel)]="cantidadPago" required>
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" class="form-control" value="" required>
+                <br>
+                <div class="modal-buttons">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div #paypal class="paypal-button"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+
+</body>

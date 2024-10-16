@@ -1,32 +1,29 @@
-// INCIO MODAL REALIZAR PAGO
-
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modalRealizarPago');
-    const openModalBtn = document.getElementById('modalRealizarPago');
-    const closeModalBtns = document.querySelectorAll('.close-btn, #btnCancelar');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const btnCancelar = document.getElementById('btnCancelar');
 
-    // Función para cerrar el modal
-    const cerrarModal = () => {
-        modal.style.display = 'none';
-    };
-
-    // Abrir modal
-    openModalBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        modal.style.display = 'flex'; // Usamos 'flex' para centrar el modal
+    // No necesitas abrir el modal manualmente, Bootstrap lo hace automáticamente
+    // Si necesitas alguna acción extra cuando se cierre el modal:
+    
+    modal.addEventListener('hidden.bs.modal', () => {
+        console.log('Modal cerrado');
+        // Aquí puedes añadir más acciones después de que el modal se cierre
     });
 
-    // Cerrar modal al hacer clic en los botones de cierre
-    closeModalBtns.forEach(btn => {
-        btn.addEventListener('click', cerrarModal);
-    });
+    // No es necesario manejar el clic para cerrar manualmente si usas Bootstrap, 
+    // pero en caso de que quieras hacerlo con JavaScript:
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            const modalInstance = bootstrap.Modal.getInstance(modal); 
+            modalInstance.hide();
+        });
+    }
 
-    // Cerrar modal si el usuario hace clic fuera del contenido modal
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            cerrarModal();
-        }
-    });
+    if (btnCancelar) {
+        btnCancelar.addEventListener('click', () => {
+            const modalInstance = bootstrap.Modal.getInstance(modal); 
+            modalInstance.hide();
+        });
+    }
 });
-
-// FIN MODAL REALIZAR PAGO
