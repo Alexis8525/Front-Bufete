@@ -1,0 +1,13 @@
+.sidenav-container {
+    height: 100%;
+  }
+  
+  .sidenav {
+    background: #001f3f;
+    color: white;
+  }
+  
+  .container {
+    padding: 16px;
+  }
+  

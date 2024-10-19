@@ -1,0 +1,35 @@
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro con 50% de opacidad */
+    padding: 10px; /* Espaciado alrededor del texto */
+    border-radius: 5px; /* Esquinas redondeadas */
+    text-align: center; /* Alinear el texto al centro */
+}
+  
+.carousel-caption h5, .carousel-caption p {
+    color: #fff; /* Color del texto blanco */
+    font-size: 20px;
+}
+
+/* Estilos para el botón fijo de Solicitar Cita */
+.btn-solicitar-cita {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #001f3f; /* Azul marino */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.btn-solicitar-cita:hover {
+    background-color: #004080; /* Cambiar color al pasar el mouse */
+    text-decoration: none;
+    color: white;
+}
+
+  
+
+  

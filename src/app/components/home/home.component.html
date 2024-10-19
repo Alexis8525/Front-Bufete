@@ -1,7 +1,8 @@
+<!-- Barra de navegación -->
 <nav class="navbar navbar-expand-lg" style="background-color: #001f3f;"> <!-- Azul marino -->
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="logo/logoVargasLex.png" alt="LexVargas Logo" width="100" class="d-inline-block align-text-top">
+      <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="160" class="d-inline-block align-text-top">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -21,35 +22,80 @@
           <a class="nav-link text-white" href="#">Contacto</a>
         </li>
       </ul>
+      <!--
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-        <button class="btn btn-outline-light" type="submit">Buscar</button> <!-- Cambiar a texto claro -->
+        <button class="btn btn-outline-light" type="submit">Buscar</button>
       </form>
+      -->
+
+      <div class="d-flex align-items-center">
+        <a href="#login" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+        <a href="#register" class="btn btn-outline-light me-2">Registrarse</a>
+      </div>
     </div>
   </div>
 </nav>
 
+<!-- Carrusel -->
+<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner" style="height:80%; width:auto;">
+    <div class="carousel-item active" data-bs-interval="10000">
+      <img src="imagenes/abogados.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Asesoría Personalizada</h5>
+        <p>Ofrecemos asesoría personalizada y de alta calidad en nuestras oficinas dentro de México.</p>
+      </div>
+    </div>    
+    <div class="carousel-item" data-bs-interval="2000">
+      <img src="imagenes/oficina.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Lex Vargas Abogados</h5>
+        <p>20 años de experiencia nos respaldan conoce nuestras áreas de servicio.</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
 <!-- Contenido del Bufete de Abogados -->
 <div class="container mt-5">
-  <h2>BUFETE DE ABOGADOS EN MÉXICO</h2>
-  <h3>Bufete De Abogados</h3>
-  <p>
+  <h2 class="text-center">LEX VARGAS</h2>
+  <h3 class="text-center">Bufete De Abogados</h3>
+  <p class="text-center">
     Firma De Abogados En México
   </p>
-  <p>
+  <p class="text-justify">
     Somos una firma de abogados en la Ciudad de México, que brinda asesoría legal al sector público y privado, especializado en diferentes ramas del derecho, bajo un sistema de trabajo integral y ético, cuya finalidad es lograr resultados favorables a nuestros clientes. Cada uno de nuestros abogados en México cuenta con amplia experiencia en temas legales.
   </p>
 </div>
 
-<!-- Contenido -->
-<div class="row">
-  <div class="col-sm">
-    Columna 1
-  </div>
-  <div class="col-sm">
-    Columna 2
-  </div>
-  <div class="col-sm">
-    Columna 3
+<!-- Contenido en columnas -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-sm-6 mb-3">
+      <div class="p-3 border bg-light">Columna 1</div>
+    </div>
+    <div class="col-md-4 col-sm-6 mb-3">
+      <div class="p-3 border bg-light">Columna 2</div>
+    </div>
+    <div class="col-md-4 col-sm-12 mb-3">
+      <div class="p-3 border bg-light">Columna 3</div>
+    </div>
   </div>
 </div>
+
+<!-- Botón Cita -->
+ <!-- Botón Fijo Solicitar Cita -->
+<a href="#solicitar-cita" class="btn btn-primary btn-solicitar-cita" role="button">
+  Solicitar Cita
+</a>
+
