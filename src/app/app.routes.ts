@@ -8,13 +8,15 @@ import { RegisterComponent } from './components/register/register.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
+import { BarraLateralComponent } from './components/barra-lateral/barra-lateral.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'barra', component: BarraLateralComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'upload-file', component: UploadFileComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({
