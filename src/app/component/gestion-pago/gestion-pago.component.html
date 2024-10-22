@@ -13,7 +13,7 @@
     </div>
     
 
-    <form>
+    <form id="formPagos">
         
         <!-- Datos del expediente -->
         <label for="folioExpediente">Folio expediente:</label>       
@@ -22,7 +22,7 @@
             <option value="1">Opción 1</option>
             <option value="2">Opción 2</option>
             <!-- Agregar las opciones correspondientes al select de la BD -->
-        </select>
+        </select> <br/>
 
         <label for="nombre-caso">Nombre del caso:</label>       
         <input type="text" id="nombre-caso" name="nombre-caso" value="Nombre traído desde BD" readonly>
@@ -48,22 +48,22 @@
             </thead>
             <tbody>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
                 </tr>
             </tbody>
         </table>
-
+    </form>
         <!-- Botones -->
         <div class="button-container">
-            <button type="button" id="openModalBtn"  data-bs-toggle="modal" data-bs-target="#modalRealizarPagoSec">Registrar Pago</button>
-            <button type="button" id="openModalBtn"  data-bs-toggle="modal" data-bs-target="#modalRealizarPagoCli">Realizar Pago</button>
-            <button type="button">Expediente Pagos</button>
-        </div>
-    </form>
+            <button type="button" class="btn btn-secondary"  id="openModalBtn"  data-bs-toggle="modal" data-bs-target="#modalRealizarPagoSec">Registrar Pago</button>
+            <button type="button" class="btn btn-secondary"  id="openModalBtn"  data-bs-toggle="modal" data-bs-target="#modalRealizarPagoCli">Realizar Pago</button>
+            <button type="button" class="btn btn-secondary" (click)="imprimirExpediente()">Expediente Pagos</button>
+        </div> <br />
+    
 
 <!-- MODAL PARA PAGO  DESDE SECRETARIA     -->
     <div class="modal" id="modalRealizarPagoSec" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -74,17 +74,17 @@
                     <label for="saldo-inicial">Saldo restante:</label>
                     <input type="number" id="saldo-restante" class="form-control" value="" readonly>
                     <label for="cantidad-pago">Cantidad pago:</label>
-                    <input type="number" id="cantidad-pago" class="form-control" value="" readonly>
+                    <input type="number" id="cantidad-pago" class="form-control" [(ngModel)]="cantidadPago" required>
                     <label for="fecha">Fecha:</label>
                     <input type="date" id="fecha" class="form-control" value="" required>
                 <br>
                 <div class="modal-buttons">
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="button">REGISTAR PAGO</button>                    
+                            <button type="button">Registrar Pago</button>                    
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                     </div>                    
                 </div>
@@ -98,7 +98,8 @@
 <div class="modal" id="modalRealizarPagoCli" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog"  role="document">
         <div class="modal-content">
-            <div class="modal-body">                
+            <div class="modal-body"> 
+                <div id="realizarPago">
                 <h3>Realizar pago</h3>                                 
                     <label for="saldo-inicial">Saldo restante:</label>
                     <input type="number" id="saldo-restante" class="form-control" value="" readonly>
@@ -106,15 +107,15 @@
                     <input type="number" id="cantidad-pago" class="form-control" [(ngModel)]="cantidadPago" required>
                     <label for="fecha">Fecha:</label>
                     <input type="date" id="fecha" class="form-control" value="" required>
+                </div>               
                 <br>
                 <div class="modal-buttons">
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row">                       
                             <div #paypal class="paypal-button"></div>
-                        </div>
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-                        </div>
+                        <div>                            
+                            <button type="button" class="btn btn-secondary" (click)="imprimirReferencia()">Imprimir referencia de pago</button>
+                            <button type="button" class="btnCancelar" data-bs-dismiss="modal">Cancelar</button>
+                        </div>                                               
                     </div>                    
                 </div>
             </div>
