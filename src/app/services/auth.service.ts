@@ -6,17 +6,21 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
-  register(username: string, password: string) {
-    return this.http.post(`${this.apiUrl}/register`, { username, password });
+  register(user: { nombreUsuario: string; pass: string; estado: boolean; idRolFK: number; }, password: any, idRolFK: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
+}
+
+  login(nombreUsuario: string, pass: string): Observable<any> {
+    return this.http.post('http://localhost:3000/login', {
+      nombreUsuario,
+      pass
+    });
   }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password });
-  }
   upload_file(username: string, password: string) {
     return this.http.post(`${this.apiUrl}/upload-file`, { username, password });
 }
