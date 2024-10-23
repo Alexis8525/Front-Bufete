@@ -35,26 +35,31 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.invalid) {
-        return;
+      return;
     }
-
+  
     this.loading = true;
-    const { username, password, confirmPassword, idRolFK } = this.registerForm.value;
-
-    console.log('Datos a enviar:', { nombreUsuario: username, pass: password, estado: true, idRolFK });
-
-    this.authService.register(username, password, idRolFK).subscribe(
-        (response: any) => {
-            alert('Registro exitoso');
-            this.router.navigate(['/login']);
-        },
-        (error) => {
-            this.errorMessage = error.error?.message || 'Error en el registro';
-            this.loading = false;
-            console.error('Error en el registro', error);
-        }
+    const { username, password, idRolFK } = this.registerForm.value;
+  
+    const user = {
+      nombreUsuario: username,
+      pass: password,
+      estado: true,
+      idRolFK: idRolFK,
+    };
+  
+    console.log('Datos a enviar:', user);
+  
+    this.authService.register(user).subscribe(
+      (response: any) => {
+        alert('Registro exitoso');
+        this.router.navigate(['/login']);
+      },
+      (error) => {
+        this.errorMessage = error.error?.message || 'Error en el registro';
+        this.loading = false;
+        console.error('Error en el registro', error);
+      }
     );
-}
-
-
+  }
 }
