@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #001f3f;"> <!-- Azul marino -->
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+        </a>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <app-barra-lateral class="sidebar"></app-barra-lateral>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4" *ngFor="let empleado of empleados">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{ empleado.nombreEmpleado }} {{ empleado.aPEmpleado }} {{ empleado.aMEmpleado }}</h5>
+                  <p class="card-text">
+                    <strong>Fecha de Ingreso:</strong> {{ empleado.fechaIngreso | date: 'dd/MM/yyyy' }}<br>
+                    <strong>Número de Licencia:</strong> {{ empleado.numeroLicencia }}<br>
+                    <strong>Correo:</strong> {{ empleado.correo }}<br>
+                    <strong>Teléfono:</strong> {{ empleado.telefono }}<br>
+                    <strong>Especialidad:</strong> {{ empleado.especialidad }}<br>
+                  </p>
+                  <a href="#" class="btn btn-primary">Editar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+    </div>
+</div>

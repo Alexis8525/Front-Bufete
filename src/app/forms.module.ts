@@ -3,6 +3,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import { BrowserModule } from '@angular/platform-browser';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -16,6 +18,9 @@ import { BrowserModule } from '@angular/platform-browser';
     FormsModule,
     FullCalendarModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(withFetch()) // Habilita fetch aquí
+
+  ],
 })
 export class FormModule {}
