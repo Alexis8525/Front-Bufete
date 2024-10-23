@@ -1,17 +1,20 @@
-body {
+:host {
   margin: 0;
   padding: 0;
   height: 100vh; 
-  background-size: cover;
+  background-image: url('../../../../public/assets/pictures/loginFondo.avif');
+  background-size: cover; /* Asegura que la imagen cubra todo el fondo */
   background-position: center; 
   background-repeat: no-repeat;
   display: flex;
   justify-content: center; 
-  align-items: center;
-  font-family: Arial, sans-serif; /* Cambia la fuente si deseas */
+  align-items: center; /* Centra el contenido vertical y horizontalmente */
+  font-family: Arial, sans-serif;
 }
 
 .login-container {
+  display: block;
+  margin: auto;
   width: 360px;
   padding: 30px 25px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -19,6 +22,13 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
+
+
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
 
 h2 {
   margin-bottom: 20px; /* Espacio entre el título y el formulario */

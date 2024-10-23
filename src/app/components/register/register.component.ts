@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { RegisterService } from '../../services/register.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private registerService: RegisterService,
     private router: Router
   ) {}
 
@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
   
     console.log('Datos a enviar:', user);
   
-    this.authService.register(user).subscribe(
+    this.registerService.register(user).subscribe(
       (response: any) => {
         alert('Registro exitoso');
         this.router.navigate(['/login']);

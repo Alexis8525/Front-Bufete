@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private loginService: LoginService,
     private router: Router,
     private http: HttpClient
   ) {}
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
         this.loading = true;
 
         const { username, password } = this.loginForm.value; 
-        this.authService.login(username, password).subscribe(
+        this.loginService.login(username, password).subscribe(
             (response: any) => { 
                 console.log('Inicio de sesión exitoso', response);
                 this.router.navigate(['/home']);
