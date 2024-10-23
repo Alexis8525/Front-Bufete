@@ -31,22 +31,23 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.loading = true;
+        this.loading = true;
 
-      const { username, password } = this.loginForm.value;
-      this.authService.login(username, password).subscribe(
-        (response: any) => { 
-          console.log('Inicio de sesión exitoso', response);
-          this.router.navigate(['/home']);
-        },
-        (error: any) => {
-          this.errorMessage = 'Credenciales incorrectas';
-          this.loading = true;
-          console.error('Error en el inicio de sesión', error);
-        }
-      );
+        const { username, password } = this.loginForm.value; 
+        this.authService.login(username, password).subscribe(
+            (response: any) => { 
+                console.log('Inicio de sesión exitoso', response);
+                this.router.navigate(['/home']);
+            },
+            (error: any) => {
+                this.errorMessage = 'Credenciales incorrectas';
+                this.loading = false;
+                console.error('Error en el inicio de sesión', error);
+            }
+        );
     }
-  }
+}
+
   
   navigateToRegister() {
     this.router.navigate(['/register']);

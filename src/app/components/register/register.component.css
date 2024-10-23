@@ -1,45 +1,86 @@
 body {
-    margin: 0;
-    padding: 0;
-    height: 100vh; 
-    background-size: cover;
-    background-position: center; 
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-  }
-  
-  .register-container {
-    width: 360px;
-    padding: 30px 25px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .error-message, .error {
-    color: #d9534f;
-  }
-  
-  p {
-    margin-top: 15px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  height: 100vh; 
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  font-family: Arial, sans-serif; /* Cambia la fuente si deseas */
+}
+
+.register-container {
+  width: 360px;
+  padding: 30px 25px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px; /* Espacio entre el título y el formulario */
+  color: #333; /* Color del título */
+}
+
+.form-group {
+  margin-bottom: 20px; /* Espacio entre los campos */
+}
+
+label {
+  display: block;
+  margin-bottom: 5px; /* Espacio entre el label y el input */
+  font-weight: bold; /* Estilo del label */
+  color: #555; /* Color del label */
+}
+
+input.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Borde del input */
+  border-radius: 5px; /* Esquinas redondeadas */
+  font-size: 16px; /* Tamaño de la fuente */
+}
+
+input.form-control:focus {
+  border-color: #007bff; /* Color del borde cuando el input está enfocado */
+  outline: none; /* Quitar el outline predeterminado */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra del borde */
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transición para el efecto de hover */
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px); /* Efecto de elevación al hacer hover */
+}
+
+.error-message, .error {
+  color: #d9534f;
+}
+
+p {
+  margin-top: 15px;
+  color: #555; /* Color del texto del párrafo */
+}
+
+a {
+  color: #007bff; /* Color del enlace */
+  text-decoration: none; /* Sin subrayado */
+}
+
+a:hover {
+  text-decoration: underline; /* Subrayado en hover */
+}

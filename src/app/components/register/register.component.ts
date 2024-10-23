@@ -23,27 +23,38 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-    });
+      confirmPassword: ['', Validators.required],
+      idRolFK: [1, Validators.required],
+    }, { validator: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(form: FormGroup) {
+    return form.get('password')?.value === form.get('confirmPassword')?.value
+      ? null : { mismatch: true };
   }
 
   onSubmit(): void {
     if (this.registerForm.invalid) {
-      return;
+        return;
     }
-  
+
     this.loading = true;
-    const { username, password } = this.registerForm.value;
-  
-    this.authService.register(username, password).subscribe(
-      (response: any) => {
-        console.log('Registro exitoso', response.message);
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        this.errorMessage = error.error?.message || 'Error en el registro';
-        this.loading = false;
-        console.error('Error en el registro', error);
-      }
+    const { username, password, confirmPassword, idRolFK } = this.registerForm.value;
+
+    console.log('Datos a enviar:', { nombreUsuario: username, pass: password, estado: true, idRolFK });
+
+    this.authService.register(username, password, idRolFK).subscribe(
+        (response: any) => {
+            alert('Registro exitoso');
+            this.router.navigate(['/login']);
+        },
+        (error) => {
+            this.errorMessage = error.error?.message || 'Error en el registro';
+            this.loading = false;
+            console.error('Error en el registro', error);
+        }
     );
-  }
+}
+
+
 }
