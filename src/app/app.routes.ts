@@ -9,6 +9,7 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { BarraLateralComponent } from './components/barra-lateral/barra-lateral.component';
+import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-cita.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'upload-file', component: UploadFileComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'cita', component: SolicitudCitaComponent },
 ];
 
 @NgModule({

@@ -140,3 +140,9 @@ a.sidebar-link:hover {
     transform: rotate(45deg);
     transition: all .2s ease-out;
 }
+
+#sidebar {
+    background-color: #001f3f; /* Color de fondo de la barra lateral */
+    height: 100vh; /* Altura completa de la ventana */
+    
+}
