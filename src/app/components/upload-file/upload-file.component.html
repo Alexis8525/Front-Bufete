@@ -1,17 +1,35 @@
-<app-navbar></app-navbar> 
-
-<form (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-container">
-  <div class="form-group">
-      <label for="nombre">Nombre del expediente:</label>
-      <input type="text" [(ngModel)]="nombreExpediente" name="nombre" required class="form-control">
+<nav class="navbar navbar-expand-lg" style="background-color: #001f3f;"> <!-- Azul marino -->
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+    </a>
   </div>
-
-  <div class="form-group">
-      <label for="archivo">Subir archivo PDF:</label>
-      <input type="file" (change)="onFileSelected($event)" accept="application/pdf" required class="form-control-file">
-  </div>
-
-  <button type="submit" class="btn btn-primary btn-submit">Subir</button>
-</form>
+</nav>
+<div>
+  <form (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-container">
+    <div class="form-group">
+        <label for="nombre">Nombre del expediente:</label>
+        <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control">
+    </div>
+  
+    <div class="form-group">
+        <label for="numero">Número de expediente:</label>
+        <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control">
+    </div>
+  
+    <div class="form-group">
+        <label for="anio">Año del expediente:</label>
+        <input type="number" [(ngModel)]="expediente.anioExpediente" name="anio" required class="form-control">
+    </div>
+  
+    <div class="form-group">
+        <label for="archivo">Subir archivo PDF:</label>
+        <input type="file" (change)="onFileSelected($event)" accept="application/pdf" required class="form-control-file">
+    </div>
+  
+    <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
+  </form>
+  
+</div>
 
 <router-outlet></router-outlet>

@@ -5,11 +5,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UploadFileService {
-  private apiUrl = 'http://localhost:3000';
+
+  private apiUrl = 'http://localhost:3000/upload-file';
 
   constructor(private http: HttpClient) {}
 
-  upload_file(username: string, password: string) {
-    return this.http.post(`${this.apiUrl}/upload-file`, { username, password });
-}
+  crearExpediente(datosExpediente: FormData) {
+    return this.http.post(`${this.apiUrl}`, datosExpediente);
+  }
+
+  obtenerExpedientes(filtro?: any) {
+    return this.http.get(`${this.apiUrl}`, { params: filtro });
+  }
+
+  eliminarExpediente(id: string) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }

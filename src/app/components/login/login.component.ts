@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         this.loginService.login(username, password).subscribe(
             (response: any) => { 
                 console.log('Inicio de sesión exitoso', response);
-                this.router.navigate(['/home']);
+                this.router.navigate(['/cita']);
             },
             (error: any) => {
                 this.errorMessage = 'Credenciales incorrectas';
