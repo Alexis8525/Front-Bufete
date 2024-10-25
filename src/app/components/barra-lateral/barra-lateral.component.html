@@ -1,0 +1,113 @@
+<div class="wrapper">
+    <aside id="sidebar" #sidebar>
+      <div class="d-flex">
+        <button class="toggle-btn" type="button" (click)="toggleSidebar()">
+          <i class="lni lni-menu"></i>
+        </button>
+        <!--
+        <div class="sidebar-logo">
+          <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="130" class="d-inline-block align-text-top">
+        </div>
+        -->
+      </div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link">
+            <i class="lni lni-user"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link">
+            <i class="lni lni-agenda"></i>
+            <span>Abogados</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+             data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+             <i class="fa-regular fa-calendar"></i>
+            <span>Citas</span>
+          </a>
+          <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+            <li class="sidebar-item">
+              <a href="cita" class="sidebar-link">Nueva cita</a>
+            </li>
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link">Cita pogramada</a>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+             data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
+            <i class="lni lni-layout"></i>
+            <span>Multi Level</span>
+          </a>
+          <ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                 data-bs-target="#multi-two" aria-expanded="false" aria-controls="multi-two">
+                Two Links
+              </a>
+              <ul id="multi-two" class="sidebar-dropdown list-unstyled collapse">
+                <li class="sidebar-item">
+                  <a href="#" class="sidebar-link">Link 1</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="#" class="sidebar-link">Link 2</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link">
+            <i class="lni lni-popup"></i>
+            <span>Notification</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#" class="sidebar-link">
+            <i class="lni lni-cog"></i>
+            <span>Setting</span>
+          </a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-link">
+          <i class="lni lni-exit"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!--
+    <div class="main p-3">
+      <div class="p-3">
+        <h1 class="text-center">Bienvenido a Lex Vargas Abogados</h1>
+        <p> </p>
+        <p class="mt-2">
+          Nos complace darle la bienvenida a nuestro despacho. En Lex Vargas Abogados, nos dedicamos a brindar soluciones legales
+          efectivas y personalizadas para satisfacer sus necesidades. Estamos comprometidos con la excelencia y la justicia, 
+          asegurando que cada uno de nuestros clientes reciba la mejor asesoría y representación posible.
+        </p>
+        <p class="mt-2">
+          Por favor, seleccione una opción en el menú para gestionar sus citas o explorar nuestros servicios. Nuestro equipo 
+          está aquí para asistirle en cada paso del proceso legal.
+        </p>
+      </div>      
+    </div>
+    -->
+
+    <!--
+    <div class="main p-3">
+      <div class="text-center">
+        <h1>
+          Mis Citas
+        </h1>
+      </div>
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+      -->
+  </div>

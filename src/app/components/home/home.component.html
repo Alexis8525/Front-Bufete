@@ -1,51 +1,102 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-lg" style="background-color: #001f3f;"> <!-- Azul marino -->
   <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar scroll</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarScroll">
-          <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-              <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="/home">Home</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Link
-                  </a>
-                  <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/upload-file">Subir Expediente</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link disabled" aria-disabled="true">Link</a>
-              </li>
-          </ul>
-          <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+    <a class="navbar-brand" href="#">
+      <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="160" class="d-inline-block align-text-top">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active text-white" aria-current="page" href="#">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Conócenos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Servicios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Contacto</a>
+        </li>
+      </ul>
+      <!--
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+        <button class="btn btn-outline-light" type="submit">Buscar</button>
+      </form>
+      -->
+
+      <div class="d-flex align-items-center">
+        <a href="login" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+        <a href="login" class="btn btn-outline-light me-2">Registrarse</a>
       </div>
+    </div>
   </div>
 </nav>
 
-<div class="row">
-  <div class="col-sm">
-      One of three columns
+<!-- Carrusel -->
+<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner" style="height:80%; width:auto;">
+    <div class="carousel-item active" data-bs-interval="10000">
+      <img src="imagenes/abogados.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Asesoría Personalizada</h5>
+        <p>Ofrecemos asesoría personalizada y de alta calidad en nuestras oficinas dentro de México.</p>
+      </div>
+    </div>    
+    <div class="carousel-item" data-bs-interval="2000">
+      <img src="imagenes/oficina.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Lex Vargas Abogados</h5>
+        <p>20 años de experiencia nos respaldan conoce nuestras áreas de servicio.</p>
+      </div>
+    </div>
   </div>
-  <div class="col-sm">
-      One of three columns
-  </div>
-  <div class="col-sm">
-      One of three columns
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+<!-- Contenido del Bufete de Abogados -->
+<div class="container mt-5">
+  <h2 class="text-center">LEX VARGAS</h2>
+  <h3 class="text-center">Bufete De Abogados</h3>
+  <p class="text-center">
+    Firma De Abogados En México
+  </p>
+  <p class="text-justify">
+    Somos una firma de abogados en la Ciudad de México, que brinda asesoría legal al sector público y privado, especializado en diferentes ramas del derecho, bajo un sistema de trabajo integral y ético, cuya finalidad es lograr resultados favorables a nuestros clientes. Cada uno de nuestros abogados en México cuenta con amplia experiencia en temas legales.
+  </p>
+</div>
+
+<!-- Contenido en columnas -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-sm-6 mb-3">
+      <div class="p-3 border bg-light">Columna 1</div>
+    </div>
+    <div class="col-md-4 col-sm-6 mb-3">
+      <div class="p-3 border bg-light">Columna 2</div>
+    </div>
+    <div class="col-md-4 col-sm-12 mb-3">
+      <div class="p-3 border bg-light">Columna 3</div>
+    </div>
   </div>
 </div>
+
+<!-- Botón Cita -->
+ <!-- Botón Fijo Solicitar Cita -->
+<a href="#solicitar-cita" class="btn btn-primary btn-solicitar-cita" role="button">
+  Solicitar Cita
+</a>
+
+  
