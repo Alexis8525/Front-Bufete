@@ -7,7 +7,6 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { BarraLateralComponent } from './components/barra-lateral/barra-lateral.component';
 import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-cita.component';
 
