@@ -11,6 +11,7 @@ import { BarraLateralComponent } from './components/barra-lateral/barra-lateral.
 import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-cita.component';
 import { CrudEmpleadoComponent } from './components/crud-empleado/crud-empleado.component';
 import { PruebaComponent } from './components/prueba/prueba.component';
+import { GestionCitaComponent } from './components/gestion-cita/gestion-cita.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'cita', component: SolicitudCitaComponent },
   { path: 'empleado', component: CrudEmpleadoComponent },
   { path: 'prueba', component: PruebaComponent },
+  { path: 'gestion-cita', component: GestionCitaComponent},
 ];
 
 @NgModule({
