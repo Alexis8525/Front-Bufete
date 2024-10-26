@@ -1,0 +1,61 @@
+/* Asegúrate de que los campos del formulario ocupen todo el ancho disponible */
+.full-width {
+    width: 100%;
+  }
+  
+  /* Estilos para el contenedor del diálogo */
+  mat-dialog-content {
+    display: flex;
+    justify-content: center; /* Centrar el card en el diálogo */
+    padding: 16px; /* Añadir relleno alrededor del contenido */
+  }
+  
+  /* Estilos para el card */
+  mat-card {
+    width: 100%; /* Ancho completo del card */
+    max-width: 600px; /* Máximo ancho del card */
+    padding: 16px; /* Relleno interno del card */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  }
+  
+  /* Estilos para el título del diálogo */
+  mat-dialog-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #001f3f; /* Azul marino */
+  }
+  
+  /* Estilos para los botones de acción */
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px; /* Espacio entre los botones */
+    padding-top: 16px; /* Espacio arriba de los botones */
+  }
+  
+  /* Estilos para los botones */
+  button {
+    min-width: 100px; /* Ancho mínimo de los botones */
+  }
+  
+  button[mat-button] {
+    background-color: #001f3f; /* Azul marino para el botón principal */
+    color: white;
+  }
+  
+  button[mat-button]:hover {
+    background-color: #004080; /* Un poco más claro al hacer hover */
+  }
+  
+  /* Estilos para el botón de cancelar */
+  button[mat-button]:nth-child(1) {
+    background-color: transparent; /* Botón transparente para cancelar */
+    color: #001f3f; /* Azul marino */
+  }
+  
+  button[mat-button]:nth-child(1):hover {
+    background-color: rgba(0, 31, 63, 0.1); /* Fondo semitransparente al hacer hover */
+  }
+  
