@@ -6,7 +6,8 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { FormModule } from './forms.module';
-import { FullCalendarModule } from '@fullcalendar/angular'; // Importa FullCalendarModule
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importa FullCalendarModule
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     importProvidersFrom(ReactiveFormsModule, HttpClientModule, FormModule),
     provideHttpClient(),
-    FullCalendarModule,
+    FullCalendarModule, provideAnimationsAsync(),
   ],
 };

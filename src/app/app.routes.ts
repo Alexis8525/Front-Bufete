@@ -11,6 +11,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
 import { BarraLateralComponent } from './components/barra-lateral/barra-lateral.component';
 import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-cita.component';
 import { CrudEmpleadoComponent } from './components/crud-empleado/crud-empleado.component';
+import { PruebaComponent } from './components/prueba/prueba.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'cita', component: SolicitudCitaComponent },
   { path: 'empleado', component: CrudEmpleadoComponent },
+  { path: 'prueba', component: PruebaComponent },
 ];
 
 @NgModule({
