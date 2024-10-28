@@ -4,6 +4,7 @@ import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component'
 import { Empleado } from '../../models/empleados';
 import { EmpleadoService } from '../../services/empleado.service';
 import { ModalService } from '../../services/modal.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-crud-empleado',
@@ -23,7 +24,7 @@ export class CrudEmpleadoComponent implements OnInit {
   constructor( 
     public empleadoService:EmpleadoService,
     private modalService: ModalService,
-  ) {}
+  ){}
 
   ngOnInit() {
     this.getEmpleadoAbogado();
@@ -38,18 +39,16 @@ export class CrudEmpleadoComponent implements OnInit {
     )
   }
   
-
-  /*filtrarEmpleados() {
-    this.empleadosFiltrados = this.empleados.filter(empleado => {
-      return (
-        (!this.filtroFechaIngreso || empleado.fechaIngreso === this.filtroFechaIngreso) &&
-        (!this.filtroRol || empleado.rol === this.filtroRol) &&
-        (!this.filtroEspecialidad || empleado.especialidad === this.filtroEspecialidad)
-      );
-    });
+  crearEmpleado(form:NgForm){
+    alert('Insertando Registro');
+     this.empleadoService.crearEmpleado(form.value).subscribe(
+      res=> {
+        this.getEmpleadoAbogado();
+        form.reset();
+      },
+      err=> console.log(err)
+    )
   }
 
-  openCreateModal(): void {
-    this.modalService.openModal(EmpleadoDialogComponent);
-  }*/
+
 }
