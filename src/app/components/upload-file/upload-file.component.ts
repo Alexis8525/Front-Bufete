@@ -10,7 +10,6 @@ export class UploadFileComponent {
   expediente: any = {
     nombreExpediente: '',
     numeroExpediente: '',
-    anioExpediente: null
   };
   archivo: File | null = null;
 
@@ -30,7 +29,6 @@ export class UploadFileComponent {
     formData.append('archivo', this.archivo);
     formData.append('nombreExpediente', this.expediente.nombreExpediente);
     formData.append('numeroExpediente', this.expediente.numeroExpediente);
-    formData.append('anioExpediente', this.expediente.anioExpediente);
 
     this.uploadFileService.crearExpediente(formData).subscribe({
       next: () => console.log('Expediente creado exitosamente'),
