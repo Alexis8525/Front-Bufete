@@ -1,0 +1,92 @@
+.wrapper {
+    display: flex; /* Asegura que los hijos se alineen horizontalmente */
+    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    overflow: hidden; /* Evita el desbordamiento del contenedor principal */
+  }
+  
+  .app-barra-lateral {
+    height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
+    flex-shrink: 0; /* Evita que la barra lateral se reduzca */
+  }
+  
+  .main {
+    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+    display: flex;
+    flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
+  }
+  
+  .p-3 {
+    background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
+    background-position: center; /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+    max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
+    background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
+    padding: 2rem; /* Añade algo de espacio alrededor del contenido */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
+  }
+  
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+.button-container {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+}
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    margin-right: 10px;
+}
+button:hover {
+    background-color: #45a049;
+}
+
+.btnCancelar {
+    background-color: #d71c1c;
+    width: 210px;
+}
+
+.btnCancelar:hover {
+    background-color: #f44336;
+}
+
