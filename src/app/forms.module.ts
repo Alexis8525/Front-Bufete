@@ -12,7 +12,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
+registerLocaleData(localeEs);
 
 @NgModule({
   
@@ -34,7 +38,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
   ],
   providers: [
-    provideHttpClient(withFetch()) 
+    provideHttpClient(withFetch()),
+    { provide: LOCALE_ID, useValue: 'es'} 
   ],
 })
 export class FormModule {}

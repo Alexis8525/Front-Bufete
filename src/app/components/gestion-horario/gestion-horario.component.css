@@ -1,37 +1,50 @@
-.wrapper {
-    display: flex; /* Asegura que los hijos se alineen horizontalmente */
-    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
-    overflow: hidden; /* Evita el desbordamiento del contenedor principal */
-}
-
-app-barra-lateral {
-    height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
-    flex-shrink: 0; /* Evita que la barra lateral se reduzca */
-}
-
-.main {
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+  .wrapper {
     display: flex;
-    flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
-}
+    /* Asegura que los hijos se alineen horizontalmente */
+    height: 100vh;
+    /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    overflow: hidden;
+    /* Evita el desbordamiento del contenedor principal */
+  }
 
-.p-3 {
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-    max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
-    background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
-    padding: 2rem; /* Añade algo de espacio alrededor del contenido */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
-}
+  app-barra-lateral {
+    height: 100vh;
+    /* Asegura que la barra lateral ocupe toda la altura de la ventana */
+    flex-shrink: 0;
+    /* Evita que la barra lateral se reduzca */
+  }
+
+  .main {
+    flex-grow: 1;
+    /* Permite que el contenedor principal ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+    /* Permite que el contenido de la clase .p-3 se apile verticalmente */
+  }
+
+  .p-3 {
+    flex-grow: 1;
+    /* Permite que el contenedor principal ocupe el espacio restante */
+    max-height: 100vh;
+    /* Asegura que el contenido no exceda la altura de la ventana */
+    background-color: #fafbfe;
+    /* Color de fondo igual al de la barra lateral */
+    /*background-image: url('/imagenes/fondo1.jpg');*/
+    padding: 2rem;
+    /* Añade algo de espacio alrededor del contenido */
+    overflow-y: auto;
+    /* Permite el desplazamiento vertical si el contenido es muy grande */
+  }
 
 
 
-.calendario {
+  .calendario {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px;
   }
-  
+
   .header {
     display: flex;
     align-items: center;
@@ -39,20 +52,20 @@ app-barra-lateral {
     width: 100%;
     margin-bottom: 20px;
   }
-  
+
   table {
     border-collapse: collapse;
     width: 100%;
   }
-  
-  th, td {
+
+  th,
+  td {
     border: 1px solid #ccc;
     width: 14.28%;
     height: 40px;
     text-align: center;
   }
-  
+
   th {
     background-color: #f0f0f0;
   }
-  

@@ -14,7 +14,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   ]
 })
 export class SeleccionHorasComponent {
-  @Input() selectedAbogado!: string; 
+  @Input() selectedAbogado!: { 
+    idEmpleado: number; 
+    nombreEmpleado: string; 
+    aPEmpleado: string; 
+    aMEmpleado: string; 
+  }; 
+  @Input() selectedFecha!: Date;
   horasDisponibles: string[] = [];
   horasSeleccionadas: { [key: string]: boolean } = {};
 
@@ -29,9 +35,7 @@ export class SeleccionHorasComponent {
       const fin = `${(i + 1).toString().padStart(2, '0')}:00`;
       const horaCompleta = `${inicio} - ${fin}`;
       horas.push(horaCompleta);
-      
-      // Inicializa horasSeleccionadas con todas las horas en true
-      this.horasSeleccionadas[horaCompleta] = true;
+      this.horasSeleccionadas[horaCompleta] = true; // Inicializa horas seleccionadas
     }
     this.horasDisponibles = horas;
     console.log('Horas generadas:', this.horasDisponibles);
@@ -39,7 +43,7 @@ export class SeleccionHorasComponent {
 
   guardarHoras(): void {
     const horasGuardadas = Object.keys(this.horasSeleccionadas).filter(hora => this.horasSeleccionadas[hora]);
-    console.log(`Horas de ${this.selectedAbogado}: ${horasGuardadas.join(', ')}`);
+    console.log(`Horas seleccionadas para ${this.selectedAbogado.nombreEmpleado} ${this.selectedAbogado.aPEmpleado} ${this.selectedAbogado.aMEmpleado}: ${horasGuardadas.join(', ')}`);
     this.activeModal.close(horasGuardadas);
   }
 }

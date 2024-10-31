@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SeleccionHorasComponent } from '../modals/seleccion-horas/seleccion-horas.component';
 import { EmpleadoService } from '../../services/empleado.service';
+import { Agenda } from '../../models/agenda';
+import { AgendaService } from '../../services/agenda-service.service';
+import { Empleado } from '../../models/empleados';
 
 @Component({
   selector: 'app-gestion-horario',
@@ -19,21 +22,25 @@ import { EmpleadoService } from '../../services/empleado.service';
   ]
 })
 export class GestionHorarioComponent implements OnInit {
+  @Input() selectedAbogado!: {
+    idEmpleado: number;
+    nombreEmpleado: string;
+    aPEmpleado: string;
+    aMEmpleado: string;
+  };
   diasDelMes: number[] = [];
   mesActual: number;
   anioActual: number;
   nombreMesActual: string;
-  nombresDias: string[] = [
-    'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
-  ];
-  abogados: string[] = ['Abogado 1', 'Abogado 2', 'Abogado 3'];
-  selectedAbogado: string = this.abogados[0];
+  nombresDias: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  selectedFecha: Date | null = null;
 
   @ViewChild('modalMensaje') modalMensaje: any;
 
   constructor(
     private modalService: NgbModal,
-    public empleadoService: EmpleadoService
+    public empleadoService: EmpleadoService,
+    public agendaService: AgendaService
   ) {
     const fecha = new Date();
     this.mesActual = fecha.getMonth();
@@ -53,16 +60,59 @@ export class GestionHorarioComponent implements OnInit {
         console.log(res);
       },
       err => console.log(err)
-    )
+    );
+  }
+
+  seleccionarFecha(dia: number): void {
+    if (dia !== 0) {
+      this.selectedFecha = new Date(this.anioActual, this.mesActual, dia);
+      console.log('Fecha seleccionada:', this.selectedFecha);
+    }
   }
 
   abrirModal(): void {
+    console.log('Intentando abrir el modal...');
+
+    // Verificar si hay un abogado seleccionado
+    if (!this.selectedAbogado) {
+      console.log('No se ha seleccionado ningún abogado.');
+      alert('Por favor, selecciona un abogado antes de abrir el modal.');
+      return;
+    } else {
+      console.log('Abogado seleccionado:', this.selectedAbogado); // Aquí se añade el console.log
+    }
+
+    // Verificar si la fecha seleccionada es válida
+    if (this.selectedFecha) {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0); // Establecer la hora a medianoche
+      console.log('Fecha seleccionada:', this.selectedFecha);
+      console.log('Fecha de hoy:', hoy);
+
+      if (this.selectedFecha < hoy) {
+        console.log('La fecha seleccionada es anterior a hoy.');
+        alert('No se pueden agendar horas para fechas anteriores a hoy.');
+        return; // No abrir el modal
+      } else {
+        console.log('La fecha seleccionada es válida:', this.selectedFecha);
+      }
+    } else {
+      console.log('No se ha seleccionado ninguna fecha.');
+    }
+
     const modalRef = this.modalService.open(SeleccionHorasComponent);
-    modalRef.componentInstance.selectedAbogado = this.selectedAbogado; // Pasar el abogado seleccionado
+    modalRef.componentInstance.selectedAbogado = this.selectedAbogado;
+    modalRef.componentInstance.selectedFecha = this.selectedFecha;
+
+    modalRef.result.then((horasSeleccionadas: string[]) => {
+      if (horasSeleccionadas) {
+        this.guardarHoras(horasSeleccionadas);
+      }
+    }).catch(err => console.log('Error al cerrar el modal:', err));
   }
 
   cerrarModal() {
-    this.modalService.dismissAll(); // Cierra el modal
+    this.modalService.dismissAll();
   }
 
   obtenerNombreMes(): string {
@@ -94,4 +144,37 @@ export class GestionHorarioComponent implements OnInit {
       return i - inicioCalendario + 1;
     });
   }
+
+  guardarHoras(horasSeleccionadas: string[]): void {
+    const agendaData = horasSeleccionadas.map(hora => {
+        const [inicio, fin] = hora.split(' - ');
+        const horaInicio = new Date(this.selectedFecha!);
+        const horaFinal = new Date(this.selectedFecha!);
+        
+        // Establecer la hora de inicio
+        const [inicioHoras, inicioMinutos] = inicio.split(':').map(Number);
+        horaInicio.setHours(inicioHoras, inicioMinutos);
+        
+        // Establecer la hora de fin
+        const [finHoras, finMinutos] = fin.split(':').map(Number);
+        horaFinal.setHours(finHoras, finMinutos);
+        
+        return {
+            horaInicio: horaInicio.toISOString(), // Convertir a ISO
+            horaFinal: horaFinal.toISOString(), // Convertir a ISO
+            fecha: this.selectedFecha!.toISOString().split('T')[0], // Usa solo la fecha
+            estado: 'Disponible',
+            idEmpleadoFK: this.selectedAbogado.idEmpleado
+        } as Agenda;
+    });
+
+    agendaData.forEach(agenda => {
+        this.agendaService.crearAgenda(agenda).subscribe(
+            res => console.log('Agenda creada:', res),
+            err => console.error('Error al crear agenda:', err)
+        );
+    });
+}
+
+
 }
