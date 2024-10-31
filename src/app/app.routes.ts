@@ -13,6 +13,8 @@ import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-ci
 import { CrudEmpleadoComponent } from './components/crud-empleado/crud-empleado.component';
 import { PruebaComponent } from './components/prueba/prueba.component';
 import { GestionCitaComponent } from './components/gestion-cita/gestion-cita.component';
+import { CrudClienteComponent } from './components/crud-cliente/crud-cliente.component';
+import { GestionHorarioComponent } from './components/gestion-horario/gestion-horario.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,6 +27,8 @@ export const routes: Routes = [
   { path: 'empleado', component: CrudEmpleadoComponent },
   { path: 'prueba', component: PruebaComponent },
   { path: 'gestion-cita', component: GestionCitaComponent},
+  { path: 'gestion-cliente', component: CrudClienteComponent},
+  { path: 'gestion-horario', component: GestionHorarioComponent},
 ];
 
 @NgModule({

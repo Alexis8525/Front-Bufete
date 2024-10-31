@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="horarioModalLabel">Seleccionar Horas para {{ selectedAbogado }}</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss('Close')" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+  <label class="form-label">Seleccionar Horas de Trabajo</label>
+  <div *ngFor="let hora of horasDisponibles">
+    <input type="checkbox" [(ngModel)]="horasSeleccionadas[hora]"> {{ hora }}
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Close')">Cerrar</button>
+  <button type="button" class="btn btn-primary" (click)="guardarHoras()">Guardar Horas</button>
+</div>

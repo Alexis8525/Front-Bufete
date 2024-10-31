@@ -7,6 +7,5 @@ export interface Cliente {
     correo: string; // Debe ser único
     telefono: string;
     pass: string; // Contraseña
-    idUsuarioFK?: number; // FK opcional para el usuario
     idRolFK?: number; // FK opcional para el rol
 }

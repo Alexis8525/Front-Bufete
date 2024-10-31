@@ -20,7 +20,6 @@ export class EmpleadoService {
     aPEmpleado: '',
     aMEmpleado: '',
     telefono: '',
-    especialidad: '',
     pass: '', 
     idRolFK: 0, 
     idEspecialidadFK: 0 
@@ -29,7 +28,7 @@ export class EmpleadoService {
   empleados: Empleado[] = [];
 
   // Obtener la lista de empleados
-  getEmpleadoAbogado() {
+  getEmpleados() {
     return this.http.get<Empleado[]>(this.URL_API);
   }
 
@@ -40,11 +39,17 @@ export class EmpleadoService {
 
   // Actualizar empleado
   actualizarEmpleado(empleado: Empleado) {
-    return this.http.put(this.URL_API+empleado.idEmpleado, empleado);
+    return this.http.put(this.URL_API + empleado.idEmpleado, empleado);
   }
 
   // Eliminar empleado
   eliminarEmpleado(idEmpleado: number) {
     return this.http.delete(this.URL_API+idEmpleado);
   }
+
+  //Obtener abogados
+  getAbogado(){
+    return this.http.get<Empleado[]>(`${this.URL_API}abogados`); 
+  }
+  
 }
