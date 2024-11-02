@@ -148,20 +148,30 @@ export class GestionHorarioComponent implements OnInit {
   guardarHoras(horasSeleccionadas: string[]): void {
     const agendaData = horasSeleccionadas.map(hora => {
         const [inicio, fin] = hora.split(' - ');
+
+        // Crear una nueva fecha basada en selectedFecha para la hora de inicio
         const horaInicio = new Date(this.selectedFecha!);
         const horaFinal = new Date(this.selectedFecha!);
-        
+
         // Establecer la hora de inicio
         const [inicioHoras, inicioMinutos] = inicio.split(':').map(Number);
-        horaInicio.setHours(inicioHoras, inicioMinutos);
-        
+        horaInicio.setHours(inicioHoras, inicioMinutos, 0, 0); // Hora de inicio
+
         // Establecer la hora de fin
         const [finHoras, finMinutos] = fin.split(':').map(Number);
-        horaFinal.setHours(finHoras, finMinutos);
-        
+        horaFinal.setHours(finHoras, finMinutos, 0, 0); // Hora de fin
+
+        // Convertir a ISO (esto ya será UTC)
+        const horaInicioISO = new Date(horaInicio.getTime() - (horaInicio.getTimezoneOffset() * 60000)).toISOString();
+        const horaFinalISO = new Date(horaFinal.getTime() - (horaFinal.getTimezoneOffset() * 60000)).toISOString();
+
+        // Agregar logs para verificar los valores
+        console.log(`Hora seleccionada: ${hora}`);
+        console.log(`Hora de inicio: ${horaInicioISO}, Hora de fin: ${horaFinalISO}`);
+
         return {
-            horaInicio: horaInicio.toISOString(), // Convertir a ISO
-            horaFinal: horaFinal.toISOString(), // Convertir a ISO
+            horaInicio: horaInicioISO,
+            horaFinal: horaFinalISO,
             fecha: this.selectedFecha!.toISOString().split('T')[0], // Usa solo la fecha
             estado: 'Disponible',
             idEmpleadoFK: this.selectedAbogado.idEmpleado
@@ -175,6 +185,10 @@ export class GestionHorarioComponent implements OnInit {
         );
     });
 }
+
+
+
+
 
 
 }

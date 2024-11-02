@@ -15,6 +15,7 @@ import { PruebaComponent } from './components/prueba/prueba.component';
 import { GestionCitaComponent } from './components/gestion-cita/gestion-cita.component';
 import { CrudClienteComponent } from './components/crud-cliente/crud-cliente.component';
 import { GestionHorarioComponent } from './components/gestion-horario/gestion-horario.component';
+import { PrincipalComponent } from './components/principal/principal.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,11 +30,11 @@ export const routes: Routes = [
   { path: 'gestion-cita', component: GestionCitaComponent},
   { path: 'gestion-cliente', component: CrudClienteComponent},
   { path: 'gestion-horario', component: GestionHorarioComponent},
+  { path: 'principal', component: PrincipalComponent },
 ];
 
 @NgModule({
   declarations: [
-    LoginComponent,
     RegisterComponent,
     UploadFileComponent,
   ],
@@ -45,7 +46,6 @@ export const routes: Routes = [
     NavbarComponent
   ],
   exports: [
-    LoginComponent,
     RegisterComponent,
     UploadFileComponent,
   ],
