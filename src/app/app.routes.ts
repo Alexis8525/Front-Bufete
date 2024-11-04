@@ -47,7 +47,7 @@ export const routes: Routes = [
   ],
   exports: [
     RegisterComponent,
-    UploadFileComponent,
+    UploadFileComponent
   ],
 })
 export class AppRoutingModule {}

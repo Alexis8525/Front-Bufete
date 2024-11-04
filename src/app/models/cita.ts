@@ -1,4 +1,3 @@
-// models/citas.ts
 export interface Cita {
     idCita: number;                   // ID único de la cita
     motivo: string;                   // Motivo de la cita
@@ -12,5 +11,5 @@ export interface Cita {
     horaFinal: string;                // Hora final
     nombreServicio: string;           // Nombre del servicio
     descripcion: string;              // Descripción del servicio
-    costo: number;                    // Costo del servicio
+    costo: number;                    
 }

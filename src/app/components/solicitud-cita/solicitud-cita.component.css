@@ -1,3 +1,4 @@
+/* Estilos existentes para la estructura principal */
 .wrapper {
   display: flex; /* Asegura que los hijos se alineen horizontalmente */
   height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
@@ -27,3 +28,71 @@ app-barra-lateral {
   overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
 }
 
+/* Estilos para el modal */
+.card {
+  border: 1px solid #ddd; /* Borde ligero para la tarjeta */
+  border-radius: 0.5rem; /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.card-body {
+  padding: 2rem; /* Espacio interno para el contenido de la tarjeta */
+}
+
+.form-label {
+  font-weight: bold; /* Etiquetas más destacadas */
+}
+
+.form-control {
+  border-radius: 0.25rem; /* Bordes redondeados para los campos */
+  border: 1px solid #ced4da; /* Borde gris claro */
+}
+
+.btn-primary {
+  background-color: #0e2238; /* Color principal del botón */
+  border: none; /* Sin borde */
+  color: white; /* Texto blanco */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Color al pasar el mouse */
+}
+
+.divider {
+  border: none; /* Sin borde */
+  border-top: 3px solid #BF913B; /* Línea de color */
+  margin: 1rem 0; /* Margen superior e inferior para separar del texto */
+}
+
+
+.calendario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  width: 14.28%;
+  height: 40px;
+  text-align: center;
+}
+
+th {
+  background-color: #f0f0f0;
+}

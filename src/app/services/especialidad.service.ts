@@ -16,7 +16,7 @@ export class EspecialidadService {
     nombreEspecialidad: ''
   };
 
-  especialidades: Especialidad[] = [];
+  public especialidades: Especialidad[] = [];
 
   // Obtener la lista de especialidades
   getEspecialidades() {

@@ -132,7 +132,7 @@
                             [(ngModel)]="empleadoService.empleado.idEspecialidadFK" name="especialidad">
                             <option value="">Seleccionar</option>
                             <option *ngFor="let item of especialidadService.especialidades" [value]="item.idEspecialidad">{{ item.nombreEspecialidad }}</option>
-                        </select>
+                        </select> 
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar cambios</button>
                 </form>
