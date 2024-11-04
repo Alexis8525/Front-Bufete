@@ -1,55 +1,65 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../../services/login.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [
+    BarraLateralComponent,
+    ReactiveFormsModule,
+    CommonModule
+  ]
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-
-  loading = false;
-  errorMessage = '';
+  loginForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private loginService: LoginService,
-    private router: Router,
-    private http: HttpClient
-  ) {}
-
-  ngOnInit(): void {
+    private usuarioService: UsuarioService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
 
-  onSubmit() {
+  ngOnInit(): void {
+    // Puedes inicializar otros datos aquí si es necesario
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
+  login() {
     if (this.loginForm.valid) {
-        this.loading = true;
-
-        const { username, password } = this.loginForm.value; 
-        this.loginService.login(username, password).subscribe(
-            (response: any) => { 
-                console.log('Inicio de sesión exitoso', response);
-                this.router.navigate(['/cita']);
-            },
-            (error: any) => {
-                this.errorMessage = 'Credenciales incorrectas';
-                this.loading = false;
-                console.error('Error en el inicio de sesión', error);
-            }
-        );
+      const { email, password } = this.loginForm.value;
+      this.usuarioService.login(email, password).subscribe(
+        (response: any) => {
+          // Maneja la respuesta del servidor aquí
+          console.log(response);
+          // Almacena el usuario en localStorage
+          localStorage.setItem('usuario', JSON.stringify(response.usuario));
+          // Si es exitoso, redirige a la página principal
+          this.router.navigate(['/principal']);
+        },
+        (error) => {
+          console.error('Error al iniciar sesión:', error);
+          // Aquí puedes mostrar un mensaje de error al usuario
+        }
+      );
     }
-}
-
-  
-  navigateToRegister() {
-    this.router.navigate(['/register']);
   }
 }

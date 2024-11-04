@@ -20,7 +20,6 @@ export class ClienteService {
     correo: '',
     telefono: '',
     pass: '', 
-    idUsuarioFK: 0,
     idRolFK: 0 
   };
 

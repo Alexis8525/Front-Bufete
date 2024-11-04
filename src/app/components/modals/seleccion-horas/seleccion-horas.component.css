@@ -1,0 +1,71 @@
+.modal-header {
+    background-color: #0e2238; /* Color principal */
+    color: white;
+    padding: 15px;
+    border-bottom: 1px solid #BF913B; /* Color secundario para el borde */
+  }
+  
+  .modal-title {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .close {
+    color: white;
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .modal-body {
+    padding: 15px;
+    background-color: #ffffff; /* Fondo blanco para el cuerpo */
+    color: #0e2238; /* Color del texto principal */
+  }
+  
+  .modal-body h1, .modal-body h2 {
+    margin: 10px 0;
+  }
+  
+  .modal-body h3 {
+    margin-top: 20px;
+  }
+  
+  .modal-body ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .modal-body li {
+    margin: 5px 0;
+  }
+  
+  .modal-footer {
+    padding: 10px;
+    text-align: right;
+  }
+  
+  .btn-secondary {
+    background-color: transparent;
+    border: 1px solid #0e2238; /* Color secundario */
+    color: #0e2238;
+    margin-right: 10px;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #BF913B; /* Color al pasar el mouse */
+    border: 1px solid #BF913B; /* Color secundario */
+    color: white;
+  }
+  
+  .btn-primary {
+    background-color: #0e2238; /* Color principal */
+    border: none;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3; /* Color al pasar el mouse */
+  }
+  

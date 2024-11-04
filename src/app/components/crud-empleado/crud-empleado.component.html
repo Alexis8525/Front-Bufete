@@ -41,13 +41,14 @@
                         </select>
                     </div>
                     <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#modalNuevoEmpleado">Nuevo Empleado</button>
+                        <button type="button" class="btn btn-success w-100" data-bs-toggle="modal"
+                            data-bs-target="#modalNuevoEmpleado">Nuevo Empleado</button>
                     </div>
                 </div>
 
                 <!-- Lista de Empleados -->
                 <div class="row">
-                    <div class="col-md-3" *ngFor="let empleado of empleados">
+                    <div class="col-md-3" *ngFor="let itemE of empleadoService.empleados">
                         <div class="card mb-4">
                             <div class="card-body text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 24 24"
@@ -56,21 +57,21 @@
                                         d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12zm0 2c-3 0-9 1.5-9 4.5V21h18v-2.5c0-3-6-4.5-9-4.5z" />
                                 </svg>
                                 <h5 class="card-title">
-                                    <strong>{{ empleado.nombreEmpleado }}</strong>
+                                    <strong>{{ itemE.nombreEmpleado }}</strong>
                                 </h5>
                                 <h5 class="card-title">
-                                    <strong>{{ empleado.aPEmpleado }} {{ empleado.aMEmpleado }}</strong>
+                                    <strong>{{ itemE.aPEmpleado }} {{ itemE.aMEmpleado }}</strong>
                                 </h5>
-                                
+
                                 <p class="card-text">
-                                    <strong>Fecha de Ingreso:</strong> {{ empleado.fechaIngreso | date: 'dd/MM/yyyy'
+                                    <strong>Fecha de Ingreso:</strong> {{ itemE.fechaIngreso | date: 'dd/MM/yyyy'
                                     }}<br>
-                                    <strong>Número de Licencia:</strong> {{ empleado.numeroLicencia }}<br>
-                                    <strong>Correo:</strong> {{ empleado.correo }}<br>
-                                    <strong>Teléfono:</strong> {{ empleado.telefono }}<br>
-                                    <strong>Especialidad:</strong> {{ empleado.especialidad }}<br>
+                                    <strong>Número de Licencia:</strong> {{ itemE.numeroLicencia }}<br>
+                                    <strong>Correo:</strong> {{ itemE.correo }}<br>
+                                    <strong>Teléfono:</strong> {{ itemE.telefono }}<br>
+                                    <strong>Especialidad:</strong> {{ itemE.idEspecialidadFK }}<br>
                                 </p>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
+                                <button type="button" class="btn btn-primary" (click)="editarEmpleado(itemE)" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
                             </div>
                         </div>
                     </div>
@@ -89,57 +90,62 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form #editarEmpleadoForm="ngForm" (ngSubmit)="actualizarEmpleado(editarEmpleadoForm)">
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" class="form-control">
+                        <label for="nombreE" class="form-label">Nombre</label>
+                        <input type="text" id="nombreE" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.nombreEmpleado" name="nombre">
                     </div>
                     <div class="mb-3">
-                        <label for="apellidoP" class="form-label">Apellido Paterno</label>
-                        <input type="text" id="apellidoP" class="form-control">
+                        <label for="apellidoPE" class="form-label">Apellido Paterno</label>
+                        <input type="text" id="apellidoPE" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.aPEmpleado" name="apellidoP">
                     </div>
                     <div class="mb-3">
-                        <label for="apellidoM" class="form-label">Apellido Materno</label>
-                        <input type="text" id="apellidoM" class="form-control">
+                        <label for="apellidoME" class="form-label">Apellido Materno</label>
+                        <input type="text" id="apellidoME" class="form-control"
+                            [(ngModel)]="empleadoService.empleado.aMEmpleado" name="apellidoM">
                     </div>
                     <div class="mb-3">
-                        <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
-                        <input type="date" id="fechaIngreso" class="form-control">
+                        <label for="fechaIngresoE" class="form-label">Fecha de Ingreso</label>
+                        <input type="date" id="fechaIngresoE" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.fechaIngreso" name="fechaIngreso">
                     </div>
                     <div class="mb-3">
-                        <label for="numeroLicencia" class="form-label">Número de Licencia</label>
-                        <input type="text" id="numeroLicencia" class="form-control">
+                        <label for="numeroLicenciaE" class="form-label">Número de Licencia</label>
+                        <input type="text" id="numeroLicenciaE" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.numeroLicencia" name="numeroLicencia">
                     </div>
                     <div class="mb-3">
-                        <label for="correo" class="form-label">Correo</label>
-                        <input type="email" id="correo" class="form-control">
+                        <label for="correoE" class="form-label">Correo</label>
+                        <input type="email" id="correoE" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.correo" name="correo">
                     </div>
                     <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="tel" id="telefono" class="form-control">
+                        <label for="telefonoE" class="form-label">Teléfono</label>
+                        <input type="tel" id="telefonoE" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.telefono" name="telefono">
                     </div>
                     <div class="mb-3">
-                        <label for="especialidad" class="form-label">Especialidad</label>
-                        <select id="especialidad" class="form-control">
+                        <label for="especialidadE" class="form-label">Especialidad</label>
+                        <select id="especialidadE" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.idEspecialidadFK" name="especialidad">
                             <option value="">Seleccionar</option>
-                            <option value="Civil">Civil</option>
-                            <option value="Penal">Penal</option>
-                            <option value="Laboral">Laboral</option>
+                            <option *ngFor="let item of especialidadService.especialidades" [value]="item.idEspecialidad">{{ item.nombreEspecialidad }}</option>
                         </select>
                     </div>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
             </div>
         </div>
     </div>
 </div>
 
 
+
 <!-- Modal para un nuevo empleado -->
-<div class="modal fade" id="modalNuevoEmpleado" tabindex="-1" aria-labelledby="modalNuevoEmpleadoLabel" aria-hidden="true">
+<div class="modal fade" id="modalNuevoEmpleado" tabindex="-1" aria-labelledby="modalNuevoEmpleadoLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -147,49 +153,72 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form #agregarEmpleado="ngForm" (ngSubmit)="crearEmpleado(agregarEmpleado)">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" required>
+                        <input type="text" id="nombre" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.nombreEmpleado" name="nombre">
                     </div>
                     <div class="mb-3">
                         <label for="apellidoP" class="form-label">Apellido Paterno</label>
-                        <input type="text" id="apellidoP" class="form-control" required>
+                        <input type="text" id="apellidoP" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.aPEmpleado" name="apellidoP">
                     </div>
                     <div class="mb-3">
                         <label for="apellidoM" class="form-label">Apellido Materno</label>
-                        <input type="text" id="apellidoM" class="form-control">
+                        <input type="text" id="apellidoM" class="form-control"
+                            [(ngModel)]="empleadoService.empleado.aMEmpleado" name="apellidoM">
                     </div>
                     <div class="mb-3">
                         <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
-                        <input type="date" id="fechaIngreso" class="form-control" required>
+                        <input type="date" id="fechaIngreso" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.fechaIngreso" name="fechaIngreso">
                     </div>
                     <div class="mb-3">
                         <label for="numeroLicencia" class="form-label">Número de Licencia</label>
-                        <input type="text" id="numeroLicencia" class="form-control" required>
+                        <input type="text" id="numeroLicencia" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.numeroLicencia" name="numeroLicencia">
                     </div>
                     <div class="mb-3">
                         <label for="correo" class="form-label">Correo</label>
-                        <input type="email" id="correo" class="form-control" required>
+                        <input type="email" id="correo" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.correo" name="correo">
                     </div>
                     <div class="mb-3">
                         <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="tel" id="telefono" class="form-control" required>
+                        <input type="tel" id="telefono" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.telefono" name="telefono">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="password" id="contrasena" class="form-control" required
+                            [(ngModel)]="empleadoService.empleado.pass" name="contrasena">
+                    </div>
+                    <div class="mb-3">
+                        <label for="rol" class="form-label">Rol</label>
+                        <select id="rol" class="form-select" required [(ngModel)]="empleadoService.empleado.idRolFK"
+                            name="rol">
+                            <option value="">Seleccionar Rol</option>
+                            <option *ngFor="let rol of rolService.roles" [value]="rol.idRol">{{ rol.nombreRol }}
+                            </option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="especialidad" class="form-label">Especialidad</label>
-                        <select id="especialidad" class="form-control" required>
-                            <option value="">Seleccionar</option>
-                            <option value="Civil">Civil</option>
-                            <option value="Penal">Penal</option>
-                            <option value="Laboral">Laboral</option>
+                        <select id="especialidad" class="form-select" required
+                            [(ngModel)]="empleadoService.empleado.idEspecialidadFK" name="especialidad">
+                            <option value="">Seleccionar Especialidad</option>
+                            <option *ngFor="let especialidad of especialidadService.especialidades"
+                                [value]="especialidad.idEspecialidad">
+                                {{ especialidad.nombreEspecialidad }}
+                            </option>
                         </select>
                     </div>
+                    <button type="submit" class="btn btn-primary">Guardar empleado</button>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar empleado</button>
             </div>
         </div>
     </div>

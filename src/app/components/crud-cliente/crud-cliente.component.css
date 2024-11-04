@@ -1,0 +1,79 @@
+.wrapper {
+    display: flex; /* Asegura que los hijos se alineen horizontalmente */
+    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    overflow: hidden; /* Evita el desbordamiento del contenedor principal */
+  }
+  
+  app-barra-lateral {
+    height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
+    flex-shrink: 0; /* Evita que la barra lateral se reduzca */
+  }
+  
+  .main {
+    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+    display: flex;
+    flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
+  }
+  
+  .p-3 {
+    background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
+    background-position: center; /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+    max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
+    background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
+    padding: 2rem; /* Añade algo de espacio alrededor del contenido */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
+  }
+  
+  /* Estilos para los cards */
+.card {
+  background-color: #ffffff; /* Color de fondo del card */
+  border: 1px solid #e0e0e0; /* Borde sutil para mayor definición */
+  border-radius: 8px; /* Bordes redondeados moderados */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: transform 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+  margin: 1rem; /* Margen alrededor de cada card */
+  overflow: hidden; /* Evita que el contenido se desborde del card */
+}
+
+.card:hover {
+  transform: translateY(-3px); /* Efecto de elevación al pasar el mouse */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra más fuerte al pasar el mouse */
+}
+
+.card-body {
+  padding: 20px; /* Espacio interior */
+}
+
+.card-title {
+  font-size: 18px; /* Tamaño del texto del título */
+  font-weight:500; /* Negrita */
+  margin-bottom: 10px; /* Espacio inferior */
+  color: #0e2238; /* Color oscuro para el título */
+  text-align: center;
+}
+
+.card-text {
+  font-size: 14px; /* Tamaño del texto del contenido */
+  color: #0e2238; /* Color gris oscuro para el texto */
+  text-align: justify;
+}
+
+.btn-primary {
+  background-color: #0e2238; /* Color del botón */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados para el botón */
+  padding: 10px 20px; /* Espacio interior del botón */
+  transition: background-color 0.3s; /* Transición del color de fondo */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Color al pasar el mouse */
+}
+
+/* Estilo para la barra de navegación */
+.navbar {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para la barra */
+}
