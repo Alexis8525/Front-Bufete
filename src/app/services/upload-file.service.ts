@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +22,11 @@ export class UploadFileService {
   eliminarExpediente(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  enviarExpedienteParaRevision(datosExpediente: FormData) {
+    return this.http.post(`${this.apiUrl}/revision`, datosExpediente);
+  }
+  getDocumentos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/documentos`);
+  }
+  
 }

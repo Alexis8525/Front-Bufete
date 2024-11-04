@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UploadFileService } from '../../services/upload-file.service';
+
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
@@ -11,28 +12,28 @@ export class UploadFileComponent {
     nombreExpediente: '',
     numeroExpediente: '',
   };
-  archivo: File | null = null;
+  archivos: { [key: string]: File | null } = {};
 
   constructor(private uploadFileService: UploadFileService) {}
 
-  onFileSelected(event: any) {
-    this.archivo = event.target.files[0];
+  onFileSelected(event: any, tipoDocumento: string) {
+    this.archivos[tipoDocumento] = event.target.files[0];
   }
 
   onSubmit() {
-    if (!this.archivo || !this.expediente.nombreExpediente) {
+    if (!this.expediente.nombreExpediente || Object.values(this.archivos).some(file => file === null)) {
       console.error('Faltan datos');
       return;
     }
-
     const formData = new FormData();
-    formData.append('archivo', this.archivo);
     formData.append('nombreExpediente', this.expediente.nombreExpediente);
     formData.append('numeroExpediente', this.expediente.numeroExpediente);
-
-    this.uploadFileService.crearExpediente(formData).subscribe({
-      next: () => console.log('Expediente creado exitosamente'),
-      error: (err) => console.error('Error al crear el expediente', err),
+    for (const [key, file] of Object.entries(this.archivos)) {
+      formData.append(key, file as Blob);
+    }
+    this.uploadFileService.enviarExpedienteParaRevision(formData).subscribe({
+      next: () => console.log('Expediente enviado para revisión exitosamente'),
+      error: (err: any) => console.error('Error al enviar el expediente para revisión', err),
     });
   }
 }

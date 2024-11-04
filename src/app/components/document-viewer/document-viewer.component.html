@@ -1,0 +1,13 @@
+<div class="document-viewer">
+    <h2>Documentos Enviados</h2>
+    <div *ngIf="documentos.length === 0" class="no-documents">
+      <p>No se han enviado documentos aún.</p>
+    </div>
+    <div *ngFor="let documento of documentos" class="document-item">
+      <h4>{{ documento.nombre }}</h4>
+      <a [href]="obtenerUrlArchivo(documento)" target="_blank" class="btn btn-primary">
+        Ver Documento
+      </a>
+    </div>
+  </div>
+  <app-document-viewer></app-document-viewer>
