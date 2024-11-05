@@ -15,85 +15,76 @@
         <div class="container mt-2">
           <div class="card">
             <div class="card-body">
-              <h2 class="card-title" style="color: #BF913B; text-align: center;">Solicitud de Cita</h2>
+              <h2 class="card-title">Solicitud de Cita</h2>
               <hr class="divider">
 
-              <h4>Información del Cliente</h4>
-              <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre del Cliente</label>
-                <input type="text" class="form-control" id="nombre" required readonly>
-              </div>
-
-              <div class="mb-3">
-                <label for="correo" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="correo" required readonly>
-              </div>
-
-              <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="tel" class="form-control" id="telefono" required readonly>
-              </div>
-
-              <h4>Detalles de la Cita</h4>
-              <div class="mb-3">
-                <label for="motivo" class="form-label">Motivo de la Cita</label>
-                <textarea class="form-control" id="motivo" rows="3" required></textarea>
-              </div>
-
-              <div class="mb-3">
-                <label for="servicio" class="form-label">Selecciona un Servicio</label>
-                <select class="form-control" id="servicio" name="servicio" (change)="onServicioSeleccionado($event)" required>
-                  <option value="">Selecciona un servicio</option>
-                  <option *ngFor="let servicio of servicioService.servicios" [value]="servicio.idServicio">
-                    {{ servicio.nombreServicio }}
-                  </option>
-                </select>                
-              </div>
-          
-              <div class="mb-3" id="abogadosDisponibles">
-                <label for="abogado" class="form-label">Selecciona un Abogado</label>
-                <select class="form-control" id="abogado" name="abogado" required [(ngModel)]="idAbogadoSeleccionado">
-                  <option value="">Selecciona un abogado</option>
-                  <option *ngFor="let abogado of especialidades" [value]="abogado.idEmpleado">{{ abogado.nombreEmpleado }} {{ abogado.aPEmpleado }} {{ abogado.aMEmpleado }}</option>
-                </select>
-              </div>
-              
-              <div class="mb-3" id="horasDisponibles">
-                <label for="hora" class="form-label">Selecciona fecha</label>
-                <div class="calendario">
-                  <div class="header">
-                    <button (click)="cambiarMes(-1)">Anterior</button>
-                    <h2>{{ nombreMesActual }} {{ anioActual }}</h2>
-                    <button (click)="cambiarMes(1)">Siguiente</button>
-                  </div>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th *ngFor="let dia of nombresDias">{{ dia }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let fila of [0, 1, 2, 3, 4, 5]">
-                        <td *ngFor="let dia of diasDelMes.slice(fila * 7, fila * 7 + 7)" style="cursor: pointer;">
-                          {{ dia !== 0 ? dia : '' }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <!-- Información del Cliente -->
+              <h4 class="section-title">Información del Cliente</h4>
+              <div class="mb-3 row">
+                <div class="col-md-4">
+                  <label for="nombre" class="form-label">Nombre del Cliente</label>
+                  <input type="text" class="form-control" id="nombre" required readonly>
+                </div>
+                <div class="col-md-4">
+                  <label for="correo" class="form-label">Correo Electrónico</label>
+                  <input type="email" class="form-control" id="correo" required readonly>
+                </div>
+                <div class="col-md-4">
+                  <label for="telefono" class="form-label">Teléfono</label>
+                  <input type="tel" class="form-control" id="telefono" required readonly>
                 </div>
               </div>
-              
-                         
-              <div class="mb-3" id="horasDisponibles">
-                <label for="hora" class="form-label">Selecciona una Hora</label>
-                <select class="form-control" id="hora" name="hora" required [(ngModel)]="selectedHora"
-                  [disabled]="!horasDisponibles.length">
-                  <option value="">Selecciona una hora</option>
-                  <option *ngFor="let hora of horasDisponibles" [value]="hora">{{ hora }}</option>
-                </select>
+
+              <!-- Detalles de la Cita -->
+              <h4 class="section-title">Detalles de la Cita</h4>
+              <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo de la Cita</label>
+                <textarea id="motivo" class="form-control" rows="3" required [(ngModel)]="motivoCita" name="motivo"></textarea>
+              </div>              
+
+              <div class="mb-3 row">
+                <div class="col-md-6">
+                  <label for="servicio" class="form-label">Selecciona un Servicio</label>
+                  <select class="form-control" id="servicio" name="servicio" (change)="onServicioSeleccionado($event)" required>
+                    <option value="">Selecciona un servicio</option>
+                    <option *ngFor="let servicio of servicioService.servicios" [value]="servicio.idServicio">
+                      {{ servicio.nombreServicio }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-6" id="abogadosDisponibles">
+                  <label for="abogado" class="form-label">Selecciona un Abogado</label>
+                  <select class="form-control" id="abogado" name="abogado" required [(ngModel)]="idAbogadoSeleccionado" (change)="onAbogadoSeleccionado($event)">
+                    <option value="">Selecciona un abogado</option>
+                    <option *ngFor="let abogado of especialidades" [value]="abogado.idEmpleado">
+                      {{ abogado.nombreEmpleado }} {{ abogado.aPEmpleado }} {{ abogado.aMEmpleado }}
+                    </option>
+                  </select>
+                </div>
               </div>
 
-              <button type="submit" class="btn btn-primary">Solicitar Cita</button>
+              <!-- Selección de Fecha y Hora en la misma fila -->
+              <div class="mb-3 row">
+                <div class="col-md-6">
+                  <label for="fechaSeleccionada" class="form-label">Selecciona una fecha</label>
+                  <select class="form-control" id="fechaSeleccionada" name="fecha" required [(ngModel)]="fechaSeleccionada" (change)="onFechaSeleccionada($event)" [disabled]="!fechasDisponibles.length">
+                    <option value="">Selecciona una fecha</option>
+                    <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">{{ fecha }}</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="hora" class="form-label">Selecciona un horario</label>
+                  <select class="form-control" id="hora" name="hora" required [(ngModel)]="horaSeleccionada" (change)="onHoraSeleccionada($event)" [disabled]="!horasDisponibles.length">
+                    <option value="">Selecciona una hora</option>
+                    <option *ngFor="let hora of horasDisponibles" [value]="hora.rango">{{ hora.rango }}</option>
+                  </select>                  
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" (click)="solicitarCita()">Solicitar Cita</button>
+              </div>
             </div>
           </div>
         </div>

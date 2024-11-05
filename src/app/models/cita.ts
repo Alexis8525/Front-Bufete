@@ -1,15 +1,11 @@
 export interface Cita {
-    idCita: number;                   // ID único de la cita
-    motivo: string;                   // Motivo de la cita
-    estadoCita: string;               // Estado de la cita
-    nombreCliente: string;             // Nombre del cliente
-    aPCliente: string;                // Apellido paterno del cliente
-    aMCliente: string;                // Apellido materno del cliente
-    telefonoCliente: string;          // Teléfono del cliente
-    fechaAgenda: string;              // Fecha de la agenda
-    horaInicio: string;               // Hora de inicio
-    horaFinal: string;                // Hora final
-    nombreServicio: string;           // Nombre del servicio
-    descripcion: string;              // Descripción del servicio
-    costo: number;                    
-}
+    motivo: string;          // Motivo de la cita
+    estado: string;      // Estado de la cita (por ejemplo, "pendiente", "confirmada", etc.)
+    idClienteFK: number;     // ID del cliente que solicita la cita
+    idAgendaFK: number;      // ID de la agenda del servicio
+    idAbogado: number;       // ID del abogado asignado a la cita
+    fechaAgenda: string;     // Fecha de la cita
+    horaInicio: string;      // Hora de inicio de la cita
+    horaFinal: string;       // Hora de finalización de la cita
+  }
+  

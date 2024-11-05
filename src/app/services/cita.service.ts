@@ -21,9 +21,16 @@ export class CitaService {
   }
 
   // Obtener abogados por servicio
-getAbogadosPorServicio(idServicio: number): Observable<EspecialidadCita[]> {
-  return this.http.get<EspecialidadCita[]>(`${this.URL_API}/abogados/${idServicio}`); 
-}
-  
-  
+  getAbogadosPorServicio(idServicio: number): Observable<EspecialidadCita[]> {
+    return this.http.get<EspecialidadCita[]>(`${this.URL_API}/abogados/${idServicio}`); 
+  }
+
+  getHorariosDisponiblesPorAbogado(idEmpleado:number ): Observable<EspecialidadCita[]>{
+    return this.http.get<EspecialidadCita[]>(`${this.URL_API}/horarios/${idEmpleado}`);  
+  }
+
+  // Crear una cita con transacción
+  crearCitaConTransaccion(citaData: Cita): Observable<Cita[]> {
+    return this.http.post<Cita[]>(`${this.URL_API}/crear-cita`, citaData); 
+  }
 }

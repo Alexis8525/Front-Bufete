@@ -1,98 +1,164 @@
-/* Estilos existentes para la estructura principal */
+/* Estilos generales */
 .wrapper {
-  display: flex; /* Asegura que los hijos se alineen horizontalmente */
-  height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
-  overflow: hidden; /* Evita el desbordamiento del contenedor principal */
-}
-
-app-barra-lateral {
-  height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
-  flex-shrink: 0; /* Evita que la barra lateral se reduzca */
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .main {
-  flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+  flex-grow: 1;
   display: flex;
-  flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
+  flex-direction: column;
 }
 
 .p-3 {
-  background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
-  background-position: center; /* Centra la imagen en el contenedor */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
-  flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-  max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
-  background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
-  padding: 2rem; /* Añade algo de espacio alrededor del contenido */
-  overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+  max-height: 100vh;
+  background-color: #fafbfe;
+  padding: 2rem;
+  overflow-y: auto;
 }
 
-/* Estilos para el modal */
 .card {
-  border: 1px solid #ddd; /* Borde ligero para la tarjeta */
-  border-radius: 0.5rem; /* Bordes redondeados */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-bottom: 1rem;
 }
 
 .card-body {
-  padding: 2rem; /* Espacio interno para el contenido de la tarjeta */
+  padding: 2rem;
+}
+
+.card-title {
+  color: #BF913B;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+hr.divider {
+  border: none;
+  border-top: 3px solid #BF913B;
+  margin: 1rem 0;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #444;
 }
 
 .form-label {
-  font-weight: bold; /* Etiquetas más destacadas */
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .form-control {
-  border-radius: 0.25rem; /* Bordes redondeados para los campos */
-  border: 1px solid #ced4da; /* Borde gris claro */
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  padding: 0.75rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
 .btn-primary {
-  background-color: #0e2238; /* Color principal del botón */
-  border: none; /* Sin borde */
-  color: white; /* Texto blanco */
+  background-color: #0e2238;
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3; /* Color al pasar el mouse */
+  background-color: #0056b3;
 }
 
-.divider {
-  border: none; /* Sin borde */
-  border-top: 3px solid #BF913B; /* Línea de color */
-  margin: 1rem 0; /* Margen superior e inferior para separar del texto */
+/* Alineación y espaciado mejorado */
+.row {
+  display: flex;
+  flex-wrap: wrap;
 }
 
+.col-md-4, .col-md-6 {
+  padding: 0.5rem;
+}
 
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+/* Estilos para el calendario */
 .calendario {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
+  width: 100%;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.header {
+.calendario .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 
-table {
+.calendario h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.calendario button {
+  background-color: #0e2238;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.calendario button:hover {
+  background-color: #0056b3;
+}
+
+.calendario table {
+  width: 100%;
   border-collapse: collapse;
-  width: 100%;
 }
 
-th,
-td {
-  border: 1px solid #ccc;
-  width: 14.28%;
-  height: 40px;
+.calendario th, .calendario td {
+  padding: 1rem;
   text-align: center;
+  border: 1px solid #ddd;
 }
 
-th {
+.calendario td {
+  cursor: pointer;
+}
+
+.calendario td:hover {
   background-color: #f0f0f0;
+}
+
+.dia-domingo {
+  color: red;
+}
+
+.dia-vacia {
+  background-color: transparent;
+  color: transparent;
 }

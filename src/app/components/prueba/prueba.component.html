@@ -20,12 +20,19 @@
         <table>
           <thead>
             <tr>
-              <th *ngFor="let dia of nombresDias">{{ dia }}</th> <!-- Nombres completos de los días -->
+              <th *ngFor="let dia of nombresDias">{{ dia }}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let fila of [0, 1, 2, 3, 4, 5]">
-              <td *ngFor="let dia of diasDelMes.slice(fila * 7, fila * 7 + 7)">
+              <td *ngFor="let dia of diasDelMes.slice(fila * 7, fila * 7 + 7); let diaSemana = index" 
+                  [ngClass]="{
+                    'verde': obtenerColorDia(dia, diaSemana) === 'verde',
+                    'amarillo': obtenerColorDia(dia, diaSemana) === 'amarillo',
+                    'rojo': obtenerColorDia(dia, diaSemana) === 'rojo',
+                    'gris': obtenerColorDia(dia, diaSemana) === 'gris'
+                  }"
+                  (click)="seleccionarDia(dia)">
                 {{ dia !== 0 ? dia : '' }}
               </td>
             </tr>
@@ -33,11 +40,45 @@
         </table>
       </div>
       
-      
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-      </button>
+      <!-- Tabla de explicación de los colores -->
+      <div class="tabla-explicativa">
+        <h4>Explicación de los colores:</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Color</th>
+              <th>Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="verde">Alta disponibilidad</td>
+              <td>Días con mucha disponibilidad de citas.</td>
+            </tr>
+            <tr>
+              <td class="amarillo">Poca disponibilidad</td>
+              <td>Días con disponibilidad limitada de citas.</td>
+            </tr>
+            <tr>
+              <td class="rojo">Sin disponibilidad</td>
+              <td>Días sin disponibilidad de citas.</td>
+            </tr>
+            <tr>
+              <td class="gris">Día sin servicio</td>
+              <td>Días en los que no se trabaja (Ejemplo: Domingo).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Si hay un día seleccionado, mostrar las horas disponibles en un select -->
+      <div *ngIf="diaSeleccionado !== null">
+        <h3>Selecciona una hora para el {{ diaSeleccionado }}:</h3>
+        <select [(ngModel)]="horaSeleccionada" class="form-select">
+          <option *ngFor="let hora of horasDelDiaSeleccionado" [value]="hora">{{ hora }}</option>
+        </select>
+        <button class="btn btn-secondary mt-3" (click)="deseleccionarDia()">Deseleccionar</button>
+      </div>
     </div>
   </div>
 </div>

@@ -11,5 +11,5 @@ export interface EspecialidadCita {
     idEmpleadoFK: number;
     estado: string;
     idAgenda: number;   
-    idServicio:number;          
+    idServicio:number;     
 }
