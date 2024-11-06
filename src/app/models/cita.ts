@@ -8,5 +8,6 @@ export interface Cita {
     horaInicio: string;      // Hora de inicio de la cita
     horaFinal: string;       // Hora de finalización de la cita
     idServicioFK: number;
+    
   }
   

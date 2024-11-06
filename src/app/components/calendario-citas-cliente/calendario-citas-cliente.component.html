@@ -26,14 +26,18 @@
           <tbody>
             <tr *ngFor="let fila of [0, 1, 2, 3, 4, 5]">
               <td *ngFor="let dia of diasDelMes.slice(fila * 7, fila * 7 + 7)">
-                <!-- Verifica si el día tiene una cita -->
-                <div *ngIf="dia !== 0" class="day-cell">
+                <div *ngIf="dia !== null" class="day-cell">
+                  <!-- Día del mes -->
                   {{ dia }}
-                  <span *ngIf="tieneCita(dia)" class="appointment-tooltip">
-                    {{ tieneCita(dia)?.description }}
-                  </span>
+                  <!-- Itera sobre las citas del día utilizando `tieneCitas` -->
+                  <div *ngFor="let cita of tieneCitas(dia)" 
+                       class="appointment-tooltip" 
+                       (click)="openCitaModal(cita)">
+                    <!-- Muestra la descripción de la cita -->
+                    <p>{{ cita.description }}</p>
+                  </div>
                 </div>
-              </td>
+              </td>                         
             </tr>
           </tbody>
         </table>

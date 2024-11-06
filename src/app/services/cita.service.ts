@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cita } from '../models/cita';  
 import { EspecialidadCita } from '../models/especialidad-cita';
+import { FechaCita } from '../models/fechas-citas';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class CitaService {
   }
 
   // Obtener las citas de un cliente específico
-  getCitasByCliente(idCliente: number): Observable<Cita[]> {
-    return this.http.get<Cita[]>(`${this.URL_API}/citas/${idCliente}`);
+  getCitasByCliente(idCliente: number): Observable<FechaCita[]> {
+    return this.http.get<FechaCita[]>(`${this.URL_API}/consultar-cita/${idCliente}`);
   }
 }

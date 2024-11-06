@@ -3,11 +3,21 @@ import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CitaService } from '../../services/cita.service';
+import { FechaCita } from '../../models/fechas-citas';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DetalleCitaClienteComponent } from '../modals/detalle-cita-cliente/detalle-cita-cliente.component';
+
+// Extendemos FechaCita para incluir las propiedades adicionales
+interface FechaCitaExtendida extends FechaCita {
+  date: number;
+  month: number;
+  year: number;
+}
 
 interface Appointment {
-  date: number;       // Día del mes
-  month: number;      // Mes (0 = Enero, 1 = Febrero, etc.)
-  year: number;       // Año completo, por ejemplo, 2024
+  date: number;
+  month: number;
+  year: number;
   description: string;
 }
 
@@ -23,7 +33,7 @@ interface Appointment {
   ]
 })
 export class CalendarioCitasClienteComponent implements OnInit {
-  diasDelMes: number[] = [];
+  diasDelMes: (number | null)[] = [];
   mesActual: number;
   anioActual: number;
   nombreMesActual: string;
@@ -31,15 +41,12 @@ export class CalendarioCitasClienteComponent implements OnInit {
     'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
   ];
 
-  // Lista de citas con mes y año específico
-  citas: Appointment[] = [
-    { date: 5, month: 0, year: 2024, description: 'Cita con el cliente A' },
-    { date: 10, month: 10, year: 2024, description: 'Revisión de proyecto' },
-    { date: 15, month: 2, year: 2024, description: 'Presentación final' },
-  ];
+  citas: FechaCitaExtendida[] = [];  // Arreglo de objetos FechaCita completos
+  appointments: Appointment[] = []; // Arreglo de objetos Appointment para el calendario
 
   constructor(
     public citaService: CitaService,
+    public modalService: NgbModal,
   ) {
     const fecha = new Date();
     this.mesActual = fecha.getMonth();
@@ -55,7 +62,6 @@ export class CalendarioCitasClienteComponent implements OnInit {
     this.generarDiasDelMes();
   }
 
-  // Recuperar el idUsuario en sesión
   getUserId(): number | null {
     if (typeof window !== 'undefined') {
       const usuarioId = localStorage.getItem('usuarioId');
@@ -64,41 +70,46 @@ export class CalendarioCitasClienteComponent implements OnInit {
     return null;
   }
 
-  getCitasByCliente(idCliente: number) {
+  getCitasByCliente(idCliente: number): void {
     this.citaService.getCitasByCliente(idCliente).subscribe(
-      (citas) => {
-        // Imprimir en consola las citas obtenidas
-        console.log('Citas recuperadas:', citas);
-  
-        this.citas = citas.map(cita => ({
-          date: new Date(cita.fechaAgenda).getDate(),
-          month: new Date(cita.fechaAgenda).getMonth(),
-          year: new Date(cita.fechaAgenda).getFullYear(),
-          description: cita.motivo
+      (citas: FechaCita[]) => {
+        this.citas = citas.map((cita) => {
+          // Agrega `date`, `month`, y `year` a cada `FechaCita` como `FechaCitaExtendida`
+          const fecha = cita.fechaCita || cita.fechaAgenda;
+          const parsedDate = fecha ? new Date(fecha) : null;
+
+          return {
+            ...cita,
+            date: parsedDate?.getUTCDate() ?? NaN,
+            month: parsedDate?.getUTCMonth() ?? NaN,
+            year: parsedDate?.getUTCFullYear() ?? NaN,
+          } as FechaCitaExtendida;
+        });
+
+        // Genera `appointments` solo con los datos mínimos
+        this.appointments = this.citas.map((cita) => ({
+          date: cita.date,
+          month: cita.month,
+          year: cita.year,
+          description: cita.motivo,
         }));
-      },
-      (error) => {
-        console.error('Error al obtener las citas del cliente:', error);
       }
     );
   }
   
-
   generarDiasDelMes(): void {
     const primerDia = new Date(this.anioActual, this.mesActual, 1).getDay();
     const diasEnElMes = new Date(this.anioActual, this.mesActual + 1, 0).getDate();
-    
-    // Ajustar para que el calendario empiece el lunes
     const inicioCalendario = (primerDia === 0) ? 6 : primerDia - 1;
 
     this.diasDelMes = Array.from({ length: 42 }, (_, i) => {
       if (i < inicioCalendario || i >= inicioCalendario + diasEnElMes) {
-        return 0; // Día fuera del mes
+        return null;
       }
-      return i - inicioCalendario + 1; // Día del mes
+      return i - inicioCalendario + 1;
     });
   }
-
+  
   obtenerNombreMes(): string {
     return new Date(this.anioActual, this.mesActual).toLocaleString('es-ES', { month: 'long' });
   }
@@ -116,10 +127,24 @@ export class CalendarioCitasClienteComponent implements OnInit {
     this.generarDiasDelMes();
   }
 
-  // Verifica si un día tiene citas en el mes y año actual
-  tieneCita(dia: number): Appointment | undefined {
-    return this.citas.find(
+  tieneCitas(dia: number | null): Appointment[] {
+    if (dia === null || dia === 0) return [];
+    return this.appointments.filter(
       cita => cita.date === dia && cita.month === this.mesActual && cita.year === this.anioActual
     );
+  }  
+
+  openCitaModal(cita: Appointment): void {
+    // Encuentra la cita completa en `citas` utilizando los valores calculados de `date`, `month`, `year`
+    const citaCompleta = this.citas.find(
+      c => c.date === cita.date && c.month === cita.month && c.year === cita.year && c.motivo === cita.description
+    );
+
+    if (citaCompleta) {
+      const modalRef = this.modalService.open(DetalleCitaClienteComponent);
+      modalRef.componentInstance.cita = citaCompleta;  // Pasa el objeto completo de `FechaCita` al modal
+    } else {
+      console.error("No se encontró la cita completa para el modal");
+    }
   }
 }

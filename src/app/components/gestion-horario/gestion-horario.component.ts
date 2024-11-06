@@ -57,7 +57,6 @@ export class GestionHorarioComponent implements OnInit {
     this.empleadoService.getAbogado().subscribe(
       res => {
         this.empleadoService.empleados = res;
-        console.log(res);
       },
       err => console.log(err)
     );

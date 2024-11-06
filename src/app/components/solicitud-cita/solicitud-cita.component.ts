@@ -27,7 +27,7 @@ export class SolicitudCitaComponent implements OnInit {
   abogados: EspecialidadCita[] = [];
   cliente: Cliente | null = null;
   idAbogadoSeleccionado: number | null = null;
-  servicioSeleccionado: number | null = null;
+  servicioSeleccionado: number | null = null; // Para almacenar el idServicio seleccionado
   horasDisponibles: { idAgenda: number; rango: string }[] = [];
   horaSeleccionada: string | null = null;
   fechasDisponibles: string[] = [];
