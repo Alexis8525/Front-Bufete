@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <h5 class="modal-title">Detalles de la Cita</h5>
+  <button type="button" class="btn-close" aria-label="Cerrar" (click)="closeModal()">&times;</button>
+</div>
+
+<div class="modal-body" *ngIf="cita">
+  <p><strong>Motivo:</strong> {{ cita.motivo }}</p>
+  <p><strong>Estado de la Cita:</strong> {{ cita.estadoCita }}</p>
+
+  <h6>Información del Cliente</h6>
+  <p><strong>Nombre:</strong> {{ cita.nombreCliente }} {{ cita.aPCliente }} {{ cita.aMCliente }}</p>
+
+  <h6>Información del Abogado</h6>
+  <p><strong>Nombre:</strong> {{ cita.abogadoNombre }} {{ cita.abogadoApellidoPaterno }} {{ cita.abogadoApellidoMaterno }}</p>
+
+  <h6>Detalles de la Cita</h6>
+  <p><strong>Fecha de la Cita:</strong> {{ cita.fechaCita | date: 'fullDate' }}</p>
+  <p><strong>Hora de Inicio:</strong> {{ cita.horaInicio | date: 'shortTime' }}</p>
+  <p><strong>Hora Final:</strong> {{ cita.horaFinal | date: 'shortTime' }}</p>
+
+  <h6>Información del Servicio</h6>
+  <p><strong>Servicio:</strong> {{ cita.nombreServicio }}</p>
+  <p><strong>Descripción del Servicio:</strong> {{ cita.descripcionServicio }}</p>
+  <p><strong>Costo del Servicio:</strong> ${{ cita.costoServicio }}</p>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+</div>

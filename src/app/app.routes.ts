@@ -15,6 +15,7 @@ import { GestionCitaComponent } from './components/gestion-cita/gestion-cita.com
 import { CrudClienteComponent } from './components/crud-cliente/crud-cliente.component';
 import { GestionHorarioComponent } from './components/gestion-horario/gestion-horario.component';
 import { PrincipalComponent } from './components/principal/principal.component';
+import { CalendarioCitasClienteComponent } from './components/calendario-citas-cliente/calendario-citas-cliente.component';
 import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
 
 export const routes: Routes = [
@@ -32,6 +33,7 @@ export const routes: Routes = [
   { path: 'gestion-cliente', component: CrudClienteComponent},
   { path: 'gestion-horario', component: GestionHorarioComponent},
   { path: 'principal', component: PrincipalComponent },
+  { path: 'calendario', component: CalendarioCitasClienteComponent },
 ];
 
 @NgModule({
@@ -49,7 +51,7 @@ export const routes: Routes = [
   ],
   exports: [
     RegisterComponent,
-    UploadFileComponent,
+    UploadFileComponent
   ],
 })
 export class AppRoutingModule {}

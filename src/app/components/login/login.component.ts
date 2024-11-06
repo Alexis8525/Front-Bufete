@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Puedes inicializar otros datos aquí si es necesario
+
   }
 
   get email() {
@@ -50,16 +50,28 @@ export class LoginComponent implements OnInit {
         (response: any) => {
           // Maneja la respuesta del servidor aquí
           console.log(response);
-          // Almacena el usuario en localStorage
+
+          // Verifica el rol y almacena el ID correspondiente
+          let usuarioId: string;
+          if (response.usuario.rol === 2 || response.usuario.rol === 1) { 
+            usuarioId = response.usuario.idEmpleado; // Almacena idEmpleado
+          } else {
+            usuarioId = response.usuario.idCliente; // Almacena idCliente
+          }
+
+
+          console.log('ID guardado en localStorage:', usuarioId);
+          localStorage.setItem('usuarioId', usuarioId.toString()); // Asegúrate de convertir a cadena
           localStorage.setItem('usuario', JSON.stringify(response.usuario));
+
           // Si es exitoso, redirige a la página principal
           this.router.navigate(['/principal']);
         },
         (error) => {
           console.error('Error al iniciar sesión:', error);
-          // Aquí puedes mostrar un mensaje de error al usuario
         }
       );
     }
   }
+
 }

@@ -1,0 +1,87 @@
+/* General modal styles */
+.modal-header {
+    background-color: #001f3f;
+    color: #ffffff;
+    padding: 1rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  /* Title and header */
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .btn-close {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  /* Body content styles */
+  .modal-body h6 {
+    font-size: 1rem;
+    margin-top: 1rem;
+    color: #001f3f;
+  }
+  
+  .modal-body p {
+    margin: 0.25rem 0;
+  }
+  
+  /* Highlight for labels */
+  .modal-body p strong {
+    color: #001f3f;
+    font-weight: 600;
+  }
+  
+  /* Footer styles */
+  .modal-footer {
+    padding: 1rem;
+    text-align: right;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #f8f9fa;
+  }
+  
+  .btn-secondary {
+    background-color: #001f3f;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #001a36;
+  }
+
+  /* Estilo para el botón de cierre (X) en el encabezado del modal */
+.btn-close {
+    background: none;
+    border: none;
+    color: #ffffff; /* Cambia el color a blanco */
+    font-size: 1.5rem; /* Ajusta el tamaño para que sea más visible */
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 1; /* Asegúrate de que sea completamente opaco */
+  }
+  
+  .btn-close:hover {
+    color: #cccccc; /* Cambia ligeramente el color al pasar el cursor */
+  }
+  
+  

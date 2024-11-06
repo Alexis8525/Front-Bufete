@@ -36,7 +36,6 @@ export class CrudEmpleadoComponent implements OnInit {
     this.empleadoService.getEmpleados().subscribe(
       res => {
         this.empleadoService.empleados = res;
-        console.log(res);
       },
       err => console.log(err)
     )
@@ -46,7 +45,6 @@ export class CrudEmpleadoComponent implements OnInit {
     this.rolService.getRoles().subscribe(
       res => {
         this.rolService.roles = res;
-        console.log(res);
       },
       err => console.log(err)
     )
@@ -56,7 +54,6 @@ export class CrudEmpleadoComponent implements OnInit {
     this.especialidadService.getEspecialidades().subscribe(
       res => {
         this.especialidadService.especialidades = res;
-        console.log(res);
       },
       err => console.log(err)
     )

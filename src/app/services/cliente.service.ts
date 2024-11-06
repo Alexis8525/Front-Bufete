@@ -21,7 +21,7 @@ export class ClienteService {
     telefono: '',
     pass: '', 
     idRolFK: 0 
-  };
+  }; 
 
   clientes: Cliente[] = [];
 
@@ -43,5 +43,10 @@ export class ClienteService {
   // Eliminar cliente
   eliminarCliente(idCliente: number) {
     return this.http.delete(this.URL_API + idCliente);
+  }
+
+  // Obtener cliente por ID
+  getClienteById(idCliente: number) {
+    return this.http.get<Cliente>(this.URL_API + idCliente);
   }
 }

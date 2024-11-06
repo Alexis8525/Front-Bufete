@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import * as bootstrap from 'bootstrap'; // Import Bootstrap correctly
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -8,6 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CitaService } from '../../services/cita.service';  // Importa el servicio
 import { Cita } from '../../models/cita';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-gestion-cita',
@@ -15,11 +16,59 @@ import { Cita } from '../../models/cita';
   imports: [
     BarraLateralComponent,
     FullCalendarModule,
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './gestion-cita.component.html',
   styleUrls: ['./gestion-cita.component.css']
 })
-export class GestionCitaComponent /*implements OnInit*/ {
+export class GestionCitaComponent implements OnInit{
+  citas = [
+    {
+      idCita: 1,
+      motivo: 'Consulta sobre contrato',
+      fechaAgenda: '10/11/2023',
+      horaInicio: '10:00 AM',
+      horaFinal: '11:00 AM',
+      abogadoNombre: 'Juan Pérez',
+      estado: 'programada'
+    },
+    {
+      idCita: 2,
+      motivo: 'Asesoría legal en derecho laboral',
+      fechaAgenda: '15/11/2023',
+      horaInicio: '02:00 PM',
+      horaFinal: '03:00 PM',
+      abogadoNombre: 'Ana Torres',
+      estado: 'programada'
+    },
+    {
+      idCita: 3,
+      motivo: 'Consulta sobre propiedad intelectual',
+      fechaAgenda: '20/11/2023',
+      horaInicio: '09:00 AM',
+      horaFinal: '10:00 AM',
+      abogadoNombre: 'Luis Méndez',
+      estado: 'completada'
+    }
+  ];
+
+  constructor() {}
+
+  ngOnInit() {}
+
+  verDetalles(cita: any) {
+    alert(`Detalles de la cita:\nMotivo: ${cita.motivo}\nFecha: ${cita.fechaAgenda}\nHora: ${cita.horaInicio} - ${cita.horaFinal}\nAbogado: ${cita.abogadoNombre}`);
+  }
+
+  cancelarCita(idCita: number) {
+    if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+      // Filtra las citas para "cancelar" la seleccionada
+      this.citas = this.citas.map(cita => cita.idCita === idCita ? { ...cita, estado: 'cancelada' } : cita);
+      alert('La cita ha sido cancelada.');
+    }
+  }
+
   /*calendarOptions: any;
   citas: Cita[] = []; // Almacena las citas
   selectedCita: Cita | null = null; // Variable para almacenar la cita seleccionada

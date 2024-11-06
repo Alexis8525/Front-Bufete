@@ -33,7 +33,6 @@ export class CrudClienteComponent implements OnInit {
     this.clienteService.getClientes().subscribe(
       res => {
         this.clienteService.clientes = res;
-        console.log(res);
       },
       err => console.log(err)
     )
@@ -43,7 +42,6 @@ export class CrudClienteComponent implements OnInit {
     this.rolService.getRoles().subscribe(
       res => {
         this.rolService.roles = res;
-        console.log(res);
       },
       err => console.log(err)
     )
