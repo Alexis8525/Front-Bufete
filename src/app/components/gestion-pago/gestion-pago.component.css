@@ -31,10 +31,10 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
-form {
+/* form {
     max-width: 600px;
     margin: 0 auto;
-}
+} */
 label {
     display: block;
     margin-bottom: 8px;
@@ -69,24 +69,13 @@ th {
 }
 button {
     padding: 10px 20px;
-    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     width: auto;
+    height: auto;
     margin-right: 10px;
 }
-button:hover {
-    background-color: #45a049;
-}
 
-.btnCancelar {
-    background-color: #d71c1c;
-    width: 210px;
-}
-
-.btnCancelar:hover {
-    background-color: #f44336;
-}
 

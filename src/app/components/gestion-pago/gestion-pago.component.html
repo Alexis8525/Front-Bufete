@@ -11,36 +11,42 @@
             </div>
         </nav>
 
-        <div class="p-3">
-            <form id="formPagos">
-                <div class="container mt-2">
+        <div class="p-3" >
+            <form class="formulario" id="formPagos">
+                <div class="container-lg">
                     <div class="card">
                         <div class="card-body">
                             <h2 class="card-title">Realizar pago</h2>
 
                             <!-- Datos del expediente -->
                             <label for="folioExpediente">Folio:</label>
-                            <input type="text" id="folioExpediente" name="folioExpediente" value="000484102" readonly>
-                            <!-- <select id="folioExpediente" class="form-select">
-            <option>Seleccione una opción</option>
-            <option value="1">Opción 1</option>
-            <option value="2">Opción 2</option>
-            Agregar las opciones correspondientes al select de la BD
-        </select> <br/> -->
+                            <input type="number" id="folioExpediente" name="folioExpediente" [(ngModel)]="folio"
+                                placeholder="Escribe el folio aquí" required>
+                            <span class="text-danger" *ngIf="esFolio">El folio no es valido</span>
+                            <br />
+                            <button class="btn btn-primary" (click)="obtenerPagos()">Buscar</button>
 
-                            <label for="nombre-caso">Nombre del caso:</label>
-                            <input type="text" id="nombre-caso" name="nombre-caso" value="Divorcio" readonly>
+                            <!-- Spinner de carga -->
+                            <div *ngIf="cargando" class="text-center my-3">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                            </div>
 
+                            <div *ngIf="!cargando && pago.length > 0">
+                                <label for="nombre-cliente">Nombre del cliente:</label>
+                                <input type="text" id="nombre-cliente" name="nombre-cliente"
+                                    [value]="pago[0].nomCliente" readonly>
 
-                            <label for="nombre-cliente">Nombre del cliente:</label>
-                            <input type="text" id="nombre-cliente" name="nombre-cliente"
-                                value="Roberto Alexis Díaz Galindo" readonly>
+                                <label for="nombre-caso">Servicio:</label>
+                                <input type="text" id="nombre-caso" name="nombre-caso" [value]="pago[0].nomServicio"
+                                    readonly>
 
-                            <label for="monto-total">Monto Total:</label>
-                            <input type="text" id="monto-total" name="monto-total" value="$20000" readonly>
+                                <label for="monto-total">Monto Total:</label>
+                                <input type="text" id="monto-total" name="monto-total" [value]="pago[0].costo"
+                                    readonly>
 
-                            <label for="estatus">Estatus:</label>
-                            <input type="text" id="estatus" name="estatus" value="En proceso" readonly>
+                            </div>
 
                             <!-- Tabla de pagos realizados -->
                             <h2>Pagos Realizados</h2>
@@ -56,37 +62,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>001</td>
-                                        <td>15/8/24</td>
-                                        <td>Pago en línea</td>
-                                        <td>20000</td>
-                                        <td>3000</td>
-                                        <td>17000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>002</td>
-                                        <td>15/9/24</td>
-                                        <td>Pago en línea</td>
-                                        <td>17000</td>
-                                        <td>5000</td>
-                                        <td>12000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>003</td>
-                                        <td>15/10/24</td>
-                                        <td>Pago en línea</td>
-                                        <td>12000</td>
-                                        <td>4000</td>
-                                        <td>8000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>004</td>
-                                        <td>20/10/24</td>
-                                        <td>Pago en línea</td>
-                                        <td>8000</td>
-                                        <td>3000</td>
-                                        <td>5000</td>
+                                    <tr *ngFor="let item of pago; let i = index">
+                                        <!-- <td>{{ item.idPago }}</td> -->
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ item.fechaPago | date:'dd/MM/yyyy':'UTC' }}</td>
+                                        <td>{{ item.metodo }}</td>
+                                        <td>{{ item.montoInicial }}</td> <!-- CAMBIAR AL MONTO INICIAL -->
+                                        <td>{{ item.monto }}</td>
+                                        <td>{{ item.montoRestante }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -94,85 +77,66 @@
                     </div>
                 </div>
             </form>
-            <br/>
+            <br />
             <!-- Botones -->
             <div class="button-container">
-                <!-- <button type="button" class="btn btn-secondary"  id="openModalBtn"  data-bs-toggle="modal" data-bs-target="#modalRealizarPagoSec">Registrar Pago</button> -->
-                <button type="button" class="btn btn-secondary" id="openModalBtn" data-bs-toggle="modal"
-                    data-bs-target="#modalRealizarPagoCli">Realizar Pago</button>
-                <button type="button" class="btn btn-secondary" (click)="imprimirExpediente()">Expediente Pagos</button>
+                <button 
+                type="button" class="btn btn-success" id="openModalBtn" data-bs-toggle="modal" 
+                    data-bs-target="#modalRealizarPago">{{ esCliente ? 'Realizar pago' : 'Registrar pago' }}</button>
+                    
+                <button type="button" class="btn btn-primary" (click)="imprimirExpediente()">Expediente Pagos</button>
             </div> <br />
 
 
-            <!-- MODAL PARA PAGO  DESDE SECRETARIA     -->
-            <div class="modal" id="modalRealizarPagoSec" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <!-- MODAL PARA PAGO     -->
+            <div class="modal" id="modalRealizarPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <h3>Registrar pago</h3>
+                            <h3>{{ esCliente ? 'Realizar pago' : 'Registrar pago' }}</h3>
                             <label for="folioExpediente">Folio:</label>
-                            <input type="text" id="folioExpediente" name="folioExpediente" value="000484102" readonly>
+                            <input type="text" id="folioExpediente" name="folioExpediente" [value]="pago[0].folio" readonly>
                             <label for="saldo-inicial">Saldo restante:</label>
-                            <input type="number" id="saldo-restante" class="form-control" value="8000" readonly>
+                            <input type="number" id="saldo-restante" class="form-control" [value]="pago[pago.length -1].montoRestante" readonly>
                             <label for="cantidad-pago">Cantidad pago:</label>
-                            <input type="number" id="cantidad-pago" class="form-control" [(ngModel)]="cantidadPago"
+                            <input type="number" id="cantidad-pago" class="form-control" [(ngModel)]="cantidadPago" (input)="validarPago()"
                                 required>
+                            <span class="text-danger" *ngIf="!esCantidadValida">La cantidad a pagar tiene que ser mayor a 0 y menor a saldo restante</span>
                             <label for="fecha">Fecha:</label>
-                            <input type="date" id="fecha" class="form-control" value="" required>
+                            <input type="date" id="fecha" class="form-control" [value]="fechaActual" readonly required>
                             <br>
-                            <div class="modal-buttons">
+                            <!-- Botones de secretaria -->
+                            <div class="modal-buttons" *ngIf="!this.esCliente">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button">Registrar Pago</button>
+                                        <button class="btn btn-success" type="button" (click)="pagarServicio()"
+                                        >Registrar Pago</button>
                                     </div>
                                     <div class="col-md-6">
-                                        <button type="button" class="btnCancelar"
+                                        <button type="button" class="btn btn-danger"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- MODAL PARA PAGO  DESDE CLIENTE     -->
-            <div class="modal" id="modalRealizarPagoCli" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div id="realizarPago">
-                                <h3>Realizar pago</h3>
-                                <label for="folioExpediente">Folio:</label>
-                                <input type="text" id="folioExpediente" name="folioExpediente" value="000484102"
-                                    readonly>
-                                <label for="saldo-inicial">Saldo restante:</label>
-                                <input type="number" id="saldo-restante" class="form-control" value="5000" readonly>
-                                <label for="cantidad-pago">Cantidad pago:</label>
-                                <input type="number" id="cantidad-pago" class="form-control" [(ngModel)]="cantidadPago"
-                                    required>
-                                <label for="fecha">Fecha:</label>
-                                <input type="date" id="fecha" class="form-control" value="" required>
-                            </div>
-                            <br>
-                            <div class="modal-buttons">
+                            <!-- Botones de cliente -->
+                            <div class="modal-buttons" *ngIf="this.esCliente">
                                 <div class="row">
                                     <div #paypal class="paypal-button"></div>
                                     <div>
-                                        <button type="button" class="btn btn-secondary"
+                                        <button type="button" class="btn btn-primary"
                                             (click)="imprimirReferencia()">Imprimir referencia de pago</button>
-                                        <button type="button" class="btnCancelar"
+                                        <button type="button" class="btn btn-danger"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
