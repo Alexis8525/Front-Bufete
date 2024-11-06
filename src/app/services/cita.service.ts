@@ -33,4 +33,9 @@ export class CitaService {
   crearCitaConTransaccion(citaData: Cita): Observable<Cita[]> {
     return this.http.post<Cita[]>(`${this.URL_API}/crear-cita`, citaData); 
   }
+
+  // Obtener las citas de un cliente específico
+  getCitasByCliente(idCliente: number): Observable<Cita[]> {
+    return this.http.get<Cita[]>(`${this.URL_API}/citas/${idCliente}`);
+  }
 }

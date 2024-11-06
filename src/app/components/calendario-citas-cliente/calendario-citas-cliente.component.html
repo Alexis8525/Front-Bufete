@@ -20,24 +20,24 @@
         <table>
           <thead>
             <tr>
-              <th *ngFor="let dia of nombresDias">{{ dia }}</th> <!-- Nombres completos de los días -->
+              <th *ngFor="let dia of nombresDias">{{ dia }}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let fila of [0, 1, 2, 3, 4, 5]">
               <td *ngFor="let dia of diasDelMes.slice(fila * 7, fila * 7 + 7)">
-                {{ dia !== 0 ? dia : '' }}
+                <!-- Verifica si el día tiene una cita -->
+                <div *ngIf="dia !== 0" class="day-cell">
+                  {{ dia }}
+                  <span *ngIf="tieneCita(dia)" class="appointment-tooltip">
+                    {{ tieneCita(dia)?.description }}
+                  </span>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      
-      
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Launch demo modal
-      </button>
     </div>
   </div>
 </div>

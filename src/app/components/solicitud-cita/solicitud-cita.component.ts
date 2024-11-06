@@ -91,7 +91,7 @@ export class SolicitudCitaComponent implements OnInit {
   onServicioSeleccionado(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const servicioId = Number(selectElement.value);
-    this.servicioSeleccionado = servicioId;
+    this.servicioSeleccionado = servicioId; 
     this.cargarAbogadosPorServicio(servicioId);
   }
 
@@ -221,6 +221,7 @@ export class SolicitudCitaComponent implements OnInit {
       motivo: this.motivoCita,
       estado: 'programada',
       idClienteFK: this.cliente ? this.cliente.idCliente : 0,
+      idServicioFK: this.servicioSeleccionado, // Agregar idServicioFK a citaData
       idAgendaFK: this.horarioSeleccionadoId ?? 0,
       idAbogado: this.idAbogadoSeleccionado,
       fechaAgenda: this.fechaSeleccionada,
