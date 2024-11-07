@@ -44,4 +44,15 @@ export class CitaService {
   getCitasByAbogado(idAbogado: number): Observable<FechaCita[]> {
     return this.http.get<FechaCita[]>(`${this.URL_API}/consultar-citaA/${idAbogado}`);
   }
+
+  // Obtener los clientes de un abogado específico con citas programadas
+  getClientesPorAbogado(idAbogado: number): Observable<FechaCita[]> {
+    return this.http.get<FechaCita[]>(`${this.URL_API}/clientes/abogado/${idAbogado}`);
+  }
+
+  // Cancelar una cita
+  cancelarCita(idCita: number): Observable<Cita> {
+    return this.http.put<Cita>(`${this.URL_API}/cancelar`, { idCita });
+  }
+
 }

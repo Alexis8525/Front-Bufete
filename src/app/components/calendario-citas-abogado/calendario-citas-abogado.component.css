@@ -1,138 +1,301 @@
 /* Estilos generales para el contenedor */
 .wrapper {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fondo del contenido principal */
+.p-3 {
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+  max-height: 100vh;
+  background-color: rgba(250, 251, 254, 0.9); /* Fondo con transparencia */
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Contenedor principal en dos columnas */
+.contenedor-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px; /* Espacio entre los filtros y el calendario */
+  margin: 0 auto;
+  max-width: 1200px; /* Ancho máximo para el contenedor principal */
+}
+
+/* Estilos para la nueva sección de filtros */
+.filtros {
+  flex: 1; /* Ocupa el espacio necesario en el lado izquierdo */
+  background: rgba(255, 255, 255, 0.85);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 250px; /* Ancho fijo para la sección de filtros */
+}
+
+.filtros-header {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.filtros-header h3 {
+  margin: 0;
+  font-size: 1.25em;
+  font-weight: bold;
+  color: #333;
+}
+
+.filtros-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.filtros-content label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filtros-content select {
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+  width: 100%; /* Ancho completo en el contenedor */
+}
+
+.filtros-content select:focus {
+  border-color: #001f3f;
+  outline: none;
+}
+
+/* Contenedor del calendario */
+.calendario {
+  flex: 2; /* Ocupa el espacio restante en el lado derecho */
+  max-width: 1000px; /* Ancho máximo para el calendario */
+  background: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cabecera del calendario */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.header button {
+  background-color: #001f3f;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.header button:hover {
+  background-color: #004080;
+}
+
+.header h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabla del calendario */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed; /* Asegura que las celdas tengan un tamaño consistente */
+}
+
+/* Cabeceras de los días */
+th {
+  background-color: #001f3f;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+td {
+  border: 1px solid #ddd;
+  width: 14.28%; /* Para asegurar el ancho uniforme */
+  height: 80px;
+  text-align: right;
+  vertical-align: top;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+/* Estilo de los días del mes */
+.day-cell {
+  position: relative;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
+  padding: 5px;
+}
+
+.day-cell:hover {
+  background-color: rgba(0, 31, 63, 0.1); /* Fondo al pasar el cursor */
+}
+
+/* Estilo de los tooltip de citas */
+.appointment-tooltip {
+  display: block;
+  background-color: #ffdd57;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-tooltip:hover {
+  background-color: #ffc107;
+}
+
+/* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
+body, h2, th, td, button {
+  font-family: 'Arial', sans-serif;
+  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividad: Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .contenedor-principal {
+    flex-direction: column; /* Cambia a una sola columna */
+    align-items: center;
+    gap: 10px;
   }
-  
-  app-barra-lateral {
-    height: 100vh;
-    flex-shrink: 0;
+
+  .filtros {
+    max-width: 100%; /* Ocupa todo el ancho disponible */
+    margin-bottom: 20px; /* Añade espacio entre filtros y calendario */
   }
-  
-  .main {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Fondo del contenido principal */
-  .p-3 {
-    background-image: url('/imagenes/fondo1.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    flex-grow: 1;
-    max-height: 100vh;
-    background-color: rgba(250, 251, 254, 0.9); /* Fondo con transparencia */
-    padding: 2rem;
-    overflow-y: auto;
-  }
-  
-  /* Contenedor del calendario */
+
   .calendario {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-    background: rgba(255, 255, 255, 0.85);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%; /* Ocupa todo el ancho disponible */
   }
-  
-  /* Cabecera del calendario */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  .header button {
-    background-color: #001f3f;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .header button:hover {
-    background-color: #004080;
-  }
-  
+
   .header h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #333;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 1.25em; /* Ajusta el tamaño de fuente del título */
   }
-  
-  /* Tabla del calendario */
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed; /* Asegura que las celdas tengan un tamaño consistente */
+}
+
+@media (max-width: 480px) {
+  /* Ajustes adicionales para pantallas extra pequeñas */
+  .header button {
+    padding: 6px 12px; /* Reduce el tamaño de los botones */
   }
-  
-  /* Cabeceras de los días */
-  th {
-    background-color: #001f3f;
-    color: #fff;
-    font-weight: bold;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ccc;
+
+  .header h2 {
+    font-size: 1em; /* Reduce aún más el tamaño del título */
   }
-  
-  td {
-    border: 1px solid #ddd;
-    width: 14.28%; /* Para asegurar el ancho uniforme */
-    height: 80px;
-    text-align: right;
-    vertical-align: top;
-    background-color: #f9f9f9;
-    position: relative;
+
+  td, th {
+    padding: 8px; /* Ajusta el tamaño de las celdas para pantallas pequeñas */
   }
-  
-  /* Estilo de los días del mes */
-  .day-cell {
-    position: relative;
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #333;
-    padding: 5px;
-  }
-  
-  .day-cell:hover {
-    background-color: rgba(0, 31, 63, 0.1); /* Fondo al pasar el cursor */
-  }
-  
-  /* Estilo de los tooltip de citas */
+
   .appointment-tooltip {
-    display: block;
-    background-color: #ffdd57;
-    color: #000;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.85em;
-    margin-top: 5px;
-    cursor: pointer;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.75em; /* Reduce el tamaño de fuente de los tooltips */
   }
-  
-  .appointment-tooltip:hover {
-    background-color: #ffc107;
-  }
-  
-  /* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
-  body, h2, th, td, button {
-    font-family: 'Arial', sans-serif;
-    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
-  }
-  
+}
+
+.dia-actual {
+  border: 2px solid blue; /* Borde azul */
+  background-color: rgba(0, 0, 255, 0.1); /* Fondo azul claro */
+  border-radius: 5px;
+}
+
+.appointment-cancelada {
+  background-color: #ffcccc; /* Color diferente para citas canceladas */
+  color: #a94442;            /* Texto rojo o cualquier color que prefieras */
+}
+
+/* Agrupación de filtros y leyenda en una columna */
+.filtros-leyenda {
+  flex: 1; /* Ocupa el espacio necesario en el lado izquierdo */
+  display: flex;
+  flex-direction: column; /* Coloca la leyenda debajo de los filtros */
+  gap: 20px; /* Espacio entre los filtros y la leyenda */
+  max-width: 250px; /* Asegura que el ancho de la leyenda sea igual al de los filtros */
+}
+
+/* Estilos de leyenda */
+.leyenda {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 250px; /* Igual al ancho de los filtros */
+  width: 100%; /* Asegura que la leyenda ocupe todo el ancho disponible en el contenedor */
+}
+
+.leyenda h4 {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.color-box {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.color-box.programada {
+  background-color: #ffdd57;
+}
+
+.color-box.completada {
+  background-color: #c8e6c9;
+}
+
+.color-box.cancelada {
+  background-color: #ffcccc;
+}

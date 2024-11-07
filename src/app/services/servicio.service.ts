@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Servicio } from '../models/servicio';  // Asegúrate de que el path sea correcto
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,10 @@ export class ServicioService {
   // Eliminar servicio
   eliminarServicio(idServicio: number) {
     return this.http.delete(this.URL_API + idServicio);
+  }
+
+  // Obtener servicios por abogado
+  getServiciosPorAbogado(idAbogado: number): Observable<Servicio[]> {
+    return this.http.get<Servicio[]>(`${this.URL_API}/servicio-abogado/${idAbogado}`);
   }
 }

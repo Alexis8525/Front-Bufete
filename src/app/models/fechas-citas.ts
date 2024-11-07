@@ -15,4 +15,5 @@ export interface FechaCita {
     descripcionServicio: string;        // Descripción del servicio
     costoServicio: number;   
     fechaAgenda: string;           // Costo del servicio
+    idServicioFK: number;
 }

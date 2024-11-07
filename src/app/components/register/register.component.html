@@ -1,42 +1,86 @@
-<div class="register-container">
-    <h2>Registro de usuario</h2>
-  
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="username">Usuario</label>
-        <input
-          id="username"
-          type="text"
-          formControlName="username"
-          class="form-control"
-          placeholder="Ingrese su usuario"
-        />
-        <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.invalid" class="error">
-          El usuario es requerido.
+<div class="container mt-5 register-container">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="card shadow border-0">
+      <div class="card-header text-center">
+        <h5>Registro de Cliente</h5>
+      </div>
+      <div class="card-body">
+
+        <!-- Nombre del Cliente -->
+        <div class="form-group mb-3">
+          <label for="nombreCliente" class="form-label">Nombre</label>
+          <input type="text" id="nombreCliente" class="form-control" formControlName="nombreCliente" placeholder="Nombre" />
+          <small *ngIf="nombreCliente?.invalid && (nombreCliente?.dirty || nombreCliente?.touched)" class="error-message">
+            <div *ngIf="nombreCliente?.hasError('required')">Este campo es obligatorio.</div>
+          </small>
         </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          class="form-control"
-          placeholder="Ingrese su contraseña"
-        />
-        <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="error">
-          La contraseña es requerida y debe tener al menos 6 caracteres.
+
+        <!-- Apellido Paterno -->
+        <div class="form-group mb-3">
+          <label for="aPCliente" class="form-label">Apellido Paterno</label>
+          <input type="text" id="aPCliente" class="form-control" formControlName="aPCliente" placeholder="Apellido Paterno" />
+          <small *ngIf="aPCliente?.invalid && (aPCliente?.dirty || aPCliente?.touched)" class="error-message">
+            <div *ngIf="aPCliente?.hasError('required')">Este campo es obligatorio.</div>
+          </small>
         </div>
+
+        <!-- Apellido Materno -->
+        <div class="form-group mb-3">
+          <label for="aMCliente" class="form-label">Apellido Materno</label>
+          <input type="text" id="aMCliente" class="form-control" formControlName="aMCliente" placeholder="Apellido Materno" />
+          <small *ngIf="aMCliente?.invalid && (aMCliente?.dirty || aMCliente?.touched)" class="error-message">
+            <div *ngIf="aMCliente?.hasError('required')">Este campo es obligatorio.</div>
+          </small>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group mb-3">
+          <label for="direccion" class="form-label">Dirección</label>
+          <input type="text" id="direccion" class="form-control" formControlName="direccion" placeholder="Dirección" />
+          <small *ngIf="direccion?.invalid && (direccion?.dirty || direccion?.touched)" class="error-message">
+            <div *ngIf="direccion?.hasError('required')">Este campo es obligatorio.</div>
+          </small>
+        </div>
+
+        <!-- Correo Electrónico -->
+        <div class="form-group mb-3">
+          <label for="correo" class="form-label">Correo Electrónico</label>
+          <input type="email" id="correo" class="form-control" formControlName="correo" placeholder="correo@ejemplo.com" />
+          <small *ngIf="correo?.invalid && (correo?.dirty || correo?.touched)" class="error-message">
+            <div *ngIf="correo?.hasError('required')">Este campo es obligatorio.</div>
+            <div *ngIf="correo?.hasError('email')">Correo electrónico no válido.</div>
+          </small>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" id="telefono" class="form-control" formControlName="telefono" placeholder="Teléfono" />
+          <small *ngIf="telefono?.invalid && (telefono?.dirty || telefono?.touched)" class="error-message">
+            <div *ngIf="telefono?.hasError('required')">Este campo es obligatorio.</div>
+          </small>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group mb-3">
+          <label for="pass" class="form-label">Contraseña</label>
+          <input type="password" id="pass" class="form-control" formControlName="pass" placeholder="••••••••" />
+          <small *ngIf="pass?.invalid && (pass?.dirty || pass?.touched)" class="error-message">
+            <div *ngIf="pass?.hasError('required')">Este campo es obligatorio.</div>
+            <div *ngIf="pass?.hasError('minlength')">La contraseña debe tener al menos 8 caracteres.</div>
+          </small>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div class="form-group mb-3">
+          <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+          <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Reingrese la contraseña" />
+          <small *ngIf="registerForm.hasError('passwordMismatch')" class="error-message">Las contraseñas no coinciden.</small>
+        </div>
+
+        <!-- Botón de Registro -->
+        <button type="submit" class="btn btn-primary btn-submit w-100 mt-3" [disabled]="registerForm.invalid">Registrarse</button>
       </div>
-  
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-  
-      <button type="submit" [disabled]="loading" class="btn btn-primary">
-        {{ loading ? 'Cargando...' : 'Registrarse' }}
-      </button>
-    </form>
-  </div>
-  
+    </div>
+  </form>
+</div>
