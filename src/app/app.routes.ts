@@ -17,6 +17,7 @@ import { CrudClienteComponent } from './components/crud-cliente/crud-cliente.com
 import { GestionHorarioComponent } from './components/gestion-horario/gestion-horario.component';
 import { PrincipalComponent } from './components/principal/principal.component';
 import { CalendarioCitasClienteComponent } from './components/calendario-citas-cliente/calendario-citas-cliente.component';
+import { CalendarioCitasAbogadoComponent } from './components/calendario-citas-abogado/calendario-citas-abogado.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,7 +33,8 @@ export const routes: Routes = [
   { path: 'gestion-cliente', component: CrudClienteComponent},
   { path: 'gestion-horario', component: GestionHorarioComponent},
   { path: 'principal', component: PrincipalComponent },
-  { path: 'calendario', component: CalendarioCitasClienteComponent },
+  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent },
+  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent },
 ];
 
 @NgModule({

@@ -1,73 +1,137 @@
+/* Estilos generales para el contenedor */
 .wrapper {
-    display: flex; /* Asegura que los hijos se alineen horizontalmente */
-    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
-    overflow: hidden; /* Evita el desbordamiento del contenedor principal */
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
 app-barra-lateral {
-    height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
-    flex-shrink: 0; /* Evita que la barra lateral se reduzca */
+  height: 100vh;
+  flex-shrink: 0;
 }
 
 .main {
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-    display: flex;
-    flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Fondo del contenido principal */
 .p-3 {
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-    max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
-    background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
-    padding: 2rem; /* Añade algo de espacio alrededor del contenido */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+  max-height: 100vh;
+  background-color: rgba(250, 251, 254, 0.9); /* Fondo con transparencia */
+  padding: 2rem;
+  overflow-y: auto;
 }
 
-
-
+/* Contenedor del calendario */
 .calendario {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-  }
-  
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  th, td {
-    border: 1px solid #ccc;
-    width: 14.28%;
-    height: 40px;
-    text-align: center;
-  }
-  
-  th {
-    background-color: #f0f0f0;
-  }
-  
-  .day-cell {
-    position: relative;
-    padding: 10px;
-  }
-  
-  .appointment-tooltip {
-    display: block;
-    background-color: #ffdd57;
-    color: #000;
-    padding: 2px 5px;
-    border-radius: 3px;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cabecera del calendario */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.header button {
+  background-color: #001f3f;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.header button:hover {
+  background-color: #004080;
+}
+
+.header h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabla del calendario */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed; /* Asegura que las celdas tengan un tamaño consistente */
+}
+
+/* Cabeceras de los días */
+th {
+  background-color: #001f3f;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+td {
+  border: 1px solid #ddd;
+  width: 14.28%; /* Para asegurar el ancho uniforme */
+  height: 80px;
+  text-align: right;
+  vertical-align: top;
+  background-color: #f9f9f9;
+  position: relative;
+}
+
+/* Estilo de los días del mes */
+.day-cell {
+  position: relative;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
+  padding: 5px;
+}
+
+.day-cell:hover {
+  background-color: rgba(0, 31, 63, 0.1); /* Fondo al pasar el cursor */
+}
+
+/* Estilo de los tooltip de citas */
+.appointment-tooltip {
+  display: block;
+  background-color: #ffdd57;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-tooltip:hover {
+  background-color: #ffc107;
+}
+
+/* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
+body, h2, th, td, button {
+  font-family: 'Arial', sans-serif;
+  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+}

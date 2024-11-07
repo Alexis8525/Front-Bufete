@@ -25,21 +25,25 @@
         </ul>
       </li>
 
-      <li class="sidebar-item" *ngIf="isCliente()">
+      <li class="sidebar-item" *ngIf="isCliente() || isAbogado()">
         <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
            data-bs-target="#citas" aria-expanded="false" aria-controls="citas">
            <i class="fa-regular fa-calendar"></i>
-          <span>Citas</span>
+           <span>Citas</span>
         </a>
         <ul id="citas" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-          <li class="sidebar-item">
+          <li class="sidebar-item" *ngIf="isCliente()">
             <a href="cita" class="sidebar-link">Nueva cita</a>
           </li>
-          <li class="sidebar-item">
+          <li class="sidebar-item" *ngIf="isCliente()">
             <a href="gestion-cita" class="sidebar-link">Citas programadas</a>
           </li>
-          <li class="sidebar-item">
-            <a href="calendario" class="sidebar-link">Citas programadas prueba</a>
+          <li class="sidebar-item" *ngIf="isCliente()">
+            <a href="calendario-cliente" class="sidebar-link">Citas programadas prueba</a>
+          </li>
+          <!-- Solo muestra este bloque si el rol es de Abogado -->
+          <li class="sidebar-item" *ngIf="isAbogado()">
+            <a href="calendario-abogado" class="sidebar-link">Citas programadas Abogado</a>
           </li>
         </ul>
       </li>

@@ -37,6 +37,11 @@ export class CitaService {
 
   // Obtener las citas de un cliente específico
   getCitasByCliente(idCliente: number): Observable<FechaCita[]> {
-    return this.http.get<FechaCita[]>(`${this.URL_API}/consultar-cita/${idCliente}`);
+    return this.http.get<FechaCita[]>(`${this.URL_API}/consultar-citaC/${idCliente}`);
+  }
+
+  // Obtener las citas de un abogado específico
+  getCitasByAbogado(idAbogado: number): Observable<FechaCita[]> {
+    return this.http.get<FechaCita[]>(`${this.URL_API}/consultar-citaA/${idAbogado}`);
   }
 }
