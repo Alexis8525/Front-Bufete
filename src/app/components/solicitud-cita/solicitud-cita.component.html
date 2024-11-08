@@ -20,7 +20,7 @@
 
               <!-- Información del Cliente -->
               <h4 class="section-title">Información del Cliente</h4>
-              <div class="mb-3 row">
+              <div class="row mb-3">
                 <div class="col-md-4">
                   <label for="nombre" class="form-label">Nombre del Cliente</label>
                   <input type="text" class="form-control" id="nombre" required readonly>
@@ -37,13 +37,16 @@
 
               <!-- Detalles de la Cita -->
               <h4 class="section-title">Detalles de la Cita</h4>
-              <div class="mb-3">
-                <label for="motivo" class="form-label">Motivo de la Cita</label>
-                <textarea id="motivo" class="form-control" rows="3" required [(ngModel)]="motivoCita" name="motivo"></textarea>
-              </div>              
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <label for="motivo" class="form-label">Motivo de la Cita</label>
+                  <textarea id="motivo" class="form-control" rows="2" required [(ngModel)]="motivoCita" name="motivo"></textarea>
+                </div>
+              </div>
 
-              <div class="mb-3 row">
-                <div class="col-md-6">
+              <!-- Cuatro select en una fila -->
+              <div class="row mb-3">
+                <div class="col-md-3">
                   <label for="servicio" class="form-label">Selecciona un Servicio</label>
                   <select class="form-control" id="servicio" name="servicio" (change)="onServicioSeleccionado($event)" required>
                     <option value="">Selecciona un servicio</option>
@@ -53,28 +56,27 @@
                   </select>
                 </div>
 
-                <div class="col-md-6" id="abogadosDisponibles">
+                <div class="col-md-3">
                   <label for="abogado" class="form-label">Selecciona un Abogado</label>
-                  <select class="form-control" id="abogado" name="abogado" required [(ngModel)]="idAbogadoSeleccionado" (change)="onAbogadoSeleccionado($event)">
+                  <select class="form-control" id="abogado" name="abogado" required [(ngModel)]="idAbogadoSeleccionado" 
+                          (change)="onAbogadoSeleccionado($event)" [disabled]="!servicioSeleccionado">
                     <option value="">Selecciona un abogado</option>
                     <option *ngFor="let abogado of especialidades" [value]="abogado.idEmpleado">
                       {{ abogado.nombreEmpleado }} {{ abogado.aPEmpleado }} {{ abogado.aMEmpleado }}
                     </option>
                   </select>
                 </div>
-              </div>
 
-              <!-- Selección de Fecha y Hora en la misma fila -->
-              <div class="mb-3 row">
-                <div class="col-md-6">
-                  <label for="fechaSeleccionada" class="form-label">Selecciona una fecha</label>
+                <div class="col-md-3">
+                  <label for="fechaSeleccionada" class="form-label">Selecciona una Fecha</label>
                   <select class="form-control" id="fechaSeleccionada" name="fecha" required [(ngModel)]="fechaSeleccionada" (change)="onFechaSeleccionada($event)" [disabled]="!fechasDisponibles.length">
                     <option value="">Selecciona una fecha</option>
                     <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">{{ fecha }}</option>
                   </select>
                 </div>
-                <div class="col-md-6">
-                  <label for="hora" class="form-label">Selecciona un horario</label>
+
+                <div class="col-md-3">
+                  <label for="hora" class="form-label">Selecciona un Horario</label>
                   <select class="form-control" id="hora" name="hora" required [(ngModel)]="horaSeleccionada" (change)="onHoraSeleccionada($event)" [disabled]="!horasDisponibles.length">
                     <option value="">Selecciona una hora</option>
                     <option *ngFor="let hora of horasDisponibles" [value]="hora.rango">{{ hora.rango }}</option>
@@ -83,7 +85,9 @@
               </div>
 
               <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-primary" (click)="solicitarCita()">Solicitar Cita</button>
+                <button type="button" class="btn btn-primary" (click)="solicitarCita()" [disabled]="isSubmitting">
+                  Solicitar Cita
+                </button>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Cita } from '../models/cita';  
 import { EspecialidadCita } from '../models/especialidad-cita';
 import { FechaCita } from '../models/fechas-citas';
+import { CitaDetallada } from '../models/cita-detallada';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class CitaService {
   private URL_API = 'http://localhost:3000/citas';
 
   public especialidades: EspecialidadCita[] = [];
+  public citas: Cita[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -53,6 +55,16 @@ export class CitaService {
   // Cancelar una cita
   cancelarCita(idCita: number): Observable<Cita> {
     return this.http.put<Cita>(`${this.URL_API}/cancelar`, { idCita });
+  }
+
+  // Obtener servicios únicos asociados a las citas de un cliente específico
+  getServiciosPorCitasDeCliente(idCliente: number): Observable<{ idServicio: number; nombreServicio: string }[]> {
+    return this.http.get<{ idServicio: number; nombreServicio: string }[]>(`${this.URL_API}/clientes/${idCliente}/servicios`);
+  }
+
+  // Obtener la lista de citas con información detallada
+  getAllCitas(): Observable<CitaDetallada[]> {
+    return this.http.get<CitaDetallada[]>(`${this.URL_API}/detalladas`);
   }
 
 }

@@ -27,13 +27,14 @@ export class SolicitudCitaComponent implements OnInit {
   abogados: EspecialidadCita[] = [];
   cliente: Cliente | null = null;
   idAbogadoSeleccionado: number | null = null;
-  servicioSeleccionado: number | null = null; // Para almacenar el idServicio seleccionado
+  servicioSeleccionado: number | null = null;
   horasDisponibles: { idAgenda: number; rango: string }[] = [];
   horaSeleccionada: string | null = null;
   fechasDisponibles: string[] = [];
   fechaSeleccionada: string | null = null;
   motivoCita: string = '';
-  horarioSeleccionadoId: number | null = null; 
+  horarioSeleccionadoId: number | null = null;
+  isSubmitting: boolean = false;  // Variable para controlar el estado de envío
 
   constructor(
     public citaService: CitaService,
@@ -91,7 +92,7 @@ export class SolicitudCitaComponent implements OnInit {
   onServicioSeleccionado(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const servicioId = Number(selectElement.value);
-    this.servicioSeleccionado = servicioId; 
+    this.servicioSeleccionado = servicioId;
     this.cargarAbogadosPorServicio(servicioId);
   }
 
@@ -99,8 +100,8 @@ export class SolicitudCitaComponent implements OnInit {
     this.citaService.getAbogadosPorServicio(servicioId).subscribe((data: EspecialidadCita[]) => {
       this.especialidades = data;
       this.idAbogadoSeleccionado = null;
-      this.fechasDisponibles = []; // Limpiar fechas al cambiar el servicio
-      this.horasDisponibles = []; // Limpiar horas al cambiar el servicio
+      this.fechasDisponibles = [];
+      this.horasDisponibles = [];
     }, error => {
       console.error('Error al cargar abogados:', error);
     });
@@ -115,37 +116,26 @@ export class SolicitudCitaComponent implements OnInit {
   cargarFechasDisponiblesPorAbogado() {
     if (this.idAbogadoSeleccionado) {
       this.citaService.getHorariosDisponiblesPorAbogado(this.idAbogadoSeleccionado).subscribe(data => {
-        console.log('Datos de horarios disponibles por abogado:', data); // Verifica los datos completos que recibes
-  
-        // Extraer fechas únicas y asegurarse de que estén bien formateadas
         const fechas = data.map(horario => {
           const fecha = new Date(horario.fecha);
-          // Usamos toISOString() para asegurarnos de que la fecha se obtenga en formato YYYY-MM-DD
-          return fecha.toISOString().split('T')[0]; // Esto devuelve solo la parte de la fecha (YYYY-MM-DD)
+          return fecha.toISOString().split('T')[0];
         });
-  
-        // Filtrar fechas duplicadas usando Set
         this.fechasDisponibles = [...new Set(fechas)];
-  
-        console.log('Fechas disponibles:', this.fechasDisponibles); // Imprime las fechas disponibles para verificar
-  
         this.fechaSeleccionada = null;
         this.horasDisponibles = [];
       });
     }
   }
-  
 
   onFechaSeleccionada(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     this.fechaSeleccionada = selectElement.value;
-  
-    // Verificar si la fecha seleccionada es válida
+
     if (this.fechaSeleccionada) {
       this.cargarHorariosDisponiblesPorFecha();
     }
   }
-  
+
   cargarHorariosDisponiblesPorFecha() {
     if (this.idAbogadoSeleccionado && this.fechaSeleccionada) {
       this.citaService.getHorariosDisponiblesPorAbogado(this.idAbogadoSeleccionado).subscribe(data => {
@@ -153,107 +143,97 @@ export class SolicitudCitaComponent implements OnInit {
           const fechaHora = new Date(horario.fecha);
           return fechaHora.toISOString().split('T')[0] === this.fechaSeleccionada;
         });
-  
-        // Mapear el `idAgenda` junto con el rango de horas y almacenar en `horasDisponibles`
         this.horasDisponibles = horariosFiltrados.map(horario => {
           const horaInicio = new Date(horario.horaInicio);
           const horaFin = new Date(horario.horaFinal);
-          
           const horaInicioFormateada = this.formatTime(horaInicio.getUTCHours(), horaInicio.getUTCMinutes());
           const horaFinFormateada = this.formatTime(horaFin.getUTCHours(), horaFin.getUTCMinutes());
-  
-          return {
-            idAgenda: horario.idAgenda,
-            rango: `${horaInicioFormateada} - ${horaFinFormateada}`
-          };
+          return { idAgenda: horario.idAgenda, rango: `${horaInicioFormateada} - ${horaFinFormateada}` };
         });
-  
-        console.log('Horas disponibles para la fecha seleccionada:', this.horasDisponibles);
       }, error => {
         console.error('Error al cargar los horarios:', error);
       });
     }
   }
-  
+
   onHoraSeleccionada(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedHora = selectElement.value;
-  
-    // Encuentra el horario con el rango seleccionado y extrae su `idAgenda`
+
     const horarioSeleccionado = this.horasDisponibles.find(h => h.rango === selectedHora);
     if (horarioSeleccionado) {
       this.horarioSeleccionadoId = horarioSeleccionado.idAgenda;
     }
-  
+
     this.horaSeleccionada = selectedHora;
   }
-  
-  
-  // Método para formatear las horas en formato 'HH:mm AM/PM'
-  formatTime(hours: number, minutes: number): string {
-    // Determinar si es AM o PM
-    const period = hours >= 12 ? 'PM' : 'AM';
 
+  formatTime(hours: number, minutes: number): string {
+    const period = hours >= 12 ? 'PM' : 'AM';
     let formattedHours = hours % 12;
     if (formattedHours === 0) {
-      formattedHours = 12; //
+      formattedHours = 12;
     }
-
     const formattedMinutes = this.padZero(minutes);
-
     return `${formattedHours}:${formattedMinutes} ${period}`;
   }
 
-  
-  // Método para agregar un cero a la izquierda en caso de que las horas o minutos sean menores a 10
   padZero(num: number): string {
     return num < 10 ? '0' + num : num.toString();
   }
-  
-  // Método para crear la cita
+
   solicitarCita() {
-    if (!this.motivoCita || !this.servicioSeleccionado || !this.idAbogadoSeleccionado || !this.fechaSeleccionada || !this.horaSeleccionada) {
+    // Verificar que el campo motivo no esté vacío
+    if (!this.motivoCita || this.motivoCita.trim() === '') {
+      alert('Por favor, ingrese un motivo para la cita.');
+      return;
+    }
+
+    // Verificar los demás campos obligatorios
+    if (!this.servicioSeleccionado || !this.idAbogadoSeleccionado || !this.fechaSeleccionada || !this.horaSeleccionada) {
       alert('Por favor, complete todos los campos.');
       return;
     }
-  
+
+    // Desactivar el botón mientras se realiza la solicitud
+    this.isSubmitting = true;
+
     const citaData: Cita = {
       motivo: this.motivoCita,
       estado: 'programada',
       idClienteFK: this.cliente ? this.cliente.idCliente : 0,
-      idServicioFK: this.servicioSeleccionado, // Agregar idServicioFK a citaData
+      idServicioFK: this.servicioSeleccionado,
       idAgendaFK: this.horarioSeleccionadoId ?? 0,
       idAbogado: this.idAbogadoSeleccionado,
       fechaAgenda: this.fechaSeleccionada,
       horaInicio: this.horaSeleccionada.split(' - ')[0],
       horaFinal: this.horaSeleccionada.split(' - ')[1],
     };
-  
-    console.log('Datos de la cita a crear:', citaData);
-  
+
     this.citaService.crearCitaConTransaccion(citaData).subscribe({
-      next: (response) => {
-        console.log('Cita creada con éxito', response);
-        
-        // Limpiar el formulario
-        this.motivoCita = '';
-        this.servicioSeleccionado = null;
-        this.idAbogadoSeleccionado = null;
-        this.fechaSeleccionada = null;
-        this.horaSeleccionada = null;
-        this.horarioSeleccionadoId = null;
-  
-        // Limpiar las opciones dependientes
-        this.especialidades = [];
-        this.fechasDisponibles = [];
-        this.horasDisponibles = [];
-  
+      next: () => {
+        this.limpiarFormulario();
         alert('La cita se ha guardado correctamente.');
+        location.reload();  // Recargar la página después de guardar la cita
       },
       error: (err) => {
         console.error('Error al crear la cita:', err);
+      },
+      complete: () => {
+        this.isSubmitting = false;  // Reactivar el botón después de finalizar la solicitud
       }
     });
-  }  
-  
+  }
+
+  limpiarFormulario() {
+    this.motivoCita = '';
+    this.servicioSeleccionado = null;
+    this.idAbogadoSeleccionado = null;
+    this.fechaSeleccionada = null;
+    this.horaSeleccionada = null;
+    this.horarioSeleccionadoId = null;
+    this.especialidades = [];
+    this.fechasDisponibles = [];
+    this.horasDisponibles = [];
+  }
 }

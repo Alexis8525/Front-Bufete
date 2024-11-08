@@ -25,7 +25,7 @@
         </ul>
       </li>
 
-      <li class="sidebar-item" *ngIf="isCliente() || isAbogado()">
+      <li class="sidebar-item" *ngIf="isCliente() || isAbogado() || isSecretaria()">
         <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
            data-bs-target="#citas" aria-expanded="false" aria-controls="citas">
            <i class="fa-regular fa-calendar"></i>
@@ -44,6 +44,9 @@
           <!-- Solo muestra este bloque si el rol es de Abogado -->
           <li class="sidebar-item" *ngIf="isAbogado()">
             <a href="calendario-abogado" class="sidebar-link">Citas programadas Abogado</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isSecretaria()">
+            <a href="calendario-secretaria" class="sidebar-link">Citas programadas Abogado</a>
           </li>
         </ul>
       </li>

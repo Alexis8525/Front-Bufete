@@ -24,21 +24,76 @@ app-barra-lateral {
   background-size: cover;
   flex-grow: 1;
   max-height: 100vh;
-  background-color: rgba(250, 251, 254, 0.9); /* Fondo con transparencia */
+  background-color: rgba(250, 251, 254, 0.9);
   padding: 2rem;
   overflow-y: auto;
 }
 
-/* Contenedor del calendario */
-.calendario {
+/* Contenedor principal en dos columnas */
+.contenedor-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* Estilos para la sección de filtros */
+.filtros {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+}
+
+.filtros-header h3 {
+  margin: 0;
+  font-size: 1.25em;
+  font-weight: bold;
+  color: #333;
+}
+
+.filtros-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.filtros-content label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filtros-content select {
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+  width: 100%;
+}
+
+.filtros-content select:focus {
+  border-color: #001f3f;
+  outline: none;
+}
+
+/* Contenedor del calendario */
+.calendario {
+  flex: 2;
+  max-width: 1000px;
   background: rgba(255, 255, 255, 0.85);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Cabecera del calendario */
@@ -76,7 +131,7 @@ app-barra-lateral {
 table {
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed; /* Asegura que las celdas tengan un tamaño consistente */
+  table-layout: fixed;
 }
 
 /* Cabeceras de los días */
@@ -91,7 +146,7 @@ th {
 
 td {
   border: 1px solid #ddd;
-  width: 14.28%; /* Para asegurar el ancho uniforme */
+  width: 14.28%;
   height: 80px;
   text-align: right;
   vertical-align: top;
@@ -109,7 +164,14 @@ td {
 }
 
 .day-cell:hover {
-  background-color: rgba(0, 31, 63, 0.1); /* Fondo al pasar el cursor */
+  background-color: rgba(0, 31, 63, 0.1);
+}
+
+/* Día actual */
+.dia-actual {
+  border: 2px solid blue;
+  background-color: rgba(0, 0, 255, 0.1);
+  border-radius: 5px;
 }
 
 /* Estilo de los tooltip de citas */
@@ -130,8 +192,137 @@ td {
   background-color: #ffc107;
 }
 
-/* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
-body, h2, th, td, button {
-  font-family: 'Arial', sans-serif;
-  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+/* Citas canceladas */
+.appointment-cancelada {
+  background-color: #ffcccc;
+  color: #a94442;
+}
+
+/* Estilos para el contenedor de filtros y leyenda */
+.filtros-leyenda {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 250px;
+}
+
+/* Estilos de la caja de filtros */
+.filtros {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filtros h3 {
+  font-size: 1.25em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.filtros label {
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.filtros select {
+  width: 100%;
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.filtros select:focus {
+  border-color: #001f3f;
+  outline: none;
+}
+
+/* Estilos de la caja de leyenda */
+.leyenda {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.leyenda h4 {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.color-box {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.color-box.programada {
+  background-color: #ffdd57;
+}
+
+.color-box.completada {
+  background-color: #c8e6c9;
+}
+
+.color-box.cancelada {
+  background-color: #ffcccc;
+}
+
+
+/* Responsividad: Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .contenedor-principal {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filtros {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .calendario {
+    max-width: 100%;
+  }
+
+  .header h2 {
+    font-size: 1.25em;
+  }
+}
+
+@media (max-width: 480px) {
+  .header button {
+    padding: 6px 12px;
+  }
+
+  .header h2 {
+    font-size: 1em;
+  }
+
+  td, th {
+    padding: 8px;
+  }
+
+  .appointment-tooltip {
+    font-size: 0.75em;
+  }
 }

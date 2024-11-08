@@ -24,7 +24,7 @@ app-barra-lateral {
   background-size: cover;
   flex-grow: 1;
   max-height: 100vh;
-  background-color: rgba(250, 251, 254, 0.9); /* Fondo con transparencia */
+  background-color: rgba(250, 251, 254, 0.9);
   padding: 2rem;
   overflow-y: auto;
 }
@@ -34,25 +34,19 @@ app-barra-lateral {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px; /* Espacio entre los filtros y el calendario */
+  gap: 20px;
   margin: 0 auto;
-  max-width: 1200px; /* Ancho máximo para el contenedor principal */
+  max-width: 1200px;
 }
 
-/* Estilos para la nueva sección de filtros */
+/* Estilos para la sección de filtros */
 .filtros {
-  flex: 1; /* Ocupa el espacio necesario en el lado izquierdo */
+  flex: 1;
   background: rgba(255, 255, 255, 0.85);
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 250px; /* Ancho fijo para la sección de filtros */
-}
-
-.filtros-header {
-  width: 100%;
-  text-align: left;
-  margin-bottom: 10px;
+  max-width: 250px;
 }
 
 .filtros-header h3 {
@@ -81,7 +75,7 @@ app-barra-lateral {
   border-radius: 4px;
   border: 1px solid #ccc;
   transition: border-color 0.3s ease;
-  width: 100%; /* Ancho completo en el contenedor */
+  width: 100%;
 }
 
 .filtros-content select:focus {
@@ -91,8 +85,8 @@ app-barra-lateral {
 
 /* Contenedor del calendario */
 .calendario {
-  flex: 2; /* Ocupa el espacio restante en el lado derecho */
-  max-width: 1000px; /* Ancho máximo para el calendario */
+  flex: 2;
+  max-width: 1000px;
   background: rgba(255, 255, 255, 0.85);
   padding: 20px;
   border-radius: 8px;
@@ -137,7 +131,7 @@ app-barra-lateral {
 table {
   border-collapse: collapse;
   width: 100%;
-  table-layout: fixed; /* Asegura que las celdas tengan un tamaño consistente */
+  table-layout: fixed;
 }
 
 /* Cabeceras de los días */
@@ -152,7 +146,7 @@ th {
 
 td {
   border: 1px solid #ddd;
-  width: 14.28%; /* Para asegurar el ancho uniforme */
+  width: 14.28%;
   height: 80px;
   text-align: right;
   vertical-align: top;
@@ -170,7 +164,14 @@ td {
 }
 
 .day-cell:hover {
-  background-color: rgba(0, 31, 63, 0.1); /* Fondo al pasar el cursor */
+  background-color: rgba(0, 31, 63, 0.1);
+}
+
+/* Día actual */
+.dia-actual {
+  border: 2px solid blue;
+  background-color: rgba(0, 0, 255, 0.1);
+  border-radius: 5px;
 }
 
 /* Estilo de los tooltip de citas */
@@ -191,71 +192,25 @@ td {
   background-color: #ffc107;
 }
 
+/* Citas canceladas */
+.appointment-cancelada {
+  background-color: #ffcccc;
+  color: #a94442;
+}
+
 /* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
 body, h2, th, td, button {
   font-family: 'Arial', sans-serif;
   text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsividad: Ajustes para pantallas pequeñas */
-@media (max-width: 768px) {
-  .contenedor-principal {
-    flex-direction: column; /* Cambia a una sola columna */
-    align-items: center;
-    gap: 10px;
-  }
-
-  .filtros {
-    max-width: 100%; /* Ocupa todo el ancho disponible */
-    margin-bottom: 20px; /* Añade espacio entre filtros y calendario */
-  }
-
-  .calendario {
-    max-width: 100%; /* Ocupa todo el ancho disponible */
-  }
-
-  .header h2 {
-    font-size: 1.25em; /* Ajusta el tamaño de fuente del título */
-  }
-}
-
-@media (max-width: 480px) {
-  /* Ajustes adicionales para pantallas extra pequeñas */
-  .header button {
-    padding: 6px 12px; /* Reduce el tamaño de los botones */
-  }
-
-  .header h2 {
-    font-size: 1em; /* Reduce aún más el tamaño del título */
-  }
-
-  td, th {
-    padding: 8px; /* Ajusta el tamaño de las celdas para pantallas pequeñas */
-  }
-
-  .appointment-tooltip {
-    font-size: 0.75em; /* Reduce el tamaño de fuente de los tooltips */
-  }
-}
-
-.dia-actual {
-  border: 2px solid blue; /* Borde azul */
-  background-color: rgba(0, 0, 255, 0.1); /* Fondo azul claro */
-  border-radius: 5px;
-}
-
-.appointment-cancelada {
-  background-color: #ffcccc; /* Color diferente para citas canceladas */
-  color: #a94442;            /* Texto rojo o cualquier color que prefieras */
-}
-
 /* Agrupación de filtros y leyenda en una columna */
 .filtros-leyenda {
-  flex: 1; /* Ocupa el espacio necesario en el lado izquierdo */
+  flex: 1;
   display: flex;
-  flex-direction: column; /* Coloca la leyenda debajo de los filtros */
-  gap: 20px; /* Espacio entre los filtros y la leyenda */
-  max-width: 250px; /* Asegura que el ancho de la leyenda sea igual al de los filtros */
+  flex-direction: column;
+  gap: 20px;
+  max-width: 250px;
 }
 
 /* Estilos de leyenda */
@@ -264,8 +219,8 @@ body, h2, th, td, button {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 250px; /* Igual al ancho de los filtros */
-  width: 100%; /* Asegura que la leyenda ocupe todo el ancho disponible en el contenedor */
+  max-width: 250px;
+  width: 100%;
 }
 
 .leyenda h4 {
@@ -298,4 +253,44 @@ body, h2, th, td, button {
 
 .color-box.cancelada {
   background-color: #ffcccc;
+}
+
+/* Responsividad: Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .contenedor-principal {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filtros {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .calendario {
+    max-width: 100%;
+  }
+
+  .header h2 {
+    font-size: 1.25em;
+  }
+}
+
+@media (max-width: 480px) {
+  .header button {
+    padding: 6px 12px;
+  }
+
+  .header h2 {
+    font-size: 1em;
+  }
+
+  td, th {
+    padding: 8px;
+  }
+
+  .appointment-tooltip {
+    font-size: 0.75em;
+  }
 }
