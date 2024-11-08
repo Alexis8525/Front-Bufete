@@ -195,13 +195,19 @@ export class SolicitudCitaComponent implements OnInit {
       return;
     }
 
+    // Verificar que el cliente exista antes de continuar
+    if (!this.cliente || !this.cliente.idCliente) {
+      alert('Error: No se encontró el cliente. Por favor, asegúrese de estar registrado.');
+      return;
+    }
+
     // Desactivar el botón mientras se realiza la solicitud
     this.isSubmitting = true;
 
     const citaData: Cita = {
       motivo: this.motivoCita,
       estado: 'programada',
-      idClienteFK: this.cliente ? this.cliente.idCliente : 0,
+      idClienteFK: this.cliente.idCliente, // Se tiene certeza de que idCliente está definido aquí
       idServicioFK: this.servicioSeleccionado,
       idAgendaFK: this.horarioSeleccionadoId ?? 0,
       idAbogado: this.idAbogadoSeleccionado,

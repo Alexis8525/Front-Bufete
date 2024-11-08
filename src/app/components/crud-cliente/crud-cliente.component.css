@@ -1,79 +1,169 @@
+/* Estilos Generales */
 .wrapper {
-    display: flex; /* Asegura que los hijos se alineen horizontalmente */
-    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
-    overflow: hidden; /* Evita el desbordamiento del contenedor principal */
-  }
-  
-  app-barra-lateral {
-    height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
-    flex-shrink: 0; /* Evita que la barra lateral se reduzca */
-  }
-  
-  .main {
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-    display: flex;
-    flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
-  }
-  
-  .p-3 {
-    background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
-    background-position: center; /* Centra la imagen en el contenedor */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-    max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
-    background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
-    padding: 2rem; /* Añade algo de espacio alrededor del contenido */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
-  }
-  
-  /* Estilos para los cards */
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.p-3 {
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+  max-height: 100vh;
+  background-color: #fafbfe;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Estilos para los Cards */
 .card {
-  background-color: #ffffff; /* Color de fondo del card */
-  border: 1px solid #e0e0e0; /* Borde sutil para mayor definición */
-  border-radius: 8px; /* Bordes redondeados moderados */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  transition: transform 0.3s, box-shadow 0.3s; /* Transiciones suaves */
-  margin: 1rem; /* Margen alrededor de cada card */
-  overflow: hidden; /* Evita que el contenido se desborde del card */
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin: 1rem;
+  overflow: hidden;
 }
 
 .card:hover {
-  transform: translateY(-3px); /* Efecto de elevación al pasar el mouse */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra más fuerte al pasar el mouse */
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .card-body {
-  padding: 20px; /* Espacio interior */
+  padding: 20px;
 }
 
 .card-title {
-  font-size: 18px; /* Tamaño del texto del título */
-  font-weight:500; /* Negrita */
-  margin-bottom: 10px; /* Espacio inferior */
-  color: #0e2238; /* Color oscuro para el título */
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #0e2238;
   text-align: center;
 }
 
 .card-text {
-  font-size: 14px; /* Tamaño del texto del contenido */
-  color: #0e2238; /* Color gris oscuro para el texto */
+  font-size: 14px;
+  color: #0e2238;
   text-align: justify;
 }
 
 .btn-primary {
-  background-color: #0e2238; /* Color del botón */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados para el botón */
-  padding: 10px 20px; /* Espacio interior del botón */
-  transition: background-color 0.3s; /* Transición del color de fondo */
+  background-color: #0e2238;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3; /* Color al pasar el mouse */
+  background-color: #0056b3;
 }
 
-/* Estilo para la barra de navegación */
+/* Estilo para la Barra de Navegación */
 .navbar {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para la barra */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+/* Estilos para el Contenedor de Filtros */
+.filtros-container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 1250px; /* Reducir la anchura máxima del contenedor */
+}
+
+.filtros-container h3 {
+  color: #0e2238;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.filtros-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.filtro-input,
+.filtro-select {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 0.9em;
+}
+
+.filtro-input:focus,
+.filtro-select:focus {
+  border-color: #0e2238;
+  box-shadow: 0 0 5px rgba(14, 34, 56, 0.5);
+}
+
+label {
+  color: #0e2238;
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Estilo para el Botón Nuevo Cliente */
+.btn-primary-custom {
+  background-color: #004080;
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.btn-primary-custom:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary-custom:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 80, 160, 0.4);
+}
+
+/* Estilo para el título de "Clientes" */
+.titulo-clientes {
+  font-size: 2.2em; /* Aumenta el tamaño del texto */
+  font-weight: 800; /* Muy en negrita para hacerlo más visible */
+  color: #ffffff; /* Color blanco puro */
+  text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.6); /* Añade una sombra luminosa para destacar el texto */
+  margin-bottom: 20px; /* Espacio inferior para separarlo */
+  text-align: left; /* Alinear a la izquierda */
+  padding-bottom: 10px; /* Añadir espacio adicional para separar del borde */
+  border-bottom: 4px solid #ffffff; /* Borde inferior blanco translúcido */
+  padding-left: 15px; /* Espacio a la izquierda para alinear mejor */
+  box-shadow: 0 4px 2px -2px #ffffff; /* Sombra debajo del título para resaltar */
+  letter-spacing: 1px; /* Espacio entre letras para darle elegancia */
+}
+
