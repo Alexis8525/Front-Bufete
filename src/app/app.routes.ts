@@ -17,6 +17,7 @@ import { GestionHorarioComponent } from './components/gestion-horario/gestion-ho
 import { PrincipalComponent } from './components/principal/principal.component';
 import { CalendarioCitasClienteComponent } from './components/calendario-citas-cliente/calendario-citas-cliente.component';
 import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
+import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -30,6 +31,7 @@ export const routes: Routes = [
   { path: 'empleado', component: CrudEmpleadoComponent },
   { path: 'prueba', component: PruebaComponent },
   { path: 'gestion-cita', component: GestionCitaComponent},
+  { path: 'gestion-pago', component: GestionPagoComponent },
   { path: 'gestion-cliente', component: CrudClienteComponent},
   { path: 'gestion-horario', component: GestionHorarioComponent},
   { path: 'principal', component: PrincipalComponent },
