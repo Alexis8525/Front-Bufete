@@ -1,0 +1,61 @@
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalNuevoClienteLabel">Nuevo Cliente</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal.emit()"></button>
+      </div>
+      <div class="modal-body">
+        <form #agregarClienteForm="ngForm" (ngSubmit)="onSubmit(agregarClienteForm)">
+          <!-- Nombre del Cliente -->
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-control" required [(ngModel)]="cliente.nombreCliente" name="nombre">
+          </div>
+
+          <!-- Apellido Paterno -->
+          <div class="mb-3">
+            <label for="apellidoP" class="form-label">Apellido Paterno</label>
+            <input type="text" id="apellidoP" class="form-control" required [(ngModel)]="cliente.aPCliente" name="apellidoP">
+          </div>
+
+          <!-- Apellido Materno -->
+          <div class="mb-3">
+            <label for="apellidoM" class="form-label">Apellido Materno</label>
+            <input type="text" id="apellidoM" class="form-control" [(ngModel)]="cliente.aMCliente" name="apellidoM">
+          </div>
+
+          <!-- Dirección -->
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" id="direccion" class="form-control" [(ngModel)]="cliente.direccion" name="direccion">
+          </div>
+
+          <!-- Correo -->
+          <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" id="correo" class="form-control" required [(ngModel)]="cliente.correo" name="correo">
+          </div>
+
+          <!-- Teléfono -->
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="tel" id="telefono" class="form-control" required [(ngModel)]="cliente.telefono" name="telefono">
+          </div>
+
+          <!-- Contraseña -->
+          <div class="mb-3">
+            <label for="contrasena" class="form-label">Contraseña</label>
+            <input type="password" id="contrasena" class="form-control" required [(ngModel)]="cliente.pass" name="contrasena">
+          </div>
+
+          <!-- Botón de Enviar -->
+          <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal.emit()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

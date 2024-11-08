@@ -7,18 +7,20 @@ import { FechaCita } from '../../models/fechas-citas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DetalleCitaClienteComponent } from '../modals/detalle-cita-cliente/detalle-cita-cliente.component';
 
-// Extendemos FechaCita para incluir las propiedades adicionales
 interface FechaCitaExtendida extends FechaCita {
   date: number;
   month: number;
   year: number;
+  estadoCita: string;
 }
 
 interface Appointment {
+  idCita: number;
   date: number;
   month: number;
   year: number;
   description: string;
+  estadoCita: string;
 }
 
 @Component({
@@ -41,22 +43,33 @@ export class CalendarioCitasClienteComponent implements OnInit {
     'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
   ];
 
-  citas: FechaCitaExtendida[] = [];  // Arreglo de objetos FechaCita completos
-  appointments: Appointment[] = []; // Arreglo de objetos Appointment para el calendario
+  citas: FechaCitaExtendida[] = [];
+  appointments: Appointment[] = [];
+  servicios: { idServicio: number; nombreServicio: string }[] = [];
+  filtroServicio: number | null = null;
+  filtroEstado: string | null = null;
+  hoy: { dia: number, mes: number, anio: number };
 
   constructor(
     public citaService: CitaService,
-    public modalService: NgbModal,
+    public modalService: NgbModal
   ) {
     const fecha = new Date();
     this.mesActual = fecha.getMonth();
     this.anioActual = fecha.getFullYear();
     this.nombreMesActual = this.obtenerNombreMes();
+    const fechaHoy = new Date();
+    this.hoy = {
+      dia: fechaHoy.getDate(),
+      mes: fechaHoy.getMonth(),
+      anio: fechaHoy.getFullYear(),
+    };
   }
 
   ngOnInit(): void {
     const userId = this.getUserId();
     if (userId !== null) {
+      this.getServiciosPorCitasDeCliente(userId);
       this.getCitasByCliente(userId);
     }
     this.generarDiasDelMes();
@@ -70,11 +83,21 @@ export class CalendarioCitasClienteComponent implements OnInit {
     return null;
   }
 
+  // Método para obtener los servicios únicos asociados a las citas del cliente
+  getServiciosPorCitasDeCliente(idCliente: number): void {
+    this.citaService.getServiciosPorCitasDeCliente(idCliente).subscribe(
+      (res) => {
+        console.log("Servicios obtenidos:", res); // Verificar qué datos llegan
+        this.servicios = res;
+      },
+      (err) => console.error('Error al obtener servicios de las citas del cliente:', err)
+    );
+  }
+
   getCitasByCliente(idCliente: number): void {
     this.citaService.getCitasByCliente(idCliente).subscribe(
       (citas: FechaCita[]) => {
         this.citas = citas.map((cita) => {
-          // Agrega `date`, `month`, y `year` a cada `FechaCita` como `FechaCitaExtendida`
           const fecha = cita.fechaCita || cita.fechaAgenda;
           const parsedDate = fecha ? new Date(fecha) : null;
 
@@ -85,18 +108,40 @@ export class CalendarioCitasClienteComponent implements OnInit {
             year: parsedDate?.getUTCFullYear() ?? NaN,
           } as FechaCitaExtendida;
         });
-
-        // Genera `appointments` solo con los datos mínimos
-        this.appointments = this.citas.map((cita) => ({
-          date: cita.date,
-          month: cita.month,
-          year: cita.year,
-          description: cita.motivo,
-        }));
+        this.filtrarCitas();
       }
     );
   }
-  
+
+  filtrarCitas(): void {
+    const servicioIdFiltro = this.filtroServicio ? Number(this.filtroServicio) : null;
+
+    this.appointments = this.citas
+      .filter((cita) => {
+        const coincideServicio = !servicioIdFiltro || cita.idServicioFK === servicioIdFiltro;
+        const coincideEstado = !this.filtroEstado || cita.estadoCita === this.filtroEstado;
+
+        console.log(`Cita: ${cita.idCita}, Servicio: ${cita.idServicioFK}, Estado: ${cita.estadoCita}`);
+        console.log(`Filtro de servicio: ${servicioIdFiltro}, Filtro de estado: ${this.filtroEstado}`);
+        console.log(`Coincide servicio: ${coincideServicio}, Coincide estado: ${coincideEstado}`);
+
+        return coincideServicio && coincideEstado;
+      })
+      .map((cita) => {
+        const horaInicio = cita.horaInicio ? cita.horaInicio.split('T')[1].substring(0, 5) : '';
+        const horaFinal = cita.horaFinal ? cita.horaFinal.split('T')[1].substring(0, 5) : '';
+
+        return {
+          idCita: cita.idCita,
+          date: cita.date,
+          month: cita.month,
+          year: cita.year,
+          description: `${horaInicio} - ${horaFinal}`,
+          estadoCita: cita.estadoCita
+        };
+      });
+  }
+
   generarDiasDelMes(): void {
     const primerDia = new Date(this.anioActual, this.mesActual, 1).getDay();
     const diasEnElMes = new Date(this.anioActual, this.mesActual + 1, 0).getDate();
@@ -109,7 +154,7 @@ export class CalendarioCitasClienteComponent implements OnInit {
       return i - inicioCalendario + 1;
     });
   }
-  
+
   obtenerNombreMes(): string {
     return new Date(this.anioActual, this.mesActual).toLocaleString('es-ES', { month: 'long' });
   }
@@ -132,19 +177,52 @@ export class CalendarioCitasClienteComponent implements OnInit {
     return this.appointments.filter(
       cita => cita.date === dia && cita.month === this.mesActual && cita.year === this.anioActual
     );
-  }  
+  }
 
   openCitaModal(cita: Appointment): void {
-    // Encuentra la cita completa en `citas` utilizando los valores calculados de `date`, `month`, `year`
-    const citaCompleta = this.citas.find(
-      c => c.date === cita.date && c.month === cita.month && c.year === cita.year && c.motivo === cita.description
-    );
+    const citaCompleta = this.citas.find(c => c.idCita === cita.idCita);
 
     if (citaCompleta) {
+      const fechaFormateada = new Date(citaCompleta.fechaCita).toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC'
+      });
+
+      const horaInicio = citaCompleta.horaInicio.slice(11, 16);
+      const horaFinal = citaCompleta.horaFinal.slice(11, 16);
+      const horarioFormateado = `${horaInicio} - ${horaFinal}`;
+
       const modalRef = this.modalService.open(DetalleCitaClienteComponent);
-      modalRef.componentInstance.cita = citaCompleta;  // Pasa el objeto completo de `FechaCita` al modal
+      modalRef.componentInstance.cita = {
+        ...citaCompleta,
+        fechaCita: fechaFormateada,
+        horario: horarioFormateado
+      };
+
+      // Escuchar el evento onCancelarCita
+      modalRef.componentInstance.onCancelarCita.subscribe((idCita: number) => {
+        this.cancelarCita(idCita);
+    });
     } else {
-      console.error("No se encontró la cita completa para el modal");
+      console.error('No se encontró la cita completa para el modal');
     }
+  }
+
+  cancelarCita(idCita: number): void {
+    const userId = this.getUserId();
+    if (!userId) return;
+
+    this.citaService.cancelarCita(idCita).subscribe(
+        (response) => {
+            console.log('Cita cancelada con éxito:', response);
+            // Actualizar la lista de citas después de la cancelación
+            this.getCitasByCliente(userId);
+        },
+        (error) => {
+            console.error('Error al cancelar la cita:', error);
+        }
+    );
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Empleado } from '../models/empleados';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,10 +38,11 @@ export class EmpleadoService {
     return this.http.post(this.URL_API, empleado);
   }
 
-  // Actualizar empleado
-  actualizarEmpleado(empleado: Empleado) {
-    return this.http.put(this.URL_API + empleado.idEmpleado, empleado);
+  // Actualizar un empleado existente
+  actualizarEmpleado(empleado: Empleado): Observable<Empleado> {
+    return this.http.put<Empleado>(`${this.URL_API}${empleado.idEmpleado}`, empleado);
   }
+
 
   // Eliminar empleado
   eliminarEmpleado(idEmpleado: number) {

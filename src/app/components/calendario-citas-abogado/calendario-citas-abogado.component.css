@@ -198,66 +198,35 @@ td {
   color: #a94442;
 }
 
-/* Estilos para el contenedor de filtros y leyenda */
+/* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
+body, h2, th, td, button {
+  font-family: 'Arial', sans-serif;
+  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Agrupación de filtros y leyenda en una columna */
 .filtros-leyenda {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
   max-width: 250px;
 }
 
-/* Estilos de la caja de filtros */
-.filtros {
-  background: rgba(255, 255, 255, 0.85);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.filtros h3 {
-  font-size: 1.25em;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.filtros label {
-  font-weight: bold;
-  color: #333;
-  margin-top: 10px;
-}
-
-.filtros select {
-  width: 100%;
-  padding: 5px;
-  font-size: 1em;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-top: 5px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
-
-.filtros select:focus {
-  border-color: #001f3f;
-  outline: none;
-}
-
-/* Estilos de la caja de leyenda */
+/* Estilos de leyenda */
 .leyenda {
   padding: 10px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
   width: 100%;
 }
 
 .leyenda h4 {
+  margin-bottom: 10px;
   font-size: 1.1em;
   color: #333;
-  margin-bottom: 10px;
 }
 
 .leyenda-item {
@@ -285,7 +254,6 @@ td {
 .color-box.cancelada {
   background-color: #ffcccc;
 }
-
 
 /* Responsividad: Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {

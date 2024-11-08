@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
@@ -14,7 +14,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     BarraLateralComponent,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ]
 })
 export class LoginComponent implements OnInit {
@@ -74,4 +75,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  navigateToRegister() {
+    this.router.navigate(['/register']);
+  }
 }

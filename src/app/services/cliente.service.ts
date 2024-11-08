@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Cliente } from '../models/cliente';  // Asegúrate de que el path sea correcto
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,9 +36,9 @@ export class ClienteService {
     return this.http.post(this.URL_API, cliente);
   }
 
-  // Actualizar cliente
-  actualizarCliente(cliente: Cliente) {
-    return this.http.put(this.URL_API + cliente.idCliente, cliente);
+  // Actualizar un empleado existente
+  actualizarCliente(cliente: Cliente): Observable<Cliente> {
+    return this.http.put<Cliente>(`${this.URL_API}${cliente.idCliente}`, cliente);
   }
 
   // Eliminar cliente
