@@ -1,196 +1,100 @@
 <div class="wrapper">
-    <app-barra-lateral></app-barra-lateral> <!-- Asegúrate de que el selector del componente sea correcto -->
-
+    <app-barra-lateral></app-barra-lateral>
     <div class="main">
-        <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;"> <!-- Azul marino -->
-            <div class="container-fluid p-0"> <!-- También aquí -->
+        <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+            <div class="container-fluid p-0">
                 <a class="navbar-brand" href="#">
-                    <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200"
-                        class="d-inline-block align-text-top">
+                    <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
                 </a>
             </div>
         </nav>
 
         <div class="p-3">
             <div class="cuerpo">
-                <!-- Título y Filtros -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <h2 style="color: white;">Empleados</h2>
+                <div class="row mb-4 align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="titulo-empleados">Empleados</h2>
                     </div>
-                    <div class="col-md-3">
-                        <label style="color: white;" for="filtroFechaIngreso">Fecha de Ingreso</label>
-                        <input type="date" id="filtroFechaIngreso" class="form-control">
-                    </div>
-                    <div class="col-md-3">
-                        <label style="color: white;" for="filtroRol">Rol</label>
-                        <select id="filtroRol" class="form-control">
-                            <option value="">Todos</option>
-                            <option>Administrador</option>
-                            <option>Abogado</option>
-                            <option>Asistente</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label style="color: white;" for="filtroEspecialidad">Especialidad</label>
-                        <select id="filtroEspecialidad" class="form-control">
-                            <option value="">Todas</option>
-                            <option>Civil</option>
-                            <option>Penal</option>
-                            <option>Laboral</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#modalNuevoEmpleado">Nuevo Empleado</button>
+                    <div class="col-md-4 text-end">
+                        <button type="button" class="btn btn-success" (click)="abrirModalNuevoEmpleado()">Nuevo Empleado</button>
                     </div>
                 </div>
 
-                <!-- Lista de Empleados -->
-                <div class="row">
-                    <div class="col-md-3" *ngFor="let empleado of empleados">
-                        <div class="card mb-4">
-                            <div class="card-body text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 24 24"
-                                    class="mb-3">
-                                    <path
-                                        d="M12 12c2.5 0 4.5-2 4.5-4.5S14.5 3 12 3 7.5 5 7.5 7.5 9.5 12 12 12zm0 2c-3 0-9 1.5-9 4.5V21h18v-2.5c0-3-6-4.5-9-4.5z" />
-                                </svg>
-                                <h5 class="card-title">
-                                    <strong>{{ empleado.nombreEmpleado }}</strong>
-                                </h5>
-                                <h5 class="card-title">
-                                    <strong>{{ empleado.aPEmpleado }} {{ empleado.aMEmpleado }}</strong>
-                                </h5>
-                                
-                                <p class="card-text">
-                                    <strong>Fecha de Ingreso:</strong> {{ empleado.fechaIngreso | date: 'dd/MM/yyyy'
-                                    }}<br>
-                                    <strong>Número de Licencia:</strong> {{ empleado.numeroLicencia }}<br>
-                                    <strong>Correo:</strong> {{ empleado.correo }}<br>
-                                    <strong>Teléfono:</strong> {{ empleado.telefono }}<br>
-                                    <strong>Especialidad:</strong> {{ empleado.especialidad }}<br>
-                                </p>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEditar">Editar</button>
-                            </div>
-                        </div>
-                    </div>
+  
+          <!-- Filtros -->
+          <div class="filtros-container filtros">
+            <h3>Filtros de Empleados</h3>
+            <div class="filtros-content">
+              <div class="form-group">
+                <label for="filtroNombre">Nombre del Empleado:</label>
+                <input type="text" id="filtroNombre" class="form-control filtro-input" [(ngModel)]="filtroNombre" (input)="filtrarEmpleados()" placeholder="Buscar por nombre...">
+              </div>
+              <div class="form-group">
+                <label for="filtroCorreo">Correo del Empleado:</label>
+                <input type="text" id="filtroCorreo" class="form-control filtro-input" [(ngModel)]="filtroCorreo" (input)="filtrarEmpleados()" placeholder="Buscar por correo...">
+              </div>
+              <div class="form-group">
+                <label for="filtroTelefono">Teléfono del Empleado:</label>
+                <input type="text" id="filtroTelefono" class="form-control filtro-input" [(ngModel)]="filtroTelefono" (input)="filtrarEmpleados()" placeholder="Buscar por teléfono...">
+              </div>
+              <div class="form-group">
+                <label for="filtroRol">Rol:</label>
+                <select id="filtroRol" class="form-control filtro-select" [(ngModel)]="filtroRol" (change)="filtrarEmpleados()">
+                  <option value="">Todos los Roles</option>
+                  <option *ngFor="let rol of rolService.roles" [value]="rol.idRol">{{ rol.nombreRol }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="filtroEspecialidad">Especialidad:</label>
+                <select id="filtroEspecialidad" class="form-control filtro-select" [(ngModel)]="filtroEspecialidad" (change)="filtrarEmpleados()">
+                  <option value="">Todas las Especialidades</option>
+                  <option *ngFor="let especialidad of especialidadService.especialidades" [value]="especialidad.idEspecialidad">{{ especialidad.nombreEspecialidad }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div class="row">
+            <div class="col-md-3" *ngFor="let itemE of empleadosFiltrados">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <h5 class="card-title">
+                    <strong>{{ itemE.nombreEmpleado }}</strong>
+                  </h5>
+                  <h5 class="card-title">
+                    <strong>{{ itemE.aPEmpleado }} {{ itemE.aMEmpleado }}</strong>
+                  </h5>
+                  <p class="card-text">
+                    <strong>Fecha de Ingreso:</strong> {{ itemE.fechaIngreso | date: 'dd/MM/yyyy' }}<br>
+                    <strong>Número de Licencia:</strong> {{ itemE.numeroLicencia || 'N/A' }}<br>
+                    <strong>Correo:</strong> {{ itemE.correo }}<br>
+                    <strong>Teléfono:</strong> {{ itemE.telefono }}<br>
+                    <strong>Especialidad:</strong> {{ getEspecialidadNombre(itemE.idEspecialidadFK) }}<br>
+                    <strong>Rol:</strong> {{ getRolNombre(itemE.idRolFK) }}<br>
+                  </p>
+                  <button type="button" class="btn btn-primary" (click)="abrirModalEditar(itemE)">Editar</button>
                 </div>
+              </div>
             </div>
+          </div>
+  
+          <!-- Modal de Nuevo Empleado -->
+          <app-nuevo-empleado
+            *ngIf="modalNuevoVisible"
+            (crear)="crearEmpleado($event)"
+            (cerrarModal)="cerrarModalNuevoEmpleado()">
+          </app-nuevo-empleado>
+  
+          <!-- Modal de Editar Empleado -->
+          <app-editar-empleado
+            *ngIf="modalEditarVisible && empleadoSeleccionado"
+            [empleado]="empleadoSeleccionado"
+            (empleadoActualizado)="onEmpleadoActualizado()"
+            (cerrarModal)="cerrarModalEditar()">
+          </app-editar-empleado>
         </div>
+      </div>
     </div>
-</div>
-
-<!-- Modal para editar -->
-<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalEditarLabel">Editar Empleado</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellidoP" class="form-label">Apellido Paterno</label>
-                        <input type="text" id="apellidoP" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellidoM" class="form-label">Apellido Materno</label>
-                        <input type="text" id="apellidoM" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
-                        <input type="date" id="fechaIngreso" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="numeroLicencia" class="form-label">Número de Licencia</label>
-                        <input type="text" id="numeroLicencia" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="correo" class="form-label">Correo</label>
-                        <input type="email" id="correo" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="tel" id="telefono" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="especialidad" class="form-label">Especialidad</label>
-                        <select id="especialidad" class="form-control">
-                            <option value="">Seleccionar</option>
-                            <option value="Civil">Civil</option>
-                            <option value="Penal">Penal</option>
-                            <option value="Laboral">Laboral</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar cambios</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Modal para un nuevo empleado -->
-<div class="modal fade" id="modalNuevoEmpleado" tabindex="-1" aria-labelledby="modalNuevoEmpleadoLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modalNuevoEmpleadoLabel">Nuevo Empleado</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellidoP" class="form-label">Apellido Paterno</label>
-                        <input type="text" id="apellidoP" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellidoM" class="form-label">Apellido Materno</label>
-                        <input type="text" id="apellidoM" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
-                        <input type="date" id="fechaIngreso" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="numeroLicencia" class="form-label">Número de Licencia</label>
-                        <input type="text" id="numeroLicencia" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="correo" class="form-label">Correo</label>
-                        <input type="email" id="correo" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="tel" id="telefono" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="especialidad" class="form-label">Especialidad</label>
-                        <select id="especialidad" class="form-control" required>
-                            <option value="">Seleccionar</option>
-                            <option value="Civil">Civil</option>
-                            <option value="Penal">Penal</option>
-                            <option value="Laboral">Laboral</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar empleado</button>
-            </div>
-        </div>
-    </div>
-</div>
+  </div>
+  

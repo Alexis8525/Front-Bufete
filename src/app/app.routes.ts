@@ -13,6 +13,12 @@ import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-ci
 import { CrudEmpleadoComponent } from './components/crud-empleado/crud-empleado.component';
 import { PruebaComponent } from './components/prueba/prueba.component';
 import { GestionCitaComponent } from './components/gestion-cita/gestion-cita.component';
+import { CrudClienteComponent } from './components/crud-cliente/crud-cliente.component';
+import { GestionHorarioComponent } from './components/gestion-horario/gestion-horario.component';
+import { PrincipalComponent } from './components/principal/principal.component';
+import { CalendarioCitasClienteComponent } from './components/calendario-citas-cliente/calendario-citas-cliente.component';
+import { CalendarioCitasAbogadoComponent } from './components/calendario-citas-abogado/calendario-citas-abogado.component';
+import { CalendarioCitasSecretariaComponent } from './components/calendario-citas-secretaria/calendario-citas-secretaria.component';
 import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
 
 export const routes: Routes = [
@@ -26,13 +32,17 @@ export const routes: Routes = [
   { path: 'empleado', component: CrudEmpleadoComponent },
   { path: 'prueba', component: PruebaComponent },
   { path: 'gestion-cita', component: GestionCitaComponent},
+  { path: 'gestion-cliente', component: CrudClienteComponent},
+  { path: 'gestion-horario', component: GestionHorarioComponent},
+  { path: 'principal', component: PrincipalComponent },
+  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent },
+  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent },
+  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent },
   { path: 'gestion-pago', component: GestionPagoComponent },
 ];
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    RegisterComponent,
     UploadFileComponent,
   ],
   imports: [
@@ -43,9 +53,7 @@ export const routes: Routes = [
     NavbarComponent
   ],
   exports: [
-    LoginComponent,
-    RegisterComponent,
-    UploadFileComponent,
+    UploadFileComponent
   ],
 })
 export class AppRoutingModule {}

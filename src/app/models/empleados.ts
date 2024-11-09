@@ -1,5 +1,5 @@
-export interface Empleado {
-    idEmpleado: number;
+export interface Empleado { 
+    idEmpleado?: number;
     fechaIngreso: string;
     numeroLicencia?: string;
     correo: string;
@@ -7,6 +7,7 @@ export interface Empleado {
     aPEmpleado: string;
     aMEmpleado: string;
     telefono: string;
-    especialidad?: string;
-    idUsuarioFK: number;
+    pass: string; // Agregar la contraseña
+    idRolFK: number; // Agregar el campo para el rol
+    idEspecialidadFK: number; // Agregar el campo para la especialidad
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
@@ -11,8 +11,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 
+registerLocaleData(localeEs);
 
 @NgModule({
   
@@ -31,9 +36,26 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgbModule,
+  ],
+  exports: [
+    ReactiveFormsModule,
+    FormsModule,
+    FullCalendarModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgbModule,
   ],
   providers: [
-    provideHttpClient(withFetch()) 
+    provideHttpClient(withFetch()),
+    { provide: LOCALE_ID, useValue: 'es'} 
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],// Permite el uso de etiquetas personalizadas como <full-calendar>
+
 })
 export class FormModule {}

@@ -1,9 +1,9 @@
 <div class="wrapper">
-  <app-barra-lateral></app-barra-lateral> <!-- Asegúrate de que el selector del componente sea correcto -->
+  <app-barra-lateral></app-barra-lateral>
 
   <div class="main">
-    <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;"> <!-- Azul marino -->
-      <div class="container-fluid p-0"> <!-- También aquí -->
+    <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+      <div class="container-fluid p-0">
         <a class="navbar-brand" href="#">
           <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
@@ -11,57 +11,33 @@
     </nav>
 
     <div class="p-3">
-      <form class="formulario">
-        <div class="container mt-2">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">Solicitud de Cita</h2>
-
-              <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre completo" required>
-              </div>
-
-              <div class="mb-3">
-                <label for="correo" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="correo" placeholder="Ingresa tu correo electrónico"
-                  required>
-              </div>
-
-              <div class="mb-3">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="tel" class="form-control" id="telefono" placeholder="Ingresa tu número de teléfono"
-                  required>
-              </div>
-
-              <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha de la Cita</label>
-                <input type="date" class="form-control" id="fecha" required>
-              </div>
-
-              <div class="mb-3">
-                <label for="hora" class="form-label">Hora de la Cita</label>
-                <input type="time" class="form-control" id="hora" required>
-              </div>
-
-              <div class="mb-3">
-                <label for="motivo" class="form-label">Motivo de la Cita</label>
-                <textarea class="form-control" id="motivo" rows="3" placeholder="Describe el motivo de tu cita"
-                  required></textarea>
-              </div>
-
-              <button type="submit" class="btn btn-primary">Solicitar Cita</button>
-            </div>
-          </div>
+      <div class="calendario">
+        <div class="header">
+          <button (click)="cambiarMes(-1)">Anterior</button>
+          <h2>{{ nombreMesActual }} {{ anioActual }}</h2>
+          <button (click)="cambiarMes(1)">Siguiente</button>
         </div>
-      </form>
-
+        <table>
+          <thead>
+            <tr>
+              <th *ngFor="let dia of nombresDias">{{ dia }}</th> <!-- Nombres completos de los días -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fila of [0, 1, 2, 3, 4, 5]">
+              <td *ngFor="let dia of diasDelMes.slice(fila * 7, fila * 7 + 7)">
+                {{ dia !== 0 ? dia : '' }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Launch demo modal
       </button>
-
     </div>
   </div>
-
 </div>

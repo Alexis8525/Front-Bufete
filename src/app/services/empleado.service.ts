@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Empleado } from '../models/empleados';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class EmpleadoService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost:3000/empleados/'
+  URL_API = 'http://localhost:3000/empleados/';
 
   public empleado: Empleado = {
     idEmpleado: 0,
@@ -20,15 +21,37 @@ export class EmpleadoService {
     aPEmpleado: '',
     aMEmpleado: '',
     telefono: '',
-    especialidad: '',
-    idUsuarioFK: 0
+    pass: '', 
+    idRolFK: 0, 
+    idEspecialidadFK: 0 
   };
 
-  empleados:Empleado[]=[];
+  empleados: Empleado[] = [];
 
   // Obtener la lista de empleados
-  getEmpleadoAbogado() {
+  getEmpleados() {
     return this.http.get<Empleado[]>(this.URL_API);
   }
 
+  // Crear un nuevo empleado
+  crearEmpleado(empleado: Empleado) {
+    return this.http.post(this.URL_API, empleado);
+  }
+
+  // Actualizar un empleado existente
+  actualizarEmpleado(empleado: Empleado): Observable<Empleado> {
+    return this.http.put<Empleado>(`${this.URL_API}${empleado.idEmpleado}`, empleado);
+  }
+
+
+  // Eliminar empleado
+  eliminarEmpleado(idEmpleado: number) {
+    return this.http.delete(this.URL_API+idEmpleado);
+  }
+
+  //Obtener abogados
+  getAbogado(){
+    return this.http.get<Empleado[]>(`${this.URL_API}abogados`); 
+  }
+  
 }

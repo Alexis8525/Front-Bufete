@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h5 class="modal-title">Detalles de la Cita</h5>
+  <button type="button" class="btn-close" aria-label="Cerrar" (click)="closeModal()">&times;</button>
+</div>
+
+<div class="modal-body" *ngIf="cita">
+  <!-- Información del Cliente -->
+  <div class="modal-section">
+    <h6>Información del Cliente</h6>
+    <p><strong>Nombre:</strong> {{ cita.nombreCliente }} {{ cita.aPCliente }} {{ cita.aMCliente }}</p>
+  </div>
+
+  <!-- Información del Abogado -->
+  <div class="modal-section">
+    <h6>Información del Abogado</h6>
+    <p><strong>Nombre:</strong> {{ cita.abogadoNombre }} {{ cita.abogadoApellidoPaterno }} {{ cita.abogadoApellidoMaterno }}</p>
+  </div>
+
+  <!-- Detalles de la Cita -->
+  <div class="modal-section">
+    <h6>Detalles de la Cita</h6>
+    <p><strong>Motivo:</strong> {{ cita.motivo }}</p>
+    <p><strong>Estado de la Cita:</strong> {{ cita.estadoCita }}</p>
+    <p><strong>Fecha de la Cita:</strong> {{ cita.fechaCita }}</p>
+    <p><strong>Horario:</strong> {{ cita.horario }}</p> <!-- Usar el horario combinado -->
+  </div>
+
+  <!-- Información del Servicio -->
+  <div class="modal-section">
+    <h6>Información del Servicio</h6>
+    <p><strong>Servicio:</strong> {{ cita.nombreServicio }}</p>
+    <p><strong>Descripción del Servicio:</strong> {{ cita.descripcionServicio }}</p>
+    <p><strong>Costo del Servicio:</strong> ${{ cita.costoServicio }}</p>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="closeModal()">Cerrar</button>
+  <button type="button" class="btn btn-danger" *ngIf="cita.estadoCita !== 'cancelada'" (click)="cancelarCita()">Cancelar Cita</button>
+</div>
+

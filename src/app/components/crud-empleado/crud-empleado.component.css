@@ -77,3 +77,90 @@
 .navbar {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para la barra */
 }
+
+.filtros-container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 1250px; /* Reducir la anchura máxima del contenedor */
+}
+
+.filtros-container h3 {
+  color: #0e2238;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.filtros-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.filtro-input,
+.filtro-select {
+  padding: 5px 10px; /* Reducido para hacer las cajas más pequeñas */
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 0.9em; /* Ajustado para hacerlo más compacto */
+}
+
+.filtro-input:focus,
+.filtro-select:focus {
+  border-color: #0e2238;
+  box-shadow: 0 0 5px rgba(14, 34, 56, 0.5);
+}
+
+label {
+  color: #0e2238;
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+
+
+.btn-primary-custom {
+  background-color: #004080; /* Azul oscuro */
+  border: none;
+  color: #ffffff; /* Texto en blanco */
+  padding: 10px 20px;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  cursor: pointer;
+}
+
+.btn-primary-custom:hover {
+  background-color: #0056b3; /* Azul un poco más claro al pasar el ratón */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Aumenta la sombra */
+}
+
+.btn-primary-custom:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 80, 160, 0.4); /* Resalta el botón al enfocarlo */
+}
+
+
+.titulo-empleados {
+  font-size: 2.2em; /* Aumenta el tamaño del texto */
+  font-weight: 800; /* Muy en negrita para hacerlo más visible */
+  color: #ffffff; /* Color blanco puro */
+  text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.6); /* Añade una sombra luminosa para destacar el texto */
+  margin-bottom: 20px; /* Espacio inferior para separarlo */
+  text-align: left; /* Alinear a la izquierda */
+  padding-bottom: 10px; /* Añadir espacio adicional para separar del borde */
+  border-bottom: 4px solid #ffffff; /* Borde inferior blanco translúcido */
+  padding-left: 15px; /* Espacio a la izquierda para alinear mejor */
+  box-shadow: 0 4px 2px -2px #ffffff; /* Sombra debajo del título para resaltar */
+  letter-spacing: 1px; /* Espacio entre letras para darle elegancia */
+}
