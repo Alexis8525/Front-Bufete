@@ -36,7 +36,7 @@ export class GestionPagoComponent implements OnInit, AfterViewInit {
   errorMessage: string = '';
 
   ngOnInit(): void {
-    localStorage.setItem('rolUsuario','Cliente');
+    //localStorage.setItem('rolUsuario','Cliente');
     const rolUsuario = localStorage.getItem('rolUsuario');
     this.esCliente = (rolUsuario === 'Cliente');
     

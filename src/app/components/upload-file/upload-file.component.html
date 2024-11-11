@@ -1,10 +1,11 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #001f3f;"> <!-- Azul marino -->
+<nav class="navbar navbar-expand-lg" style="background-color: #001f3f;">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
       <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
     </a>
   </div>
 </nav>
+
 <div>
   <form (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-container">
     <div class="form-group">
@@ -19,25 +20,12 @@
     
     <div class="form-group">
       <label>Subir documentos:</label>
-      <div>
-        <label for="curp">CURP:</label>
-        <input type="file" id="curp" (change)="onFileSelected($event, 'CURP')" accept="application/pdf" required class="form-control-file">
-      </div>
-      <div>
-        <label for="curriculum">Curriculum Vitae:</label>
-        <input type="file" id="curriculum" (change)="onFileSelected($event, 'Curriculum')" accept="application/pdf" class="form-control-file">
-      </div>
-      <div>
-        <label for="comprobante">Comprobante de Domicilio:</label>
-        <input type="file" id="comprobante" (change)="onFileSelected($event, 'Comprobante')" accept="application/pdf" class="form-control-file">
-      </div>
-      <div>
-        <label for="nss">Número de Seguridad Social (NSS):</label>
-        <input type="file" id="nss" (change)="onFileSelected($event, 'NSS')" accept="application/pdf" class="form-control-file">
-      </div>
-      <div>
-        <label for="identificacion">Identificación Oficial:</label>
-        <input type="file" id="identificacion" (change)="onFileSelected($event, 'Identificación')" accept="application/pdf" class="form-control-file">
+      <div *ngFor="let documento of ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social', 'Identificación Oficial']">
+        <label for="{{documento}}">{{documento}}:</label>
+        <input type="file" id="{{documento}}" (change)="onFileSelected($event, documento)" accept="application/pdf" class="form-control-file" required>
+        <div *ngIf="archivos[documento]">
+          <p>{{documento}} cargado.</p>
+        </div>
       </div>
     </div>
     

@@ -8,6 +8,7 @@ import { routes } from './app.routes';
 import { FormModule } from './forms.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importa FullCalendarModule
+import { environment } from './environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [

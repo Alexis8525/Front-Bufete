@@ -7,26 +7,27 @@ import { Observable } from 'rxjs';
 })
 export class UploadFileService {
 
-  private apiUrl = 'http://localhost:3000/expedientes';
+  private apiUrl = 'http://localhost:3000/expedientes'; // Asegúrate de que la URL esté correcta
 
   constructor(private http: HttpClient) {}
 
-  crearExpediente(datosExpediente: FormData) {
+  // Crear expediente con Base64
+  crearExpediente(datosExpediente: any) {
     return this.http.post(`${this.apiUrl}`, datosExpediente);
   }
 
-  obtenerExpedientes(filtro?: any) {
-    return this.http.get(`${this.apiUrl}`, { params: filtro });
+  // Obtener todos los expedientes
+  obtenerExpedientes() {
+    return this.http.get(`${this.apiUrl}`);
   }
 
+  // Eliminar expediente
   eliminarExpediente(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
-  enviarExpedienteParaRevision(datosExpediente: FormData) {
-    return this.http.post(`${this.apiUrl}/revision`, datosExpediente);
-  }
+
+  // Obtener documentos de expedientes
   getDocumentos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/documentos`);
   }
-  
 }

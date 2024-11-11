@@ -20,6 +20,7 @@ import { CalendarioCitasAbogadoComponent } from './components/calendario-citas-a
 import { CalendarioCitasSecretariaComponent } from './components/calendario-citas-secretaria/calendario-citas-secretaria.component';
 import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
 import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
+import { VisualizarPdfComponent } from './components/visualizar-pdf/visualizar-pdf.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,6 +28,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'upload-file', component: UploadFileComponent },
+  { path: 'visualizar', component: VisualizarPdfComponent },
   { path: 'document-viewer', component: DocumentViewerComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'cita', component: SolicitudCitaComponent },
@@ -52,7 +54,6 @@ export const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     NavbarComponent,
-    DocumentViewerComponent
   ],
   exports: [
     UploadFileComponent
