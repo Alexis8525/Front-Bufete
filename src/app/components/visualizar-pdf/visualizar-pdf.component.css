@@ -16,6 +16,8 @@
   }
 
   .p-3 {
+    display: flex;
+    background-image: url('/imagenes/fondo1.jpg');
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
