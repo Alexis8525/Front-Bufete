@@ -1,9 +1,18 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UploadFileService } from '../../services/upload-file.service';
+import { FormsModule } from '@angular/forms';
+import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-upload-file',
+  standalone: true,
+  imports: [
+    BarraLateralComponent,
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss'],
 })
@@ -14,7 +23,9 @@ export class UploadFileComponent {
   };
   archivos: { [key: string]: string | null } = {};
 
-  constructor(private http: HttpClient, private uploadFileService: UploadFileService) {}
+  constructor(private http: HttpClient, private uploadFileService: UploadFileService) {
+  }
+  
 
   onFileSelected(event: any, tipoDocumento: string) {
     const file = event.target.files[0];

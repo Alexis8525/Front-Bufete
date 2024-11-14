@@ -46,7 +46,6 @@ export const routes: Routes = [
 
 @NgModule({
   declarations: [
-    UploadFileComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +53,7 @@ export const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     NavbarComponent,
+    UploadFileComponent
   ],
   exports: [
     UploadFileComponent

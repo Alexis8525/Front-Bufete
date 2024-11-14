@@ -39,7 +39,13 @@
             <a href="gestion-cita" class="sidebar-link">Citas programadas</a>
           </li>
           <li class="sidebar-item" *ngIf="isCliente()">
+            <a href="upload-file" class="sidebar-link">Cargar documento</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isCliente()">
             <a href="calendario-cliente" class="sidebar-link">Citas programadas prueba</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isCliente()">
+            <a href="visualizar" class="sidebar-link">Ver expediente</a>
           </li>
           <!-- Solo muestra este bloque si el rol es de Abogado -->
           <li class="sidebar-item" *ngIf="isAbogado()">

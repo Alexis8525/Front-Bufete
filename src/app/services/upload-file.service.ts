@@ -30,4 +30,9 @@ export class UploadFileService {
   getDocumentos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/documentos`);
   }
+
+  getExpedienteCompleto(idExpediente: number) {
+    return this.http.get<any>(`${this.apiUrl}/${idExpediente}`);
+  }
+  
 }

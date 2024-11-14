@@ -1,3 +1,19 @@
+.wrapper {
+  display: flex; /* Asegura que los hijos se alineen horizontalmente */
+  height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+  overflow: hidden; /* Evita el desbordamiento del contenedor principal */
+}
+
+.app-barra-lateral {
+  height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
+  flex-shrink: 0; /* Evita que la barra lateral se reduzca */
+}
+
+.main {
+  flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+  display: flex;
+  flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
+}
 .form-container {
   max-width: 600px;
   margin: 20px auto;
