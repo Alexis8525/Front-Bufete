@@ -5,7 +5,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
   selector: 'app-visualizar-pdf',
   standalone: true,
@@ -15,11 +14,10 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   templateUrl: './visualizar-pdf.component.html',
-  styleUrls: ['./visualizar-pdf.component.css']
+  styleUrls: ['./visualizar-pdf.component.scss']
 })
 export class VisualizarPdfComponent implements OnInit {
-  expediente: any = null;
-  documentos: any[] = [];
+  expedientes: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -28,49 +26,37 @@ export class VisualizarPdfComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Iniciando ngOnInit');
-    this.loadExpedienteCompleto(4);
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadExpedientes();  // Llamamos a loadExpedientes sin necesidad de idExpediente
+    }
   }
   
-  loadExpedienteCompleto(idExpediente: number): void {
-    console.log('Cargando expediente con id:', idExpediente);
-    this.uploadFileService.getExpedienteCompleto(idExpediente).subscribe(
+  loadExpedientes(): void {
+    this.uploadFileService.getExpedienteCompleto().subscribe(
       (response: any[]) => {
-        console.log('Respuesta recibida:', response);
-        
-        if (response && response.length > 0) {
-          this.expediente = response[0];
-          this.documentos = this.expediente.documentos || [];
-          console.log('Expediente cargado:', this.expediente);
-          console.log('Documentos cargados:', this.documentos);
-        } else {
-          console.error('No se encontró el expediente');
-        }
+        this.expedientes = response.map((expediente: any) => {
+          return {
+            ...expediente,
+            documentos: expediente.documentos || []  // Asegura que documentos esté definido
+          };
+        });
       },
-      (error) => {
-        console.error('Error al obtener el expediente completo:', error);
+      (error: any) => {
+        console.error('Error al obtener los expedientes:', error);
       }
     );
   }
-  
-  
 
   visualizarDocumento(documentoBase64: string): void {
-    if (isPlatformBrowser(this.platformId)) {
-      // Verificar si el Base64 tiene el encabezado correcto
-      if (documentoBase64 && documentoBase64.startsWith('JVBERi0xLjQK')) {
-        // Crear una ventana nueva para visualizar el PDF
-        const pdfWindow = window.open('');
-        const iframe = document.createElement('iframe');
-        iframe.src = `data:application/pdf;base64,${documentoBase64}`; // Mostrar el Base64 en el iframe
-        iframe.width = '100%';
-        iframe.height = '600px';
-        pdfWindow?.document.body.appendChild(iframe);  // Insertar el iframe en la ventana nueva
-      } else {
-        console.error('Documento Base64 inválido o no soportado');
-      }
+    if (documentoBase64 && documentoBase64.startsWith('JVBERi0xLjQK')) {
+      const pdfWindow = window.open('');
+      const iframe = document.createElement('iframe');
+      iframe.src = `data:application/pdf;base64,${documentoBase64}`;
+      iframe.width = '100%';
+      iframe.height = '600px';
+      pdfWindow?.document.body.appendChild(iframe);
     } else {
-      console.error('El código no se está ejecutando en el navegador');
+      console.error('Documento Base64 inválido o no soportado');
     }
-  } 
+  }
 }

@@ -15,16 +15,57 @@
     flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
   }
 
-/* Estilos generales para el contenedor principal y documentos */
-.p-3 {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
+  .p-3 {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Se asegura de que ocupe el 100% del ancho disponible */
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-height: 100vh; /* O la altura que prefieras */
+    overflow-y: auto; /* Habilita el desplazamiento vertical dentro de .p-3 */
+  }
+  
+  .card {
+    background-color: #ffffff; /* Color de fondo del card */
+    border: 1px solid #e0e0e0; /* Borde sutil para mayor definición */
+    border-radius: 8px; /* Bordes redondeados moderados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+    margin: 1rem; /* Margen alrededor de cada card */
+    overflow: hidden; /* Evita que el contenido se desborde del card */
+  }
+  
+  .card:hover {
+    transform: translateY(-3px); /* Efecto de elevación al pasar el mouse */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra más fuerte al pasar el mouse */
+  }
+  
+  .card-body {
+    padding: 20px; /* Espacio interior */
+  }
+  
+  .card-title {
+    font-size: 18px; /* Tamaño del texto del título */
+    font-weight:500; /* Negrita */
+    margin-bottom: 10px; /* Espacio inferior */
+    color: #0e2238; /* Color oscuro para el título */
+    text-align: center;
+  }
+  
+  .card-text {
+    font-size: 14px; /* Tamaño del texto del contenido */
+    color: #0e2238; /* Color gris oscuro para el texto */
+    text-align: justify;
+  }
+  
+  /* Estilos generales para el contenedor principal y documentos */
+  
 /* Estilos para el título del expediente */
 .p-3 h2 {
   font-size: 1.8rem;

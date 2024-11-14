@@ -11,21 +11,30 @@
     </nav>
 
     <div class="p-3">
-      <div *ngIf="expediente">
-        <h2>Expediente: {{ expediente?.nombreExpediente }}</h2>
-        <p>Número: {{ expediente?.numeroExpediente }}</p>
-        <p>Estado: {{ expediente?.estado }}</p>
-        <p>Fecha de Creación: {{ expediente?.fechaCreacion | date }}</p>
-        <p>Descripción: {{ expediente?.descripcion }}</p>
-        <p>Cliente: {{ expediente?.nombreCliente }}</p> <!-- Campo adicional -->
-        <h3>Documentos</h3>
+      <!-- Contenedor para las tarjetas en fila -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div *ngFor="let expediente of expedientes" class="col">
+          <div class="card">
+            <div class="card-header">
+              <h2>{{ expediente.nombreExpediente }}</h2>
+            </div>
+            <div class="card-body">
+              <p>Número: {{ expediente.numeroExpediente }}</p>
+              <p>Estado: {{ expediente.estado }}</p>
+              <p>Fecha de Creación: {{ expediente.fechaCreacion | date }}</p>
+              <p>Descripción: {{ expediente.descripcion }}</p>
+              <p>Cliente: {{ expediente.nombreCliente }}</p>
 
-        <ul>
-          <li *ngFor="let documento of documentos">
-            <p>Tipo de Documento: {{ documento.tipoDocumento }}</p>
-            <button (click)="visualizarDocumento(documento.documentoBase64)">Ver Documento</button>
-          </li>
-        </ul>
+              <h3>Documentos</h3>
+              <ul>
+                <li *ngFor="let documento of expediente.documentos">
+                  <p>Tipo de Documento: {{ documento.tipoDocumento }}</p>
+                  <button (click)="visualizarDocumento(documento.documentoBase64)">Ver Documento</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

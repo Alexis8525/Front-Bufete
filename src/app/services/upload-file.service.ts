@@ -17,8 +17,8 @@ export class UploadFileService {
   }
 
   // Obtener todos los expedientes
-  obtenerExpedientes() {
-    return this.http.get(`${this.apiUrl}`);
+  obtenerExpedientes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`);
   }
 
   // Eliminar expediente
@@ -30,9 +30,8 @@ export class UploadFileService {
   getDocumentos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/documentos`);
   }
-
-  getExpedienteCompleto(idExpediente: number) {
-    return this.http.get<any>(`${this.apiUrl}/${idExpediente}`);
-  }
   
+  getExpedienteCompleto(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`);
+  }
 }
