@@ -11,19 +11,38 @@
     </nav>
 
     <div class="p-3">
-      <form *ngIf="expediente" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="form-container">
+      <!-- Formulario para crear el expediente -->
+      <form *ngIf="!idExpedienteCreado" (ngSubmit)="onSubmit()" class="form-container">
+        <h3>Crear Expediente</h3>
+        
         <div class="form-group">
-          <label for="nombre">Nombre del expediente:</label>
+          <label for="nombre">Nombre del Expediente:</label>
           <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control">
         </div>
-        
+
         <div class="form-group">
-          <label for="numero">Número de expediente:</label>
+          <label for="numero">Número de Expediente:</label>
           <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control">
         </div>
-        
+
         <div class="form-group">
-          <label>Subir documentos:</label>
+          <label for="estado">Estado:</label>
+          <input type="text" [(ngModel)]="expediente.estado" name="estado" required class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción:</label>
+          <textarea [(ngModel)]="expediente.descripcion" name="descripcion" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
+      </form>
+
+      <!-- Formulario para cargar documentos (solo visible si se ha creado el expediente) -->
+      <form *ngIf="idExpedienteCreado" (ngSubmit)="subirDocumentos()" class="form-container mt-4">
+        <h3>Subir Documentos</h3>
+        <div class="form-group">
+          <label>Seleccione los documentos:</label>
           <div *ngFor="let documento of ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social', 'Identificación Oficial']">
             <label for="{{documento}}">{{documento}}:</label>
             <input type="file" id="{{documento}}" (change)="onFileSelected($event, documento)" accept="application/pdf" class="form-control-file" required>
@@ -33,7 +52,7 @@
           </div>
         </div>
         
-        <button type="submit" class="btn btn-primary btn-submit">Enviar para Revisión</button>
+        <button type="submit" class="btn btn-primary btn-submit">Subir Documentos</button>
       </form>
     </div>
   </div>

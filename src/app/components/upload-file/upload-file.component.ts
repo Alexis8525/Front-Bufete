@@ -20,13 +20,16 @@ export class UploadFileComponent {
   expediente: any = {
     nombreExpediente: '',
     numeroExpediente: '',
+    estado: 'En revisión', // Estado inicial
+    descripcion: '',
+    idClienteFK: 100003, // ID del cliente (puedes adaptarlo según tu lógica)
+    idEmpleadoFK: 1002    // ID del empleado (puedes adaptarlo según tu lógica)
   };
   archivos: { [key: string]: string | null } = {};
+  idExpedienteCreado: number | null = null;
 
-  constructor(private http: HttpClient, private uploadFileService: UploadFileService) {
-  }
+  constructor(private http: HttpClient, private uploadFileService: UploadFileService) { }
   
-
   onFileSelected(event: any, tipoDocumento: string) {
     const file = event.target.files[0];
     if (file) {
@@ -37,22 +40,27 @@ export class UploadFileComponent {
       reader.readAsDataURL(file);
     }
   }
-  onSubmit() {
-    const expedienteData = {
-      nombreExpediente: this.expediente.nombreExpediente,
-      numeroExpediente: this.expediente.numeroExpediente,
-      archivos: this.archivos
-    };
-    console.log(expedienteData)
-    const requiredDocumentTypes = ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social', 'Identificación Oficial'];
 
-    if (!requiredDocumentTypes.every(tipo => this.archivos[tipo])) {
-      console.error('Faltan archivos por cargar.');
+  crearExpediente() {
+    this.uploadFileService.crearExpediente(this.expediente).subscribe({
+      next: (response: any) => {
+        this.idExpedienteCreado = response.idExpediente;
+        console.log('Expediente creado:', response);
+      },
+      error: (err: any) => {
+        console.error('Error al crear el expediente', err);
+      }
+    });
+  }
+
+  subirDocumentos() {
+    if (!this.idExpedienteCreado) {
+      console.error('No se ha creado un expediente');
       return;
     }
 
     const formData = new FormData();
-    formData.append('expedienteData', JSON.stringify(expedienteData));
+    formData.append('idExpediente', String(this.idExpedienteCreado));
 
     Object.keys(this.archivos).forEach((tipoDocumento) => {
       const documentoBase64 = this.archivos[tipoDocumento];
@@ -60,13 +68,18 @@ export class UploadFileComponent {
         formData.append(tipoDocumento, documentoBase64);
       }
     });
-    this.uploadFileService.crearExpediente(formData).subscribe({
+
+    this.uploadFileService.subirDocumentos(formData).subscribe({
       next: (response: any) => {
-        console.log('Expediente enviado:', response);
+        console.log('Documentos subidos correctamente:', response);
       },
       error: (err: any) => {
-        console.error('Error al enviar el expediente para revisión', err);
+        console.error('Error al subir los documentos', err);
       }
     });
+  }
+
+  onSubmit() {
+    this.crearExpediente();
   }
 }

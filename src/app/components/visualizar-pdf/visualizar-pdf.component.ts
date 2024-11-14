@@ -4,6 +4,9 @@ import { UploadFileService } from '../../services/upload-file.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-visualizar-pdf',
@@ -18,16 +21,18 @@ import { FormsModule } from '@angular/forms';
 })
 export class VisualizarPdfComponent implements OnInit {
   expedientes: any[] = [];
+  pdfSrc: SafeResourceUrl | null = null;
 
   constructor(
     private http: HttpClient,
     private uploadFileService: UploadFileService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private sanitizer: DomSanitizer // Inyecta DomSanitizer
   ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.loadExpedientes();  // Llamamos a loadExpedientes sin necesidad de idExpediente
+      this.loadExpedientes();
     }
   }
   
@@ -37,7 +42,7 @@ export class VisualizarPdfComponent implements OnInit {
         this.expedientes = response.map((expediente: any) => {
           return {
             ...expediente,
-            documentos: expediente.documentos || []  // Asegura que documentos esté definido
+            documentos: expediente.documentos || []
           };
         });
       },
@@ -47,16 +52,13 @@ export class VisualizarPdfComponent implements OnInit {
     );
   }
 
-  visualizarDocumento(documentoBase64: string): void {
-    if (documentoBase64 && documentoBase64.startsWith('JVBERi0xLjQK')) {
-      const pdfWindow = window.open('');
-      const iframe = document.createElement('iframe');
-      iframe.src = `data:application/pdf;base64,${documentoBase64}`;
-      iframe.width = '100%';
-      iframe.height = '600px';
-      pdfWindow?.document.body.appendChild(iframe);
-    } else {
-      console.error('Documento Base64 inválido o no soportado');
+  abrirModal(documentoBase64: string): void {
+    // Sanitiza el valor de pdfSrc para evitar el error de seguridad
+    this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${documentoBase64}`);
+    const modalElement = document.getElementById('pdfModal');
+    if (modalElement) {
+      const modalInstance = new bootstrap.Modal(modalElement);
+      modalInstance.show();
     }
   }
 }

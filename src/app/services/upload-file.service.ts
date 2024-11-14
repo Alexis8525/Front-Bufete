@@ -12,8 +12,8 @@ export class UploadFileService {
   constructor(private http: HttpClient) {}
 
   // Crear expediente con Base64
-  crearExpediente(datosExpediente: any) {
-    return this.http.post(`${this.apiUrl}`, datosExpediente);
+  crearExpediente(expedienteData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, expedienteData);
   }
 
   // Obtener todos los expedientes
@@ -33,5 +33,8 @@ export class UploadFileService {
   
   getExpedienteCompleto(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}`);
+  }
+  subirDocumentos(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/subirDocumentos`, formData);
   }
 }
