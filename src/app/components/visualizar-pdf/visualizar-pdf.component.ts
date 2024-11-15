@@ -61,4 +61,31 @@ export class VisualizarPdfComponent implements OnInit {
       modalInstance.show();
     }
   }
+  eliminarExpediente(idExpediente: number): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este expediente?')) {
+      this.uploadFileService.eliminarExpediente(idExpediente.toString()).subscribe({
+        next: (response) => {
+          console.log('Expediente eliminado:', response);
+          alert('El expediente ha sido eliminado correctamente.');
+          location.reload();
+        },
+        error: (error) => {
+          console.error('Error al eliminar el expediente:', error);
+          alert('Hubo un error al eliminar el expediente.');
+        }
+      });
+    }
+  }
+  confirmarEliminacion(idExpediente: number): void {
+    const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar este expediente? Esta acción no se puede deshacer.');
+    if (confirmacion) {
+      this.eliminarExpediente(idExpediente);
+    }
+  }
+  actualizarExpediente(idExpediente: string): void {
+    // Lógica para actualizar el expediente.
+    console.log(`Actualizando expediente con ID: ${idExpediente}`);
+    alert('Funcionalidad de actualización no implementada aún.');
+  }
+  
 }

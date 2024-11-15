@@ -43,7 +43,7 @@
         <h3>Subir Documentos</h3>
         <div class="form-group">
           <label>Seleccione los documentos:</label>
-          <div *ngFor="let documento of ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social', 'Identificación Oficial']">
+          <div *ngFor="let documento of ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social (IMSS)', 'Identificación Oficial']">
             <label for="{{documento}}">{{documento}}:</label>
             <input type="file" id="{{documento}}" (change)="onFileSelected($event, documento)" accept="application/pdf" class="form-control-file" required>
             <div *ngIf="archivos[documento]">

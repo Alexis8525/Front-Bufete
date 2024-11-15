@@ -21,6 +21,7 @@ import { CalendarioCitasSecretariaComponent } from './components/calendario-cita
 import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
 import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
 import { VisualizarPdfComponent } from './components/visualizar-pdf/visualizar-pdf.component';
+import { HistorialExpedienteComponent } from './components/historial-expediente/historial-expediente.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,7 @@ export const routes: Routes = [
   { path: 'document-viewer', component: DocumentViewerComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'cita', component: SolicitudCitaComponent },
+  { path: 'historial-expedientes', component: HistorialExpedienteComponent },
   { path: 'empleado', component: CrudEmpleadoComponent },
   { path: 'prueba', component: PruebaComponent },
   { path: 'gestion-cita', component: GestionCitaComponent},

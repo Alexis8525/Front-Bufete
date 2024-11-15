@@ -55,29 +55,46 @@ export class UploadFileComponent {
 
   subirDocumentos() {
     if (!this.idExpedienteCreado) {
-      console.error('No se ha creado un expediente');
-      return;
+        console.error('No se ha creado un expediente');
+        return;
     }
 
+    // Construir el array de documentos
+    const documentos = Object.keys(this.archivos).map((tipoDocumento) => {
+        return {
+            documentoBase64: this.archivos[tipoDocumento] || '',
+            idTipoDocumentoFK: this.obtenerIdTipoDocumento(tipoDocumento) // Método para obtener el ID correspondiente
+        };
+    });
+
+    // Crear el FormData con documentos base64
     const formData = new FormData();
-    formData.append('idExpediente', String(this.idExpedienteCreado));
+    formData.append('documentos', JSON.stringify(documentos));
 
-    Object.keys(this.archivos).forEach((tipoDocumento) => {
-      const documentoBase64 = this.archivos[tipoDocumento];
-      if (documentoBase64) {
-        formData.append(tipoDocumento, documentoBase64);
-      }
+    // Enviar los documentos
+    this.uploadFileService.subirDocumentos(this.idExpedienteCreado, documentos, formData).subscribe({
+        next: (response: any) => {
+            console.log('Documentos subidos correctamente:', response);
+        },
+        error: (err: any) => {
+            console.error('Error al subir los documentos', err);
+        }
     });
+}
 
-    this.uploadFileService.subirDocumentos(formData).subscribe({
-      next: (response: any) => {
-        console.log('Documentos subidos correctamente:', response);
-      },
-      error: (err: any) => {
-        console.error('Error al subir los documentos', err);
-      }
-    });
-  }
+
+// Método auxiliar para obtener el ID del tipo de documento
+obtenerIdTipoDocumento(tipoDocumento: string): number {
+    const tipoDocumentoIds: { [key: string]: number } = {
+        'CURP': 1,
+        'CV': 2,
+        'Comprobante de Domicilio': 3,
+        'NSS': 4,
+        'Identificación Oficial': 5
+    };
+    return tipoDocumentoIds[tipoDocumento] || 0;
+}
+
 
   onSubmit() {
     this.crearExpediente();
