@@ -13,16 +13,17 @@
     <div class="p-3">
       <!-- Formulario para crear el expediente -->
       <form *ngIf="!idExpedienteCreado" (ngSubmit)="onSubmit()" class="form-container">
-        <h3>Crear Expediente</h3>
+        <h3>Primero tines que crear Expediente</h3>
         
         <div class="form-group">
-          <label for="nombre">Nombre del Expediente:</label>
+          <label for="nombre">Nombre del Cliente:</label>
           <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control">
         </div>
 
         <div class="form-group">
           <label for="numero">Número de Expediente:</label>
           <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control">
+          <div *ngIf="expediente.numeroExpediente">Este campo es obligatorio.</div>
         </div>
 
         <div class="form-group">
@@ -40,7 +41,7 @@
 
       <!-- Formulario para cargar documentos (solo visible si se ha creado el expediente) -->
       <form *ngIf="idExpedienteCreado" (ngSubmit)="subirDocumentos()" class="form-container mt-4">
-        <h3>Subir Documentos</h3>
+        <h3>Ahora agrega los documentos al expediente</h3>
         <div class="form-group">
           <label>Seleccione los documentos:</label>
           <div *ngFor="let documento of ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social (IMSS)', 'Identificación Oficial']">

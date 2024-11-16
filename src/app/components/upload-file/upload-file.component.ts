@@ -87,9 +87,9 @@ export class UploadFileComponent {
 obtenerIdTipoDocumento(tipoDocumento: string): number {
     const tipoDocumentoIds: { [key: string]: number } = {
         'CURP': 1,
-        'CV': 2,
+        'Curriculum Vitae': 2,
         'Comprobante de Domicilio': 3,
-        'NSS': 4,
+        'Número de Seguridad Social (IMSS)': 4,
         'Identificación Oficial': 5
     };
     return tipoDocumentoIds[tipoDocumento] || 0;
