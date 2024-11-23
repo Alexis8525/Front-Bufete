@@ -10,7 +10,7 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://172.19.0.1:3000/clientes/';
+  URL_API = 'http://localhost:3000/clientes/';
 
   public cliente: Cliente = {
     idCliente: 0,

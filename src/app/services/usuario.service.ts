@@ -9,7 +9,7 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://172.19.0.1:3000/usuarios/';
+  URL_API = 'http://localhost:3000/usuarios/';
 
   public usuario: Usuario = {
     idUsuario: 0,
