@@ -10,7 +10,7 @@ export class ServicioService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost:3000/servicios/';
+  URL_API = 'http://172.19.0.1:3000/servicios/';
 
   public servicio: Servicio = {
     idServicio: 0,

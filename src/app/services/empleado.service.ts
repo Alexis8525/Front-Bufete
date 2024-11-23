@@ -10,7 +10,7 @@ export class EmpleadoService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost:3000/empleados/';
+  URL_API = 'http://172.19.0.1:3000/empleados/';
 
   public empleado: Empleado = {
     idEmpleado: 0,

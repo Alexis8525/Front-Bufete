@@ -9,7 +9,7 @@ export class AgendaService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost:3000/agendas/';
+  URL_API = 'http://172.19.0.1:3000/agendas/';
 
   public agenda: Agenda = {
     idAgenda: 0,

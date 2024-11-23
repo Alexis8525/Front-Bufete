@@ -11,6 +11,6 @@ export class PdfViewerService {
 
   // Método para obtener el PDF en Base64 por ID
   getPdfDocument(id: number): Observable<any> {
-    return this.http.get<any>(`http://localhost:3000/expedientes/documento/${id}`);
+    return this.http.get<any>(`http://172.19.0.1:3000/expedientes/documento/${id}`);
   }
 }
