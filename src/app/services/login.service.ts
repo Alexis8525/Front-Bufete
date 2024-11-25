@@ -11,7 +11,7 @@ export class LoginService {
   constructor(private http: HttpClient) {}
   
   login(nombreUsuario: string, pass: string): Observable<any> {
-    return this.http.post('http://localhost/16:3000/login', {
+    return this.http.post('http://localhost:3000/login', {
       nombreUsuario,
       pass
     });

@@ -9,7 +9,7 @@ export class EspecialidadService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost/:3000/especialidades/';
+  URL_API = 'http://localhost:3000/especialidades/';
 
   public especialidad: Especialidad = {
     idEspecialidad: 0,
