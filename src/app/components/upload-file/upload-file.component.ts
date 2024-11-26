@@ -59,28 +59,27 @@ export class UploadFileComponent {
         return;
     }
 
-    // Construir el array de documentos
-    const documentos = Object.keys(this.archivos).map((tipoDocumento) => {
-        return {
-            documentoBase64: this.archivos[tipoDocumento] || '',
-            idTipoDocumentoFK: this.obtenerIdTipoDocumento(tipoDocumento) // Método para obtener el ID correspondiente
-        };
-    });
+    const documentos = Object.keys(this.archivos).map((tipoDocumento) => ({
+        documentoBase64: this.archivos[tipoDocumento] || '',
+        idTipoDocumentoFK: this.obtenerIdTipoDocumento(tipoDocumento),
+    }));
 
-    // Crear el FormData con documentos base64
-    const formData = new FormData();
-    formData.append('documentos', JSON.stringify(documentos));
+    if (documentos.some(doc => !doc.documentoBase64)) {
+        console.error('Todos los documentos deben estar seleccionados');
+        return;
+    }
 
-    // Enviar los documentos
-    this.uploadFileService.subirDocumentos(this.idExpedienteCreado, documentos, formData).subscribe({
+    this.uploadFileService.subirDocumentos(this.idExpedienteCreado, documentos).subscribe({
         next: (response: any) => {
             console.log('Documentos subidos correctamente:', response);
         },
         error: (err: any) => {
-            console.error('Error al subir los documentos', err);
+            console.error('Error al subir los documentos:', err);
         }
     });
 }
+
+  
 
 
 // Método auxiliar para obtener el ID del tipo de documento
@@ -96,7 +95,12 @@ obtenerIdTipoDocumento(tipoDocumento: string): number {
 }
 
 
-  onSubmit() {
-    this.crearExpediente();
+onSubmit() {
+  if (!this.expediente.nombreExpediente || !this.expediente.numeroExpediente) {
+    console.error('El nombre y número de expediente son obligatorios');
+    return;
   }
+  this.crearExpediente();
+}
+
 }

@@ -4,8 +4,9 @@ import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component'
 import { CommonModule , isPlatformBrowser} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import bootstrap from 'bootstrap';
 import { HttpClient } from '@angular/common/http';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-historial-expediente',
@@ -57,15 +58,12 @@ export class HistorialExpedienteComponent implements OnInit {
   }
 
   abrirModal(documentoBase64: string): void {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      import('bootstrap').then((bootstrap) => {
-        this.pdfSrc = `data:application/pdf;base64,${documentoBase64}`;
-        const modalElement = document.getElementById('pdfModal');
-        if (modalElement) {
-          const modalInstance = new bootstrap.Modal(modalElement);
-          modalInstance.show();
-        }
-      });
+    // Sanitiza el valor de pdfSrc para evitar el error de seguridad
+    this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${documentoBase64}`);
+    const modalElement = document.getElementById('pdfModal');
+    if (modalElement) {
+      const modalInstance = new bootstrap.Modal(modalElement);
+      modalInstance.show();
     }
   }
 

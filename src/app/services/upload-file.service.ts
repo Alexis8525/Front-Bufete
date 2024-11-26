@@ -33,9 +33,12 @@
     getExpedienteCompleto(): Observable<any[]> {
       return this.http.get<any[]>(`${this.apiUrl}`);
     }
-    subirDocumentos(idExpediente: number, documentos: { documentoBase64: string, idTipoDocumentoFK: number }[], formData: FormData): Observable<any> {
-      return this.http.post(`${this.apiUrl}/subirDocumentos`, { idExpediente, documentos, formData });
-    }
+    subirDocumentos(idExpediente: number, documentos: { documentoBase64: string, idTipoDocumentoFK: number }[]): Observable<any> {
+      return this.http.post(`${this.apiUrl}/subirDocumento`, {
+          idExpedienteFK: idExpediente, // El backend espera este nombre exacto
+          documentos,
+      });
+  }    
     getHistorialExpedienteCompleto(): Observable<any[]> {
       return this.http.get<any[]>(`${this.apiUrl}/historial-expedientes`);
     }
