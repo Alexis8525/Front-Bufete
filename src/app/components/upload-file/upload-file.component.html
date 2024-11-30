@@ -10,36 +10,84 @@
       </div>
     </nav>
 
-    <div class="p-3">
-      <!-- Formulario para crear el expediente -->
-      <form *ngIf="!idExpedienteCreado" (ngSubmit)="onSubmit()" class="form-container">
-        <h3>Primero tienes que crear Expediente</h3>
-        
+    <div class="p-3 container">
+      <!-- Selección de Cliente -->
+      <div class="form-group mb-4">
+        <label for="cliente">Selecciona al Cliente:</label>
+        <select [(ngModel)]="clienteSeleccionado" name="cliente" required class="form-control" (change)="cargarDatosCliente()">
+          <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
+            {{ cliente.nombreCliente }} {{ cliente.aPCliente }} {{ cliente.aMCliente }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Datos del Cliente -->
+      <div *ngIf="clienteDatos" class="section cliente-section">
+        <h4>Datos del Cliente</h4>
         <div class="form-group">
-          <label for="nombre">Nombre del Cliente:</label>
-          <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control">
+          <label for="emailCliente">Correo Electrónico:</label>
+          <input type="text" [(ngModel)]="clienteDatos.correo" readonly class="form-control">
         </div>
-
         <div class="form-group">
-          <label for="numero">Número de Expediente:</label>
-          <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control">
-          <div *ngIf="expediente.numeroExpediente">Este campo es obligatorio.</div>
+          <label for="telefonoCliente">Teléfono:</label>
+          <input type="text" [(ngModel)]="clienteDatos.telefono" readonly class="form-control">
         </div>
-
         <div class="form-group">
-          <label for="estado">Estado:</label>
-          <input type="text" [(ngModel)]="expediente.estado" name="estado" required class="form-control">
+          <label for="direccionCliente">Dirección:</label>
+          <input type="text" [(ngModel)]="clienteDatos.direccion" readonly class="form-control">
         </div>
+      </div>
 
+      <!-- Selección de Abogado -->
+      <div class="form-group mb-4">
+        <label for="abogado">Selecciona al Abogado:</label>
+        <select [(ngModel)]="AbogadoSeleccionado" name="abogado" required class="form-control" (change)="cargarDatosAbogado()">
+          <option *ngFor="let abogado of Abogado" [value]="abogado.idEmpleado">
+            {{ abogado.nombreEmpleado }} {{ abogado.aPEmpleado }} {{ abogado.aMEmpleado }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Datos del Abogado -->
+      <div *ngIf="AbogadoDatos" class="section abogado-section">
+        <h4>Datos del Abogado</h4>
         <div class="form-group">
-          <label for="descripcion">Descripción:</label>
-          <textarea [(ngModel)]="expediente.descripcion" name="descripcion" class="form-control"></textarea>
+          <label for="telefonoAbogado">Teléfono:</label>
+          <input type="text" [(ngModel)]="AbogadoDatos.telefono" readonly class="form-control">
         </div>
+        <div class="form-group">
+          <label for="correoAbogado">Correo Electrónico:</label>
+          <input type="text" [(ngModel)]="AbogadoDatos.correo" readonly class="form-control">
+        </div>
+      </div>
 
-        <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
-      </form>
-
-      <!-- Formulario para cargar documentos (solo visible si se ha creado el expediente) -->
+      <!-- Formulario de Expediente -->
+      <div class="section expediente-section">
+        <h4>Datos del Expediente</h4>
+        <form *ngIf="!idExpedienteCreado" (ngSubmit)="onSubmit()" class="form-container">
+          <div class="form-group">
+            <label for="nombre">Nombre del Expediente:</label>
+            <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="numero">Número de Expediente:</label>
+            <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea [(ngModel)]="expediente.descripcion" name="descripcion" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="estado">Estado:</label>
+            <input type="text" [(ngModel)]="expediente.estado" name="estado" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="servicio">Nombre del Servicio:</label>
+            <input type="text" [(ngModel)]="expediente.nombreServicio" name="servicio" required class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
+        </form>
+      </div>
       <form *ngIf="idExpedienteCreado" (ngSubmit)="subirDocumentos()" class="form-container mt-4">
         <h3>Ahora agrega los documentos al expediente</h3>
         <div class="form-group">

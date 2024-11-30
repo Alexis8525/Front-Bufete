@@ -5,6 +5,9 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../models/expediente.decorator';
+
+
 
 declare var bootstrap: any;
 
@@ -22,27 +25,44 @@ declare var bootstrap: any;
 export class VisualizarPdfComponent implements OnInit {
   expedientes: any[] = [];
   pdfSrc: SafeResourceUrl | null = null;
+  expedientePrioritario: string = ''; // Inicializado
+  expedienteArchivado: string = ''; // Inicializado
 
   constructor(
     private http: HttpClient,
+    
     private uploadFileService: UploadFileService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private sanitizer: DomSanitizer // Inyecta DomSanitizer
+    private sanitizer: DomSanitizer // Inyección de dependencias
   ) {}
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadExpedientes();
-    }
+    const expedienteBase = new ExpedienteBase();
+    const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
+    const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
+
+    this.expedientePrioritario = expedientePrioritario.getDetalle();
+    this.expedienteArchivado = expedienteArchivado.getDetalle();
+
+    // Cargar expedientes
+    this.loadExpedientes();
   }
   
   loadExpedientes(): void {
     this.uploadFileService.getExpedienteCompleto().subscribe(
       (response: any[]) => {
+        console.log('Datos recibidos:', response); // Agregado
         this.expedientes = response.map((expediente: any) => {
+          let expedienteComponent: ExpedienteComponent = new ExpedienteBase();
+          if (expediente.estado === 'PRIORITARIO') {
+            expedienteComponent = new PrioritarioExpediente(expedienteComponent);
+          }
+          if (expediente.archivado) {
+            expedienteComponent = new ArchivadoExpediente(expedienteComponent);
+          }
           return {
             ...expediente,
-            documentos: expediente.documentos || []
+            detalle: expedienteComponent.getDetalle()
           };
         });
       },
@@ -51,6 +71,7 @@ export class VisualizarPdfComponent implements OnInit {
       }
     );
   }
+  
 
   abrirModal(documentoBase64: string): void {
     // Sanitiza el valor de pdfSrc para evitar el error de seguridad
