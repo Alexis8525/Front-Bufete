@@ -4,7 +4,7 @@ import { UploadFileService } from '../../services/upload-file.service';
 import { FormsModule } from '@angular/forms';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
-import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../models/expediente.decorator';
+import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
 import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente';
 import { EmpleadoService } from '../../services/empleado.service';
@@ -31,11 +31,28 @@ export class UploadFileComponent {
   AbogadoDatos: Empleado | null = null;
   
   expediente: any = {
-    nombreExpediente: '',
     numeroExpediente: '',
-    estado: 'En revisión', // Estado inicial
-    descripcion: '',
+    estado: 'En revisión',
     nombreServicio: '',
+    descrpcion: '',
+    datosAbogado: {
+      nombreEmpleado: '',
+      aPEmpleado: '',
+      aMEmpleado: '',
+      numeroLicencia: '',
+      telfono: ''
+    },
+    datosCliente: {
+      nombreCliente: '',
+      aPCliente: '',
+      aMCliente: '',  
+      direccion: '',
+      telefono: '',
+      correo: ''
+    },
+    fechaApertura: new Date().toISOString(),
+    idClienteFK: 100006,
+    idEmpleadoFK: 1007,
   };
   documentos: string[] = [
     'CURP',
