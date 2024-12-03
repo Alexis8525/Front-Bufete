@@ -39,7 +39,7 @@ import { Cliente } from '../models/cliente';
           idExpedienteFK: idExpediente, // El backend espera este nombre exacto
           documentos,
       });
-  }    
+    }    
     getHistorialExpedienteCompleto(): Observable<any[]> {
       return this.http.get<any[]>(`${this.apiUrl}/historial-expedientes`);
     }

@@ -9,12 +9,13 @@ export class DocumentosService {
 
   private apiUrl = 'http://localhost:3000/documentos';
     constructor(private http: HttpClient) {}
+
     subirDocumentos(idExpediente: number, documentos: { documentoBase64: string, idTipoDocumentoFK: number }[]): Observable<any> {
-      return this.http.post(`${this.apiUrl}/subirDocumento`, {
-          idExpedienteFK: idExpediente,
-          documentos,
-      });
-  }  
+      const payload = { idExpedienteFK: idExpediente, documentos };
+      console.log('Payload enviado al servidor:', payload); // Validar aquí
+      return this.http.post(`${this.apiUrl}/subirDocumento`, payload);
+    }
+    
   obtenerExpedientes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/obtenerExp`);
   }

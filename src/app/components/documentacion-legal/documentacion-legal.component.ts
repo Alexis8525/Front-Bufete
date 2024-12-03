@@ -9,19 +9,15 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './documentacion-legal.component.html',
-  styleUrls: ['./documentacion-legal.component.css']
+  styleUrls: ['./documentacion-legal.component.css'],
 })
 export class DocumentacionLegalComponent {
-  @Input() expedientes: any[] = []; // Aquí guardamos los expedientes disponibles
-  @Input() tiposDocumentos: any[] = []; // Aquí guardamos los tipos de documentos disponibles
+  @Input() expedientes: any[] = [];
+  @Input() tiposDocumentos: any[] = [];
 
-  archivos: { [key: string]: string | null } = {}; // Archivos cargados en base64
-  expedienteSeleccionado: any = null; // Expediente seleccionado
-  tiposDocumentosPadre: any[] = []; // Tipos de documentos padres
-  tiposDocumentosHijos: any[] = []; // Tipos de documentos hijos
-  tipoDocumentoPadreSeleccionado: number | null = null;
-  tipoDocumentoHijoSeleccionado: number | null = null;
-  archivoSubido: boolean = false; // Indica si se ha subido un archivo
+  archivos: { documentoBase64: string; idTipoDocumentoFK: number }[] = [];
+  expedienteSeleccionado: any = null;
+  tipoDocumentoSeleccionado: string = '';
 
   constructor(private http: HttpClient, private documentosService: DocumentosService) {}
 
@@ -30,116 +26,101 @@ export class DocumentacionLegalComponent {
     this.cargarTiposDocumentos();
   }
 
-  onExpedienteSeleccionado() {
-    // Cargar los tipos de documentos padres solo si el expediente ha sido seleccionado
-    this.cargarTiposDocumentosPadre();
-  }
-
-  // Método para cargar los tipos de documentos padres
-  cargarTiposDocumentosPadre() {
-    // Filtrar los tipos de documentos donde 'idPadre' es null
-    this.tiposDocumentosPadre = this.tiposDocumentos.filter(doc => doc.idPadre === null);
-    console.log(this.tiposDocumentosPadre)
-  }
-
-  // Método que se ejecuta cuando se selecciona un tipo de documento padre
-  // Método que se ejecuta cuando se selecciona un tipo de documento padre
-onTipoDocumentoPadreSeleccionado() {
-  if (this.tipoDocumentoPadreSeleccionado != null) {
-    // Obtener los documentos hijos basados en el padre seleccionado
-    this.tiposDocumentosHijos = this.tiposDocumentos.filter(doc => doc.idPadre === this.tipoDocumentoPadreSeleccionado);
-    console.log(this.tiposDocumentosHijos);
-  }
-}
-
-
-  // Método para cargar los expedientes disponibles
   cargarExpedientes() {
     this.documentosService.obtenerExpedientes().subscribe({
-      next: (expedientes) => {
-        this.expedientes = expedientes;
-      },
-      error: (err) => console.error('Error al cargar expedientes:', err)
+      next: (expedientes) => (this.expedientes = expedientes),
+      error: (err) => console.error('Error al cargar expedientes:', err),
     });
   }
 
-  // Método para cargar los tipos de documentos disponibles
   cargarTiposDocumentos() {
     this.documentosService.obtenerTiposDocumentos().subscribe({
-      next: (tipos) => {
-        this.tiposDocumentos = tipos;
-        // Filtrar los tipos de documentos padres
-        this.tiposDocumentosPadre = this.tiposDocumentos.filter(doc => doc.idPadre === null);
-      },
-      error: (err) => console.error('Error al cargar tipos de documentos:', err)
+      next: (tipos) => (this.tiposDocumentos = tipos),
+      error: (err) => console.error('Error al cargar tipos de documentos:', err),
     });
   }
 
-  // Cuando se selecciona un archivo para subir
-  onFileSelected(event: Event) {
+  onFileSelected(event: Event, tipoDocumento: string) {
+    if (!tipoDocumento) {
+      alert('Por favor, selecciona un tipo de documento antes de subir un archivo.');
+      return;
+    }
+  
+    const idTipoDocumentoFK = this.obtenerIdTipoDocumento(tipoDocumento);
+    if (!idTipoDocumentoFK) {
+      alert(`El tipo de documento "${tipoDocumento}" no es válido.`);
+      return;
+    }
+  
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
       const file = input.files[0];
-      this.convertFileToBase64(file).then(base64 => {
-        this.archivos['CURP'] = base64; // Asumiendo que el tipo de documento es CURP
+      this.convertFileToBase64(file).then((base64) => {
+        this.archivos.push({ documentoBase64: base64, idTipoDocumentoFK });
+        input.value = ''; // Limpiar el input de archivo
+  
+        // Mostrar confirmación para agregar otro archivo
+        const continuar = confirm('Archivo añadido. ¿Deseas subir otro archivo con un nuevo tipo de documento?');
+        if (continuar) {
+          this.tipoDocumentoSeleccionado = ''; // Resetear el selector de tipo de documento
+        }
       });
     }
   }
+  
 
-  // Convertir el archivo a Base64
   convertFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        // Eliminar el prefijo antes de resolver
+        const base64SinPrefijo = base64.split(',')[1]; 
+        resolve(base64SinPrefijo);
+      };
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   }
+  
 
-  // Subir los documentos al backend
+  obtenerIdTipoDocumento(tipoDocumento: string): number {
+    const tipo = this.tiposDocumentos.find((doc) => doc.tipoDocumento === tipoDocumento);
+    return tipo?.idTipoDocumento || 0;
+  }
+
   subirDocumentos() {
     if (!this.expedienteSeleccionado) {
-      console.error('No se ha seleccionado un expediente');
+      alert('Por favor, selecciona un expediente antes de continuar.');
       return;
     }
   
-    const documentos = Object.keys(this.archivos).map((tipoDocumento) => ({
-      documentoBase64: this.archivos[tipoDocumento] || '',
-      idTipoDocumentoFK: this.obtenerIdTipoDocumento(tipoDocumento),
-    }));
+    console.log('Expediente seleccionado:', this.expedienteSeleccionado); // Validar aquí
+    const idExpedienteFK = this.expedienteSeleccionado.idExpediente; // Cambio realizado aquí
   
-    if (documentos.some(doc => !doc.documentoBase64)) {
-      console.error('Todos los documentos deben estar seleccionados');
+    if (!idExpedienteFK) {
+      alert('El expediente seleccionado no tiene un ID válido.');
       return;
     }
   
-    this.documentosService.subirDocumentos(this.expedienteSeleccionado.id, documentos).subscribe({
-      next: (response: any) => {
+    const payload = { idExpedienteFK, documentos: this.archivos };
+    console.log('Payload a enviar:', JSON.stringify(payload, null, 2)); // Validar aquí
+  
+    this.documentosService.subirDocumentos(idExpedienteFK, this.archivos).subscribe({
+      next: (response) => {
         console.log('Documentos subidos correctamente:', response);
-        this.archivoSubido = false;
+        alert('¡Documentos subidos exitosamente!');
+        this.resetearFormulario();
       },
-      error: (err: any) => {
-        console.error('Error al subir los documentos:', err);
-      }
+      error: (err) => console.error('Error al subir los documentos:', err),
     });
   }
+  
+  
 
-  // Obtiene el ID de tipo de documento basado en el nombre
-  obtenerIdTipoDocumento(tipoDocumento: string): number {
-    const tipoDocumentoIds: { [key: string]: number } = {
-      'CURP': 1,
-      'Curriculum Vitae': 2,
-      'Comprobante de Domicilio': 3,
-      'Número de Seguridad Social (IMSS)': 4,
-      'Identificación Oficial': 5
-    };
-    return tipoDocumentoIds[tipoDocumento] || 0;
-  }
-
-  // Resetear el formulario para subir otro archivo
   resetearFormulario() {
-    this.archivos = {};
-    this.tipoDocumentoHijoSeleccionado = null;
-    this.archivoSubido = false;
+    this.archivos = [];
+    this.expedienteSeleccionado = null;
+    this.tipoDocumentoSeleccionado = '';
   }
 }

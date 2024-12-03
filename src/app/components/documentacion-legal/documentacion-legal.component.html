@@ -1,37 +1,47 @@
-<div>
+<div class="documentacion-legal">
   <h2>Documentación Legal</h2>
-  
-  <div>
-    <label for="expediente">Expediente</label>
-    <select id="expediente" [(ngModel)]="expedienteSeleccionado" (change)="onExpedienteSeleccionado()">
-      <option *ngFor="let expediente of expedientes" [value]="expediente.id">{{ expediente.numeroExpediente }}</option>
-    </select>
-  </div>
 
-  <div *ngIf="expedienteSeleccionado">
-    <label for="tipoDocumentoPadre">Tipo de Documento Padre</label>
-    <select [(ngModel)]="tipoDocumentoPadreSeleccionado" (change)="onTipoDocumentoPadreSeleccionado()">
-      <option *ngFor="let tipo of tiposDocumentosPadre" [value]="tipo.idTipoDocumento">
-        {{ tipo.tipoDocumento }}
+  <!-- Selección de expediente -->
+  <div class="form-group">
+    <label for="expediente">Seleccionar Expediente:</label>
+    <select id="expediente" [(ngModel)]="expedienteSeleccionado">
+      <option *ngFor="let expediente of expedientes" [ngValue]="expediente">
+        {{ expediente.nombreExpediente }} - {{ expediente.numeroExpediente }} (ID: {{ expediente.idExpediente }})
       </option>
     </select>
-    
   </div>
 
-  <div *ngIf="tipoDocumentoPadreSeleccionado">
-    <select [(ngModel)]="tipoDocumentoHijoSeleccionado">
-      <option *ngFor="let tipo of tiposDocumentosHijos" [value]="tipo.idTipoDocumento">
+  <!-- Selección de tipo de documento -->
+  <div class="form-group" *ngIf="expedienteSeleccionado">
+    <label for="tipoDocumento">Seleccionar Tipo de Documento:</label>
+    <select id="tipoDocumento" [(ngModel)]="tipoDocumentoSeleccionado">
+      <option *ngFor="let tipo of tiposDocumentos" [value]="tipo.tipoDocumento">
         {{ tipo.tipoDocumento }}
       </option>
     </select>
   </div>
 
-  <div>
-    <label for="file">Seleccionar archivo</label>
-    <input type="file" (change)="onFileSelected($event)" />
+  <!-- Carga de archivo -->
+  <div class="form-group" *ngIf="expedienteSeleccionado">
+    <label for="file">Seleccionar Archivo:</label>
+    <input type="file" id="file" (change)="onFileSelected($event, tipoDocumentoSeleccionado)" />
   </div>
 
-  <button (click)="subirDocumentos()">Subir Documentos</button>
+  <!-- Botones de acción -->
+  <div class="button-group">
+    <button (click)="subirDocumentos()" [disabled]="archivos.length === 0 || !expedienteSeleccionado">
+      Subir Documentos
+    </button>
+    <button (click)="resetearFormulario()">Resetear</button>
+  </div>
 
-  <button (click)="resetearFormulario()">Resetear</button>
+  <!-- Archivos seleccionados -->
+  <div class="archivos-list" *ngIf="archivos.length > 0">
+    <h3>Archivos Listos para Subir:</h3>
+    <ul>
+      <li *ngFor="let archivo of archivos">
+        Documento: {{ archivo.idTipoDocumentoFK }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
+      </li>
+    </ul>
+  </div>
 </div>
