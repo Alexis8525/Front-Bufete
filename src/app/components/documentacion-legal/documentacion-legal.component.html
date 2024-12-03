@@ -1,0 +1,37 @@
+<div>
+  <h2>Documentación Legal</h2>
+  
+  <div>
+    <label for="expediente">Expediente</label>
+    <select id="expediente" [(ngModel)]="expedienteSeleccionado" (change)="onExpedienteSeleccionado()">
+      <option *ngFor="let expediente of expedientes" [value]="expediente.id">{{ expediente.numeroExpediente }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="expedienteSeleccionado">
+    <label for="tipoDocumentoPadre">Tipo de Documento Padre</label>
+    <select [(ngModel)]="tipoDocumentoPadreSeleccionado" (change)="onTipoDocumentoPadreSeleccionado()">
+      <option *ngFor="let tipo of tiposDocumentosPadre" [value]="tipo.idTipoDocumento">
+        {{ tipo.tipoDocumento }}
+      </option>
+    </select>
+    
+  </div>
+
+  <div *ngIf="tipoDocumentoPadreSeleccionado">
+    <select [(ngModel)]="tipoDocumentoHijoSeleccionado">
+      <option *ngFor="let tipo of tiposDocumentosHijos" [value]="tipo.idTipoDocumento">
+        {{ tipo.tipoDocumento }}
+      </option>
+    </select>
+  </div>
+
+  <div>
+    <label for="file">Seleccionar archivo</label>
+    <input type="file" (change)="onFileSelected($event)" />
+  </div>
+
+  <button (click)="subirDocumentos()">Subir Documentos</button>
+
+  <button (click)="resetearFormulario()">Resetear</button>
+</div>

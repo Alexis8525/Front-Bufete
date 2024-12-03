@@ -22,11 +22,21 @@ import { DocumentViewerComponent } from './components/document-viewer/document-v
 import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
 import { VisualizarPdfComponent } from './components/visualizar-pdf/visualizar-pdf.component';
 import { HistorialExpedienteComponent } from './components/historial-expediente/historial-expediente.component';
+import { TapsComponent } from './components/taps/taps.component';
+import { InformacionGeneralComponent } from './components/informacion-general/informacion-general.component';
+import { DatosPartesComponent } from './components/datos-partes/datos-partes.component';
+import { RegistroCitasComponent } from './components/registro-citas/registro-citas.component';
+import { DocumentacionLegalComponent } from './components/documentacion-legal/documentacion-legal.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'barra', component: BarraLateralComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'taps', component: TapsComponent },
+  { path: 'DatosPartes', component: DatosPartesComponent },
+  { path: 'documentos', component: DocumentacionLegalComponent },
+  { path: 'citasRegistro', component: RegistroCitasComponent },
+  { path: 'informacion', component: InformacionGeneralComponent },
   { path: 'home', component: HomeComponent },
   { path: 'upload-file', component: UploadFileComponent },
   { path: 'visualizar', component: VisualizarPdfComponent },

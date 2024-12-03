@@ -40,7 +40,8 @@ export class UploadFileComponent {
       aPEmpleado: '',
       aMEmpleado: '',
       numeroLicencia: '',
-      telfono: ''
+      telfono: '',
+      correo: ''
     },
     datosCliente: {
       nombreCliente: '',
@@ -105,6 +106,14 @@ export class UploadFileComponent {
       this.clienteService.getClienteById(this.clienteSeleccionado).subscribe(
         (data: Cliente) => {
           this.clienteDatos = data;
+          this.expediente.datosCliente = {
+            nombreCliente: data.nombreCliente,
+            aPCliente: data.aPCliente,
+            aMCliente: data.aMCliente,
+            direccion: data.direccion,
+            telefono: data.telefono,
+            correo: data.correo
+          };
           this.expediente.nombreExpediente = `${data.nombreCliente} ${data.aPCliente} ${data.aMCliente}`;
           this.expediente.idClienteFK = data.idCliente;
   
@@ -117,14 +126,32 @@ export class UploadFileComponent {
       );
     }
   }
+  
 
   cargarDatosAbogado(): void {
     if (this.AbogadoSeleccionado) {
       this.empleadiService.getEmpleadoById(this.AbogadoSeleccionado).subscribe(
         (data: Empleado) => {
           this.AbogadoDatos = data;
+          
+          // Asignar los datos del abogado al expediente
+          this.expediente.datosAbogado = {
+            nombreAbogado: data.nombreEmpleado,
+            aPAbogado: data.aPEmpleado,
+            aMAbogado: data.aMEmpleado,
+            licencia: data.numeroLicencia ? data.numeroLicencia : 'No registrada', // Si no tiene licencia, asigna 'No registrada'
+            telefono: data.telefono ? data.telefono : 'Sin teléfono', // Si no tiene teléfono, asigna 'Sin teléfono'
+            correo: data.correo // Si tiene correo, lo asignamos
+          };
+  
+          // Agregar el nombre del abogado al nombre del expediente
           this.expediente.nombreExpediente += ` - Abogado: ${data.nombreEmpleado} ${data.aPEmpleado} ${data.aMEmpleado}`;
+  
+          // Asignar el ID del abogado al expediente
           this.expediente.idEmpleadoFK = data.idEmpleado;
+  
+          // Generar número de expediente automáticamente (en el mismo formato)
+          this.expediente.numeroExpediente = `EXP-${this.expediente.idClienteFK}-${new Date().getFullYear()}`;
         },
         (error) => {
           console.error('Error al obtener los datos del abogado', error);
@@ -132,6 +159,8 @@ export class UploadFileComponent {
       );
     }
   }
+  
+  
 
   seleccionarAbogado(abogadoId: number | null): void {
     if (abogadoId === null) {

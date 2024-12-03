@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UploadFileService } from '../../services/upload-file.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -7,23 +7,21 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
 
-
-
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-visualizar-pdf',
+  selector: 'app-informacion-general',
   standalone: true,
   imports: [
     BarraLateralComponent,
     CommonModule,
     FormsModule
   ],
-  templateUrl: './visualizar-pdf.component.html',
-  styleUrls: ['./visualizar-pdf.component.scss']
+  templateUrl: './informacion-general.component.html',
+  styleUrl: './informacion-general.component.css'
 })
-export class VisualizarPdfComponent implements OnInit {
-  expedientes: any[] = [];
+export class InformacionGeneralComponent {
+  @Input() expedientes: any = {}; 
   pdfSrc: SafeResourceUrl | null = null;
   expedientePrioritario: string = ''; // Inicializado
   expedienteArchivado: string = ''; // Inicializado
@@ -118,5 +116,4 @@ export class VisualizarPdfComponent implements OnInit {
     console.log(`Actualizando expediente con ID: ${idExpediente}`);
     alert('Funcionalidad de actualización no implementada aún.');
   }
-  
 }

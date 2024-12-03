@@ -1,0 +1,43 @@
+<div class="registro-citas">
+  <!-- Formulario para registrar una cita -->
+  <form [formGroup]="citaForm" (ngSubmit)="crearCita()">
+    <div class="form-group">
+      <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" formControlName="fecha" />
+    </div>
+    <div class="form-group">
+      <label for="hora">Hora:</label>
+      <input type="time" id="hora" formControlName="hora" />
+    </div>
+    <div class="form-group">
+      <label for="motivo">Motivo:</label>
+      <input type="text" id="motivo" formControlName="motivo" />
+    </div>
+    <div class="form-group">
+      <label for="notas">Notas:</label>
+      <textarea id="notas" formControlName="notas"></textarea>
+    </div>
+    <button type="submit" [disabled]="!citaForm.valid">Registrar Cita</button>
+  </form>
+
+  <!-- Contenedor de tarjetas para mostrar citas -->
+  <div class="row-cols-md-2 row-cols-lg-3">
+    <div class="card" *ngFor="let cita of citas">
+      <div class="card-header">
+        <h2>Cita</h2>
+      </div>
+      <div class="card-body">
+        <p><strong>Fecha:</strong> {{ cita.fecha }}</p>
+        <p><strong>Hora:</strong> {{ cita.hora }}</p>
+        <p><strong>Motivo:</strong> {{ cita.motivo }}</p>
+        <p><strong>Notas:</strong> {{ cita.notas }}</p>
+      </div>
+      <div class="card-footer">
+        <span [ngClass]="{'pendiente': cita.estado === 'Pendiente', 'completada': cita.estado === 'Completada'}">
+          Estado: {{ cita.estado }}
+        </span>
+        <button (click)="eliminarCita(cita.idCita)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
