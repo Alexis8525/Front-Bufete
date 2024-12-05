@@ -95,7 +95,6 @@ export class DocumentacionLegalComponent {
       return;
     }
   
-    console.log('Expediente seleccionado:', this.expedienteSeleccionado); // Validar aquí
     const idExpedienteFK = this.expedienteSeleccionado.idExpediente; // Cambio realizado aquí
   
     if (!idExpedienteFK) {
@@ -104,11 +103,9 @@ export class DocumentacionLegalComponent {
     }
   
     const payload = { idExpedienteFK, documentos: this.archivos };
-    console.log('Payload a enviar:', JSON.stringify(payload, null, 2)); // Validar aquí
   
     this.documentosService.subirDocumentos(idExpedienteFK, this.archivos).subscribe({
       next: (response) => {
-        console.log('Documentos subidos correctamente:', response);
         alert('¡Documentos subidos exitosamente!');
         this.resetearFormulario();
       },

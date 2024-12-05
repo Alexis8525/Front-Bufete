@@ -84,7 +84,10 @@ export class VisualizarPdfComponent implements OnInit {
   }
 
   abrirModal(documentoBase64: string): void {
-    // Sanitiza el valor de pdfSrc para evitar el error de seguridad
+    if (!documentoBase64) {
+      alert('El documento no está disponible.');
+      return;
+    }
     this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${documentoBase64}`);
     const modalElement = document.getElementById('pdfModal');
     if (modalElement) {
@@ -92,6 +95,7 @@ export class VisualizarPdfComponent implements OnInit {
       modalInstance.show();
     }
   }
+  
   eliminarExpediente(idExpediente: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar este expediente?')) {
       this.uploadFileService.eliminarExpediente(idExpediente.toString()).subscribe({
