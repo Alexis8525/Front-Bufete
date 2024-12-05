@@ -1,0 +1,49 @@
+.wrapper {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+app-barra-lateral {
+    height: 100vh;
+    flex-shrink: 0;
+}
+
+.main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.p-3 {
+    flex-grow: 1;
+    max-height: 100vh;
+    background-color: #fafbfe;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.nav-tabs {
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.nav-link {
+    color: #495057;
+    margin-right: 5px;
+    border: 1px solid transparent;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.nav-link.active {
+    color: #fff;
+    background-color: #001f3f;
+    border-color: #001f3f #001f3f #dee2e6;
+}
+
+.tab-content {
+    padding: 1rem;
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}

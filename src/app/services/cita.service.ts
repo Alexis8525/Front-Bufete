@@ -11,7 +11,7 @@ import { CitaDetallada } from '../models/cita-detallada';
 })
 export class CitaService {
 
-  private URL_API = 'http://172.19.0.1:3000/citas';
+  private URL_API = 'http://localhost:3000/citas';
 
   public especialidades: EspecialidadCita[] = [];
   public citas: Cita[] = [];

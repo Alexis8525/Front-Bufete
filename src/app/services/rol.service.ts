@@ -9,7 +9,7 @@ export class RolService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://172.19.0.1/16:3000/roles/';
+  URL_API = 'http://localhost:3000/roles/';
 
   public rol: Rol = {
     idRol: 0,

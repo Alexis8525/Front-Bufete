@@ -7,7 +7,7 @@
   })
   export class UploadFileService {
 
-    private apiUrl = 'http://172.19.0.1:3000/expedientes'; // Asegúrate de que la URL esté correcta
+    private apiUrl = 'http://localhost:3000/expedientes'; // Asegúrate de que la URL esté correcta
 
     constructor(private http: HttpClient) {}
 

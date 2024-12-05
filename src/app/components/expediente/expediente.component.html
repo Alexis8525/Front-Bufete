@@ -1,0 +1,208 @@
+<div class="wrapper">
+  <app-barra-lateral></app-barra-lateral>
+
+  <div class="main">
+    <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+      <div class="container-fluid p-0">
+        <a class="navbar-brand" href="#">
+          <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+        </a>
+      </div>
+    </nav>
+
+    <div class="p-3">
+      <h2 class="mb-4">Expediente</h2>
+      <ul class="nav nav-tabs" id="expedienteTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="informacion-tab" data-bs-toggle="tab" data-bs-target="#informacion"
+            type="button" role="tab" aria-controls="informacion" aria-selected="true">Información General</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="partes-tab" data-bs-toggle="tab" data-bs-target="#partes" type="button"
+            role="tab" aria-controls="partes" aria-selected="false">Datos de las Partes</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="citas-tab" data-bs-toggle="tab" data-bs-target="#citas" type="button" role="tab"
+            aria-controls="citas" aria-selected="false">Registro de Citas</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="documentos-tab" data-bs-toggle="tab" data-bs-target="#documentos" type="button"
+            role="tab" aria-controls="documentos" aria-selected="false">Documentación Legal</button>
+        </li>
+      </ul>
+      <div class="tab-content mt-4" id="expedienteTabsContent">
+        <!-- Información General -->
+        <div class="tab-pane fade show active" id="informacion" role="tabpanel" aria-labelledby="informacion-tab">
+          <h3 class="mb-4">Información General</h3>
+          <form *ngIf="expediente; else cargando">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="idExpediente" class="form-label">ID Expediente</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="idExpediente"
+                  [(ngModel)]="expediente.idExpediente"
+                  name="idExpediente"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="fechaApertura" class="form-label">Fecha Apertura</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaApertura"
+                  [(ngModel)]="expediente.fechaApertura"
+                  name="fechaApertura"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="nombreServicio" class="form-label">Nombre del Servicio</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombreServicio"
+                  [(ngModel)]="expediente.nombreExpediente"
+                  name="nombreServicio"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="estadoExpediente" class="form-label">Estado del Expediente</label>
+                <select
+                  class="form-select"
+                  id="estadoExpediente"
+                  [(ngModel)]="expediente.estado"
+                  name="estadoExpediente"
+                  disabled
+                >
+                  <option [value]="'Abierto'">Abierto</option>
+                  <option [value]="'En Proceso'">En Proceso</option>
+                  <option [value]="'Cerrado'">Cerrado</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        
+          <!-- Mensaje mientras carga -->
+          <ng-template #cargando>
+            <p>Cargando información del expediente...</p>
+          </ng-template>
+        </div>
+        
+
+        <!-- Datos de las Partes -->
+        <div class="tab-pane fade" id="partes" role="tabpanel" aria-labelledby="partes-tab">
+          <h3 class="mb-4">Datos de las Partes</h3>
+          <ul class="nav nav-tabs" id="partesTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="demandante-tab" data-bs-toggle="tab" data-bs-target="#demandante" type="button" role="tab" aria-controls="demandante" aria-selected="true">Parte Demandante</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="demandado-tab" data-bs-toggle="tab" data-bs-target="#demandado" type="button" role="tab" aria-controls="demandado" aria-selected="false">Parte Demandada</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="terceros-tab" data-bs-toggle="tab" data-bs-target="#terceros" type="button" role="tab" aria-controls="terceros" aria-selected="false">Terceros Relacionados</button>
+              </li>
+          </ul>
+          <div class="tab-content mt-4" id="partesTabsContent">
+              <!-- Parte Demandante -->
+              <div class="tab-pane fade show active" id="demandante" role="tabpanel" aria-labelledby="demandante-tab">
+                <h4 class="mb-3">Parte Demandante</h4>
+                <div *ngIf="demandantes.length > 0; else noDemandantes">
+                  <div *ngFor="let demandante of demandantes" class="mb-4">
+                    <p><strong>Nombre Completo:</strong> {{ demandante.nombreCompleto }}</p>
+                    <p><strong>Identificación Oficial:</strong> {{ demandante.identificacionOficial }}</p>
+                    <p><strong>Domicilio:</strong> {{ demandante.domicilio }}</p>
+                    <p><strong>Teléfono:</strong> {{ demandante.telefono }}</p>
+                    <p><strong>Correo Electrónico:</strong> {{ demandante.correo }}</p>
+                    <p><strong>Representante Legal:</strong> {{ demandante.representanteLegalNombre }}</p>
+                  </div>
+                </div>
+                <ng-template #noDemandantes>
+                  <p>No hay partes demandantes registradas para este expediente.</p>
+                </ng-template>
+              </div>              
+      
+              <!-- Parte Demandada -->
+              <div class="tab-pane fade" id="demandado" role="tabpanel" aria-labelledby="demandado-tab">
+                <h4 class="mb-3">Parte Demandada</h4>
+                <div *ngIf="demandados.length > 0; else noDemandados">
+                  <div *ngFor="let demandado of demandados" class="mb-4">
+                    <p><strong>Nombre Completo:</strong> {{ demandado.nombreCompleto }}</p>
+                    <p><strong>Identificación Oficial:</strong> {{ demandado.identificacionOficial }}</p>
+                    <p><strong>Domicilio:</strong> {{ demandado.domicilio }}</p>
+                    <p><strong>Teléfono:</strong> {{ demandado.telefono }}</p>
+                    <p><strong>Correo Electrónico:</strong> {{ demandado.correo }}</p>
+                    <p><strong>Representante Legal:</strong> {{ demandado.representanteLegalNombre }}</p>
+                  </div>
+                </div>
+                <ng-template #noDemandados>
+                  <p>No hay partes demandadas registradas para este expediente.</p>
+                </ng-template>
+              </div>
+              
+              <!-- Terceros Relacionados -->
+              <div class="tab-pane fade" id="terceros" role="tabpanel" aria-labelledby="terceros-tab">
+                <h4 class="mb-3">Terceros Relacionados</h4>
+                <div *ngIf="terceros.length > 0; else noTerceros">
+                  <div *ngFor="let tercero of terceros" class="mb-4">
+                    <p><strong>Nombre Completo:</strong> {{ tercero.nombreCompleto }}</p>
+                    <p><strong>Identificación Oficial:</strong> {{ tercero.identificacionOficial }}</p>
+                    <p><strong>Domicilio:</strong> {{ tercero.domicilio }}</p>
+                    <p><strong>Teléfono:</strong> {{ tercero.telefono }}</p>
+                    <p><strong>Correo Electrónico:</strong> {{ tercero.correo }}</p>
+                  </div>
+                </div>
+                <ng-template #noTerceros>
+                  <p>No hay terceros relacionados registrados para este expediente.</p>
+                </ng-template>
+              </div>
+              
+          </div>
+      </div>
+      
+        <!-- Registro de Citas -->
+        <div class="tab-pane fade" id="citas" role="tabpanel" aria-labelledby="citas-tab">
+          <h3 class="mb-4">Registro de Citas</h3>
+          <form>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="fechaCita" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fechaCita" value="2024-02-01">
+              </div>
+              <div class="col-md-6">
+                <label for="horaCita" class="form-label">Hora</label>
+                <input type="time" class="form-control" id="horaCita" value="10:00">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="motivoCita" class="form-label">Motivo</label>
+              <textarea class="form-control" id="motivoCita" rows="3">Revisión de documentos</textarea>
+            </div>
+          </form>
+        </div>
+
+        <!-- Documentación Legal -->
+        <div class="tab-pane fade" id="documentos" role="tabpanel" aria-labelledby="documentos-tab">
+          <h3 class="mb-4">Documentación Legal</h3>
+          <form>
+            <div class="mb-3">
+              <label for="contratoInicial" class="form-label">Contratos y Acuerdos Iniciales</label>
+              <textarea class="form-control" id="contratoInicial"
+                rows="3">Contrato de prestación de servicios legales</textarea>
+            </div>
+            <div class="mb-3">
+              <label for="escritosPresentados" class="form-label">Escritos Presentados</label>
+              <textarea class="form-control" id="escritosPresentados" rows="3">Demanda inicial</textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
