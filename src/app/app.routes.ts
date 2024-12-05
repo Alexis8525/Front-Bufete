@@ -22,6 +22,7 @@ import { DocumentViewerComponent } from './components/document-viewer/document-v
 import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
 import { VisualizarPdfComponent } from './components/visualizar-pdf/visualizar-pdf.component';
 import { HistorialExpedienteComponent } from './components/historial-expediente/historial-expediente.component';
+import { ExpedienteComponent } from './components/expediente/expediente.component';
 import { TapsComponent } from './components/taps/taps.component';
 import { InformacionGeneralComponent } from './components/informacion-general/informacion-general.component';
 import { DatosPartesComponent } from './components/datos-partes/datos-partes.component';
@@ -54,6 +55,7 @@ export const routes: Routes = [
   { path: 'calendario-cliente', component: CalendarioCitasClienteComponent },
   { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent },
   { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent },
+  { path: 'expediente', component: ExpedienteComponent }
 ];
 
 @NgModule({
