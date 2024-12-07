@@ -7,6 +7,7 @@ import { ExpedienteService } from '../../services/expediente.service';
 import { DocumentosService } from '../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
 import { CitaExpedienteService } from '../../services/cita-expediente.service';
+import { RouterModule } from '@angular/router'; 
 
 @Component({
   selector: 'app-expediente',
@@ -16,7 +17,8 @@ import { CitaExpedienteService } from '../../services/cita-expediente.service';
   imports: [
     BarraLateralComponent,
     FormsModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
 })
 export class ExpedienteComponent implements OnInit {
@@ -54,6 +56,7 @@ export class ExpedienteComponent implements OnInit {
   
     // Cargar la información del expediente y las categorías
     this.getInformacionGeneral();
+    this.getPartesRelacionadas();
     this.cargarExpedientes();
     this.cargarCategoriasDocumentos(); // Cargar categorías al iniciar
     this.cargarCitas(this.idExpediente);

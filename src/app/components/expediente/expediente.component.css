@@ -1,37 +1,60 @@
+/* General Layout */
 .wrapper {
     display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
+/* Barra lateral */
 app-barra-lateral {
     height: 100vh;
     flex-shrink: 0;
+    background-color: #001f3f; /* Color corporativo */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Main Content */
 .main {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
+.navbar {
+    background-color: #001f3f;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+    max-height: 50px;
+}
+
+/* Content Wrapper */
 .p-3 {
     flex-grow: 1;
     max-height: 100vh;
     background-color: #fafbfe;
     padding: 2rem;
     overflow-y: auto;
+    border-top: 1px solid #e0e0e0;
 }
 
+/* Expediente Info Card */
 .expediente-info {
     background-color: #f7f7f7;
     border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-  }
-  
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
 
+/* Tabs */
 .nav-tabs {
     margin-bottom: 1rem;
     border-bottom: 2px solid #dee2e6;
@@ -42,6 +65,8 @@ app-barra-lateral {
     margin-right: 5px;
     border: 1px solid transparent;
     border-radius: 0.25rem 0.25rem 0 0;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 .nav-link.active {
@@ -50,22 +75,72 @@ app-barra-lateral {
     border-color: #001f3f #001f3f #dee2e6;
 }
 
+.nav-link:hover {
+    background-color: rgba(0, 31, 63, 0.1);
+    color: #001f3f;
+}
+
+/* Tab Content */
 .tab-content {
     padding: 1rem;
     background: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
+/* Documentación Legal */
 .documentacion-legal {
     max-width: 600px;
     margin: 20px auto;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #333;
-    background: #f9f9f9;
+    background: #ffffff;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+}
 
+/* Botones y Formularios */
+button, input, select {
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+}
 
+button {
+    background-color: #001f3f;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    transition: background-color 0.3s ease;
+}
 
+button:hover {
+    background-color: #003a6b;
+}
+
+.form-control, .form-select {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+}
+
+/* Tablas */
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+    background-color: #001f3f;
+    color: white;
+    text-align: left;
+    padding: 8px;
+}
+
+.table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
