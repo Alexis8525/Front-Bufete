@@ -32,7 +32,7 @@ export class UploadFileComponent {
   
   expediente: any = {
     numeroExpediente: '',
-    estado: 'En revisión',
+    estado: 'proceso',
     nombreServicio: '',
     descrpcion: '',
     datosAbogado: {

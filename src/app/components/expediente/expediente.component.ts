@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Expediente } from '../../models/expediente';
 import { ExpedienteService } from '../../services/expediente.service';
+import { DocumentosService } from '../../services/documentos.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-expediente',
@@ -17,24 +19,41 @@ import { ExpedienteService } from '../../services/expediente.service';
   ],
 })
 export class ExpedienteComponent implements OnInit {
+  @Input() expedientes: any[] = [];
+  @Input() categoriasDocumentos: any[] = [];
+  subcategoriasDocumentos: any[] = [];
 
-  numeroExpediente: string = 'EXP0001'; // Número de expediente a buscar
+  archivos: { documentoBase64: string; idCategoriaFK: number;  idSubCategoriaFK: number }[] = [];
+  expedienteSeleccionado: any = null;
+  categoriaSeleccionada: any = null;
+  subCategoriaSeleccionada: any = null;
+
+  idExpediente: number = 0; // Número de expediente a buscar
   expediente: Expediente | null = null; // Información del expediente
   demandantes: any[] = []; // Lista de demandantes
   demandados: any[] = []; // Lista de demandados
   terceros: any[] = []; // Lista de terceros relacionados
 
   constructor(
-    private expedienteService: ExpedienteService
+    private activatedRoute: ActivatedRoute,
+    private expedienteService: ExpedienteService,
+    private documentosService: DocumentosService
   ) { }
 
   ngOnInit() {
+    // Obtener el ID del expediente desde la ruta
+    this.idExpediente = +this.activatedRoute.snapshot.paramMap.get('idExpediente')!;
+    console.log('ID del Expediente:', this.idExpediente);
+  
+    // Cargar la información del expediente y las categorías
     this.getInformacionGeneral();
-    this.getPartesRelacionadas(); 
+    this.cargarExpedientes();
+    this.cargarCategoriasDocumentos(); // Cargar categorías al iniciar
   }
+  
 
   getInformacionGeneral() {
-    this.expedienteService.getInformacionGeneral(this.numeroExpediente).subscribe(
+    this.expedienteService.getInformacionGeneral(this.idExpediente).subscribe(
       (data) => {
         // Formatear la fecha antes de asignarla
         if (data.fechaApertura) {
@@ -58,7 +77,7 @@ export class ExpedienteComponent implements OnInit {
 
   // Obtener las partes relacionadas del expediente
   getPartesRelacionadas() {
-    this.expedienteService.getPartesPorExpediente(this.numeroExpediente).subscribe(
+    this.expedienteService.getPartesPorExpediente(this.idExpediente).subscribe(
       (data) => {
         this.demandantes = data.filter((parte) => parte.tipoParte === 'Demandante');
         this.demandados = data.filter((parte) => parte.tipoParte === 'Demandado');
@@ -91,5 +110,111 @@ export class ExpedienteComponent implements OnInit {
         return estado; // Por si acaso
     }
   }
+  cargarExpedientes() {
+    this.documentosService.obtenerExpedientes().subscribe({
+      next: (expedientes) => (this.expedientes = expedientes),
+      error: (err) => console.error('Error al cargar expedientes:', err),
+    });
+  }
 
+
+  cargarCategoriasDocumentos() {
+    this.documentosService.obtenerCategoriasDocumentos().subscribe({
+      next: (categorias) => (this.categoriasDocumentos = categorias),
+      error: (err) => console.error('Error al cargar categorías de documentos:', err),
+    });
+  }
+  
+
+  onCategoriaChange() {
+    this.subCategoriaSeleccionada = null;
+    this.documentosService.obtenerSubCategorias(this.categoriaSeleccionada.idCategoria).subscribe({
+      next: (subcategorias) => (this.subcategoriasDocumentos = subcategorias),
+      error: (err) => console.error('Error al cargar subcategorías:', err),
+    });
+  }
+  
+  onFileSelected(event: Event) {
+    if (!this.subCategoriaSeleccionada || !this.categoriaSeleccionada) {
+      alert('Por favor, selecciona una subcategoría y categoría antes de subir un archivo.');
+      return;
+    }
+  
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      const file = input.files[0];
+      this.convertFileToBase64(file).then((base64) => {
+        this.archivos.push({
+          documentoBase64: base64,
+          idCategoriaFK: this.categoriaSeleccionada.idCategoria, // Aquí agregas idCategoriaFK
+          idSubCategoriaFK: this.subCategoriaSeleccionada.idSubCategoria,
+        });
+        
+        input.value = '';
+  
+        // Mostrar la alerta después de agregar el archivo
+        const respuesta = confirm('¿Quieres subir otro documento?');
+        if (respuesta) {
+          // Limpiar categoría y subcategoría si el usuario acepta
+          this.categoriaSeleccionada = null;
+          this.subCategoriaSeleccionada = null;
+        }
+      });
+    }
+  }
+  
+
+  convertFileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        console.log('Contenido Base64:', base64);
+        resolve(base64.split(',')[1]); // Asegúrate de dividir correctamente
+      };
+      reader.onerror = (error) => {
+        console.error('Error al convertir archivo a Base64:', error);
+        reject(error);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  
+
+  subirDocumentos() {
+    if (!this.expedienteSeleccionado) {
+      alert('Por favor, selecciona un expediente antes de continuar.');
+      return;
+    }
+  
+    const idExpedienteFK = this.expedienteSeleccionado.idExpediente;
+    const idCategoriaFK = this.categoriaSeleccionada.idCategoria;
+    const idSubCategoriaFK = this.subCategoriaSeleccionada.idSubCategoria;
+    if (!idExpedienteFK) {
+      alert('El expediente seleccionado no tiene un ID válido.');
+      return;
+    }
+  
+    this.documentosService.subirDocumentos1(idExpedienteFK, this.archivos, idCategoriaFK, idSubCategoriaFK).subscribe({
+      next: (response) => {
+        alert('¡Documentos subidos exitosamente!');
+        this.resetearFormulario();
+      },
+      error: (err) => {
+        console.error('Error al subir los documentos:', err);
+        alert('Error al subir los documentos. Por favor, intenta nuevamente.');
+      },
+    });
+  }
+  
+  
+  
+
+  resetearFormulario() {
+    this.archivos = [];
+    this.expedienteSeleccionado = null;
+    this.categoriaSeleccionada = null;
+    this.subCategoriaSeleccionada = null;
+    this.subcategoriasDocumentos = [];
+  }
 }

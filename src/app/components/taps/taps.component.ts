@@ -32,7 +32,7 @@ export class TapsComponent {
     estado: 'Activo',
     descripcion: 'Expediente inicial',
     nombreServicio: 'Consulta legal',
-    estadoExpediente: 'En revisión',
+    estadoExpediente: 'proceso',
     datosAbogado: 'Abogado ABC',
     datosCliente: 'Cliente XYZ'
   }; // Define la propiedad

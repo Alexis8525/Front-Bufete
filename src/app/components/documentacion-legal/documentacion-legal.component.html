@@ -11,20 +11,30 @@
     </select>
   </div>
 
-  <!-- Selección de tipo de documento -->
-  <div class="form-group" *ngIf="expedienteSeleccionado">
-    <label for="tipoDocumento">Seleccionar Tipo de Documento:</label>
-    <select id="tipoDocumento" [(ngModel)]="tipoDocumentoSeleccionado">
-      <option *ngFor="let tipo of tiposDocumentos" [value]="tipo.tipoDocumento">
-        {{ tipo.tipoDocumento }}
+  <!-- Selección de categoría -->
+  <div class="form-group">
+    <label for="categoria">Seleccionar Categoría:</label>
+    <select id="categoria" [(ngModel)]="categoriaSeleccionada" (change)="onCategoriaChange()">
+      <option *ngFor="let categoria of categoriasDocumentos" [ngValue]="categoria">
+        {{ categoria.nombreCategoria }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Selección de subcategoría -->
+  <div class="form-group" *ngIf="categoriaSeleccionada">
+    <label for="subcategoria">Seleccionar Subcategoría:</label>
+    <select id="subcategoria" [(ngModel)]="subCategoriaSeleccionada">
+      <option *ngFor="let subcategoria of subcategoriasDocumentos" [ngValue]="subcategoria">
+        {{ subcategoria.nombreSubCategoria }}
       </option>
     </select>
   </div>
 
   <!-- Carga de archivo -->
-  <div class="form-group" *ngIf="expedienteSeleccionado">
+  <div class="form-group" *ngIf="categoriaSeleccionada && subCategoriaSeleccionada">
     <label for="file">Seleccionar Archivo:</label>
-    <input type="file" id="file" (change)="onFileSelected($event, tipoDocumentoSeleccionado)" />
+    <input type="file" id="file" (change)="onFileSelected($event)" />
   </div>
 
   <!-- Botones de acción -->
@@ -40,7 +50,7 @@
     <h3>Archivos Listos para Subir:</h3>
     <ul>
       <li *ngFor="let archivo of archivos">
-        Documento: {{ archivo.idTipoDocumentoFK }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
+        Documento: {{ archivo.idSubCategoriaFK }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
       </li>
     </ul>
   </div>

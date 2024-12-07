@@ -55,7 +55,9 @@ export const routes: Routes = [
   { path: 'calendario-cliente', component: CalendarioCitasClienteComponent },
   { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent },
   { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent },
-  { path: 'expediente', component: ExpedienteComponent }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'expediente/:idExpediente', component: ExpedienteComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

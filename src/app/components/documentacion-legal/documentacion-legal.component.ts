@@ -13,17 +13,19 @@ import { FormsModule } from '@angular/forms';
 })
 export class DocumentacionLegalComponent {
   @Input() expedientes: any[] = [];
-  @Input() tiposDocumentos: any[] = [];
+  @Input() categoriasDocumentos: any[] = [];
+  subcategoriasDocumentos: any[] = [];
 
-  archivos: { documentoBase64: string; idTipoDocumentoFK: number }[] = [];
+  archivos: { documentoBase64: string; idCategoriaFK: number;  idSubCategoriaFK: number }[] = [];
   expedienteSeleccionado: any = null;
-  tipoDocumentoSeleccionado: string = '';
+  categoriaSeleccionada: any = null;
+  subCategoriaSeleccionada: any = null;
 
   constructor(private http: HttpClient, private documentosService: DocumentosService) {}
 
   ngOnInit() {
     this.cargarExpedientes();
-    this.cargarTiposDocumentos();
+    this.cargarCategoriasDocumentos();
   }
 
   cargarExpedientes() {
@@ -33,22 +35,24 @@ export class DocumentacionLegalComponent {
     });
   }
 
-  cargarTiposDocumentos() {
-    this.documentosService.obtenerTiposDocumentos().subscribe({
-      next: (tipos) => (this.tiposDocumentos = tipos),
-      error: (err) => console.error('Error al cargar tipos de documentos:', err),
+  cargarCategoriasDocumentos() {
+    this.documentosService.obtenerCategoriasDocumentos().subscribe({
+      next: (categorias) => (this.categoriasDocumentos = categorias),
+      error: (err) => console.error('Error al cargar categorías de documentos:', err),
     });
   }
 
-  onFileSelected(event: Event, tipoDocumento: string) {
-    if (!tipoDocumento) {
-      alert('Por favor, selecciona un tipo de documento antes de subir un archivo.');
-      return;
-    }
-  
-    const idTipoDocumentoFK = this.obtenerIdTipoDocumento(tipoDocumento);
-    if (!idTipoDocumentoFK) {
-      alert(`El tipo de documento "${tipoDocumento}" no es válido.`);
+  onCategoriaChange() {
+    this.subCategoriaSeleccionada = null;
+    this.documentosService.obtenerSubCategorias(this.categoriaSeleccionada.idCategoria).subscribe({
+      next: (subcategorias) => (this.subcategoriasDocumentos = subcategorias),
+      error: (err) => console.error('Error al cargar subcategorías:', err),
+    });
+  }
+
+  onFileSelected(event: Event) {
+    if (!this.subCategoriaSeleccionada || !this.categoriaSeleccionada) {
+      alert('Por favor, selecciona una subcategoría y categoría antes de subir un archivo.');
       return;
     }
   
@@ -56,13 +60,20 @@ export class DocumentacionLegalComponent {
     if (input?.files?.length) {
       const file = input.files[0];
       this.convertFileToBase64(file).then((base64) => {
-        this.archivos.push({ documentoBase64: base64, idTipoDocumentoFK });
-        input.value = ''; // Limpiar el input de archivo
+        this.archivos.push({
+          documentoBase64: base64,
+          idCategoriaFK: this.categoriaSeleccionada.idCategoria, // Aquí agregas idCategoriaFK
+          idSubCategoriaFK: this.subCategoriaSeleccionada.idSubCategoria,
+        });
+        
+        input.value = '';
   
-        // Mostrar confirmación para agregar otro archivo
-        const continuar = confirm('Archivo añadido. ¿Deseas subir otro archivo con un nuevo tipo de documento?');
-        if (continuar) {
-          this.tipoDocumentoSeleccionado = ''; // Resetear el selector de tipo de documento
+        // Mostrar la alerta después de agregar el archivo
+        const respuesta = confirm('¿Quieres subir otro documento?');
+        if (respuesta) {
+          // Limpiar categoría y subcategoría si el usuario acepta
+          this.categoriaSeleccionada = null;
+          this.subCategoriaSeleccionada = null;
         }
       });
     }
@@ -82,12 +93,6 @@ export class DocumentacionLegalComponent {
       reader.readAsDataURL(file);
     });
   }
-  
-
-  obtenerIdTipoDocumento(tipoDocumento: string): number {
-    const tipo = this.tiposDocumentos.find((doc) => doc.tipoDocumento === tipoDocumento);
-    return tipo?.idTipoDocumento || 0;
-  }
 
   subirDocumentos() {
     if (!this.expedienteSeleccionado) {
@@ -95,29 +100,31 @@ export class DocumentacionLegalComponent {
       return;
     }
   
-    const idExpedienteFK = this.expedienteSeleccionado.idExpediente; // Cambio realizado aquí
-  
+    const idExpedienteFK = this.expedienteSeleccionado.idExpediente;
+    const idCategoriaFK = this.categoriaSeleccionada.idCategoria;
+    const idSubCategoriaFK = this.subCategoriaSeleccionada.idSubCategoria;
     if (!idExpedienteFK) {
       alert('El expediente seleccionado no tiene un ID válido.');
       return;
     }
   
-    const payload = { idExpedienteFK, documentos: this.archivos };
-  
-    this.documentosService.subirDocumentos(idExpedienteFK, this.archivos).subscribe({
+    this.documentosService.subirDocumentos1(idExpedienteFK, this.archivos, idCategoriaFK, idSubCategoriaFK).subscribe({
       next: (response) => {
         alert('¡Documentos subidos exitosamente!');
         this.resetearFormulario();
       },
-      error: (err) => console.error('Error al subir los documentos:', err),
+      error: (err) => {
+        console.error('Error al subir los documentos:', err);
+        alert('Error al subir los documentos. Por favor, intenta nuevamente.');
+      },
     });
   }
-  
-  
 
   resetearFormulario() {
     this.archivos = [];
     this.expedienteSeleccionado = null;
-    this.tipoDocumentoSeleccionado = '';
+    this.categoriaSeleccionada = null;
+    this.subCategoriaSeleccionada = null;
+    this.subcategoriasDocumentos = [];
   }
 }

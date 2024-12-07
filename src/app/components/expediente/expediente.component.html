@@ -5,7 +5,7 @@
     <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
       <div class="container-fluid p-0">
         <a class="navbar-brand" href="#">
-          <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+          <img src="/logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
       </div>
     </nav>
@@ -189,19 +189,61 @@
 
         <!-- Documentación Legal -->
         <div class="tab-pane fade" id="documentos" role="tabpanel" aria-labelledby="documentos-tab">
-          <h3 class="mb-4">Documentación Legal</h3>
-          <form>
-            <div class="mb-3">
-              <label for="contratoInicial" class="form-label">Contratos y Acuerdos Iniciales</label>
-              <textarea class="form-control" id="contratoInicial"
-                rows="3">Contrato de prestación de servicios legales</textarea>
-            </div>
-            <div class="mb-3">
-              <label for="escritosPresentados" class="form-label">Escritos Presentados</label>
-              <textarea class="form-control" id="escritosPresentados" rows="3">Demanda inicial</textarea>
-            </div>
-          </form>
+          <h2>Documentación Legal</h2>
+        
+          <div *ngIf="expediente" class="expediente-info">
+            <h3>Expediente:</h3>
+            <p><strong>Nombre:</strong> {{ expediente.nombreExpediente }}<br />
+              <strong>ID:</strong> {{ expediente.idExpediente }}</p>
+          </div>
+          <!-- Selección de categoría -->
+          <div class="form-group">
+            <label for="categoria">Seleccionar Categoría:</label>
+            <select id="categoria" [(ngModel)]="categoriaSeleccionada" (change)="onCategoriaChange()">
+              <option *ngFor="let categoria of categoriasDocumentos" [ngValue]="categoria">
+                {{ categoria.nombreCategoria }}
+              </option>
+            </select>
+          </div>
+
+        
+          <div class="form-group" *ngIf="categoriaSeleccionada">
+            <label for="subcategoria">Seleccionar Subcategoría:</label>
+            <select id="subcategoria" [(ngModel)]="subCategoriaSeleccionada">
+              <option *ngFor="let subcategoria of subcategoriasDocumentos" [ngValue]="subcategoria">
+                {{ subcategoria.nombreSubCategoria }}
+              </option>
+            </select>
+          </div>
+
+        
+          <!-- Carga de archivo -->
+          <div class="form-group" *ngIf="categoriaSeleccionada && subCategoriaSeleccionada">
+            <label for="file">Seleccionar Archivo:</label>
+            <input type="file" id="file" (change)="onFileSelected($event)" />
+          </div>
+        
+          <!-- Botones de acción -->
+          <div class="button-group">
+            <button (click)="subirDocumentos()" [disabled]="archivos.length === 0 || !expedienteSeleccionado">
+              Subir Documentos
+            </button>
+            <button (click)="resetearFormulario()">Resetear</button>
+          </div>
+        
+        
+          <!-- Archivos seleccionados -->
+          <div class="archivos-list" *ngIf="archivos.length > 0">
+            <h3>Archivos Listos para Subir:</h3>
+            <ul>
+              <li *ngFor="let archivo of archivos">
+                Documento: {{ archivo.idSubCategoriaFK }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
+              </li>
+            </ul>
+          </div>
         </div>
+        
+                       
       </div>
     </div>
   </div>

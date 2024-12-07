@@ -10,17 +10,29 @@ export class DocumentosService {
   private apiUrl = 'http://localhost:3000/documentos';
     constructor(private http: HttpClient) {}
 
-    subirDocumentos(idExpediente: number, documentos: { documentoBase64: string, idTipoDocumentoFK: number }[]): Observable<any> {
-      const payload = { idExpedienteFK: idExpediente, documentos };
-      console.log('Payload enviado al servidor:', payload); // Validar aquí
-      return this.http.post(`${this.apiUrl}/subirDocumento`, payload);
+    subirDocumentos1(idExpediente: number, archivos: any[], idCategoria: number, idSubCategoria: number) {
+      const url = `${this.apiUrl}/subirDocumento`;
+      const payload = {
+        idExpedienteFK: idExpediente,
+        documentos: archivos.map(archivo => ({
+          documentoBase64: archivo.documentoBase64,
+          idCategoriaFK: archivo.idCategoriaFK || idCategoria,
+          idSubCategoriaFK: archivo.idSubCategoriaFK || idSubCategoria
+        }))
+      };
+      console.log(payload)
+      return this.http.post(url, payload);
     }
+    
     
   obtenerExpedientes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/obtenerExp`);
   }
 
-  obtenerTiposDocumentos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/tiposDocumentos`);
+  obtenerCategoriasDocumentos(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/obtenerCategoriasYSubcategorias`);
+  }
+  obtenerSubCategorias(idCategoria: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/obtenerSubCategorias/${idCategoria}`);
   }
 }

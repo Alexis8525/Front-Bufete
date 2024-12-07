@@ -19,63 +19,20 @@
             </div>
             <div class="card-body">
               <p>Fecha de creación: {{ expediente.fechaCreacion }}</p>
-              <p>Estado: <strong>{{ expediente.estado || 'Sin estado' }}</strong></p> <!-- Aseguramos que si no hay estado, se muestre 'Sin estado' -->
-              <p>Descripcion: <strong>{{ expediente.descripcion || 'Sin estado' }}</strong></p>
+              <p>Estado: <strong>{{ expediente.estado || 'Sin estado' }}</strong></p>
+              <p>Descripcion: <strong>{{ expediente.descripcion || 'Sin descripcion' }}</strong></p>
               <p>Datos del Abogado: <strong>{{ expediente.datosAbogado }}</strong></p>
               <p>Datos del Cliente: <strong>{{ expediente.datosCliente }}</strong></p>
-
-              <h4>Documentos Asociados:</h4>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Tipo de Documento</th>
-                    <th>Fecha de Subida</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let doc of expediente.documentos">
-                    <td>{{ doc.tipoDocumento }}</td>
-                    <td>{{ doc.fechaSubida }}</td>
-                    <td>{{ doc.estado }}</td>
-                    <td>
-                      <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="pdfModalLabel">Vista del Documento</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <iframe *ngIf="pdfSrc" [src]="pdfSrc" width="100%" height="600px"></iframe>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <button (click)="abrirModal(doc.documentoBase64)" class="btn btn-secondary">
-                        Ver Documento
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
             <div class="card-footer d-flex justify-content-end gap-2">
-              <button (click)="actualizarExpediente(expediente.idExpediente)" class="btn btn-actualizar">
-                Actualizar
-              </button>
-              <button (click)="eliminarExpediente(expediente.idExpediente)" class="btn btn-eliminar">
-                Eliminar
-              </button>
-            </div>
+              <div class="text-center mt-3">
+                <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
+              </div>
+            </div>            
           </div>
-        </div>        
+        </div>
       </div>
+
     </div>
   </div>
 </div>

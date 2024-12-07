@@ -23,6 +23,15 @@ app-barra-lateral {
     overflow-y: auto;
 }
 
+.expediente-info {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+  }
+  
+
 .nav-tabs {
     margin-bottom: 1rem;
     border-bottom: 2px solid #dee2e6;
@@ -47,3 +56,16 @@ app-barra-lateral {
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
 }
+.documentacion-legal {
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+
+

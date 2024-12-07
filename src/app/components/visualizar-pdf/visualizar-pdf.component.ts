@@ -6,8 +6,7 @@ import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component'
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
-
-
+import { RouterModule } from '@angular/router'; 
 
 declare var bootstrap: any;
 
@@ -17,7 +16,8 @@ declare var bootstrap: any;
   imports: [
     BarraLateralComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   templateUrl: './visualizar-pdf.component.html',
   styleUrls: ['./visualizar-pdf.component.scss']
