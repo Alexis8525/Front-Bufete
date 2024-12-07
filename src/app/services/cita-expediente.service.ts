@@ -6,13 +6,17 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class CitaExpedienteService {
-  private apiUrl = 'http://localhost:3000/api/citasExpediente';
+  private apiUrl = 'http://localhost:3000/citasExpediente';
 
   constructor(private http: HttpClient) {}
 
   // Obtener citas por expediente
   getCitasByExpediente(idExpediente: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/expediente/${idExpediente}`);
+  }
+
+  getCitasPorExpediente(idExpediente: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${idExpediente}`);
   }
 
   // Crear cita
@@ -27,6 +31,6 @@ export class CitaExpedienteService {
 
   // Obtener el expediente (Método agregado)
   getExpediente(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/api/expedientes');
+    return this.http.get<any[]>('http://localhost:3000/expedientes');
   }
 }

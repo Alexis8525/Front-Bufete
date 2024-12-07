@@ -6,6 +6,7 @@ import { Expediente } from '../../models/expediente';
 import { ExpedienteService } from '../../services/expediente.service';
 import { DocumentosService } from '../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
+import { CitaExpedienteService } from '../../services/cita-expediente.service';
 
 @Component({
   selector: 'app-expediente',
@@ -23,6 +24,11 @@ export class ExpedienteComponent implements OnInit {
   @Input() categoriasDocumentos: any[] = [];
   subcategoriasDocumentos: any[] = [];
 
+  citas: any[] = []; // Lista de citas
+  loading: boolean = true; // Indicador de carga
+  errorMessage: string | null = null; // Mensaje de error
+
+
   archivos: { documentoBase64: string; idCategoriaFK: number;  idSubCategoriaFK: number }[] = [];
   expedienteSeleccionado: any = null;
   categoriaSeleccionada: any = null;
@@ -37,7 +43,8 @@ export class ExpedienteComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private expedienteService: ExpedienteService,
-    private documentosService: DocumentosService
+    private documentosService: DocumentosService,
+    private citaExpedienteService: CitaExpedienteService
   ) { }
 
   ngOnInit() {
@@ -49,6 +56,22 @@ export class ExpedienteComponent implements OnInit {
     this.getInformacionGeneral();
     this.cargarExpedientes();
     this.cargarCategoriasDocumentos(); // Cargar categorías al iniciar
+    this.cargarCitas(this.idExpediente);
+  }
+
+  cargarCitas(idExpediente: number) {
+    this.citaExpedienteService.getCitasPorExpediente(idExpediente).subscribe({
+      next: (data) => {
+        this.citas = data;
+        this.loading = false;
+        console.log('Citas cargadas:', this.citas);
+      },
+      error: (err) => {
+        console.error('Error al cargar citas:', err);
+        this.errorMessage = 'No se pudieron cargar las citas.';
+        this.loading = false;
+      },
+    });
   }
   
 

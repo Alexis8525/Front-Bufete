@@ -169,23 +169,53 @@
         <!-- Registro de Citas -->
         <div class="tab-pane fade" id="citas" role="tabpanel" aria-labelledby="citas-tab">
           <h3 class="mb-4">Registro de Citas</h3>
-          <form>
-            <div class="row mb-3">
-              <div class="col-md-6">
-                <label for="fechaCita" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fechaCita" value="2024-02-01">
-              </div>
-              <div class="col-md-6">
-                <label for="horaCita" class="form-label">Hora</label>
-                <input type="time" class="form-control" id="horaCita" value="10:00">
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="motivoCita" class="form-label">Motivo</label>
-              <textarea class="form-control" id="motivoCita" rows="3">Revisión de documentos</textarea>
-            </div>
-          </form>
+
+          <!-- Indicador de carga -->
+          <div *ngIf="loading" class="text-center">
+            <p>Cargando citas...</p>
+          </div>
+        
+          <!-- Mensaje de error -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+        
+          <!-- Tabla de citas -->
+          <div *ngIf="!loading && citas.length > 0">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Motivo</th>
+                  <th>Notas</th>
+                  <th>Estado</th>
+                  <th>Expediente</th>
+                  <th>Cliente</th>
+                  <th>Servicio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cita of citas">
+                  <td>{{ cita.fecha | date }}</td>
+                  <td>{{ cita.hora }}</td>
+                  <td>{{ cita.motivo }}</td>
+                  <td>{{ cita.notas }}</td>
+                  <td>{{ cita.estadoCita }}</td>
+                  <td>{{ cita.nombreExpediente }}</td>
+                  <td>{{ cita.nombreCliente }}</td>
+                  <td>{{ cita.nombreServicio }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          <!-- Mensaje si no hay citas -->
+          <div *ngIf="!loading && citas.length === 0" class="text-center">
+            <p>No hay citas registradas.</p>
+          </div>
         </div>
+        
 
         <!-- Documentación Legal -->
         <div class="tab-pane fade" id="documentos" role="tabpanel" aria-labelledby="documentos-tab">
@@ -241,9 +271,7 @@
               </li>
             </ul>
           </div>
-        </div>
-        
-                       
+        </div>             
       </div>
     </div>
   </div>
