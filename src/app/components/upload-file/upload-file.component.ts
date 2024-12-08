@@ -4,7 +4,7 @@ import { UploadFileService } from '../../services/upload-file.service';
 import { FormsModule } from '@angular/forms';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
-import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
+// import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
 import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente';
 import { EmpleadoService } from '../../services/empleado.service';
@@ -266,17 +266,17 @@ export class UploadFileComponent {
   }
 
   // Métodos para aplicar los decoradores
-  marcarPrioritario() {
-    const expedienteBase = new ExpedienteBase();
-    const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
-    this.expedienteDecorado = expedientePrioritario.getDetalle();
-    console.log(this.expedienteDecorado);
-  }
+  // marcarPrioritario() {
+  //   const expedienteBase = new ExpedienteBase();
+  //   const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
+  //   this.expedienteDecorado = expedientePrioritario.getDetalle();
+  //   console.log(this.expedienteDecorado);
+  // }
 
-  archivarExpediente() {
-    const expedienteBase = new ExpedienteBase();
-    const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
-    this.expedienteDecorado = expedienteArchivado.getDetalle();
-    console.log(this.expedienteDecorado);
-  }
+  // archivarExpediente() {
+  //   const expedienteBase = new ExpedienteBase();
+  //   const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
+  //   this.expedienteDecorado = expedienteArchivado.getDetalle();
+  //   console.log(this.expedienteDecorado);
+  // }
 }

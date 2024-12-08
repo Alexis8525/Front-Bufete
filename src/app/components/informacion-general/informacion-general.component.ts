@@ -5,7 +5,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
+// import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
 
 declare var bootstrap: any;
 
@@ -35,12 +35,12 @@ export class InformacionGeneralComponent {
   ) {}
 
   ngOnInit(): void {
-    const expedienteBase = new ExpedienteBase();
-    const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
-    const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
+    // const expedienteBase = new ExpedienteBase();
+    // const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
+    // const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
 
-    this.expedientePrioritario = expedientePrioritario.getDetalle();
-    this.expedienteArchivado = expedienteArchivado.getDetalle();
+    // this.expedientePrioritario = expedientePrioritario.getDetalle();
+    // this.expedienteArchivado = expedienteArchivado.getDetalle();
 
     // Cargar expedientes
     this.loadExpedientes();
@@ -50,7 +50,7 @@ export class InformacionGeneralComponent {
     this.uploadFileService.getExpedienteCompleto().subscribe(
       (response: any[]) => {
         this.expedientes = response.map((expediente: any) => {
-          let expedienteComponent: ExpedienteComponent = new ExpedienteBase();
+          // let expedienteComponent: ExpedienteComponent = new ExpedienteBase();
 
   
           // Procesar datos del abogado
@@ -62,16 +62,16 @@ export class InformacionGeneralComponent {
           const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}, Dirección: ${datosCliente.direccion || 'No especificada'}, Teléfono: ${datosCliente.telefono || 'Sin teléfono'}, Correo: ${datosCliente.correo || 'Sin correo'}`;
           // Decoradores de expedientes
           if (expediente.estado === 'PRIORITARIO') {
-            expedienteComponent = new PrioritarioExpediente(expedienteComponent);
+            // expedienteComponent = new PrioritarioExpediente(expedienteComponent);
           }
           if (expediente.archivado) {
-            expedienteComponent = new ArchivadoExpediente(expedienteComponent);
+            // expedienteComponent = new ArchivadoExpediente(expedienteComponent);
           }
           return {
             ...expediente,
             datosAbogado: datosAbogadoConcatenados,
             datosCliente: datosClienteConcatenados,
-            detalle: expedienteComponent.getDetalle(),
+            // detalle: expedienteComponent.getDetalle(),
           };
         });
       },

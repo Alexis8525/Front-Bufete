@@ -8,6 +8,11 @@ import { DocumentosService } from '../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
 import { CitaExpedienteService } from '../../services/cita-expediente.service';
 import { RouterModule } from '@angular/router'; 
+import { ExpedienteComponente } from '../../decorador/expediente-componente.interface';
+import { ExpedienteDecorator } from '../../decorador/expediente.decorator';
+import { CargarInformacionConValidacionDecorator } from '../../decorador/cargar-informacion-con-validacion.decorator';
+import { CargarDocumentosConAlertaDecorator } from '../../decorador/cargar-documentos-con-alerta.decorator';
+
 
 @Component({
   selector: 'app-expediente',
@@ -249,7 +254,6 @@ export class ExpedienteComponent implements OnInit {
       reader.readAsDataURL(file);
     });
   }
-  
 
   subirDocumentos() {
     if (!this.expedienteSeleccionado) {
@@ -276,9 +280,6 @@ export class ExpedienteComponent implements OnInit {
       },
     });
   }
-  
-  
-  
 
   resetearFormulario() {
     this.archivos = [];

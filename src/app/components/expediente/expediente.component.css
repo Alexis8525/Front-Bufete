@@ -29,25 +29,23 @@
 /* Content Wrapper */
 .p-3 {
     flex-grow: 1;
-    max-height: 100vh;
-    background-color: #fafbfe;
+    background-color: #f4f6f9;
     padding: 2rem;
     overflow-y: auto;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #dcdcdc;
 }
 
-
-/* Expediente Info Card */
-.expediente-info {
-    background-color: #f7f7f7;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
+/* Cards */
+.card {
+    border: none;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
-    line-height: 1.5;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 1.5rem;
 }
 
 /* Tabs */
@@ -62,7 +60,7 @@
     border: 1px solid transparent;
     border-radius: 0.25rem 0.25rem 0 0;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .nav-link.active {
@@ -72,71 +70,82 @@
 }
 
 .nav-link:hover {
-    background-color: rgba(0, 31, 63, 0.1);
+    background-color: rgba(0, 31, 63, 0.15);
     color: #001f3f;
 }
 
 /* Tab Content */
 .tab-content {
-    padding: 1rem;
+    padding: 1.5rem;
     background: #ffffff;
     border: 1px solid #dee2e6;
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Documentación Legal */
-.documentacion-legal {
-    max-width: 600px;
-    margin: 20px auto;
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Botones y Formularios */
-button, input, select {
-    border-radius: 4px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
-}
-
+/* Buttons */
 button {
     background-color: #001f3f;
-    color: white;
+    color: #fff;
     padding: 0.5rem 1rem;
     border: none;
+    border-radius: 4px;
     transition: background-color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
 }
 
 button:hover {
     background-color: #003a6b;
 }
 
+/* Form Controls */
 .form-control, .form-select {
+    border-radius: 4px;
     border: 1px solid #ccc;
     padding: 0.5rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
 }
 
-/* Tablas */
+.form-control:focus, .form-select:focus {
+    border-color: #001f3f;
+    box-shadow: 0 0 0 2px rgba(0, 31, 63, 0.2);
+}
+
+/* Tables */
 .table {
     border-collapse: collapse;
     width: 100%;
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
 }
 
 .table th {
     background-color: #001f3f;
-    color: white;
+    color: #fff;
+    padding: 0.75rem;
     text-align: left;
-    padding: 8px;
 }
 
 .table td {
+    padding: 0.75rem;
     border: 1px solid #ddd;
-    padding: 8px;
+    color: #333;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
 }
