@@ -16,8 +16,8 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [
     BarraLateralComponent,
-    FormsModule,
     CommonModule,
+    FormsModule,
     RouterModule
   ],
 })
@@ -30,17 +30,27 @@ export class ExpedienteComponent implements OnInit {
   loading: boolean = true; // Indicador de carga
   errorMessage: string | null = null; // Mensaje de error
 
-
   archivos: { documentoBase64: string; idCategoriaFK: number;  idSubCategoriaFK: number }[] = [];
   expedienteSeleccionado: any = null;
   categoriaSeleccionada: any = null;
   subCategoriaSeleccionada: any = null;
 
   idExpediente: number = 0; // Número de expediente a buscar
-  expediente: Expediente | null = null; // Información del expediente
+  expediente: Expediente | null = null;
   demandantes: any[] = []; // Lista de demandantes
   demandados: any[] = []; // Lista de demandados
   terceros: any[] = []; // Lista de terceros relacionados
+
+  nuevaParte: any = {
+    tipoParte: '',
+    nombreCompleto: '',
+    identificacionOficial: '',
+    domicilio: '',
+    telefono: '',
+    correo: '',
+    representanteLegalNombre: ''
+  };
+  
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -50,17 +60,49 @@ export class ExpedienteComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // Obtener el ID del expediente desde la ruta
     this.idExpediente = +this.activatedRoute.snapshot.paramMap.get('idExpediente')!;
-    console.log('ID del Expediente:', this.idExpediente);
+  console.log('ID del Expediente:', this.idExpediente);
   
-    // Cargar la información del expediente y las categorías
-    this.getInformacionGeneral();
-    this.getPartesRelacionadas();
-    this.cargarExpedientes();
-    this.cargarCategoriasDocumentos(); // Cargar categorías al iniciar
-    this.cargarCitas(this.idExpediente);
+  // Inicializar las categorías y subcategorías
+  this.categoriaSeleccionada = null; // Asegúrate de que no haya una categoría seleccionada inicialmente
+  this.subCategoriaSeleccionada = null; // Lo mismo para la subcategoría
+  
+  // Cargar la información del expediente y las categorías
+  this.getInformacionGeneral();
+  this.getPartesRelacionadas();
+  this.cargarCitas(this.idExpediente);
+  this.cargarCategoriasDocumentos();
   }
+
+  agregarParte() {
+    if (!this.nuevaParte.tipoParte) {
+      alert('Por favor, selecciona un tipo de parte.');
+      return;
+    }
+  
+    const nuevaParte = { ...this.nuevaParte };
+    if (nuevaParte.tipoParte === 'Demandante') {
+      this.demandantes.push(nuevaParte);
+    } else if (nuevaParte.tipoParte === 'Demandado') {
+      this.demandados.push(nuevaParte);
+    } else if (nuevaParte.tipoParte === 'Tercero Relacionado') {
+      this.terceros.push(nuevaParte);
+    }
+
+    console.log(nuevaParte)
+  
+    alert('Parte agregada exitosamente.');
+  }
+
+  guardarPartes() {
+    this.expedienteService.agregarParte(this.idExpediente, { demandantes: this.demandantes, demandados: this.demandados, terceros: this.terceros })
+      .subscribe({
+        next: () => alert('Partes guardadas exitosamente.'),
+        error: (err) => console.error('Error al guardar partes:', err),
+      });
+  }
+  
+  
 
   cargarCitas(idExpediente: number) {
     this.citaExpedienteService.getCitasPorExpediente(idExpediente).subscribe({
@@ -136,13 +178,6 @@ export class ExpedienteComponent implements OnInit {
         return estado; // Por si acaso
     }
   }
-  cargarExpedientes() {
-    this.documentosService.obtenerExpedientes().subscribe({
-      next: (expedientes) => (this.expedientes = expedientes),
-      error: (err) => console.error('Error al cargar expedientes:', err),
-    });
-  }
-
 
   cargarCategoriasDocumentos() {
     this.documentosService.obtenerCategoriasDocumentos().subscribe({
@@ -150,16 +185,29 @@ export class ExpedienteComponent implements OnInit {
       error: (err) => console.error('Error al cargar categorías de documentos:', err),
     });
   }
-  
 
   onCategoriaChange() {
+    if (!this.categoriaSeleccionada) {
+      return; // Evitar hacer la llamada si no hay categoría seleccionada
+    }
+  
+    console.log('ID de la categoría seleccionada:', this.categoriaSeleccionada.idCategoria);
+  
     this.subCategoriaSeleccionada = null;
     this.documentosService.obtenerSubCategorias(this.categoriaSeleccionada.idCategoria).subscribe({
-      next: (subcategorias) => (this.subcategoriasDocumentos = subcategorias),
+      next: (subcategorias) => {
+        if (subcategorias && subcategorias.length > 0) {
+          this.subcategoriasDocumentos = subcategorias;
+        } else {
+          this.subcategoriasDocumentos = []; // Asegurarse de que sea un array vacío si no hay subcategorías
+        }
+      },
       error: (err) => console.error('Error al cargar subcategorías:', err),
     });
   }
   
+  
+
   onFileSelected(event: Event) {
     if (!this.subCategoriaSeleccionada || !this.categoriaSeleccionada) {
       alert('Por favor, selecciona una subcategoría y categoría antes de subir un archivo.');
@@ -172,16 +220,14 @@ export class ExpedienteComponent implements OnInit {
       this.convertFileToBase64(file).then((base64) => {
         this.archivos.push({
           documentoBase64: base64,
-          idCategoriaFK: this.categoriaSeleccionada.idCategoria, // Aquí agregas idCategoriaFK
+          idCategoriaFK: this.categoriaSeleccionada.idCategoria, 
           idSubCategoriaFK: this.subCategoriaSeleccionada.idSubCategoria,
         });
         
         input.value = '';
   
-        // Mostrar la alerta después de agregar el archivo
         const respuesta = confirm('¿Quieres subir otro documento?');
         if (respuesta) {
-          // Limpiar categoría y subcategoría si el usuario acepta
           this.categoriaSeleccionada = null;
           this.subCategoriaSeleccionada = null;
         }
@@ -195,13 +241,11 @@ export class ExpedienteComponent implements OnInit {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64 = reader.result as string;
-        console.log('Contenido Base64:', base64);
-        resolve(base64.split(',')[1]); // Asegúrate de dividir correctamente
+        // Eliminar el prefijo antes de resolver
+        const base64SinPrefijo = base64.split(',')[1]; 
+        resolve(base64SinPrefijo);
       };
-      reader.onerror = (error) => {
-        console.error('Error al convertir archivo a Base64:', error);
-        reject(error);
-      };
+      reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   }
@@ -238,7 +282,6 @@ export class ExpedienteComponent implements OnInit {
 
   resetearFormulario() {
     this.archivos = [];
-    this.expedienteSeleccionado = null;
     this.categoriaSeleccionada = null;
     this.subCategoriaSeleccionada = null;
     this.subcategoriasDocumentos = [];

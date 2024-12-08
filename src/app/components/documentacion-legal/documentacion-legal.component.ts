@@ -16,10 +16,11 @@ export class DocumentacionLegalComponent {
   @Input() categoriasDocumentos: any[] = [];
   subcategoriasDocumentos: any[] = [];
 
-  archivos: { documentoBase64: string; idCategoriaFK: number;  idSubCategoriaFK: number }[] = [];
+  archivos: any[] = [];;
   expedienteSeleccionado: any = null;
   categoriaSeleccionada: any = null;
   subCategoriaSeleccionada: any = null;
+  expediente: any; // Objeto para almacenar el expediente actual
 
   constructor(private http: HttpClient, private documentosService: DocumentosService) {}
 

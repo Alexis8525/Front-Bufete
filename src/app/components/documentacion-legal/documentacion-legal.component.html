@@ -50,7 +50,7 @@
     <h3>Archivos Listos para Subir:</h3>
     <ul>
       <li *ngFor="let archivo of archivos">
-        Documento: {{ archivo.idSubCategoriaFK }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
+        Documento: {{ archivo.nombreSubCategoria }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
       </li>
     </ul>
   </div>

@@ -40,4 +40,8 @@ export class ExpedienteService {
   getPartesPorExpediente(idExpediente: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.URL_API}/partes-expediente/${idExpediente}`);
   }
+  agregarParte(idExpediente: number, parteData: any): Observable<any> {
+    return this.http.post<any>(`${this.URL_API}/agregar-parte`, { idExpediente, ...parteData });
+  }
+  
 }

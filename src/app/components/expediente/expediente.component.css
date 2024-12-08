@@ -1,24 +1,19 @@
-/* General Layout */
 .wrapper {
     display: flex;
     height: 100vh;
-    overflow: hidden;
-}
-
-/* Barra lateral */
-app-barra-lateral {
+    overflow: hidden; /* Evita el desbordamiento */
+  }
+  
+  .app-barra-lateral {
     height: 100vh;
     flex-shrink: 0;
-    background-color: #001f3f; /* Color corporativo */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Main Content */
-.main {
+  }
+  
+  .main {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-}
+  }
 
 .navbar {
     background-color: #001f3f;
@@ -40,6 +35,7 @@ app-barra-lateral {
     overflow-y: auto;
     border-top: 1px solid #e0e0e0;
 }
+
 
 /* Expediente Info Card */
 .expediente-info {
