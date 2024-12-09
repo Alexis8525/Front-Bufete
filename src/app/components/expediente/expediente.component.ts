@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Expediente } from '../../models/expediente';
 import { ExpedienteService } from '../../services/expediente.service';
+import { CitaService } from '../../services/cita.service';
 
 @Component({
   selector: 'app-expediente',
@@ -23,14 +24,18 @@ export class ExpedienteComponent implements OnInit {
   demandantes: any[] = []; // Lista de demandantes
   demandados: any[] = []; // Lista de demandados
   terceros: any[] = []; // Lista de terceros relacionados
+  citasCompletadas: any[] = []; // Almacena las citas completadas del expediente
+
 
   constructor(
-    private expedienteService: ExpedienteService
+    private expedienteService: ExpedienteService,
+    private citaService: CitaService
   ) { }
 
   ngOnInit() {
     this.getInformacionGeneral();
     this.getPartesRelacionadas(); 
+    this.getCitasCompletadas(); 
   }
 
   getInformacionGeneral() {
@@ -73,6 +78,32 @@ export class ExpedienteComponent implements OnInit {
     );
   }
 
+  getCitasCompletadas(): void {
+    this.citaService.getCitasCompletadasByExpediente(this.numeroExpediente).subscribe(
+      (citas) => {
+        this.citasCompletadas = citas.map((cita) => {
+          const horaInicio = cita.horaInicio
+            ? new Date(cita.horaInicio).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
+            : '';
+          const horaFinal = cita.horaFinal
+            ? new Date(cita.horaFinal).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
+            : '';
+          return {
+            ...cita,
+            horaInicio,
+            horaFinal
+          };
+        });
+        console.log('Citas completadas:', this.citasCompletadas);
+      },
+      (error) => {
+        console.error('Error al obtener citas completadas:', error);
+      }
+    );
+  }
+  
+
+
   // Método para formatear la fecha
   formatearFecha(fecha: string): string {
     return fecha.split('T')[0]; // Extrae solo la parte de la fecha (YYYY-MM-DD)
@@ -91,5 +122,16 @@ export class ExpedienteComponent implements OnInit {
         return estado; // Por si acaso
     }
   }
+
+  verNotas() {
+    console.log("Ver notas clickeado");
+    // Aquí agrega la lógica para mostrar las notas
+  }
+  
+  nuevaNota() {
+    console.log("Nueva nota clickeada");
+    // Aquí agrega la lógica para crear una nueva nota
+  }
+  
 
 }
