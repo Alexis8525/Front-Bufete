@@ -57,6 +57,11 @@ export class CitaService {
     return this.http.put<Cita>(`${this.URL_API}/cancelar`, { idCita });
   }
 
+  // Completar una cita
+  completarCita(idCita: number): Observable<Cita> {
+    return this.http.put<Cita>(`${this.URL_API}/completar-cita`, { idCita });
+  }
+
   // Obtener servicios únicos asociados a las citas de un cliente específico
   getServiciosPorCitasDeCliente(idCliente: number): Observable<{ idServicio: number; nombreServicio: string }[]> {
     return this.http.get<{ idServicio: number; nombreServicio: string }[]>(`${this.URL_API}/clientes/${idCliente}/servicios`);
