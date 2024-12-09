@@ -38,48 +38,25 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label for="idExpediente" class="form-label">ID Expediente</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="idExpediente"
-                  [(ngModel)]="expediente.idExpediente"
-                  name="idExpediente"
-                  readonly
-                />
+                <input type="text" class="form-control" id="idExpediente" [(ngModel)]="expediente.idExpediente"
+                  name="idExpediente" readonly />
               </div>
               <div class="col-md-6">
                 <label for="fechaApertura" class="form-label">Fecha Apertura</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fechaApertura"
-                  [(ngModel)]="expediente.fechaApertura"
-                  name="fechaApertura"
-                  readonly
-                />
+                <input type="date" class="form-control" id="fechaApertura" [(ngModel)]="expediente.fechaApertura"
+                  name="fechaApertura" readonly />
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-6">
-                <label for="nombreServicio" class="form-label">Nombre del Expediente</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nombreServicio"
-                  [(ngModel)]="expediente.nombreExpediente"
-                  name="nombreServicio"
-                  readonly
-                />
+                <label for="nombreServicio" class="form-label">Nombre del Servicio</label>
+                <input type="text" class="form-control" id="nombreServicio" [(ngModel)]="expediente.nombreExpediente"
+                  name="nombreServicio" readonly />
               </div>
               <div class="col-md-6">
                 <label for="estadoExpediente" class="form-label">Estado del Expediente</label>
-                <select
-                  class="form-select"
-                  id="estadoExpediente"
-                  [(ngModel)]="expediente.estado"
-                  name="estadoExpediente"
-                  disabled
-                >
+                <select class="form-select" id="estadoExpediente" [(ngModel)]="expediente.estado"
+                  name="estadoExpediente" disabled>
                   <option [value]="'Abierto'">Abierto</option>
                   <option [value]="'En Proceso'">En Proceso</option>
                   <option [value]="'Cerrado'">Cerrado</option>
@@ -87,12 +64,13 @@
               </div>
             </div>
           </form>
-        
+
           <!-- Mensaje mientras carga -->
           <ng-template #cargando>
             <p>Cargando información del expediente...</p>
           </ng-template>
         </div>
+
 
         <!-- Datos de las Partes -->
         <div class="tab-pane fade" id="partes" role="tabpanel" aria-labelledby="partes-tab">
@@ -214,53 +192,41 @@
       
       
         <!-- Registro de Citas -->
-        <div class="tab-pane fade" id="citas" role="tabpanel" aria-labelledby="citas-tab">
-          <h3 class="mb-4">Registro de Citas</h3>
-
-          <!-- Indicador de carga -->
-          <div *ngIf="loading" class="text-center">
-            <p>Cargando citas...</p>
-          </div>
-        
-          <!-- Mensaje de error -->
-          <div *ngIf="errorMessage" class="alert alert-danger">
-            {{ errorMessage }}
-          </div>
-        
-          <!-- Tabla de citas -->
-          <div *ngIf="!loading && citas.length > 0">
-            <table class="table table-bordered">
+        <div class="tab-pane fade" id="infocita" role="tabpanel" aria-labelledby="documentos-tab">
+          <h3 class="mb-4">Información citas</h3>
+          <form>
+            <div *ngIf="citasCompletadas.length === 0">
+              <p>No hay citas completadas registradas para este expediente.</p>
+            </div>
+            <table class="table table-striped" *ngIf="citasCompletadas.length > 0">
               <thead>
                 <tr>
-                  <th>Fecha</th>
-                  <th>Hora</th>
+                  <th>ID Cita</th>
                   <th>Motivo</th>
-                  <th>Notas</th>
                   <th>Estado</th>
-                  <th>Expediente</th>
+                  <th>Hora Inicio</th>
+                  <th>Hora Final</th>
                   <th>Cliente</th>
-                  <th>Servicio</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let cita of citas">
-                  <td>{{ cita.fecha | date }}</td>
-                  <td>{{ cita.hora }}</td>
+                <tr *ngFor="let cita of citasCompletadas">
+                  <td>{{ cita.idCita }}</td>
                   <td>{{ cita.motivo }}</td>
-                  <td>{{ cita.notas }}</td>
                   <td>{{ cita.estadoCita }}</td>
-                  <td>{{ cita.nombreExpediente }}</td>
+                  <td>{{ cita.horaInicio }}</td>
+                  <td>{{ cita.horaFinal }}</td>
                   <td>{{ cita.nombreCliente }}</td>
-                  <td>{{ cita.nombreServicio }}</td>
+                  <td>
+                    <!-- Botones de acción -->
+                    <button class="btn btn-primary btn-sm me-2" (click)="verNotas()">Ver Notas</button>
+                    <button class="btn btn-success btn-sm" (click)="nuevaNota()">Nueva Nota</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-        
-          <!-- Mensaje si no hay citas -->
-          <div *ngIf="!loading && citas.length === 0" class="text-center">
-            <p>No hay citas registradas.</p>
-          </div>
+          </form>
         </div>
         
 

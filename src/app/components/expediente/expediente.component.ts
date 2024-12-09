@@ -12,6 +12,7 @@ import { ExpedienteComponente } from '../../decoradores/decoradoresDocumentos/ex
 import { ExpedienteDecorator } from '../../decoradores/decoradoresDocumentos/expediente.decorator';
 import { CargarInformacionConValidacionDecorator } from '../../decoradores/decoradoresDocumentos/cargar-informacion-con-validacion.decorator';
 import { CargarDocumentosConAlertaDecorator } from '../../decoradores/decoradoresDocumentos/cargar-documentos-con-alerta.decorator';
+import { CitaService } from '../../services/cita.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
   @Input() expedientes: any[] = [];
   @Input() categoriasDocumentos: any[] = [];
   subcategoriasDocumentos: any[] = [];
+  citasCompletadas: any[] = [];
 
   citas: any[] = []; // Lista de citas
   loading: boolean = true; // Indicador de carga
@@ -57,12 +59,14 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     representanteLegalNombre: ''
   };
   
+  numeroExpediente: string = '1001';
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private expedienteService: ExpedienteService,
     private documentosService: DocumentosService,
-    private citaExpedienteService: CitaExpedienteService
+    private citaExpedienteService: CitaExpedienteService,
+    private citaService: CitaService
   ) { }
   
 
@@ -102,6 +106,29 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
   cargarDocumentos() {
     this.expedienteComponent.cargarDocumentos();
   }
+  getCitasCompletadas(): void {
+    this.citaService.getCitasCompletadasByExpediente(this.numeroExpediente).subscribe(
+      (citas) => {
+        this.citasCompletadas = citas.map((cita) => {
+          const horaInicio = cita.horaInicio
+            ? new Date(cita.horaInicio).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
+            : '';
+          const horaFinal = cita.horaFinal
+            ? new Date(cita.horaFinal).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
+            : '';
+          return {
+            ...cita,
+            horaInicio,
+            horaFinal
+          };
+        });
+        console.log('Citas completadas:', this.citasCompletadas);
+      },
+      (error) => {
+        console.error('Error al obtener citas completadas:', error);
+      }
+    );
+  }
 
   agregarParte() {
     if (!this.nuevaParte.tipoParte) {
@@ -131,7 +158,15 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
       });
   }
   
+  verNotas() {
+    console.log("Ver notas clickeado");
+    // Aquí agrega la lógica para mostrar las notas
+  }
   
+  nuevaNota() {
+    console.log("Nueva nota clickeada");
+    // Aquí agrega la lógica para crear una nueva nota
+  }
 
   cargarCitas(idExpediente: number) {
     this.citaExpedienteService.getCitasPorExpediente(idExpediente).subscribe({

@@ -66,5 +66,8 @@ export class CitaService {
   getAllCitas(): Observable<CitaDetallada[]> {
     return this.http.get<CitaDetallada[]>(`${this.URL_API}/detalladas`);
   }
+  getCitasCompletadasByExpediente(numeroExpediente: string): Observable<CitaDetallada[]> {
+    return this.http.get<CitaDetallada[]>(`${this.URL_API}/expediente/${numeroExpediente}`);
+  }
 
 }
