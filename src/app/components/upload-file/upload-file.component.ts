@@ -37,7 +37,7 @@ export class UploadFileComponent implements ExpedienteComponent{
   
   expediente: any = {
     numeroExpediente: '',
-    estado: 'proceso',
+    estado: '',
     nombreServicio: '',
     descrpcion: '',
     datosAbogado: {
@@ -67,6 +67,7 @@ export class UploadFileComponent implements ExpedienteComponent{
     'Número de Seguridad Social (IMSS)',
     'Identificación Oficial'
   ];
+  fechaArchivado: string = '';
 
   idExpedienteCreado: number | null = null;
 
@@ -94,23 +95,49 @@ export class UploadFileComponent implements ExpedienteComponent{
     );
   }
   aplicarDecorador(tipo: string): void {
-    if (!this.expedienteDecorado) {
-      this.expedienteDecorado = this; // Inicialmente apunta al propio componente
-    }
-  
     switch (tipo) {
       case 'prioridad':
-        this.expedienteDecorado = new ExpedienteConPrioridadDecorator(this.expedienteDecorado);
+        if (this.expedienteDecorado instanceof ExpedienteConPrioridadDecorator) {
+          console.warn('El expediente ya está decorado con prioridad.');
+          return;
+        }
+        this.expedienteDecorado = new ExpedienteConPrioridadDecorator(this.expedienteDecorado || this);
+        console.log('Decorador de prioridad aplicado.');
+  
+        // Cambiar el estado del expediente a "Prioridad Alta"
+        this.expediente.estado = 'Prioridad Alta';
+  
+        // Mostrar alerta cuando se aplica el decorador de prioridad
+        alert('Expediente creado con prioridad alta.');
+  
+        // Recargar la página después de aceptar la alerta
+        window.location.reload();
         break;
+  
       case 'archivado':
-        this.expedienteDecorado = new ExpedienteArchivadoDecorator(this.expedienteDecorado);
+        if (this.expedienteDecorado instanceof ExpedienteArchivadoDecorator) {
+          console.warn('El expediente ya está decorado como archivado.');
+          return;
+        }
+        this.expedienteDecorado = new ExpedienteArchivadoDecorator(this.expedienteDecorado || this);
+        console.log('Decorador de archivado aplicado.');
+        this.expediente.estado = 'Archivado';
+  
+        // Mostrar alerta cuando se aplica el decorador de prioridad
+        alert('Expediente a sido Archivado.');
+  
+        // Recargar la página después de aceptar la alerta
+        window.location.reload();
         break;
+  
       default:
         console.error('Tipo de decorador no válido');
         break;
     }
   }
-
+  
+  
+  
   cargarClientes(): void {
     this.clienteService.getClientes().subscribe(
       (data: Cliente[]) => {
@@ -216,14 +243,6 @@ export class UploadFileComponent implements ExpedienteComponent{
       return;
     }
   
-    if (!this.expedienteDecorado) {
-      console.error('Debe seleccionar un decorador antes de crear el expediente.');
-      return;
-    }
-  
-    console.log('Creando expediente con decorador');
-    this.expedienteDecorado.crearExpediente();
-  
     this.uploadFileService.crearExpediente(this.expediente).subscribe({
       next: (response: any) => {
         this.idExpedienteCreado = response.idExpediente;
@@ -234,6 +253,7 @@ export class UploadFileComponent implements ExpedienteComponent{
       }
     });
   }
+  
   
   
 

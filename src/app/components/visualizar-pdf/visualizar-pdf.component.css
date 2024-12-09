@@ -43,6 +43,19 @@
   box-sizing: border-box;
 }
 
+.card-prioridad-alta {
+  background-color: #ff4d4d; /* Rojo claro */
+  border: 1px solid #d9534f; /* Borde rojo oscuro */
+}
+
+.card-prioridad-alta .card-header {
+  background-color: #d9534f; /* Color de fondo rojo en el header */
+  color: white; /* Texto blanco en el header */
+}
+
+.card-prioridad-alta .card-body {
+  color: #5a5a5a; /* Color de texto en el cuerpo de la tarjeta */
+}
 
 
 .row-cols-1,

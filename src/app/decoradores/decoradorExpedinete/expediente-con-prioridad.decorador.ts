@@ -1,18 +1,23 @@
-//Archivo expediente-con-prioridad.decorador.ts
 import { ExpedienteComponent } from "./expediente.component";
 import { ExpedienteDecoradorBase } from "./expediente.component";
 
 export class ExpedienteConPrioridadDecorator extends ExpedienteDecoradorBase {
-    constructor(componente: ExpedienteComponent) {
-      super(componente);
+  private decoradoYaAplicado: boolean = false;
+
+  constructor(componente: ExpedienteComponent) {
+    super(componente);
+  }
+
+  override crearExpediente(): void {
+    if (this.decoradoYaAplicado) {
+      console.warn('Este decorador ya fue aplicado.');
+      return;
     }
-  
-    override crearExpediente(): void {
-      console.log('Creando expediente con prioridad');
-      if (this.componente === this) {
-        throw new Error('Decorador está decorando a sí mismo.');
-      }
-      this.componente.crearExpediente();
-    }
+    (this.componente as any).expediente.estado = 'PrioridadAlta';
+    console.log('Estado actualizado a PrioridadAlta');
+
+    console.log('Aplicando decorador de prioridad');
+    this.decoradoYaAplicado = true;
+    super.crearExpediente(); // Llama al método original
+  }
 }
-  

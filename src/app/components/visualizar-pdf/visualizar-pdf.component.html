@@ -13,13 +13,13 @@
     <div class="p-3 ">
       <div class="row row-cols-1 row-cols-md-2 g-4">
         <div *ngFor="let expediente of expedientes" class="col">
-          <div class="card">
+          <div class="card" [ngClass]="{'card-prioridad-alta': expediente.estado.toLowerCase() === 'Prioridad Alta'}">
             <div class="card-header">
               <h2>{{ expediente.nombreExpediente }} ({{ expediente.numeroExpediente }})</h2>
             </div>
             <div class="card-body">
               <p>Fecha de creación: {{ expediente.fechaCreacion }}</p>
-              <p>Estado: <strong>{{ expediente.estado || 'Sin estado' }}</strong></p>
+              <p>Estado: <strong>{{ expediente.estado || 'Prioridad Alta' }}</strong></p>
               <p>Descripcion: <strong>{{ expediente.descripcion || 'Sin descripcion' }}</strong></p>
               <p>Datos del Abogado: <strong>{{ expediente.datosAbogado }}</strong></p>
               <p>Datos del Cliente: <strong>{{ expediente.datosCliente }}</strong></p>

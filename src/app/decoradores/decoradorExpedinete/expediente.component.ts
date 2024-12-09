@@ -1,5 +1,6 @@
 // Archivo expediente.component.ts
 export interface ExpedienteComponent {
+    fechaArchivado: string;
     crearExpediente(): void;
     seleccionarCliente(clienteId: number | null): void;
     seleccionarAbogado(abogadoId: number | null): void;
@@ -8,6 +9,7 @@ export interface ExpedienteComponent {
   }
   
   export class ExpedienteDecoradorBase implements ExpedienteComponent {
+    fechaArchivado: string = '';
     constructor(protected componente: ExpedienteComponent) {
         if (componente === this) {
           throw new Error('Un decorador no puede decorarse a sí mismo.');

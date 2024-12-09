@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./upload-file.component.scss'],
 })
 export class UploadFileComponent implements ExpedienteComponent {
+    fechaArchivado: string = '';
     clientes: Cliente[] = [];  // Lista de clientes
     clienteSeleccionado: number | null = null;  // ID del cliente seleccionado
     clienteDatos: Cliente | null = null;  // Datos del cliente seleccionado

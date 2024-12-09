@@ -85,8 +85,49 @@
             <label for="servicio">Nombre del Servicio:</label>
             <input type="text" [(ngModel)]="expediente.nombreServicio" name="servicio" required class="form-control">
           </div>
-          <button (click)="aplicarDecorador('prioridad')">Prioridad</button>
-          <button (click)="aplicarDecorador('archivado')">Archivado</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#prioridadModal">
+            Asignar Prioridad
+          </button>
+          <div class="modal fade" id="prioridadModal" tabindex="-1" aria-labelledby="prioridadModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="prioridadModalLabel">Asignar Prioridad</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <p>¿Deseas asignar prioridad a este expediente?</p>
+                  <button class="btn btn-warning" (click)="aplicarDecorador('prioridad')">Sí, asignar prioridad</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archivadoModal">
+            Archivar Expediente
+          </button>
+          <div class="modal fade" id="archivadoModal" tabindex="-1" aria-labelledby="archivadoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="archivadoModalLabel">Archivar Expediente</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <p>¿Estás seguro de que deseas archivar este expediente?</p>
+                  <p>Esta acción cambiará el estado del expediente a "Archivado".</p>
+                  <button class="btn btn-success" (click)="aplicarDecorador('archivado')" data-bs-dismiss="modal">
+                    Sí, archivar expediente
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
         </form>
       </div>
