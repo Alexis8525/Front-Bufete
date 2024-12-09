@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h5 class="modal-title">Notas Asociadas</h5>
+  <button type="button" class="btn-close" (click)="cerrarModal()" aria-label="Cerrar"></button>
+</div>
+
+<div class="modal-body">
+  <div *ngIf="notas.length > 0; else noNotas">
+    <div *ngFor="let nota of notas; let i = index" class="nota-item">
+      <h6><strong style="font-size: 18px;">Nota {{ i + 1 }}</strong></h6>
+      <p><strong>Título:</strong> {{ nota.titulo }}</p>
+      <p><strong>Descripción:</strong> {{ nota.descripcion }}</p>
+      <p><strong>Tipo:</strong> {{ nota.tipoNota }}</p>
+      <p><strong>Fecha de Creación:</strong> {{ nota.fechaCreacion | date: 'longDate' }}</p>
+      <hr>
+    </div>
+  </div>
+
+  <ng-template #noNotas>
+    <p>No hay notas asociadas a esta cita.</p>
+  </ng-template>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+</div>

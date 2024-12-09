@@ -1,23 +1,19 @@
-import { Component } from './component.interface';
-import { Decorator } from './decorator';
+import { BasicComponent } from './component.interface';
 
-export class CheckRoleDecorator extends Decorator {
-  private requiredRole: string;
+export class CheckRoleDecorator implements BasicComponent {
+  private requiredRole: number;
 
-  constructor(component: Component, requiredRole: string) {
-    super(component);
+  constructor(private component: BasicComponent, requiredRole: number) {
     this.requiredRole = requiredRole;
   }
 
-  override operation(): void {
+  operation(): void {
     const user = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const userRole = user?.rol;
-
-    if (userRole === this.requiredRole) {
-      console.log(`Acceso permitido para el rol: ${this.requiredRole}`);
-      super.operation();
+    if (user.rol === this.requiredRole) {
+      console.log(`Rol verificado. Ejecutando operación para el rol ${this.requiredRole}`);
+      this.component.operation();
     } else {
-      console.error(`Acceso denegado. Se requiere el rol: ${this.requiredRole}`);
+      console.warn(`Acceso denegado. Rol requerido: ${this.requiredRole}, Rol actual: ${user.rol}`);
       alert('No tienes permiso para realizar esta acción.');
     }
   }

@@ -1,9 +1,9 @@
-import { Component } from './component.interface';
+import { BasicComponent } from './component.interface';
 
-export abstract class Decorator implements Component {
-  protected component: Component;
+export abstract class Decorator implements BasicComponent {
+  protected component: BasicComponent;
 
-  constructor(component: Component) {
+  constructor(component: BasicComponent) {
     this.component = component;
   }
 

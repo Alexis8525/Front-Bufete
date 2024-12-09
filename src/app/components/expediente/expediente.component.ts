@@ -5,6 +5,11 @@ import { CommonModule } from '@angular/common';
 import { Expediente } from '../../models/expediente';
 import { ExpedienteService } from '../../services/expediente.service';
 import { CitaService } from '../../services/cita.service';
+import { NotaService } from '../../services/nota.service';
+import { Nota } from '../../models/notas';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VerNotasModalComponent } from '../modals/ver-notas/ver-notas.component';
+import { CrearNotaModalComponent } from '../modals/nueva-nota/nueva-nota.component';
 
 @Component({
   selector: 'app-expediente',
@@ -29,13 +34,15 @@ export class ExpedienteComponent implements OnInit {
 
   constructor(
     private expedienteService: ExpedienteService,
-    private citaService: CitaService
+    private citaService: CitaService,
+    private modalService: NgbModal,
+    private notaService: NotaService
   ) { }
 
   ngOnInit() {
     this.getInformacionGeneral();
-    this.getPartesRelacionadas(); 
-    this.getCitasCompletadas(); 
+    this.getPartesRelacionadas();
+    this.getCitasCompletadas();
   }
 
   getInformacionGeneral() {
@@ -101,7 +108,7 @@ export class ExpedienteComponent implements OnInit {
       }
     );
   }
-  
+
 
 
   // Método para formatear la fecha
@@ -123,15 +130,70 @@ export class ExpedienteComponent implements OnInit {
     }
   }
 
-  verNotas() {
-    console.log("Ver notas clickeado");
-    // Aquí agrega la lógica para mostrar las notas
-  }
-  
-  nuevaNota() {
-    console.log("Nueva nota clickeada");
-    // Aquí agrega la lógica para crear una nueva nota
-  }
-  
+  modalVerNotaVisible: boolean = false;
+  modalNuevaNotaVisible: boolean = false;
+  notaSeleccionada: any = null; // Cambia el tipo según tu modelo de Nota
 
+  abrirModalVerNotas(idCita: number): void {
+    this.notaService.getNotasByCita(idCita).subscribe(
+      (notas) => {
+        console.log('Notas obtenidas para la cita:', notas);
+        if (notas.length > 0) {
+          const modalRef = this.modalService.open(VerNotasModalComponent);
+          modalRef.componentInstance.notas = notas; // Pasar la lista completa de notas
+        } else {
+          console.warn('No hay notas asociadas a esta cita');
+        }
+      },
+      (error) => console.error('Error al cargar las notas:', error)
+    );
+  }
+  
+  cerrarModalVerNota() {
+    this.notaSeleccionada = null;
+    this.modalVerNotaVisible = false;
+  }
+
+  abrirModalNuevaNota(idExpediente: number, idCita: number): void {
+    if (!idExpediente || !idCita) {
+      console.error('Faltan parámetros obligatorios: idExpediente o idCita');
+      return;
+    }
+  
+    const modalRef = this.modalService.open(CrearNotaModalComponent);
+    modalRef.componentInstance.idExpedienteFK = idExpediente;
+    modalRef.componentInstance.idCitaFK = idCita;
+  
+    modalRef.componentInstance.notaCreada.subscribe((nuevaNota: Nota) => {
+      this.crearNota(nuevaNota);
+    });
+  }
+  
+  
+  
+  crearNota(nota: Nota): void {
+    this.notaService.crearNota(nota).subscribe({
+      next: (response) => {
+        console.log('Nota creada exitosamente:', response);
+      },
+      error: (err) => {
+        console.error('Error al crear la nota:', err);
+      },
+    });
+  }
+   
+  
+  
+  guardarNota(nuevaNota: Nota): void {
+    this.notaService.crearNota(nuevaNota).subscribe(
+      (respuesta) => {
+        console.log('Nota guardada exitosamente:', respuesta);
+        // Refresca la lista de notas si es necesario
+        this.abrirModalVerNotas(nuevaNota.idCitaFK!); // Refresca las notas de la cita
+      },
+      (error) => console.error('Error al guardar la nota:', error)
+    );
+  }
+  
+  
 }

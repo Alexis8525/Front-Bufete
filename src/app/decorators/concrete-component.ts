@@ -1,6 +1,6 @@
-import { Component } from './component.interface';
+import { BasicComponent } from './component.interface';
 
-export class ConcreteComponent implements Component {
+export class ConcreteComponent implements BasicComponent {
   operation(): void {
     console.log('Ejecutando operación principal');
   }

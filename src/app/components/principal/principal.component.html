@@ -11,41 +11,31 @@
     </nav>
 
     <div class="p-3">
-      <!-- Condición para mostrar contenido según el rol -->
-      <div *ngIf="isAbogado; else clienteView">
-        <!-- Vista para abogados -->
-        <h2 class="titulo-empleados">Citas del Día - {{ fechaActual | date: 'longDate' }}</h2>
-        <div class="row">
-          <div class="col-md-4 mb-3" *ngFor="let cita of citasHoy">
-            <div class="card shadow-lg">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <i class="fa-solid fa-clock"></i> {{ cita.horaInicio }} - {{ cita.horaFinal }}
-                </h5>
-                <p class="card-text">
-                  <strong>Cliente:</strong> {{ cita.nombreCliente }} {{ cita.aPCliente }} {{ cita.aMCliente }}<br>
-                  <strong>Servicio:</strong> {{ cita.nombreServicio }}<br>
-                  <strong>Motivo:</strong> {{ cita.motivo }}
-                </p>
-                <button class="btn btn-primary w-100" (click)="atenderCita(cita.idCita)">
-                  Atender
-                </button>
-              </div>
+      <h2 class="titulo-empleados"> Citas del Día - {{ fechaActual | date: 'longDate' }}
+      </h2>
+      <div class="row">
+        <div class="col-md-4 mb-3" *ngFor="let cita of citasHoy">
+          <div class="card shadow-lg">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-clock"></i> {{ cita.horaInicio }} - {{ cita.horaFinal }}
+              </h5>
+              <p class="card-text">
+                <strong>Cliente:</strong> {{ cita.nombreCliente }} {{ cita.aPCliente }} {{ cita.aMCliente }}<br>
+                <strong>Servicio:</strong> {{ cita.nombreServicio }}<br>
+                <strong>Motivo:</strong> {{ cita.motivo }}
+              </p>
+              <button class="btn btn-primary w-100" *ngIf="canPerformAction(2)" (click)="atenderCita(cita.idCita)">
+                Atender
+              </button>
+
             </div>
           </div>
-          <div *ngIf="citasHoy.length === 0" class="text-center mt-5">
-            <p style="color: #FFFFFF;">No hay citas programadas para hoy.</p>
-          </div>
+        </div>
+        <div *ngIf="citasHoy.length === 0" class="text-center mt-5">
+          <p style="color: #FFFFFF;">No hay citas programadas para hoy.</p>
         </div>
       </div>
-
-      <!-- Vista alternativa para cliente -->
-      <ng-template #clienteView>
-        <div class="text-center mt-5">
-          <h2 style="color: #FFFFFF;">Bienvenido</h2>
-          <p style="color: #FFFFFF;">Por favor, navegue en el menú para más opciones.</p>
-        </div>
-      </ng-template>
     </div>
   </div>
 </div>

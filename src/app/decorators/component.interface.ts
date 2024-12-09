@@ -1,4 +1,4 @@
-export interface Component {
+export interface BasicComponent {
     operation(): void;
   }
   
