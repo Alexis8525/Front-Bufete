@@ -192,11 +192,48 @@ td {
   background-color: #ffc107;
 }
 
+/* Citas programadas */
+.appointment-programada {
+  display: block;
+  background-color: #ffdd57;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Citas completadas */
+.appointment-completada {
+  display: block;
+  background-color: #c8e6c9; /* Verde */
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Citas canceladas */
 .appointment-cancelada {
-  background-color: #ffcccc;
-  color: #a94442;
+  display: block;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffcccc; /* Rojo */
 }
+
 
 /* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
 body, h2, th, td, button {

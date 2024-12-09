@@ -1,0 +1,23 @@
+.modal-header {
+    background-color: #001f3f;
+    color: white;
+  }
+  
+  .modal-body {
+    font-size: 14px;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+
+  .nota-item {
+    margin-bottom: 10px;
+  }
+  
+  hr {
+    border: 1px solid #ccc;
+  }
+  

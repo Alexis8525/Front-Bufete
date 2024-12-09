@@ -89,9 +89,11 @@
                   <div *ngIf="dia !== null" class="day-cell"
                     [ngClass]="{'dia-actual': dia === hoy.dia && mesActual === hoy.mes && anioActual === hoy.anio}">
                     {{ dia }}
-                    <div *ngFor="let cita of tieneCitas(dia)" class="appointment-tooltip"
-                      [ngClass]="{'appointment-cancelada': cita.estadoCita === 'cancelada'}"
-                      (click)="openCitaModal(cita)">
+                    <div *ngFor="let cita of tieneCitas(dia)" class="appointment-tooltip" [ngClass]="{
+    'appointment-cancelada': cita.estadoCita === 'cancelada',
+    'appointment-completada': cita.estadoCita === 'completada',
+    'appointment-tooltip': cita.estadoCita === 'programada'
+  }" (click)="openCitaModal(cita)">
                       <p>{{ cita.description }}</p>
                     </div>
                   </div>

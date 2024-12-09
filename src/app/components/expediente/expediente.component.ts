@@ -13,6 +13,13 @@ import { ExpedienteDecorator } from '../../decoradores/decoradoresDocumentos/exp
 import { CargarInformacionConValidacionDecorator } from '../../decoradores/decoradoresDocumentos/cargar-informacion-con-validacion.decorator';
 import { CargarDocumentosConAlertaDecorator } from '../../decoradores/decoradoresDocumentos/cargar-documentos-con-alerta.decorator';
 import { CitaService } from '../../services/cita.service';
+import { NotaService } from '../../services/nota.service';
+import { Nota } from '../../models/notas';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { VerNotasModalComponent } from '../modals/ver-notas/ver-notas.component';
+import { CrearNotaModalComponent } from '../modals/nueva-nota/nueva-nota.component';
+
+
 
 
 @Component({
@@ -32,7 +39,9 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
   @Input() expedientes: any[] = [];
   @Input() categoriasDocumentos: any[] = [];
   subcategoriasDocumentos: any[] = [];
-  citasCompletadas: any[] = [];
+  modalVerNotaVisible: boolean = false;
+  modalNuevaNotaVisible: boolean = false;
+  notaSeleccionada: any = null; 
 
   citas: any[] = []; // Lista de citas
   loading: boolean = true; // Indicador de carga
@@ -58,7 +67,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     correo: '',
     representanteLegalNombre: ''
   };
-  
   numeroExpediente: string = '1001';
 
   constructor(
@@ -66,6 +74,8 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     private expedienteService: ExpedienteService,
     private documentosService: DocumentosService,
     private citaExpedienteService: CitaExpedienteService,
+    private modalService: NgbModal,
+    private notaService: NotaService,
     private citaService: CitaService
   ) { }
   
@@ -87,6 +97,7 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
   // Cargar la información del expediente y las categorías
   this.getInformacionGeneral();
   this.getPartesRelacionadas();
+  this.getCitasCompletadas();
   this.cargarCitas(this.idExpediente);
   this.cargarCategoriasDocumentos();
   }
@@ -158,15 +169,7 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
       });
   }
   
-  verNotas() {
-    console.log("Ver notas clickeado");
-    // Aquí agrega la lógica para mostrar las notas
-  }
   
-  nuevaNota() {
-    console.log("Nueva nota clickeada");
-    // Aquí agrega la lógica para crear una nueva nota
-  }
 
   cargarCitas(idExpediente: number) {
     this.citaExpedienteService.getCitasPorExpediente(idExpediente).subscribe({
@@ -183,7 +186,16 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     });
   }
   
-
+  verNotas() {
+    console.log("Ver notas clickeado");
+    // Aquí agrega la lógica para mostrar las notas
+  }
+  
+  nuevaNota() {
+    console.log("Nueva nota clickeada");
+    // Aquí agrega la lógica para crear una nueva nota
+  }
+  
   getInformacionGeneral() {
     this.expedienteService.getInformacionGeneral(this.idExpediente).subscribe(
       (data) => {
@@ -345,5 +357,64 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     this.categoriaSeleccionada = null;
     this.subCategoriaSeleccionada = null;
     this.subcategoriasDocumentos = [];
+  }
+  abrirModalVerNotas(idCita: number): void {
+    this.notaService.getNotasByCita(idCita).subscribe(
+      (notas) => {
+        console.log('Notas obtenidas para la cita:', notas);
+        if (notas.length > 0) {
+          const modalRef = this.modalService.open(VerNotasModalComponent);
+          modalRef.componentInstance.notas = notas; // Pasar la lista completa de notas
+        } else {
+          console.warn('No hay notas asociadas a esta cita');
+        }
+      },
+      (error) => console.error('Error al cargar las notas:', error)
+    );
+  }
+  
+  cerrarModalVerNota() {
+    this.notaSeleccionada = null;
+    this.modalVerNotaVisible = false;
+  }
+
+  abrirModalNuevaNota(idExpediente: number, idCita: number): void {
+    if (!idExpediente || !idCita) {
+      console.error('Faltan parámetros obligatorios: idExpediente o idCita');
+      return;
+    }
+  
+    const modalRef = this.modalService.open(CrearNotaModalComponent);
+    modalRef.componentInstance.idExpedienteFK = idExpediente;
+    modalRef.componentInstance.idCitaFK = idCita;
+  
+    modalRef.componentInstance.notaCreada.subscribe((nuevaNota: Nota) => {
+      this.crearNota(nuevaNota);
+    });
+  }
+  
+  
+  
+  crearNota(nota: Nota): void {
+    this.notaService.crearNota(nota).subscribe({
+      next: (response) => {
+        console.log('Nota creada exitosamente:', response);
+      },
+      error: (err) => {
+        console.error('Error al crear la nota:', err);
+      },
+    });
+  }
+   
+
+  guardarNota(nuevaNota: Nota): void {
+    this.notaService.crearNota(nuevaNota).subscribe(
+      (respuesta) => {
+        console.log('Nota guardada exitosamente:', respuesta);
+        // Refresca la lista de notas si es necesario
+        this.abrirModalVerNotas(nuevaNota.idCitaFK!); // Refresca las notas de la cita
+      },
+      (error) => console.error('Error al guardar la nota:', error)
+    );
   }
 }

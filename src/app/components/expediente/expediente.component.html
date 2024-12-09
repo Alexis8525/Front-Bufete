@@ -22,8 +22,8 @@
             role="tab" aria-controls="partes" aria-selected="false">Datos de las Partes</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="citas-tab" data-bs-toggle="tab" data-bs-target="#citas" type="button" role="tab"
-            aria-controls="citas" aria-selected="false">Registro de Citas</button>
+          <button class="nav-link" id="documentos-tab" data-bs-toggle="tab" data-bs-target="#infocita" type="button"
+            role="tab" aria-controls="documentos" aria-selected="false">Informacion Citas</button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="documentos-tab" data-bs-toggle="tab" data-bs-target="#documentos" type="button"
@@ -71,20 +71,22 @@
           </ng-template>
         </div>
 
-
         <!-- Datos de las Partes -->
         <div class="tab-pane fade" id="partes" role="tabpanel" aria-labelledby="partes-tab">
           <h3 class="mb-4">Datos de las Partes</h3>
           <ul class="nav nav-tabs" id="partesTabs" role="tablist">
-              <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="demandante-tab" data-bs-toggle="tab" data-bs-target="#demandante" type="button" role="tab" aria-controls="demandante" aria-selected="true">Parte Demandante</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="demandado-tab" data-bs-toggle="tab" data-bs-target="#demandado" type="button" role="tab" aria-controls="demandado" aria-selected="false">Parte Demandada</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="terceros-tab" data-bs-toggle="tab" data-bs-target="#terceros" type="button" role="tab" aria-controls="terceros" aria-selected="false">Terceros Relacionados</button>
-              </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="demandante-tab" data-bs-toggle="tab" data-bs-target="#demandante"
+                type="button" role="tab" aria-controls="demandante" aria-selected="true">Parte Demandante</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="demandado-tab" data-bs-toggle="tab" data-bs-target="#demandado" type="button"
+                role="tab" aria-controls="demandado" aria-selected="false">Parte Demandada</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="terceros-tab" data-bs-toggle="tab" data-bs-target="#terceros" type="button"
+                role="tab" aria-controls="terceros" aria-selected="false">Terceros Relacionados</button>
+            </li>
           </ul>
           <div class="tab-content mt-4" id="partesTabsContent">
               <!-- Parte Demandante -->
@@ -197,6 +199,8 @@
           <form>
             <div *ngIf="citasCompletadas.length === 0">
               <p>No hay citas completadas registradas para este expediente.</p>
+            <div *ngIf="citasCompletadas.length === 0">
+              <p>No hay citas completadas registradas para este expediente.</p>
             </div>
             <table class="table table-striped" *ngIf="citasCompletadas.length > 0">
               <thead>
@@ -219,10 +223,14 @@
                   <td>{{ cita.horaFinal }}</td>
                   <td>{{ cita.nombreCliente }}</td>
                   <td>
-                    <!-- Botones de acción -->
-                    <button class="btn btn-primary btn-sm me-2" (click)="verNotas()">Ver Notas</button>
-                    <button class="btn btn-success btn-sm" (click)="nuevaNota()">Nueva Nota</button>
-                  </td>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="abrirModalVerNotas(cita.idCita)">Ver
+                      Notas</button>
+
+                      <button 
+  type="button" 
+  class="btn btn-success" 
+  (click)="abrirModalNuevaNota(expediente?.idExpediente!, cita.idCita)">Crear Nueva Nota</button>
+
                 </tr>
               </tbody>
             </table>

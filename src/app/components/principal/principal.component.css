@@ -26,3 +26,71 @@
     padding: 2rem; /* Añade algo de espacio alrededor del contenido */
     overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
   }
+
+ /* Encabezado principal */
+
+ .titulo-empleados {
+  font-size: 1.5rem; /* Tamaño ajustado para evitar desbordamientos */
+  font-weight: 800; /* Muy en negrita */
+  color: #ffffff; /* Blanco puro */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Sombra más contrastada */
+  margin: 20px 0; /* Margen superior e inferior */
+  text-align: center; /* Centrado */
+  padding: 10px 20px; /* Espaciado interno */
+  border-bottom: 4px solid #ffffff; /* Línea decorativa */
+  background: rgba(0, 31, 63, 0.85); /* Fondo azul translúcido */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra externa */
+}
+
+
+
+/* Tarjetas */
+.card {
+  border-radius: 12px; /* Bordes redondeados */
+  border: 1px solid #e0e0e0; /* Borde claro */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  margin: 20px auto; /* Margen para centrar y separar las tarjetas */
+  padding: 20px; /* Espaciado interno */
+  max-width: 600px; /* Limita el ancho para que no ocupe toda la pantalla */
+  background-color: #ffffff; /* Fondo blanco */
+  transition: transform 0.3s, box-shadow 0.3s; /* Transición suave */
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Efecto de elevación */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.card-title {
+  font-size: 1rem; /* Tamaño mayor para destacar el título */
+  font-weight: bold;
+  color: #0e2238; /* Azul oscuro */
+  text-align: left; /* Alineado a la izquierda */
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #666; /* Gris oscuro */
+  text-align: left; /* Alineado a la izquierda */
+  margin-bottom: 15px;
+}
+
+.card button {
+  background-color: #0e2238; /* Azul oscuro */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Botón a lo ancho */
+}
+
+.card button:hover {
+  background-color: #0056b3; /* Azul más claro */
+  transform: scale(1.05); /* Ligero zoom */
+}

@@ -40,7 +40,7 @@ export class BarraLateralComponent {
       this.isExpanded = !this.isExpanded; // Alternar el estado
     }
   }
-
+ 
   private getRol(): number | null {
     if (this.isBrowser) { // Verifica si estamos en el navegador
       const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
