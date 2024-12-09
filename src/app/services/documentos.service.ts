@@ -17,8 +17,8 @@ export class DocumentosService {
         documentos: archivos.map(archivo => ({
           documentoBase64: archivo.documentoBase64,
           idCategoriaFK: archivo.idCategoriaFK || idCategoria,
-          idSubCategoriaFK: archivo.idSubCategoriaFK || idSubCategoria
-        }))
+          idSubCategoriaFK: archivo.idSubCategoriaFK || idSubCategoria          
+        }))     
       };
       console.log(payload)
       return this.http.post(url, payload);

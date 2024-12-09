@@ -1,6 +1,6 @@
 export interface ExpedienteComponente {
     cargarInformacion(): void;
-    cargarCitas(): void;
+    cargarCitas(idExpediente: number): void;
     cargarDocumentos(): void;
   }
   
