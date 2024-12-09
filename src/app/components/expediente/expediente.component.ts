@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -8,10 +8,10 @@ import { DocumentosService } from '../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
 import { CitaExpedienteService } from '../../services/cita-expediente.service';
 import { RouterModule } from '@angular/router'; 
-import { ExpedienteComponente } from '../../decorador/expediente-componente.interface';
-import { ExpedienteDecorator } from '../../decorador/expediente.decorator';
-import { CargarInformacionConValidacionDecorator } from '../../decorador/cargar-informacion-con-validacion.decorator';
-import { CargarDocumentosConAlertaDecorator } from '../../decorador/cargar-documentos-con-alerta.decorator';
+import { ExpedienteComponente } from '../../decoradores/expediente-componente.interface';
+import { ExpedienteDecorator } from '../../decoradores/expediente.decorator';
+import { CargarInformacionConValidacionDecorator } from '../../decoradores/cargar-informacion-con-validacion.decorator';
+import { CargarDocumentosConAlertaDecorator } from '../../decoradores/cargar-documentos-con-alerta.decorator';
 
 
 @Component({
@@ -26,7 +26,8 @@ import { CargarDocumentosConAlertaDecorator } from '../../decorador/cargar-docum
     RouterModule
   ],
 })
-export class ExpedienteComponent implements OnInit {
+export class ExpedienteComponent implements OnInit, ExpedienteComponente {
+  @ViewChild(ExpedienteComponent) expedienteComponent!: ExpedienteComponent;
   @Input() expedientes: any[] = [];
   @Input() categoriasDocumentos: any[] = [];
   subcategoriasDocumentos: any[] = [];
@@ -63,6 +64,7 @@ export class ExpedienteComponent implements OnInit {
     private documentosService: DocumentosService,
     private citaExpedienteService: CitaExpedienteService
   ) { }
+  
 
   ngOnInit() {
     this.idExpediente = +this.activatedRoute.snapshot.paramMap.get('idExpediente')!;
@@ -71,12 +73,34 @@ export class ExpedienteComponent implements OnInit {
   // Inicializar las categorías y subcategorías
   this.categoriaSeleccionada = null; // Asegúrate de que no haya una categoría seleccionada inicialmente
   this.subCategoriaSeleccionada = null; // Lo mismo para la subcategoría
+
+  this.getInformacionGeneral();
+  this.getPartesRelacionadas();
+  this.cargarCitas(this.idExpediente);
+  this.cargarCategoriasDocumentos();
+  this.expedienteComponent.cargarInformacion();
   
   // Cargar la información del expediente y las categorías
   this.getInformacionGeneral();
   this.getPartesRelacionadas();
   this.cargarCitas(this.idExpediente);
   this.cargarCategoriasDocumentos();
+  }
+
+  cargarInformacion() {
+    this.expedienteComponent.cargarInformacion();
+  }
+
+  cargarCitasExpediente(idExpediente: number) {
+    // Implementación para cargar citas del expediente
+  }
+  
+  cargarCitasDeOtroTipo(idExpediente: number) {
+    // Implementación diferente para otro tipo de citas
+  }
+
+  cargarDocumentos() {
+    this.expedienteComponent.cargarDocumentos();
   }
 
   agregarParte() {

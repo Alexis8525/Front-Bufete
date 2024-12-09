@@ -85,24 +85,11 @@
             <label for="servicio">Nombre del Servicio:</label>
             <input type="text" [(ngModel)]="expediente.nombreServicio" name="servicio" required class="form-control">
           </div>
+          <button (click)="aplicarDecorador('prioridad')">Prioridad</button>
+          <button (click)="aplicarDecorador('archivado')">Archivado</button>
           <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
         </form>
       </div>
-      <form *ngIf="idExpedienteCreado" (ngSubmit)="subirDocumentos()" class="form-container mt-4">
-        <h3>Ahora agrega los documentos al expediente</h3>
-        <div class="form-group">
-          <label>Seleccione los documentos:</label>
-          <div *ngFor="let documento of ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social (IMSS)', 'Identificación Oficial']">
-            <label for="{{documento}}">{{documento}}:</label>
-            <input type="file" id="{{documento}}" (change)="onFileSelected($event, documento)" accept="application/pdf" class="form-control-file" required>
-            <div *ngIf="archivos[documento]">
-              <p>{{documento}} cargado.</p>
-            </div>
-          </div>
-        </div>
-        
-        <button type="submit" class="btn btn-primary btn-submit">Subir Documentos</button>
-      </form>
     </div>
   </div>
 </div>

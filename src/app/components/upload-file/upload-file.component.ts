@@ -1,14 +1,18 @@
+//componte upload-file-component.ts
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UploadFileService } from '../../services/upload-file.service';
 import { FormsModule } from '@angular/forms';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
-// import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
 import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente';
 import { EmpleadoService } from '../../services/empleado.service';
 import { Empleado } from '../../models/empleados';
+import { ExpedienteComponent } from '../../decoradores/decoradorExpedinete/expediente.component';
+import { ExpedienteConPrioridadDecorator } from '../../decoradores/decoradorExpedinete/expediente-con-prioridad.decorador';
+import { ExpedienteArchivadoDecorator } from '../../decoradores/decoradorExpedinete/expediente-archivado.decorador';
+
 
 @Component({
   selector: 'app-upload-file',
@@ -21,7 +25,8 @@ import { Empleado } from '../../models/empleados';
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss'],
 })
-export class UploadFileComponent {
+export class UploadFileComponent implements ExpedienteComponent{
+  expedienteDecorado: ExpedienteComponent | null = null;
   clientes: Cliente[] = [];  // Lista de clientes
   clienteSeleccionado: number | null = null;  // ID del cliente seleccionado
   clienteDatos: Cliente | null = null;  // Datos del cliente seleccionado
@@ -63,21 +68,20 @@ export class UploadFileComponent {
     'Identificación Oficial'
   ];
 
-  archivos: { [key: string]: string | null } = {};
   idExpedienteCreado: number | null = null;
 
-  // Variable para manejar los decoradores
-  expedienteDecorado: string = '';
-
-  constructor(private http: HttpClient, 
-              private uploadFileService: UploadFileService, 
-              private clienteService: ClienteService,
-              private empleadiService: EmpleadoService ) {}
+  constructor(
+    private http: HttpClient,
+    private uploadFileService: UploadFileService,
+    private clienteService: ClienteService,
+    private empleadiService: EmpleadoService
+    ) {}
 
    ngOnInit(): void {
     this.cargarClientes();  // Cargar los clientes al inicializar el componente
     this.cargarAbogado();  // Cargar los abogados
   }
+  
 
   cargarAbogado(): void {
     this.empleadiService.getAbogado().subscribe(
@@ -88,6 +92,23 @@ export class UploadFileComponent {
         console.error('Error al obtener los abogados', error);
       }
     );
+  }
+  aplicarDecorador(tipo: string): void {
+    if (!this.expedienteDecorado) {
+      this.expedienteDecorado = this; // Inicialmente apunta al propio componente
+    }
+  
+    switch (tipo) {
+      case 'prioridad':
+        this.expedienteDecorado = new ExpedienteConPrioridadDecorator(this.expedienteDecorado);
+        break;
+      case 'archivado':
+        this.expedienteDecorado = new ExpedienteArchivadoDecorator(this.expedienteDecorado);
+        break;
+      default:
+        console.error('Tipo de decorador no válido');
+        break;
+    }
   }
 
   cargarClientes(): void {
@@ -188,24 +209,20 @@ export class UploadFileComponent {
     }
   }
   
-  
-
-  onFileSelected(event: any, tipoDocumento: string) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.archivos[tipoDocumento] = (reader.result as string).split(',')[1];
-      };
-      reader.readAsDataURL(file);
-    }
-  }
 
   crearExpediente() {
     if (!this.expediente.idClienteFK || !this.expediente.idEmpleadoFK) {
       console.error('Debe seleccionar un cliente y un abogado antes de crear el expediente.');
       return;
     }
+  
+    if (!this.expedienteDecorado) {
+      console.error('Debe seleccionar un decorador antes de crear el expediente.');
+      return;
+    }
+  
+    console.log('Creando expediente con decorador');
+    this.expedienteDecorado.crearExpediente();
   
     this.uploadFileService.crearExpediente(this.expediente).subscribe({
       next: (response: any) => {
@@ -214,48 +231,48 @@ export class UploadFileComponent {
       },
       error: (err: any) => {
         console.error('Error al crear el expediente:', err);
-        console.log('Detalles del error:', err.error);
       }
     });
   }
   
+  
 
-  subirDocumentos() {
-    if (!this.idExpedienteCreado) {
-      console.error('No se ha creado un expediente');
-      return;
-    }
+  // subirDocumentos() {
+  //   if (!this.idExpedienteCreado) {
+  //     console.error('No se ha creado un expediente');
+  //     return;
+  //   }
 
-    const documentos = Object.keys(this.archivos).map((tipoDocumento) => ({
-      documentoBase64: this.archivos[tipoDocumento] || '',
-      idTipoDocumentoFK: this.obtenerIdTipoDocumento(tipoDocumento),
-    }));
+  //   const documentos = Object.keys(this.archivos).map((tipoDocumento) => ({
+  //     documentoBase64: this.archivos[tipoDocumento] || '',
+  //     idTipoDocumentoFK: this.obtenerIdTipoDocumento(tipoDocumento),
+  //   }));
 
-    if (documentos.some(doc => !doc.documentoBase64)) {
-      console.error('Todos los documentos deben estar seleccionados');
-      return;
-    }
+  //   if (documentos.some(doc => !doc.documentoBase64)) {
+  //     console.error('Todos los documentos deben estar seleccionados');
+  //     return;
+  //   }
 
-    this.uploadFileService.subirDocumentos(this.idExpedienteCreado, documentos).subscribe({
-      next: (response: any) => {
-        console.log('Documentos subidos correctamente:', response);
-      },
-      error: (err: any) => {
-        console.error('Error al subir los documentos:', err);
-      }
-    });
-  }
+  //   this.uploadFileService.subirDocumentos(this.idExpedienteCreado, documentos).subscribe({
+  //     next: (response: any) => {
+  //       console.log('Documentos subidos correctamente:', response);
+  //     },
+  //     error: (err: any) => {
+  //       console.error('Error al subir los documentos:', err);
+  //     }
+  //   });
+  // }
 
-  obtenerIdTipoDocumento(tipoDocumento: string): number {
-    const tipoDocumentoIds: { [key: string]: number } = {
-      'CURP': 1,
-      'Curriculum Vitae': 2,
-      'Comprobante de Domicilio': 3,
-      'Número de Seguridad Social (IMSS)': 4,
-      'Identificación Oficial': 5
-    };
-    return tipoDocumentoIds[tipoDocumento] || 0;
-  }
+  // obtenerIdTipoDocumento(tipoDocumento: string): number {
+  //   const tipoDocumentoIds: { [key: string]: number } = {
+  //     'CURP': 1,
+  //     'Curriculum Vitae': 2,
+  //     'Comprobante de Domicilio': 3,
+  //     'Número de Seguridad Social (IMSS)': 4,
+  //     'Identificación Oficial': 5
+  //   };
+  //   return tipoDocumentoIds[tipoDocumento] || 0;
+  // }
 
   onSubmit() {
     if (!this.expediente.numeroExpediente || !this.expediente.nombreServicio) {
@@ -264,19 +281,4 @@ export class UploadFileComponent {
     }
     this.crearExpediente();
   }
-
-  // Métodos para aplicar los decoradores
-  // marcarPrioritario() {
-  //   const expedienteBase = new ExpedienteBase();
-  //   const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
-  //   this.expedienteDecorado = expedientePrioritario.getDetalle();
-  //   console.log(this.expedienteDecorado);
-  // }
-
-  // archivarExpediente() {
-  //   const expedienteBase = new ExpedienteBase();
-  //   const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
-  //   this.expedienteDecorado = expedienteArchivado.getDetalle();
-  //   console.log(this.expedienteDecorado);
-  // }
 }

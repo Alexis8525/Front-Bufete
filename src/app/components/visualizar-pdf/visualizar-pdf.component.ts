@@ -5,7 +5,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-// import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
 import { RouterModule } from '@angular/router'; 
 
 declare var bootstrap: any;
@@ -37,14 +36,6 @@ export class VisualizarPdfComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // const expedienteBase = new ExpedienteBase();
-    // const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
-    // const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
-
-    // this.expedientePrioritario = expedientePrioritario.getDetalle();
-    // this.expedienteArchivado = expedienteArchivado.getDetalle();
-
-    // Cargar expedientes
     this.loadExpedientes();
   }
   
@@ -61,19 +52,11 @@ export class VisualizarPdfComponent implements OnInit {
 
           // Procesar datos del cliente
           const datosCliente = expediente.datosCliente ? JSON.parse(expediente.datosCliente) : {};
-          const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}, Dirección: ${datosCliente.direccion || 'No especificada'}, Teléfono: ${datosCliente.telefono || 'Sin teléfono'}, Correo: ${datosCliente.correo || 'Sin correo'}`;
-          // Decoradores de expedientes
-          if (expediente.estado === 'PRIORITARIO') {
-            // expedienteComponent = new PrioritarioExpediente(expedienteComponent);
-          }
-          if (expediente.archivado) {
-            // expedienteComponent = new ArchivadoExpediente(expedienteComponent);
-          }
+          const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}, Dirección: ${datosCliente.direccion || 'No especificada'}, Teléfono: ${datosCliente.telefono || 'Sin teléfono'}, Correo: ${datosCliente.correo || 'Sin correo'}`
           return {
             ...expediente,
             datosAbogado: datosAbogadoConcatenados,
             datosCliente: datosClienteConcatenados,
-            // detalle: expedienteComponent.getDetalle(),
           };
         });
       },
