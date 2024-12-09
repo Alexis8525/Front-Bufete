@@ -21,17 +21,9 @@
               <div class="card-body">
                 <p>Número: {{ expediente.numeroExpediente }}</p>
                 <p>Fecha de Creación: {{ expediente.fechaCreacion | date }}</p>
+                <p>Estado: {{ expediente.estado | date }}</p>
                 <p>Descripción: {{ expediente.descripcion }}</p>
                 <p>FechaEliminacion: {{ expediente.fechaEliminacion }}</p>
-                <h3>Documentos</h3>
-                <ul>
-                  <li *ngFor="let documento of expediente.documentos">
-                    <p>Tipo de Documento: {{ documento.tipoDocumento }}</p>
-                    <button (click)="abrirModal(documento.documentoBase64)" class="btn btn-secondary">
-                      Ver Documento
-                    </button>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>

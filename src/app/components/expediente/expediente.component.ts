@@ -8,10 +8,10 @@ import { DocumentosService } from '../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
 import { CitaExpedienteService } from '../../services/cita-expediente.service';
 import { RouterModule } from '@angular/router'; 
-import { ExpedienteComponente } from '../../decoradores/expediente-componente.interface';
-import { ExpedienteDecorator } from '../../decoradores/expediente.decorator';
-import { CargarInformacionConValidacionDecorator } from '../../decoradores/cargar-informacion-con-validacion.decorator';
-import { CargarDocumentosConAlertaDecorator } from '../../decoradores/cargar-documentos-con-alerta.decorator';
+import { ExpedienteComponente } from '../../decoradores/decoradoresDocumentos/expediente-componente.interface';
+import { ExpedienteDecorator } from '../../decoradores/decoradoresDocumentos/expediente.decorator';
+import { CargarInformacionConValidacionDecorator } from '../../decoradores/decoradoresDocumentos/cargar-informacion-con-validacion.decorator';
+import { CargarDocumentosConAlertaDecorator } from '../../decoradores/decoradoresDocumentos/cargar-documentos-con-alerta.decorator';
 
 
 @Component({
