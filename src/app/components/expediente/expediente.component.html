@@ -206,8 +206,6 @@
                   <th>ID Cita</th>
                   <th>Motivo</th>
                   <th>Estado</th>
-                  <th>Hora Inicio</th>
-                  <th>Hora Final</th>
                   <th>Cliente</th>
                   <th>Acciones</th>
                 </tr>
@@ -217,17 +215,15 @@
                   <td>{{ cita.idCita }}</td>
                   <td>{{ cita.motivo }}</td>
                   <td>{{ cita.estadoCita }}</td>
-                  <td>{{ cita.horaInicio }}</td>
-                  <td>{{ cita.horaFinal }}</td>
                   <td>{{ cita.nombreCliente }}</td>
                   <td>
                     <button type="button" class="btn btn-primary btn-sm" (click)="abrirModalVerNotas(cita.idCita)">Ver
                       Notas</button>
 
                       <button 
-  type="button" 
-  class="btn btn-success" 
-  (click)="abrirModalNuevaNota(expediente?.idExpediente!, cita.idCita)">Crear Nueva Nota</button>
+                        type="button" 
+                        class="btn btn-success" 
+                        (click)="abrirModalNuevaNota(expediente?.idExpediente!, cita.idCita)">Crear Nueva Nota</button>
 
                 </tr>
               </tbody>

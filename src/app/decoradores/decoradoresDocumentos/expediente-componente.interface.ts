@@ -1,6 +1,6 @@
-export interface ExpedienteComponente {
-    cargarInformacion(): void;
-    cargarDocumentos(): void;
-    getCitasCompletadas(): void;
-  }
+// export interface ExpedienteComponente {
+//     cargarInformacion(): void;
+//     cargarDocumentos(): void;
+//     getCitasCompletadas(): void;
+//   }
   

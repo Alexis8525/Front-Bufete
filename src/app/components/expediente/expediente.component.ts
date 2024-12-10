@@ -8,7 +8,6 @@ import { DocumentosService } from '../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
 import { CitaExpedienteService } from '../../services/cita-expediente.service';
 import { RouterModule } from '@angular/router'; 
-import { ExpedienteComponente } from '../../decoradores/decoradoresDocumentos/expediente-componente.interface';
 import { CitaService } from '../../services/cita.service';
 import { NotaService } from '../../services/nota.service';
 import { Nota } from '../../models/notas';
@@ -32,8 +31,7 @@ import { SendEmailCommand } from '../../patterns/command/send-email-command';
     RouterModule
   ],
 })
-export class ExpedienteComponent implements OnInit, ExpedienteComponente {
-  @ViewChild(ExpedienteComponent) expedienteComponent!: ExpedienteComponent;
+export class ExpedienteComponent implements OnInit {
   @Input() expedientes: any[] = [];
   @Input() categoriasDocumentos: any[] = [];
   subcategoriasDocumentos: any[] = [];
@@ -71,7 +69,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     private activatedRoute: ActivatedRoute,
     private expedienteService: ExpedienteService,
     private documentosService: DocumentosService,
-    private citaExpedienteService: CitaExpedienteService,
     private modalService: NgbModal,
     private notaService: NotaService,
     private citaService: CitaService
@@ -79,7 +76,7 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
   
 
   ngOnInit() {
-    this.idExpediente = +this.activatedRoute.snapshot.paramMap.get('idExpediente')!;
+  this.idExpediente = +this.activatedRoute.snapshot.paramMap.get('idExpediente')!;
   console.log('ID del Expediente:', this.idExpediente);
   
   // Inicializar las categorías y subcategorías
@@ -92,21 +89,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
   this.getCitasCompletadas();
   }
 
-  cargarInformacion() {
-    this.expedienteComponent.cargarInformacion();
-  }
-
-  cargarCitasExpediente(idExpediente: number) {
-    // Implementación para cargar citas del expediente
-  }
-  
-  cargarCitasDeOtroTipo(idExpediente: number) {
-    // Implementación diferente para otro tipo de citas
-  }
-
-  cargarDocumentos() {
-    this.expedienteComponent.cargarDocumentos();
-  }
   getCitasCompletadas(): void {
     this.citaService.getCitasCompletadasByExpediente(this.idExpediente).subscribe(
       (citas) => {
@@ -159,16 +141,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
       });
   }
   
-  
-  verNotas() {
-    console.log("Ver notas clickeado");
-    // Aquí agrega la lógica para mostrar las notas
-  }
-  
-  nuevaNota() {
-    console.log("Nueva nota clickeada");
-    // Aquí agrega la lógica para crear una nueva nota
-  }
   
   getInformacionGeneral() {
     this.expedienteService.getInformacionGeneral(this.idExpediente).subscribe(
@@ -381,9 +353,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
       this.getCitasCompletadas();
     });
   }
-  
-  
-
 
   crearNota(nota: Nota): void {
     this.notaService.crearNota(nota).subscribe({
