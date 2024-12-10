@@ -61,7 +61,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     correo: '',
     representanteLegalNombre: ''
   };
-  numeroExpediente: string = '1001';
   citasCompletadas: any[] = [];
 
   constructor(
@@ -85,16 +84,8 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
 
   this.getInformacionGeneral();
   this.getPartesRelacionadas();
-  this.cargarCitas(this.idExpediente);
   this.cargarCategoriasDocumentos();
-  this.expedienteComponent.cargarInformacion();
-  
-  // Cargar la información del expediente y las categorías
-  this.getInformacionGeneral();
-  this.getPartesRelacionadas();
   this.getCitasCompletadas();
-  this.cargarCitas(this.idExpediente);
-  this.cargarCategoriasDocumentos();
   }
 
   cargarInformacion() {
@@ -113,7 +104,7 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     this.expedienteComponent.cargarDocumentos();
   }
   getCitasCompletadas(): void {
-    this.citaService.getCitasCompletadasByExpediente(this.numeroExpediente).subscribe(
+    this.citaService.getCitasCompletadasByExpediente(this.idExpediente).subscribe(
       (citas) => {
         this.citasCompletadas = citas.map((cita) => {
           const horaInicio = cita.horaInicio
@@ -164,22 +155,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
       });
   }
   
-  
-
-  cargarCitas(idExpediente: number) {
-    this.citaExpedienteService.getCitasPorExpediente(idExpediente).subscribe({
-      next: (data) => {
-        this.citas = data;
-        this.loading = false;
-        console.log('Citas cargadas:', this.citas);
-      },
-      error: (err) => {
-        console.error('Error al cargar citas:', err);
-        this.errorMessage = 'No se pudieron cargar las citas.';
-        this.loading = false;
-      },
-    });
-  }
   
   verNotas() {
     console.log("Ver notas clickeado");
@@ -392,8 +367,7 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     });
   }
   
-  
-  
+
   crearNota(nota: Nota): void {
     this.notaService.crearNota(nota).subscribe({
       next: (response) => {
@@ -405,9 +379,6 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     });
   }
 
-  
-   
-
   guardarNota(nuevaNota: Nota): void {
     this.notaService.crearNota(nuevaNota).subscribe(
       (respuesta) => {
@@ -418,4 +389,17 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
       (error) => console.error('Error al guardar la nota:', error)
     );
   }
+  cargarNotasExpediente(): void {
+  this.notaService.getNotasByExpediente(this.idExpediente).subscribe(
+    (notas) => {
+      console.log('Notas del expediente:', notas);
+      // Guarda las notas para mostrarlas en el HTML
+      this.expedienteSeleccionado.notas = notas;
+    },
+    (error) => {
+      console.error('Error al cargar las notas del expediente:', error);
+    }
+  );
+}
+
 }

@@ -7,12 +7,11 @@ export class ExpedienteDecorator implements ExpedienteComponente {
     return this.componente.cargarInformacion();
   }
 
-  cargarCitas(idExpediente: number) {
-    return this.componente.cargarCitas(idExpediente);
-}
-
   cargarDocumentos() {
     return this.componente.cargarDocumentos();
+  }
+  getCitasCompletadas(){
+    return this.componente.getCitasCompletadas();
   }
 }
 
