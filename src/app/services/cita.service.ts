@@ -47,6 +47,11 @@ export class CitaService {
     return this.http.get<FechaCita[]>(`${this.URL_API}/consultar-citaA/${idAbogado}`);
   }
 
+  // Obtener todas las citas para el rol de secretaria
+  getCitasBySecretaria(): Observable<FechaCita[]> {
+    return this.http.get<FechaCita[]>(`${this.URL_API}/consultar-citaS`);
+  }
+
   // Obtener los clientes de un abogado específico con citas programadas
   getClientesPorAbogado(idAbogado: number): Observable<FechaCita[]> {
     return this.http.get<FechaCita[]>(`${this.URL_API}/clientes/abogado/${idAbogado}`);
@@ -58,9 +63,11 @@ export class CitaService {
   }
 
   // Completar una cita
-  completarCita(idCita: number): Observable<Cita> {
-    return this.http.put<Cita>(`${this.URL_API}/completar-cita`, { idCita });
+  completarCita(idCita: number): Observable<any> {
+    return this.http.put(`${this.URL_API}/completar-cita/${idCita}`, {});
   }
+  
+  
 
   // Obtener servicios únicos asociados a las citas de un cliente específico
   getServiciosPorCitasDeCliente(idCliente: number): Observable<{ idServicio: number; nombreServicio: string }[]> {
