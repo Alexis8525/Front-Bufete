@@ -163,6 +163,7 @@ export class ExpedienteComponent implements OnInit {
       console.error('Faltan parámetros obligatorios: idExpediente o idCita');
       return;
     }
+    console.log(idExpediente, idCita)
   
     const modalRef = this.modalService.open(CrearNotaModalComponent);
     modalRef.componentInstance.idExpedienteFK = idExpediente;
@@ -183,10 +184,7 @@ export class ExpedienteComponent implements OnInit {
       this.getCitasCompletadas();
     });
   }
-  
-  
-  
-  
+
   crearNota(nota: Nota): void {
     this.notaService.crearNota(nota).subscribe({
       next: (response) => {
@@ -197,10 +195,6 @@ export class ExpedienteComponent implements OnInit {
       },
     });
   }
-
-  
-   
-  
   
   guardarNota(nuevaNota: Nota): void {
     this.notaService.crearNota(nuevaNota).subscribe(
