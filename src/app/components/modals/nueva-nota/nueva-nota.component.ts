@@ -23,8 +23,8 @@ export class CrearNotaModalComponent {
     fechaCreacion: new Date().toISOString(),
     ultimaActualizacion: new Date().toISOString(),
     estado: 'activa',
-    idExpedienteFK: 0, // Se llenará automáticamente
-    idCitaFK: 0,       // Se llenará automáticamente
+    idExpedienteFK: 0, 
+    idCitaFK: 0,       
   };
 
   @Output() notaCreada = new EventEmitter<Nota>();
