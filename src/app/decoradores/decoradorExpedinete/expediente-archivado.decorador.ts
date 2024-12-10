@@ -2,15 +2,15 @@ import { ExpedienteComponent } from "./expediente.component";
 import { ExpedienteDecoradorBase } from "./expediente.component";
 
 export class ExpedienteArchivadoDecorator extends ExpedienteDecoradorBase {
-    constructor(componente: ExpedienteComponent) {
-        if (componente instanceof ExpedienteArchivadoDecorator) {
-            throw new Error('El componente ya está decorado como "archivado".');
-        }
-        super(componente);
-    }
+  constructor(componente: ExpedienteComponent) {
+    super(componente);
+  }
 
-    override crearExpediente(): void {
-        console.trace('Creando expediente archivado');
-        this.componente.crearExpediente();
-    }
+  override crearExpediente(): void {
+    (this.componente as any).expediente.estado = 'Archivado';
+    alert('Expediente a sido Archivado.');
+    console.log('Expediente archivado en el decorador.');
+    
+    super.crearExpediente();
+  }
 }

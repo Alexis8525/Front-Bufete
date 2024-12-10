@@ -18,13 +18,13 @@ import { CommonModule } from '@angular/common';
 })
 export class UploadFileComponent implements ExpedienteComponent {
     fechaArchivado: string = '';
-    clientes: Cliente[] = [];  // Lista de clientes
-    clienteSeleccionado: number | null = null;  // ID del cliente seleccionado
-    clienteDatos: Cliente | null = null;  // Datos del cliente seleccionado
+    clientes: Cliente[] = [];
+    clienteSeleccionado: number | null = null
+    clienteDatos: Cliente | null = null
   
     Abogado: Empleado[] = [];
-    AbogadoSeleccionado: number | null = null;
-    AbogadoDatos: Empleado | null = null;
+    AbogadoSeleccionado: number | null = null
+    AbogadoDatos: Empleado | null = null
     expediente: any = {
         numeroExpediente: '',
         estado: 'proceso',

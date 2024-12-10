@@ -152,8 +152,6 @@ export class PrincipalComponent implements OnInit {
     );
   }
   
-
-  // Método para completar una cita
   atenderCita(idCita: number): void {
     this.citaService.completarCita(idCita).subscribe(
       (response) => {

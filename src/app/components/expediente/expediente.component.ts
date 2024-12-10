@@ -9,18 +9,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CitaExpedienteService } from '../../services/cita-expediente.service';
 import { RouterModule } from '@angular/router'; 
 import { ExpedienteComponente } from '../../decoradores/decoradoresDocumentos/expediente-componente.interface';
-import { ExpedienteDecorator } from '../../decoradores/decoradoresDocumentos/expediente.decorator';
-import { CargarInformacionConValidacionDecorator } from '../../decoradores/decoradoresDocumentos/cargar-informacion-con-validacion.decorator';
-import { CargarDocumentosConAlertaDecorator } from '../../decoradores/decoradoresDocumentos/cargar-documentos-con-alerta.decorator';
 import { CitaService } from '../../services/cita.service';
 import { NotaService } from '../../services/nota.service';
 import { Nota } from '../../models/notas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VerNotasModalComponent } from '../modals/ver-notas/ver-notas.component';
 import { CrearNotaModalComponent } from '../modals/nueva-nota/nueva-nota.component';
-
-
-
 
 @Component({
   selector: 'app-expediente',
@@ -68,6 +62,7 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
     representanteLegalNombre: ''
   };
   numeroExpediente: string = '1001';
+  citasCompletadas: any[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -250,6 +245,10 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
         return 'En Proceso';
       case 'cerrado':
         return 'Cerrado';
+      case '  Archivado':
+          return 'Archivado';
+      case 'Prioridad Alta':
+          return 'Prioridad Alta';
       default:
         return estado; // Por si acaso
     }

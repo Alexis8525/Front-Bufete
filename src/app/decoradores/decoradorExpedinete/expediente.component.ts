@@ -8,7 +8,7 @@ export interface ExpedienteComponent {
     cargarAbogado(): void;
   }
   
-  export class ExpedienteDecoradorBase implements ExpedienteComponent {
+  export abstract class ExpedienteDecoradorBase implements ExpedienteComponent {
     fechaArchivado: string = '';
     constructor(protected componente: ExpedienteComponent) {
         if (componente === this) {

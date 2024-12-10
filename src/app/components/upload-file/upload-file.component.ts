@@ -95,53 +95,41 @@ export class UploadFileComponent implements ExpedienteComponent{
     );
   }
   aplicarDecorador(tipo: string): void {
-    switch (tipo) {
-      case 'prioridad':
-        if (this.expedienteDecorado instanceof ExpedienteConPrioridadDecorator) {
-          console.warn('El expediente ya está decorado con prioridad.');
-          return;
-        }
-        this.expedienteDecorado = new ExpedienteConPrioridadDecorator(this.expedienteDecorado || this);
-        console.log('Decorador de prioridad aplicado.');
+    try {
+      switch (tipo) {
+        case 'prioridad':
+          if (this.expedienteDecorado instanceof ExpedienteConPrioridadDecorator) {
+            console.warn('El expediente ya está decorado con prioridad.');
+            return;
+          }
+          this.expedienteDecorado = new ExpedienteConPrioridadDecorator(this.expedienteDecorado || this);
+          console.log('Decorador de prioridad aplicado.');
+          window.location.reload();
+          break;
   
-        // Cambiar el estado del expediente a "Prioridad Alta"
-        this.expediente.estado = 'Prioridad Alta';
+        case 'archivado':
+          if (this.expedienteDecorado instanceof ExpedienteArchivadoDecorator) {
+            console.warn('El expediente ya está decorado como archivado.');
+            return;
+          }
+          this.expedienteDecorado = new ExpedienteArchivadoDecorator(this.expedienteDecorado || this);
+          console.log('Decorador de archivado aplicado.');
+          window.location.reload();
+          break;
   
-        // Mostrar alerta cuando se aplica el decorador de prioridad
-        alert('Expediente creado con prioridad alta.');
-  
-        // Recargar la página después de aceptar la alerta
-        window.location.reload();
-        break;
-  
-      case 'archivado':
-        if (this.expedienteDecorado instanceof ExpedienteArchivadoDecorator) {
-          console.warn('El expediente ya está decorado como archivado.');
-          return;
-        }
-        this.expedienteDecorado = new ExpedienteArchivadoDecorator(this.expedienteDecorado || this);
-        console.log('Decorador de archivado aplicado.');
-        this.expediente.estado = 'Archivado';
-  
-        // Mostrar alerta cuando se aplica el decorador de prioridad
-        alert('Expediente a sido Archivado.');
-  
-        // Recargar la página después de aceptar la alerta
-        window.location.reload();
-        break;
-  
-      default:
-        console.error('Tipo de decorador no válido');
-        break;
+        default:
+          console.error('Tipo de decorador no válido.');
+      }
+      this.expedienteDecorado?.crearExpediente();
+    } catch (error) {
+      console.error('Error al aplicar decorador:', error);
     }
   }
-  
-  
-  
+   
   cargarClientes(): void {
     this.clienteService.getClientes().subscribe(
       (data: Cliente[]) => {
-        this.clientes = data;  // Almacenar los clientes obtenidos en la variable clientes
+        this.clientes = data;
       },
       (error) => {
         console.error('Error al obtener los clientes', error);

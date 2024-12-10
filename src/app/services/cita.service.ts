@@ -56,8 +56,6 @@ export class CitaService {
   cancelarCita(idCita: number): Observable<Cita> {
     return this.http.put<Cita>(`${this.URL_API}/cancelar`, { idCita });
   }
-
-  // Completar una cita
   completarCita(idCita: number): Observable<Cita> {
     return this.http.put<Cita>(`${this.URL_API}/completar-cita`, { idCita });
   }
@@ -74,11 +72,5 @@ export class CitaService {
   getCitasCompletadasByExpediente(numeroExpediente: string): Observable<CitaDetallada[]> {
     return this.http.get<CitaDetallada[]>(`${this.URL_API}/expediente/${numeroExpediente}`);
   }
-
-  // Obtener citas completadas por número de expediente
-  getCitasCompletadasByExpediente(numeroExpediente: string): Observable<CitaDetallada[]> {
-    return this.http.get<CitaDetallada[]>(`${this.URL_API}/expediente/${numeroExpediente}`);
-  }
-
 
 }
