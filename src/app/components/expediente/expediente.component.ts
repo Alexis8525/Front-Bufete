@@ -404,6 +404,8 @@ export class ExpedienteComponent implements OnInit, ExpedienteComponente {
       },
     });
   }
+
+  
    
 
   guardarNota(nuevaNota: Nota): void {

@@ -2,10 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { CitaService } from '../../services/cita.service';
 import { ServicioService } from '../../services/servicio.service';
+import { AbogadoCitasStrategy } from '../../patterns/strategies/abogado-citas-strategy';
+import { ClienteCitasStrategy } from '../../patterns/strategies/cliente-citas-strategy';
+import { CitasContext } from '../../patterns/strategies/citas-context';
 import { FechaCita } from '../../models/fechas-citas';
-import { Servicio } from '../../models/servicio';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { SecretariaCitasStrategy } from '../../patterns/strategies/secretaria-citas-strategy';
+import { CitaAdaptada } from '../../models/cita-adaptada';
+import { formatDate } from '@angular/common'; // Importar el helper para formateo
+import { ConcreteComponent } from '../../patterns/decorators/concrete-component';
+import { RoleValidationDecorator } from '../../patterns/decorators/role-validation-decorator';
+import { StateUpdateDecorator } from '../../patterns/decorators/state-update-decorator';
 
 @Component({
   selector: 'app-principal',
@@ -15,159 +23,143 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BarraLateralComponent,
     CommonModule,
-    FormsModule
-  ]
+    DatePipe,
+  ],
 })
 export class PrincipalComponent implements OnInit {
-  citasHoy: FechaCita[] = []; // Almacena las citas filtradas para el día actual
-  servicios: Servicio[] = [];
-  clientes: string[] = [];
-  fechaActual: Date = new Date(); // Propiedad para la fecha actual
+  citasHoy: CitaAdaptada[] = [];
+  fechaActual: Date = new Date();
+  loading: boolean = true;
+  usuario: any = {}; // Información del usuario actual
 
   constructor(
     private citaService: CitaService,
     private servicioService: ServicioService,
-  ) { }
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
-    const userId = this.getUserId();
-  
-    if (userId !== null) {
-      if (usuario.rol === 2) { // Abogado
-        this.getServiciosPorAbogado(userId);
-        this.getCitasDelDia(userId);
-        this.getClientesPorAbogado(userId);
-      } else if (usuario.rol === 3) { // Cliente
-        this.getCitasDelDiaCliente(userId);
-      }
+    if (!this.localStorageService.isBrowser()) {
+      console.error('localStorage no está disponible en este entorno.');
+      return;
     }
-  }
 
-  getUserId(): number | null {
-    if (typeof window !== 'undefined') {
-      const usuarioId = localStorage.getItem('usuarioId');
-      return usuarioId ? parseInt(usuarioId, 10) : null;
+    this.usuario = JSON.parse(this.localStorageService.getItem('usuario') || '{}');
+    const userId = parseInt(this.localStorageService.getItem('usuarioId') || '0', 10);
+
+    const citasContext = new CitasContext<CitaAdaptada>();
+
+    if (this.usuario.rol === 1) { // Secretaria
+      citasContext.setStrategy(
+        new SecretariaCitasStrategy(this.citaService, (citas) => {
+          const citasFiltradas = this.filtrarCitasDelDia(citas);
+          this.citasHoy = this.normalizarHorasCitas(citasFiltradas);
+          this.loading = false;
+        })
+      );
+    } else if (this.usuario.rol === 2) { // Abogado
+      citasContext.setStrategy(
+        new AbogadoCitasStrategy(this.citaService, (citas) => {
+          const citasFiltradas = this.filtrarCitasDelDia(citas);
+          this.citasHoy = this.normalizarHorasCitas(citasFiltradas);
+          this.loading = false;
+        })
+      );
+    } else if (this.usuario.rol === 3) { // Cliente
+      citasContext.setStrategy(
+        new ClienteCitasStrategy(this.citaService, (citas) => {
+          const citasFiltradas = this.filtrarCitasDelDia(citas);
+          this.citasHoy = this.normalizarHorasCitas(citasFiltradas);
+          this.loading = false;
+        })
+      );
     }
-    return null;
+
+    citasContext.executeStrategy(userId)
+      .catch((error) => console.error('Error al cargar citas:', error))
+      .finally(() => {
+        this.loading = false;
+      });
   }
 
-  getServiciosPorAbogado(idAbogado: number): void {
-    this.servicioService.getServiciosPorAbogado(idAbogado).subscribe(
-      (res) => {
-        this.servicios = res;
-      },
-      (err) => console.log('Error al obtener servicios por abogado:', err)
-    );
+  // Filtra citas para mostrar solo las del día actual
+  filtrarCitasDelDia(citas: CitaAdaptada[]): CitaAdaptada[] {
+    const hoy = new Date();
+    const diaActual = hoy.getUTCDate(); // Usar UTC para evitar desfases
+    const mesActual = hoy.getUTCMonth(); // Mes también en UTC
+    const anioActual = hoy.getUTCFullYear();
+
+    console.log('Fecha actual en UTC (sin horas):', {
+      diaActual,
+      mesActual,
+      anioActual,
+    });
+
+    return citas.filter((cita) => {
+      const fechaCita = new Date(cita.fechaCita); // Convertimos la fecha de la cita
+      const diaCita = fechaCita.getUTCDate(); // Extraemos día en UTC
+      const mesCita = fechaCita.getUTCMonth(); // Extraemos mes en UTC
+      const anioCita = fechaCita.getUTCFullYear(); // Extraemos año en UTC
+
+      const estadoValido = cita.estadoCita === 'programada'; // Solo citas programadas
+      const fechaValida = diaCita === diaActual && mesCita === mesActual && anioCita === anioActual;
+
+      console.log(`Evaluando cita: ${cita.idCita}`, {
+        fechaCita: fechaCita.toISOString(),
+        diaCita,
+        mesCita,
+        anioCita,
+        estadoValido,
+        fechaValida,
+      });
+
+      return estadoValido && fechaValida;
+    });
   }
 
-  getClientesPorAbogado(idAbogado: number): void {
-    this.citaService.getClientesPorAbogado(idAbogado).subscribe(
-      (clientes) => {
-        this.clientes = clientes.map(cliente => `${cliente.nombreCliente} ${cliente.aPCliente} ${cliente.aMCliente}`);
-      },
-      (err) => console.log('Error al obtener clientes:', err)
-    );
+  normalizarHorasCitas(citas: CitaAdaptada[]): CitaAdaptada[] {
+    return citas.map((cita) => ({
+      ...cita,
+      horaInicio: this.extraerHora(cita.horaInicio), // Extraer hora correctamente
+      horaFinal: this.extraerHora(cita.horaFinal),   // Extraer hora correctamente
+    }));
   }
 
-  getCitasDelDia(idAbogado: number): void {
-    this.citaService.getCitasByAbogado(idAbogado).subscribe(
-      (citas: FechaCita[]) => {
-        const hoy = new Date();
-        const diaActual = hoy.getUTCDate();
-        const mesActual = hoy.getUTCMonth();
-        const anioActual = hoy.getUTCFullYear();
-  
-        // Filtrar citas del día actual excluyendo estados 'cancelado' y 'completado'
-        this.citasHoy = citas
-          .filter((cita) => {
-            const fechaCita = new Date(cita.fechaCita);
-            return (
-              fechaCita.getUTCDate() === diaActual &&
-              fechaCita.getUTCMonth() === mesActual &&
-              fechaCita.getUTCFullYear() === anioActual &&
-              cita.estadoCita !== 'cancelada' && 
-              cita.estadoCita !== 'completada'  
-            );
-          })
-          .map((cita) => {
-            const horaInicio = cita.horaInicio
-              ? new Date(cita.horaInicio).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' })
-              : '';
-            const horaFinal = cita.horaFinal
-              ? new Date(cita.horaFinal).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' })
-              : '';
-  
-            return {
-              ...cita,
-              horaInicio, // Hora de inicio en UTC
-              horaFinal,  // Hora de finalización en UTC
-            };
-          });
-  
-        console.log('Citas filtradas del día actual:', this.citasHoy);
-      },
-      (error) => console.error('Error al obtener citas:', error)
-    );
+  // Función para extraer solo la hora de un string o un objeto Date
+  extraerHora(hora: string | Date): string {
+    const date = typeof hora === 'string' ? new Date(hora) : hora; // Asegura que sea un objeto Date
+    return formatDate(date, 'h:mm a', 'en-US'); // Formatea la hora (12h con AM/PM)
   }
 
-  getCitasDelDiaCliente(idCliente: number): void {
-    this.citaService.getCitasByCliente(idCliente).subscribe(
-      (citas: FechaCita[]) => {
-        const hoy = new Date();
-        const diaActual = hoy.getUTCDate();
-        const mesActual = hoy.getUTCMonth();
-        const anioActual = hoy.getUTCFullYear();
-  
-        // Filtrar citas del día actual excluyendo estados 'cancelado' y 'completado'
-        this.citasHoy = citas
-          .filter((cita) => {
-            const fechaCita = new Date(cita.fechaCita);
-            return (
-              fechaCita.getUTCDate() === diaActual &&
-              fechaCita.getUTCMonth() === mesActual &&
-              fechaCita.getUTCFullYear() === anioActual &&
-              cita.estadoCita !== 'cancelada' && 
-              cita.estadoCita !== 'completada'  
-            );
-          })
-          .map((cita) => {
-            const horaInicio = cita.horaInicio
-              ? new Date(cita.horaInicio).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' })
-              : '';
-            const horaFinal = cita.horaFinal
-              ? new Date(cita.horaFinal).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' })
-              : '';
-  
-            return {
-              ...cita,
-              horaInicio, // Hora de inicio en UTC
-              horaFinal,  // Hora de finalización en UTC
-            };
-          });
-  
-        console.log('Citas filtradas del día actual:', this.citasHoy);
-      },
-      (error) => console.error('Error al obtener citas:', error)
-    );
-  }
-  
-  atenderCita(idCita: number): void {
-    this.citaService.completarCita(idCita).subscribe(
-      (response) => {
-        alert('Cita completada exitosamente');
-        this.ngOnInit();
-      },
-      (error) => {
-        console.error('Error al completar la cita:', error);
-        alert('Ocurrió un error al completar la cita');
-      }
-    );
-  }
-
+  // Verifica si el usuario tiene el rol necesario para realizar una acción
   canPerformAction(requiredRole: number): boolean {
     const user = JSON.parse(localStorage.getItem('usuario') || '{}');
     return user.rol === requiredRole;
   }
+
+  // Lógica para atender una cita
+  atenderCita(idCita: number | undefined): void {
+    if (idCita === undefined) {
+      console.error('El ID de la cita es indefinido.');
+      return;
+    }
+  
+    // Crear el componente base
+    const baseComponent = new ConcreteComponent();
+  
+    // Aplicar el decorador para validar el rol
+    const roleValidationDecorator = new RoleValidationDecorator(baseComponent, this.usuario.rol);
+  
+    // Aplicar el decorador para actualizar el estado de la cita
+    const stateUpdateDecorator = new StateUpdateDecorator(
+      roleValidationDecorator,
+      this.citaService,
+      () => this.ngOnInit() // O un método específico como this.cargarCitas()
+    );
+      
+    // Ejecutar la operación con decoradores
+    stateUpdateDecorator.operation(idCita);
+  }
+  
   
 }

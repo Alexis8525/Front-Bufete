@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular'; 
 import { BrowserModule } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
@@ -37,6 +37,7 @@ registerLocaleData(localeEs);
     MatDatepickerModule,
     MatNativeDateModule,
     NgbModule,
+    DatePipe
   ],
   exports: [
     ReactiveFormsModule,
@@ -50,6 +51,7 @@ registerLocaleData(localeEs);
     MatDatepickerModule,
     MatNativeDateModule,
     NgbModule,
+    DatePipe
   ],
   providers: [
     provideHttpClient(withFetch()),

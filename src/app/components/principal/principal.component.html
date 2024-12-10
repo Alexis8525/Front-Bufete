@@ -11,9 +11,15 @@
     </nav>
 
     <div class="p-3">
-      <h2 class="titulo-empleados"> Citas del Día - {{ fechaActual | date: 'longDate' }}
-      </h2>
-      <div class="row">
+      <h2 class="titulo-empleados">Citas del Día - {{ fechaActual | date: 'longDate' }}</h2>
+
+      <!-- Mensaje de carga -->
+      <div *ngIf="loading" class="text-center mt-5">
+        <p style="color: #FFFFFF;">Cargando citas...</p>
+      </div>
+
+      <!-- Listado de citas -->
+      <div class="row" *ngIf="!loading">
         <div class="col-md-4 mb-3" *ngFor="let cita of citasHoy">
           <div class="card shadow-lg">
             <div class="card-body">
@@ -21,17 +27,31 @@
                 <i class="fa-solid fa-clock"></i> {{ cita.horaInicio }} - {{ cita.horaFinal }}
               </h5>
               <p class="card-text">
-                <strong>Cliente:</strong> {{ cita.nombreCliente }} {{ cita.aPCliente }} {{ cita.aMCliente }}<br>
+                <ng-container *ngIf="usuario.rol === 1">
+                  <strong>Cliente:</strong> {{ cita.cliente }}<br>
+                  <strong>Abogado:</strong> {{ cita.abogado }}<br>
+                </ng-container>
+                <ng-container *ngIf="usuario.rol === 2">
+                  <strong>Cliente:</strong> {{ cita.cliente }}<br>
+                </ng-container>
+                <ng-container *ngIf="usuario.rol === 3">
+                  <strong>Abogado:</strong> {{ cita.abogado }}<br>
+                </ng-container>
                 <strong>Servicio:</strong> {{ cita.nombreServicio }}<br>
                 <strong>Motivo:</strong> {{ cita.motivo }}
               </p>
-              <button class="btn btn-primary w-100" *ngIf="canPerformAction(2)" (click)="atenderCita(cita.idCita)">
-                Atender
-              </button>
-
+              <button
+      *ngIf="usuario.rol === 2"
+      (click)="atenderCita(cita.idCita)"
+      class="btn btn-primary"
+    >
+      Atender
+    </button>
             </div>
           </div>
         </div>
+
+        <!-- Mensaje si no hay citas -->
         <div *ngIf="citasHoy.length === 0" class="text-center mt-5">
           <p style="color: #FFFFFF;">No hay citas programadas para hoy.</p>
         </div>
