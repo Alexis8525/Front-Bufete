@@ -39,6 +39,11 @@ export class NotaService {
   // Obtener nota por cita
   getNotasByCita(idCita: number): Observable<Nota[]> {
     return this.http.get<Nota[]>(`${this.URL_API}/cita/${idCita}`);
-}
+  }
+
+  // Enviar un correo basado en una nota
+  enviarCorreoNota(idNota: number): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.URL_API}/enviar-correo/${idNota}`, {});
+  }
 
 }

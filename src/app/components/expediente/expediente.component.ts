@@ -10,6 +10,10 @@ import { Nota } from '../../models/notas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VerNotasModalComponent } from '../modals/ver-notas/ver-notas.component';
 import { CrearNotaModalComponent } from '../modals/nueva-nota/nueva-nota.component';
+import { CommandManager } from '../../patterns/command/command-manager';
+import { ValidateNoteCommand } from '../../patterns/command/validate-note-command';
+import { CreateNoteCommand } from '../../patterns/command/create-note-command';
+import { SendEmailCommand } from '../../patterns/command/send-email-command';
 
 @Component({
   selector: 'app-expediente',
@@ -165,9 +169,21 @@ export class ExpedienteComponent implements OnInit {
     modalRef.componentInstance.idCitaFK = idCita;
   
     modalRef.componentInstance.notaCreada.subscribe((nuevaNota: Nota) => {
-      this.crearNota(nuevaNota);
+      const commandManager = new CommandManager();
+  
+      // Registrar comandos
+      commandManager.registerCommand(new ValidateNoteCommand(idExpediente, idCita, nuevaNota));
+      commandManager.registerCommand(new CreateNoteCommand(this.notaService, nuevaNota));
+      commandManager.registerCommand(new SendEmailCommand(this.notaService, nuevaNota, nuevaNota.tipoNota));
+  
+      // Ejecutar comandos
+      commandManager.executeCommands();
+  
+      // Opcional: actualizar la vista
+      this.getCitasCompletadas();
     });
   }
+  
   
   
   
