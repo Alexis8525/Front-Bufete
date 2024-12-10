@@ -1,13 +1,13 @@
 import { IComponent } from './base-decorator.interface';
 
-export abstract class ComponentDecorator implements IComponent {
+export abstract class Decorator implements IComponent {
   protected component: IComponent;
 
   constructor(component: IComponent) {
     this.component = component;
   }
 
-  decorate(idCita: number): void {
-    this.component.decorate(idCita);
+  operation(idCita: number): void {
+    this.component.operation(idCita); // Delegar al componente decorado
   }
 }

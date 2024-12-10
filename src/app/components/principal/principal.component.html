@@ -41,12 +41,12 @@
                 <strong>Motivo:</strong> {{ cita.motivo }}
               </p>
               <button
-                class="btn btn-primary w-100"
-                *ngIf="usuario.rol === 2 && cita?.idCita !== undefined"
-                (click)="atenderCita(cita.idCita)"
-              >
-                Atender
-              </button>
+      *ngIf="usuario.rol === 2"
+      (click)="atenderCita(cita.idCita)"
+      class="btn btn-primary"
+    >
+      Atender
+    </button>
             </div>
           </div>
         </div>

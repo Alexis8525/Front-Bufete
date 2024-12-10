@@ -11,6 +11,9 @@ import { LocalStorageService } from '../../services/local-storage.service';
 import { SecretariaCitasStrategy } from '../../patterns/strategies/secretaria-citas-strategy';
 import { CitaAdaptada } from '../../models/cita-adaptada';
 import { formatDate } from '@angular/common'; // Importar el helper para formateo
+import { ConcreteComponent } from '../../patterns/decorators/concrete-component';
+import { RoleValidationDecorator } from '../../patterns/decorators/role-validation-decorator';
+import { StateUpdateDecorator } from '../../patterns/decorators/state-update-decorator';
 
 @Component({
   selector: 'app-principal',
@@ -140,8 +143,23 @@ export class PrincipalComponent implements OnInit {
       console.error('El ID de la cita es indefinido.');
       return;
     }
-    console.log(`Atendiendo cita con ID ${idCita}`);
-    // Lógica adicional para atender la cita
+  
+    // Crear el componente base
+    const baseComponent = new ConcreteComponent();
+  
+    // Aplicar el decorador para validar el rol
+    const roleValidationDecorator = new RoleValidationDecorator(baseComponent, this.usuario.rol);
+  
+    // Aplicar el decorador para actualizar el estado de la cita
+    const stateUpdateDecorator = new StateUpdateDecorator(
+      roleValidationDecorator,
+      this.citaService,
+      () => this.ngOnInit() // O un método específico como this.cargarCitas()
+    );
+      
+    // Ejecutar la operación con decoradores
+    stateUpdateDecorator.operation(idCita);
   }
+  
   
 }

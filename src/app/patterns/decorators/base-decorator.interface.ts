@@ -1,4 +1,4 @@
 export interface IComponent {
-    decorate(idCita: number): void;
+    operation(idCita: number): void;
   }
   
