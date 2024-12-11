@@ -78,11 +78,8 @@ export class CitaService {
   getAllCitas(): Observable<CitaDetallada[]> {
     return this.http.get<CitaDetallada[]>(`${this.URL_API}/detalladas`);
   }
-
-  // Obtener citas completadas por número de expediente
-  getCitasCompletadasByExpediente(numeroExpediente: string): Observable<CitaDetallada[]> {
-    return this.http.get<CitaDetallada[]>(`${this.URL_API}/expediente/${numeroExpediente}`);
+  getCitasCompletadasByExpediente(idExpediente: number): Observable<CitaDetallada[]> {
+    return this.http.get<CitaDetallada[]>(`${this.URL_API}/expediente/${idExpediente}`);
   }
-
 
 }

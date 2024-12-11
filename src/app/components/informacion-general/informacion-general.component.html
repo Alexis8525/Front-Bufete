@@ -1,0 +1,49 @@
+<div class="p-3 ">
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div *ngFor="let expediente of expedientes" class="col">
+      <div class="card">
+        <div class="card-header">
+          <h2>{{ expediente.nombreExpediente }} ({{ expediente.numeroExpediente }})</h2>
+        </div>
+        <div class="card-body">
+          <p>Fecha de creación: {{ expediente.fechaCreacion }}</p>
+          <p>Estado: <strong>{{ expediente.estado || 'Sin estado' }}</strong></p> <!-- Aseguramos que si no hay estado, se muestre 'Sin estado' -->
+          <p>Descripcion: <strong>{{ expediente.descripcion || 'Sin estado' }}</strong></p>
+          <p>Datos del Abogado: <strong>{{ expediente.datosAbogado }}</strong></p>
+          <p>Datos del Cliente: <strong>{{ expediente.datosCliente }}</strong></p>
+
+          <h4>Documentos Asociados:</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Fecha de Subida</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doc of expediente.documentos">
+                <td>{{ doc.tipoDocumento }}</td>
+                <td>{{ doc.fechaSubida }}</td>
+                <td>{{ doc.estado }}</td>
+                <td>
+                  <button (click)="abrirModal(doc.documentoBase64)" class="btn btn-secondary">
+                    Ver Documento
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer d-flex justify-content-end gap-2">
+          <button (click)="actualizarExpediente(expediente.idExpediente)" class="btn btn-actualizar">
+            Actualizar
+          </button>
+          <button (click)="eliminarExpediente(expediente.idExpediente)" class="btn btn-eliminar">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>        
+  </div>
+</div>

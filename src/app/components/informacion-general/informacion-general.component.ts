@@ -1,28 +1,27 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UploadFileService } from '../../services/upload-file.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router'; 
+// import { ExpedienteBase, PrioritarioExpediente, ArchivadoExpediente, ExpedienteComponent } from '../../decorador/expediente.decorator';
 
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-visualizar-pdf',
+  selector: 'app-informacion-general',
   standalone: true,
   imports: [
     BarraLateralComponent,
     CommonModule,
-    FormsModule,
-    RouterModule
+    FormsModule
   ],
-  templateUrl: './visualizar-pdf.component.html',
-  styleUrls: ['./visualizar-pdf.component.scss']
+  templateUrl: './informacion-general.component.html',
+  styleUrl: './informacion-general.component.css'
 })
-export class VisualizarPdfComponent implements OnInit {
-  expedientes: any[] = [];
+export class InformacionGeneralComponent {
+  @Input() expedientes: any = {}; 
   pdfSrc: SafeResourceUrl | null = null;
   expedientePrioritario: string = ''; // Inicializado
   expedienteArchivado: string = ''; // Inicializado
@@ -36,6 +35,14 @@ export class VisualizarPdfComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // const expedienteBase = new ExpedienteBase();
+    // const expedientePrioritario = new PrioritarioExpediente(expedienteBase);
+    // const expedienteArchivado = new ArchivadoExpediente(expedienteBase);
+
+    // this.expedientePrioritario = expedientePrioritario.getDetalle();
+    // this.expedienteArchivado = expedienteArchivado.getDetalle();
+
+    // Cargar expedientes
     this.loadExpedientes();
   }
   
@@ -52,11 +59,19 @@ export class VisualizarPdfComponent implements OnInit {
 
           // Procesar datos del cliente
           const datosCliente = expediente.datosCliente ? JSON.parse(expediente.datosCliente) : {};
-          const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}, Dirección: ${datosCliente.direccion || 'No especificada'}, Teléfono: ${datosCliente.telefono || 'Sin teléfono'}, Correo: ${datosCliente.correo || 'Sin correo'}`
+          const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}, Dirección: ${datosCliente.direccion || 'No especificada'}, Teléfono: ${datosCliente.telefono || 'Sin teléfono'}, Correo: ${datosCliente.correo || 'Sin correo'}`;
+          // Decoradores de expedientes
+          if (expediente.estado === 'PRIORITARIO') {
+            // expedienteComponent = new PrioritarioExpediente(expedienteComponent);
+          }
+          if (expediente.archivado) {
+            // expedienteComponent = new ArchivadoExpediente(expedienteComponent);
+          }
           return {
             ...expediente,
             datosAbogado: datosAbogadoConcatenados,
             datosCliente: datosClienteConcatenados,
+            // detalle: expedienteComponent.getDetalle(),
           };
         });
       },
@@ -67,10 +82,7 @@ export class VisualizarPdfComponent implements OnInit {
   }
 
   abrirModal(documentoBase64: string): void {
-    if (!documentoBase64) {
-      alert('El documento no está disponible.');
-      return;
-    }
+    // Sanitiza el valor de pdfSrc para evitar el error de seguridad
     this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${documentoBase64}`);
     const modalElement = document.getElementById('pdfModal');
     if (modalElement) {
@@ -78,7 +90,6 @@ export class VisualizarPdfComponent implements OnInit {
       modalInstance.show();
     }
   }
-  
   eliminarExpediente(idExpediente: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar este expediente?')) {
       this.uploadFileService.eliminarExpediente(idExpediente.toString()).subscribe({
@@ -105,5 +116,4 @@ export class VisualizarPdfComponent implements OnInit {
     console.log(`Actualizando expediente con ID: ${idExpediente}`);
     alert('Funcionalidad de actualización no implementada aún.');
   }
-  
 }

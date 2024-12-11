@@ -32,12 +32,16 @@ export class ExpedienteService {
   }
   
   // Obtener información general de un expediente por su número
-  getInformacionGeneral(numeroExpediente: string): Observable<Expediente> {
-    return this.http.get<Expediente>(`${this.URL_API}/informacion-general/${numeroExpediente}`);
+  getInformacionGeneral(idExpediente: number): Observable<Expediente> {
+    return this.http.get<Expediente>(`${this.URL_API}/informacion-general/${idExpediente}`);
   }
 
   // Obtener información de las partes relacionadas por número de expediente
-  getPartesPorExpediente(numeroExpediente: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.URL_API}/partes-expediente/${numeroExpediente}`);
+  getPartesPorExpediente(idExpediente: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.URL_API}/partes-expediente/${idExpediente}`);
   }
+  agregarParte(idExpediente: number, parteData: any): Observable<any> {
+    return this.http.post<any>(`${this.URL_API}/agregar-parte`, { idExpediente, ...parteData });
+  }
+  
 }

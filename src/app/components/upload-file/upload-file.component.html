@@ -10,51 +10,124 @@
       </div>
     </nav>
 
-    <div class="p-3">
-      <!-- Formulario para crear el expediente -->
-      <form *ngIf="!idExpedienteCreado" (ngSubmit)="onSubmit()" class="form-container">
-        <h3>Primero tienes que crear Expediente</h3>
-        
+    <div class="p-3 container">
+      <!-- Selección de Cliente -->
+      <div class="form-group mb-4">
+        <label for="cliente">Selecciona al Cliente:</label>
+        <select [(ngModel)]="clienteSeleccionado" name="cliente" required class="form-control" (change)="cargarDatosCliente()">
+          <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
+            {{ cliente.nombreCliente }} {{ cliente.aPCliente }} {{ cliente.aMCliente }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Datos del Cliente -->
+      <div *ngIf="clienteDatos" class="section cliente-section">
+        <h4>Datos del Cliente</h4>
         <div class="form-group">
-          <label for="nombre">Nombre del Cliente:</label>
-          <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control">
+          <label for="emailCliente">Correo Electrónico:</label>
+          <input type="text" [(ngModel)]="clienteDatos.correo" readonly class="form-control">
         </div>
-
         <div class="form-group">
-          <label for="numero">Número de Expediente:</label>
-          <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control">
-          <div *ngIf="expediente.numeroExpediente">Este campo es obligatorio.</div>
+          <label for="telefonoCliente">Teléfono:</label>
+          <input type="text" [(ngModel)]="clienteDatos.telefono" readonly class="form-control">
         </div>
-
         <div class="form-group">
-          <label for="estado">Estado:</label>
-          <input type="text" [(ngModel)]="expediente.estado" name="estado" required class="form-control">
+          <label for="direccionCliente">Dirección:</label>
+          <input type="text" [(ngModel)]="clienteDatos.direccion" readonly class="form-control">
         </div>
+      </div>
 
+      <!-- Selección de Abogado -->
+      <div class="form-group mb-4">
+        <label for="abogado">Selecciona al Abogado:</label>
+        <select [(ngModel)]="AbogadoSeleccionado" name="abogado" required class="form-control" (change)="cargarDatosAbogado()">
+          <option *ngFor="let abogado of Abogado" [value]="abogado.idEmpleado">
+            {{ abogado.nombreEmpleado }} {{ abogado.aPEmpleado }} {{ abogado.aMEmpleado }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Datos del Abogado -->
+      <div *ngIf="AbogadoDatos" class="section abogado-section">
+        <h4>Datos del Abogado</h4>
         <div class="form-group">
-          <label for="descripcion">Descripción:</label>
-          <textarea [(ngModel)]="expediente.descripcion" name="descripcion" class="form-control"></textarea>
+          <label for="telefonoAbogado">Teléfono:</label>
+          <input type="text" [(ngModel)]="AbogadoDatos.telefono" readonly class="form-control">
         </div>
-
-        <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
-      </form>
-
-      <!-- Formulario para cargar documentos (solo visible si se ha creado el expediente) -->
-      <form *ngIf="idExpedienteCreado" (ngSubmit)="subirDocumentos()" class="form-container mt-4">
-        <h3>Ahora agrega los documentos al expediente</h3>
         <div class="form-group">
-          <label>Seleccione los documentos:</label>
-          <div *ngFor="let documento of ['CURP', 'Curriculum Vitae', 'Comprobante de Domicilio', 'Número de Seguridad Social (IMSS)', 'Identificación Oficial']">
-            <label for="{{documento}}">{{documento}}:</label>
-            <input type="file" id="{{documento}}" (change)="onFileSelected($event, documento)" accept="application/pdf" class="form-control-file" required>
-            <div *ngIf="archivos[documento]">
-              <p>{{documento}} cargado.</p>
+          <label for="correoAbogado">Correo Electrónico:</label>
+          <input type="text" [(ngModel)]="AbogadoDatos.correo" readonly class="form-control">
+        </div>
+      </div>
+
+      <!-- Formulario de Expediente -->
+      <div class="section expediente-section">
+        <h4>Datos del Expediente</h4>
+        <form *ngIf="!idExpedienteCreado" (ngSubmit)="onSubmit()" class="form-container">
+          <div class="form-group">
+            <label for="nombre">Nombre del Expediente:</label>
+            <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="numero">Número de Expediente:</label>
+            <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea [(ngModel)]="expediente.descripcion" name="descripcion" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="servicio">Nombre del Servicio:</label>
+            <input type="text" [(ngModel)]="expediente.nombreServicio" name="servicio" required class="form-control">
+          </div>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#prioridadModal">
+            Asignar Prioridad
+          </button>
+          <div class="modal fade" id="prioridadModal" tabindex="-1" aria-labelledby="prioridadModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="prioridadModalLabel">Asignar Prioridad</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <p>¿Deseas asignar prioridad a este expediente?</p>
+                  <p>Esta acción cambiará el estado del expediente a "Prioridad Alta".</p>
+                  <button class="btn btn-success"  (click)="aplicarDecorador('prioridad')">Sí, asignar prioridad</button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <button type="submit" class="btn btn-primary btn-submit">Subir Documentos</button>
-      </form>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#archivadoModal">
+            Archivar Expediente
+          </button>
+          <div class="modal fade" id="archivadoModal" tabindex="-1" aria-labelledby="archivadoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="archivadoModalLabel">Archivar Expediente</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <p>¿Estás seguro de que deseas archivar este expediente?</p>
+                  <p>Esta acción cambiará el estado del expediente a "Archivado".</p>
+                  <button class="btn btn-success" (click)="aplicarDecorador('archivado')" data-bs-dismiss="modal">
+                    Sí, archivar expediente
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

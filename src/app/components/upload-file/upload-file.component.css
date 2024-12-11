@@ -15,6 +15,18 @@
   display: flex;
   flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
 }
+
+select.form-control {
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: box-shadow 0.2s ease;
+}
+
+select.form-control:focus {
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
 .p-3 {
   background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
   border-radius: 10px; /* Bordes redondeados */
@@ -23,7 +35,9 @@
   max-width: 600px;
   margin: 30px auto;
   max-height: 100vh; /* O la altura que prefieras */
-  overflow-y: auto; /* Habilita el desplazamiento vertical dentro de .p-3 */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #007bff #e9ecef;
 }
 
 /* Estilos del formulario */
@@ -66,4 +80,66 @@
 
 .btn-submit:hover {
   background-color: #0056b3;
+}
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+.p-3::-webkit-scrollbar {
+  width: 10px;
+}
+
+.p-3::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 10px;
+}
+
+.p-3::-webkit-scrollbar-track {
+  background: #e9ecef;
+}
+
+.p-3.container {
+  max-width: 800px; /* Ancho del contenedor */
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.cliente-section {
+  background-color: #e8f5e9; /* Verde claro */
+}
+
+.abogado-section {
+  background-color: #e3f2fd; /* Azul claro */
+}
+
+.expediente-section {
+  background-color: #fff8e1; /* Amarillo claro */
+}
+
+h4 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: bold;
 }

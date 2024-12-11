@@ -53,5 +53,9 @@ export class EmpleadoService {
   getAbogado(){
     return this.http.get<Empleado[]>(`${this.URL_API}abogados`); 
   }
+
+  getEmpleadoById(idEmplado: number) {
+    return this.http.get<Empleado>(this.URL_API + idEmplado);
+  }
   
 }
