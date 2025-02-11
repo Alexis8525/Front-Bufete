@@ -7,12 +7,11 @@ export class ExpedienteConPrioridadDecorator extends ExpedienteDecoradorBase {
   }
 
   override crearExpediente(): void {
-    // Modificar el estado del expediente dentro del decorador
     (this.componente as any).expediente.estado = 'Prioridad Alta';
     console.log('Estado actualizado a Prioridad Alta en el decorador.');
 
     alert('Expediente a sido Prioridad Alta.');
     
-    super.crearExpediente(); // Continuar con el flujo del componente decorado
+    super.crearExpediente();
   }
 }

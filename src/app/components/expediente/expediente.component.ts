@@ -23,6 +23,11 @@ import { SendEmailCommand } from '../../patterns/command/send-email-command';
   selector: 'app-expediente',
   templateUrl: './expediente.component.html',
   styleUrls: ['./expediente.component.css'],
+  styles: [
+  "src/styles.css",  // Ruta a los estilos principales
+  "src/app/expediente/expediente.component.css"  // Ruta a los estilos del componente específico
+],
+
   standalone: true,
   imports: [
     BarraLateralComponent,
@@ -334,6 +339,8 @@ export class ExpedienteComponent implements OnInit {
       return;
     }
   
+    console.log('Abriendo modal con idExpediente:', idExpediente, 'idCita:', idCita);
+
     const modalRef = this.modalService.open(CrearNotaModalComponent);
     modalRef.componentInstance.idExpedienteFK = idExpediente;
     modalRef.componentInstance.idCitaFK = idCita;
