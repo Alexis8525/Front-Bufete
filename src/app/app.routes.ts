@@ -28,6 +28,7 @@ import { InformacionGeneralComponent } from './components/informacion-general/in
 import { DatosPartesComponent } from './components/datos-partes/datos-partes.component';
 import { RegistroCitasComponent } from './components/registro-citas/registro-citas.component';
 import { DocumentacionLegalComponent } from './components/documentacion-legal/documentacion-legal.component';
+import { NotFoundComponent } from './components/pages/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -57,6 +58,7 @@ export const routes: Routes = [
   { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'expediente/:idExpediente', component: ExpedienteComponent },
+  { path: '**', component: NotFoundComponent },
   { path: '**', redirectTo: '' }
 ];
 
