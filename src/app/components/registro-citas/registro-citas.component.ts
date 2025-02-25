@@ -32,15 +32,13 @@ export class RegistroCitasComponent implements OnInit {
       motivo: ['', [Validators.required, Validators.maxLength(255)]],
       notas: [''],
       estado: ['Pendiente', Validators.required],
-      idExpediente: [this.idExpediente] // Asociar al expediente
+      idExpediente: [this.idExpediente]
     });
   }
 
-  // Cargar expediente y citas asociadas
   loadExpediente() {
     this.citaService.getExpediente().subscribe({
       next: (data) => {
-        // Aquí podrías filtrar o encontrar el expediente específico
         this.expediente = data.find((exp: any) => exp.idExpediente === this.idExpediente);
       },
       error: (err) => {

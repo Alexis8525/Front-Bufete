@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-not-found',
+  selector: 'app-forbidden',
   standalone: true,
   imports: [
     BarraLateralComponent,
@@ -13,10 +13,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
     FormsModule,
     RouterModule
   ],
-  templateUrl: './not-found.component.html',
-  styleUrl: './not-found.component.css'
+  templateUrl: './forbidden.component.html',
+  styleUrl: './forbidden.component.css'
 })
-export class NotFoundComponent {
+export class ForbiddenComponent {
   returnUrl: string = '/home';
 
   constructor(private route: ActivatedRoute, private router: Router) {}

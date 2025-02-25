@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-not-found',
+  selector: 'app-bad-request',
   standalone: true,
   imports: [
     BarraLateralComponent,
@@ -13,10 +13,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
     FormsModule,
     RouterModule
   ],
-  templateUrl: './not-found.component.html',
-  styleUrl: './not-found.component.css'
+  templateUrl: './bad-request.component.html',
+  styleUrl: './bad-request.component.css'
 })
-export class NotFoundComponent {
+export class BadRequestComponent {
   returnUrl: string = '/home';
 
   constructor(private route: ActivatedRoute, private router: Router) {}

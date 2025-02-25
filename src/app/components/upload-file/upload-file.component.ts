@@ -284,9 +284,17 @@ export class UploadFileComponent implements ExpedienteComponent{
 
   onSubmit() {
     if (!this.expediente.numeroExpediente || !this.expediente.nombreServicio) {
-      console.error('El número de expediente y el nombre del servicio son obligatorios');
+      alert('Por favor, complete el número de expediente y el nombre del servicio antes de continuar.');
       return;
     }
+  
+    const confirmacion = confirm('¿Está seguro de que desea crear este expediente?');
+    if (!confirmacion) {
+      return;
+    }
+  
     this.crearExpediente();
   }
+  
+  
 }

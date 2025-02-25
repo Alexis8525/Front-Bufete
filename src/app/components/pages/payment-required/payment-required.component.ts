@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-not-found',
+  selector: 'app-payment-required',
   standalone: true,
   imports: [
     BarraLateralComponent,
@@ -13,10 +13,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
     FormsModule,
     RouterModule
   ],
-  templateUrl: './not-found.component.html',
-  styleUrl: './not-found.component.css'
+  templateUrl: './payment-required.component.html',
+  styleUrl: './payment-required.component.css'
 })
-export class NotFoundComponent {
+export class PaymentRequiredComponent {
   returnUrl: string = '/home';
 
   constructor(private route: ActivatedRoute, private router: Router) {}

@@ -29,6 +29,9 @@ import { DatosPartesComponent } from './components/datos-partes/datos-partes.com
 import { RegistroCitasComponent } from './components/registro-citas/registro-citas.component';
 import { DocumentacionLegalComponent } from './components/documentacion-legal/documentacion-legal.component';
 import { NotFoundComponent } from './components/pages/not-found/not-found.component';
+import { PaymentRequiredComponent } from './components/pages/payment-required/payment-required.component';
+import { ForbiddenComponent } from './components/pages/forbidden/forbidden.component';
+import { BadRequestComponent } from './components/pages/bad-request/bad-request.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -58,6 +61,9 @@ export const routes: Routes = [
   { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'expediente/:idExpediente', component: ExpedienteComponent },
+  { path: 'error/400', component: BadRequestComponent },
+  { path: 'error/402', component: PaymentRequiredComponent },
+  { path: 'error/403', component: ForbiddenComponent },
   { path: '**', component: NotFoundComponent },
   { path: '**', redirectTo: '' }
 ];

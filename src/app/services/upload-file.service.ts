@@ -1,47 +1,88 @@
-  import { HttpClient } from '@angular/common/http';
-  import { Injectable } from '@angular/core';
-  import { Observable } from 'rxjs';
-import { Cliente } from '../models/cliente';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class UploadFileService {
+@Injectable({
+  providedIn: 'root',
+})
+export class UploadFileService {
+  private apiUrl = 'http://localhost:3000/expedientes'; // Asegúrate de que la URL esté correcta
 
-    private apiUrl = 'http://localhost:3000/expedientes'; // Asegúrate de que la URL esté correcta
+  constructor(private http: HttpClient, private router: Router) {}
 
-    constructor(private http: HttpClient) {}
+  private manejarError(error: HttpErrorResponse) {
+    const urlActual = this.router.url;
+    let mensajeError = 'Ocurrió un error inesperado.';
 
-    crearExpediente(expedienteData: any): Observable<any> {
-      return this.http.post(`${this.apiUrl}`, expedienteData);
+    switch (error.status) {
+      case 400:
+        mensajeError = 'Error 400: Solicitud incorrecta.';
+        this.router.navigate(['/error/400'], { queryParams: { returnUrl: urlActual } });
+        break;
+      case 402:
+        mensajeError = 'Error 402: Se requiere pago.';
+        this.router.navigate(['/error/402'], { queryParams: { returnUrl: urlActual } });
+        break;
+      case 403:
+        mensajeError = 'Error 403: Acceso prohibido.';
+        this.router.navigate(['/error/403'], { queryParams: { returnUrl: urlActual } });
+        break;
+      default:
+        mensajeError = `Error ${error.status}: ${error.message}`;
+        this.router.navigate(['/error/404'], { queryParams: { returnUrl: urlActual } });
+        break;
     }
 
-    // Obtener todos los expedientes
-    obtenerExpedientes(): Observable<any[]> {
-      return this.http.get<any[]>(`${this.apiUrl}`);
-    }
-
-    // Eliminar expediente
-    eliminarExpediente(id: string) {
-      return this.http.delete(`${this.apiUrl}/${id}`);
-    }
-
-    // Obtener documentos de expedientes
-    getDocumentos(): Observable<any[]> {
-      return this.http.get<any[]>(`${this.apiUrl}/documentos`);
-    }
-    
-    getExpedienteCompleto(): Observable<any[]> {
-      return this.http.get<any[]>(`${this.apiUrl}`);
-    }
-    subirDocumentos(idExpediente: number, documentos: { documentoBase64: string, idTipoDocumentoFK: number }[]): Observable<any> {
-      return this.http.post(`${this.apiUrl}/subirDocumento`, {
-          idExpedienteFK: idExpediente, // El backend espera este nombre exacto
-          documentos,
-      });
-    }    
-    getHistorialExpedienteCompleto(): Observable<any[]> {
-      return this.http.get<any[]>(`${this.apiUrl}/historial-expedientes`);
-    }
-
+    return throwError(() => new Error(mensajeError));
   }
+
+  crearExpediente(expedienteData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, expedienteData).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+
+  // Obtener todos los expedientes
+  obtenerExpedientes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+
+  // Eliminar expediente
+  eliminarExpediente(id: string) {
+    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+
+  // Obtener documentos de expedientes
+  getDocumentos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/documentos`).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+
+  getExpedienteCompleto(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+
+  subirDocumentos(idExpediente: number, documentos: { documentoBase64: string, idTipoDocumentoFK: number }[]): Observable<any> {
+    return this.http.post(`${this.apiUrl}/subirDocumento`, {
+      idExpedienteFK: idExpediente, // El backend espera este nombre exacto
+      documentos,
+    }).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+
+  getHistorialExpedienteCompleto(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/historial-expedientes`).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+}

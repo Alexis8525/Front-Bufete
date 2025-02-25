@@ -33,7 +33,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    // this.usuarioService.getUsuarios().subscribe({
+    //   next: (usuarios) => console.log('Usuarios:', usuarios),
+    //   error: (err) => console.error('Error al obtener usuarios:', err.message),
+    // });
   }
 
   get email() {
