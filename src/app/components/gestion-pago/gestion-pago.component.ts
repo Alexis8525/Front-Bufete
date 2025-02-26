@@ -127,7 +127,6 @@ validarPago(): boolean {
   if (montoInicial <= 0) {
     this.isValidPayment = false;
     console.error("El monto restante es 0 o menor. No se puede realizar el pago.");
-    console.log("El montoRestante"+montoInicial, "CantidadPago"+this.cantidadPago);
     this.esCantidadValida = false;
     return false;
 }
@@ -135,19 +134,16 @@ validarPago(): boolean {
   // Validar que la cantidad a pagar no sea mayor que el monto restante
   if (this.cantidadPago > montoInicial) {
       console.error("La cantidad a pagar no puede ser mayor que el monto restante.");
-      console.log("El montoRestante"+montoInicial, "CantidadPago"+this.cantidadPago);
       this.esCantidadValida = false;
       return false;
   }
 
   if (this.cantidadPago <= 0) {
     console.error("La cantidad a pagar no puede ser mayor que el monto restante.");
-    console.log("El montoRestante"+montoInicial, "CantidadPago"+this.cantidadPago);
     this.esCantidadValida = false;
     return false;
 }
   this.esCantidadValida = true;
-  console.log("Validaciones exitosas.", this.esCantidadValida);
  
   return true; // Validación exitosa
 }
@@ -173,8 +169,7 @@ pagarServicio() {
           };
 
           this.pagoService.crearPago(pagoInsert).subscribe({
-              next: () => {
-                  console.log('Pago insertado con éxito.');            
+              next: () => {          
                   this.obtenerPagos();
                   Swal.fire({
                     title: '¡Pago realizado con éxito!',
@@ -210,7 +205,6 @@ cargando: boolean = false;
   obtenerPagos(): void {
     if (!this.folio) {
       this.errorMessage = 'Por favor, ingresa un folio.';
-      console.log(this.errorMessage);
       return;
     }
     this.cargando = true; 
@@ -225,7 +219,6 @@ cargando: boolean = false;
           this.pago = data;
           this.errorMessage = '';
           this.esFolio = false;  // El folio es válido
-          console.log('Datos obtenidos.');
       }
   },
       error: (error) => {

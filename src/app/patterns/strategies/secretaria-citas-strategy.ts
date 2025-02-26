@@ -12,7 +12,6 @@ export class SecretariaCitasStrategy implements CitasStrategy<CitaAdaptada> {
   async loadCitas(userId: number): Promise<CitaAdaptada[]> {
     try {
       const citas = await lastValueFrom(this.citaService.getCitasBySecretaria());
-      console.log('Citas para secretaria:', citas);
 
       // Adaptar los datos para el rol de secretaria
       const citasAdaptadas: CitaAdaptada[] = citas.map(cita => ({

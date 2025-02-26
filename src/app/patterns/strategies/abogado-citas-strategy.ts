@@ -12,7 +12,6 @@ export class AbogadoCitasStrategy implements CitasStrategy<CitaAdaptada> {
   async loadCitas(userId: number): Promise<CitaAdaptada[]> {
     try {
       const citas = await lastValueFrom(this.citaService.getCitasByAbogado(userId));
-      console.log('Citas para abogado:', citas);
 
       // Adaptar los datos para el rol de abogado
       const citasAdaptadas: CitaAdaptada[] = citas.map(cita => ({

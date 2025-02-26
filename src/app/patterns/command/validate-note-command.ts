@@ -12,6 +12,5 @@ export class ValidateNoteCommand implements ICommand {
     if (!this.expedienteId || !this.citaId || !this.nota.titulo || !this.nota.descripcion) {
       throw new Error('Todos los campos de la nota son obligatorios.');
     }
-    console.log('Validación completada: La nota es válida.');
   }
 }

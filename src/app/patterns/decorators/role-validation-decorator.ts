@@ -15,8 +15,6 @@ export class RoleValidationDecorator extends Decorator {
       alert('Solo los abogados pueden atender citas.');
       return;
     }
-
-    console.log('Validación de rol exitosa.');
     super.operation(idCita);
   }
 }

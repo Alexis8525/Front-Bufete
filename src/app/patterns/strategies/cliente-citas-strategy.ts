@@ -12,7 +12,6 @@ export class ClienteCitasStrategy implements CitasStrategy<CitaAdaptada> {
   async loadCitas(userId: number): Promise<CitaAdaptada[]> {
     try {
       const citas = await lastValueFrom(this.citaService.getCitasByCliente(userId));
-      console.log('Citas para cliente:', citas);
 
       // Adaptar los datos para el cliente
       const citasAdaptadas: CitaAdaptada[] = citas.map(cita => ({

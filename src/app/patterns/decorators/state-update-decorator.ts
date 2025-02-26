@@ -14,7 +14,6 @@ export class StateUpdateDecorator extends Decorator {
   override operation(idCita: number): void {
     this.citaService.completarCita(idCita).subscribe({
       next: (response) => {
-        console.log(`Estado de la cita con ID ${idCita} actualizado en el servidor.`);
         this.onUpdate(); // Notificar al componente principal
         super.operation(idCita); // Llama al componente decorado
       },

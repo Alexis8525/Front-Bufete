@@ -82,7 +82,6 @@ export class ExpedienteComponent implements OnInit {
 
   ngOnInit() {
   this.idExpediente = +this.activatedRoute.snapshot.paramMap.get('idExpediente')!;
-  console.log('ID del Expediente:', this.idExpediente);
   
   // Inicializar las categorías y subcategorías
   this.categoriaSeleccionada = null; // Asegúrate de que no haya una categoría seleccionada inicialmente
@@ -110,7 +109,6 @@ export class ExpedienteComponent implements OnInit {
             horaFinal
           };
         });
-        console.log('Citas completadas:', this.citasCompletadas);
       },
       (error) => {
         console.error('Error al obtener citas completadas:', error);
@@ -132,8 +130,6 @@ export class ExpedienteComponent implements OnInit {
     } else if (nuevaParte.tipoParte === 'Tercero Relacionado') {
       this.terceros.push(nuevaParte);
     }
-
-    console.log(nuevaParte)
   
     alert('Parte agregada exitosamente.');
   }
@@ -161,7 +157,6 @@ export class ExpedienteComponent implements OnInit {
         }
 
         this.expediente = data;
-        console.log('Datos del expediente cargados:', this.expediente);
       },
       (error) => {
         console.error('Error al cargar expediente:', error);
@@ -177,9 +172,6 @@ export class ExpedienteComponent implements OnInit {
         this.demandantes = data.filter((parte) => parte.tipoParte === 'Demandante');
         this.demandados = data.filter((parte) => parte.tipoParte === 'Demandado');
         this.terceros = data.filter((parte) => parte.tipoParte === 'Tercero Relacionado');
-        console.log('Demandantes:', this.demandantes);
-        console.log('Demandados:', this.demandados);
-        console.log('Terceros Relacionados:', this.terceros);
       },
       (error) => {
         console.error('Error al cargar partes relacionadas:', error);
@@ -221,8 +213,6 @@ export class ExpedienteComponent implements OnInit {
     if (!this.categoriaSeleccionada) {
       return; // Evitar hacer la llamada si no hay categoría seleccionada
     }
-  
-    console.log('ID de la categoría seleccionada:', this.categoriaSeleccionada.idCategoria);
   
     this.subCategoriaSeleccionada = null;
     this.documentosService.obtenerSubCategorias(this.categoriaSeleccionada.idCategoria).subscribe({
@@ -316,7 +306,6 @@ export class ExpedienteComponent implements OnInit {
   abrirModalVerNotas(idCita: number): void {
     this.notaService.getNotasByCita(idCita).subscribe(
       (notas) => {
-        console.log('Notas obtenidas para la cita:', notas);
         if (notas.length > 0) {
           const modalRef = this.modalService.open(VerNotasModalComponent);
           modalRef.componentInstance.notas = notas; // Pasar la lista completa de notas
@@ -338,8 +327,6 @@ export class ExpedienteComponent implements OnInit {
       console.error('Faltan parámetros obligatorios: idExpediente o idCita');
       return;
     }
-  
-    console.log('Abriendo modal con idExpediente:', idExpediente, 'idCita:', idCita);
 
     const modalRef = this.modalService.open(CrearNotaModalComponent);
     modalRef.componentInstance.idExpedienteFK = idExpediente;
@@ -375,7 +362,6 @@ export class ExpedienteComponent implements OnInit {
   guardarNota(nuevaNota: Nota): void {
     this.notaService.crearNota(nuevaNota).subscribe(
       (respuesta) => {
-        console.log('Nota guardada exitosamente:', respuesta);
         // Refresca la lista de notas si es necesario
         this.abrirModalVerNotas(nuevaNota.idCitaFK!); // Refresca las notas de la cita
       },
@@ -385,7 +371,6 @@ export class ExpedienteComponent implements OnInit {
   cargarNotasExpediente(): void {
   this.notaService.getNotasByExpediente(this.idExpediente).subscribe(
     (notas) => {
-      console.log('Notas del expediente:', notas);
       // Guarda las notas para mostrarlas en el HTML
       this.expedienteSeleccionado.notas = notas;
     },

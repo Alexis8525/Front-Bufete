@@ -65,7 +65,7 @@ export const routes: Routes = [
   { path: 'error/402', component: PaymentRequiredComponent },
   { path: 'error/403', component: ForbiddenComponent },
   { path: '**', component: NotFoundComponent },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
