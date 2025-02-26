@@ -17,7 +17,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrl: './payment-required.component.css'
 })
 export class PaymentRequiredComponent {
-  returnUrl: string = '/home';
+  returnUrl: string = '/principal';
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 

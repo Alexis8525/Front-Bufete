@@ -17,7 +17,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrl: './not-found.component.css'
 })
 export class NotFoundComponent {
-  returnUrl: string = '/home';
+  returnUrl: string = '/principal';
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 

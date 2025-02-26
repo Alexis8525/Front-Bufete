@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './forbidden.component.css'
 })
 export class ForbiddenComponent {
-  returnUrl: string = '/home';
+  returnUrl: string = '/principal';
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 

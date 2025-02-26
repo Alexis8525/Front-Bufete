@@ -17,7 +17,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrl: './bad-request.component.css'
 })
 export class BadRequestComponent {
-  returnUrl: string = '/home';
+  returnUrl: string = '/principal';
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
