@@ -8,7 +8,6 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   selector: 'app-not-found',
   standalone: true,
   imports: [
-    BarraLateralComponent,
     CommonModule,
     FormsModule,
     RouterModule

@@ -1,0 +1,6 @@
+.navbar-nav .nav-link.active {
+    background-color: #004080; /* Color de fondo para el enlace activo */
+    color: #fff !important; /* Asegura que el texto se mantenga blanco */
+    border-radius: 5px; /* Esquinas redondeadas para un estilo más moderno */
+  }
+  

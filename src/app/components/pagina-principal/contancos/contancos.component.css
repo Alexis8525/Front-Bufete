@@ -1,15 +1,3 @@
-.carousel-caption {
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro con 50% de opacidad */
-    padding: 10px; /* Espaciado alrededor del texto */
-    border-radius: 5px; /* Esquinas redondeadas */
-    text-align: center; /* Alinear el texto al centro */
-}
-  
-.carousel-caption h5, .carousel-caption p {
-    color: #fff; /* Color del texto blanco */
-    font-size: 20px;
-}
-
 /* Estilos para el botón fijo de Solicitar Cita */
 .btn-solicitar-cita {
     position: fixed;

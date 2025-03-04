@@ -1,0 +1,118 @@
+/* Asegurémonos de que el carrusel ocupe el 100% del alto y que la imagen también sea responsiva */
+.carousel-inner {
+    position: relative;
+    height: 80vh; /* Puedes ajustar este valor a tu preferencia */
+  }
+  
+  /* Ajustamos el contenido de cada slide */
+  .carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .carousel-caption {
+    position: absolute;
+    top: 50%; /* Centrado vertical */
+    left: 50%; /* Centrado horizontal */
+    transform: translate(-50%, -50%); /* Ajuste perfecto */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo translúcido */
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* Puedes ajustar el tamaño según lo que te guste */
+    text-align: center;
+  }
+  
+  /* Mejora el estilo de los textos dentro del carrusel */
+  .carousel-caption h5 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  
+  .carousel-caption p {
+    font-size: 20px;
+    color: #ffffff;
+    margin: 0;
+  }
+  
+  /* Para mejorar la apariencia de las imágenes, aseguramos que sean siempre responsivas */
+  .carousel-item img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  
+/* Estilos para el botón fijo de Solicitar Cita */
+.btn-solicitar-cita {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: #001f3f; /* Azul marino */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px; /* Botón más redondeado */
+    z-index: 1000;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transiciones suaves */
+}
+
+.btn-solicitar-cita:hover {
+    background-color: #004080; /* Azul más oscuro al pasar el mouse */
+    color: white;
+    text-decoration: none;
+    transform: scale(1.05); /* Efecto de ampliación al pasar el mouse */
+}
+
+/* Estilos de la sección LexVargas */
+.container.mt-5 {
+    background-color: #f8f9fa; /* Color gris claro */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: justify;
+}
+
+/* Títulos principales */
+h2.text-center {
+    color: #001f3f; /* Azul marino */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+h3.text-center {
+    color: #004080; /* Azul más claro */
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+/* Párrafos */
+p.text-center {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+p.text-justify {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 15px;
+}
+
+/* Estilos para columnas de contenido */
+.container .row .col-md-4 {
+    padding: 20px;
+    text-align: center;
+}
+
+.container .row .col-md-4 .p-3 {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
