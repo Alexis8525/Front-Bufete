@@ -1,0 +1,37 @@
+<app-nav-barra></app-nav-barra>
+<app-breadcrumbs></app-breadcrumbs>
+<div class="site-map">
+  <div class="category main-category">LEXVARGAS</div>
+
+  <div class="category-container">
+    <div class="category">
+      <a routerLink="/inicio" class="category-title">Inicio</a>
+    </div>
+
+    <div class="category">
+      <a routerLink="/conocenos" class="category-title">Conócenos</a>
+      <ul class="subcategory-container">
+        <a [routerLink]="['/principal-conocenos']" fragment="historia" class="subcategory">Nuestra historia</a>
+        <a [routerLink]="['/principal-conocenos']" fragment="valores" class="subcategory">Nuestros valores</a>
+        <a [routerLink]="['/principal-conocenos']" fragment="mision" class="subcategory">Nuestra misión</a>
+        <a [routerLink]="['/principal-conocenos']" fragment="vision" class="subcategory">Nuestra visión</a>
+      </ul>
+    </div>
+
+    <div class="category">
+      <a routerLink="/servicios" class="category-title">Servicios</a>
+      <div class="subcategory-container">
+        <a [routerLink]="['/principal-servicios']"  fragment="accordionDerechoAmbiental" class="subcategory">Derecho Civil</a>
+        <a [routerLink]="['/principal-servicios']"  fragment="accordionDerechoComercial" class="subcategory">Derecho Comercial</a>
+        <a [routerLink]="['/principal-servicios']" fragment="accordionDerechoAmbiental" class="subcategory">Derecho Ambiental</a>
+        <a [routerLink]="['/principal-servicios']" fragment="accordionPropiedadIntelectual" class="subcategory">Derecho de la Propiedad Intelectual</a>
+        <a [routerLink]="['/principal-servicios']" fragment="accordionDerechoFiscal" class="subcategory">Derecho Fiscal</a>
+      </div>
+    </div>
+
+    <div class="category">
+      <a routerLink="/contacto" class="category-title">Contacto</a>
+    </div>
+  </div>
+</div>
+<app-pie-pagina></app-pie-pagina>

@@ -1,0 +1,44 @@
+/* Estilos del Footer */
+.footer {
+    background-color: #001f3f; /* Azul marino, igual que el navbar */
+    color: white;
+    padding: 40px 0;
+    font-size: 16px;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #ffcc00; /* Un dorado sutil para el hover */
+}
+
+.footer h5 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #ffcc00; /* Títulos en color dorado */
+}
+
+.footer .social-icons a {
+    font-size: 20px;
+    color: white;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+.footer .social-icons a:hover {
+    color: #ffcc00; /* Cambio de color al pasar el mouse */
+}
+
+.footer hr {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}

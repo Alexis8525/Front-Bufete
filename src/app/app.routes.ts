@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './components/pagina-principal/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
@@ -32,6 +32,10 @@ import { NotFoundComponent } from './components/pages/not-found/not-found.compon
 import { PaymentRequiredComponent } from './components/pages/payment-required/payment-required.component';
 import { ForbiddenComponent } from './components/pages/forbidden/forbidden.component';
 import { BadRequestComponent } from './components/pages/bad-request/bad-request.component';
+import { ConocenosComponent } from './components/pagina-principal/conocenos/conocenos.component';
+import { ServiciosComponent } from './components/pagina-principal/servicios/servicios.component';
+import { ContancosComponent } from './components/pagina-principal/contancos/contancos.component';
+import { MapaSitioComponent } from './components/pagina-principal/mapa-sitio/mapa-sitio.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -64,8 +68,14 @@ export const routes: Routes = [
   { path: 'error/400', component: BadRequestComponent },
   { path: 'error/402', component: PaymentRequiredComponent },
   { path: 'error/403', component: ForbiddenComponent },
+  { path: 'principal-conocenos', component: ConocenosComponent, data: { breadcrumbLabel: 'Conócenos' } },
+  { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumbLabel: 'Servicios' } },
+  { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumbLabel: 'Contactos' } },
+  { path: 'mapa-sitio', component: MapaSitioComponent, data: {breadcrumLabel: 'Mapa del sitio'}},
+  
+  /** La ruta ** (wildcard) atrapa todas las rutas que no coincidan con las anteriores y las redirigue a home */
   { path: '**', component: NotFoundComponent },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

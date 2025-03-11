@@ -1,0 +1,89 @@
+<app-nav-barra></app-nav-barra>
+
+<!-- Carrusel con botones y movimiento automático -->
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000"> <!-- Se mueve cada 4 segundos -->
+  <div class="carousel-inner" style="height:80%; width:auto;">
+    <div class="carousel-item active">
+      <img src="img_pagina_principal/img1.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption">
+        <h5>Asesoría Personalizada</h5>
+        <p>Comprometidos con tu crecimiento, ofrecemos soluciones legales integrales que aseguran el futuro de tu empresa y protegen tus intereses en un mundo cada vez más globalizado.</p>
+      </div>
+    </div>    
+    <div class="carousel-item">
+      <img src="img_pagina_principal/img2.jpg" class="d-block w-100" alt="...">
+      <div class="carousel-caption">
+        <h5>Lex Vargas Abogados</h5>
+        <p>Con más de 40 años de experiencia, en LexVargas somos tu aliado estratégico, ofreciendo asesoría legal de alta calidad que trasciende fronteras y protege lo que más importa para tu negocio.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="img_pagina_principal/img3.png" class="d-block w-100" alt="...">
+      <div class="carousel-caption">
+        <h5>Lex Vargas Abogados</h5>
+        <p>En LexVargas, nuestro compromiso es tu éxito. A través de un enfoque integral y personalizado, te ayudamos a navegar las complejidades legales con confianza y claridad, siempre con resultados óptimo.</p>
+      </div>
+    </div>
+  </div>
+  <!-- Botón de navegación anterior -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <!-- Botón de navegación siguiente -->
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<app-breadcrumbs></app-breadcrumbs>
+
+<!-- Contenido del Bufete de Abogados -->
+<div class="container mt-5">
+  <h2 class="text-center">LEX VARGAS</h2>
+  <h3 class="text-center">Bufete de Abogados</h3>
+  <p class="text-center">
+    Firma de Abogados en México
+  </p>
+
+  <!-- Fila con tres columnas -->
+  <div class="row">
+    <!-- Columna 1 -->
+    <div class="col-12">
+      <p class="text-justify">
+        Fundado en 1975, LexVargas es uno de los despachos de abogados más reconocidos de México, ofreciendo servicios integrales y especializados. Durante más de cuatro décadas, hemos participado en algunas de las operaciones legales más relevantes del país, estructurando con éxito proyectos de inversión en México y facilitando la colocación de créditos multimillonarios para actividades productivas.
+        <br><br><br>
+      </p>
+    </div>
+
+    <!-- Columna 2 con 2 columnas internas -->
+    <div class="col-12 col-md-6">
+      <p class="text-justify">
+        Hemos asesorado al sector público en la privatización de empresas y servicios, incluyendo los dos primeros proyectos de asociación público-privada en México. Nos destacamos por nuestra innovación y creatividad al brindar asesoría legal a empresas nacionales e internacionales. Gracias a nuestras alianzas con firmas en los mercados más importantes del mundo, nuestra asesoría legal trasciende fronteras.
+        <br><br><br>
+      </p> 
+    </div>
+    <div class="col-12 col-md-6">
+      <p class="text-justify">
+        En LexVargas, nuestro éxito se basa en una combinación de amplia experiencia y las habilidades versátiles de una nueva generación de abogados. Nos enorgullece ser asesores de confianza para nuestros clientes, con un equipo reconocido como experto en diversas áreas del derecho, comprendiendo también los sectores y necesidades de negocio de cada cliente.
+        <br><br><br>
+      </p>
+    </div>
+
+    <!-- Columna 3 -->
+    <div class="col-12">
+      <p class="text-justify">
+        Colaboramos estrechamente con nuestros clientes para combinar conocimientos y experiencia, asegurando resultados óptimos. Creemos en el trato personalizado y en ofrecer mucho más que asesoría legal: establecemos relaciones de confianza que permiten brindar soluciones integrales y estratégicas.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Botón Cita -->
+<a href="login" class="btn btn-primary btn-solicitar-cita mt-4" role="button">
+  Solicitar Cita
+</a>
+
+<app-pie-pagina></app-pie-pagina>
