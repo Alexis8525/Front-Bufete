@@ -6,7 +6,6 @@ import { Expediente } from '../../models/expediente';
 import { ExpedienteService } from '../../services/expediente.service';
 import { DocumentosService } from '../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
-import { CitaExpedienteService } from '../../services/cita-expediente.service';
 import { RouterModule } from '@angular/router'; 
 import { CitaService } from '../../services/cita.service';
 import { NotaService } from '../../services/nota.service';
@@ -22,12 +21,7 @@ import { SendEmailCommand } from '../../patterns/command/send-email-command';
 @Component({
   selector: 'app-expediente',
   templateUrl: './expediente.component.html',
-  styleUrls: ['./expediente.component.css'],
-  styles: [
-  "src/styles.css",  // Ruta a los estilos principales
-  "src/app/expediente/expediente.component.css"  // Ruta a los estilos del componente específico
-],
-
+  styleUrls: ['./expediente.component.css'], // Ruta relativa correcta
   standalone: true,
   imports: [
     BarraLateralComponent,
@@ -379,5 +373,4 @@ export class ExpedienteComponent implements OnInit {
     }
   );
 }
-
 }
