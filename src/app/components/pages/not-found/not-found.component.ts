@@ -32,5 +32,4 @@ export class NotFoundComponent {
   volver(): void {
     this.router.navigate([this.returnUrl]);
   }
-
 }
