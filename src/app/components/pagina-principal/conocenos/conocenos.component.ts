@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavBarraComponent } from '../nav-barra/nav-barra.component';
 import { BreadcrumbsComponent } from "../../breadcrumbs/breadcrumbs.component";
-import { PiePaginaComponent } from '../../pie-pagina/pie-pagina.component';
+import { PiePaginaComponent } from '../../pie-de-pagina/pie-pagina/pie-pagina.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-conocenos',
@@ -16,9 +17,21 @@ import { PiePaginaComponent } from '../../pie-pagina/pie-pagina.component';
 })
 export class ConocenosComponent implements OnInit {
 
-  constructor() { }
 
   ngOnInit() {
+  }
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngAfterViewChecked(): void {
+    this.route.fragment.subscribe(fragment => {
+      if (fragment) {
+        const element = document.getElementById(fragment);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
   }
 
 }

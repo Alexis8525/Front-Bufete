@@ -1,15 +1,72 @@
-<app-nav-barra></app-nav-barra>
-<app-breadcrumbs></app-breadcrumbs>
 
-<!-- Sección de Conócenos -->
-<div class="container mt-5">
-  <h1 class="text-center text-primary fw-bold">Contactanos</h1>
-</div>
 
-<!-- Botón Cita -->
- <!-- Botón Fijo Solicitar Cita -->
-<a href="login" class="btn btn-primary btn-solicitar-cita" role="button">
-  Solicitar Cita
-</a>
+    <app-nav-barra></app-nav-barra>
+    <app-breadcrumbs></app-breadcrumbs>
 
-  
+    <!-- Contenedor Principal en Dos Columnas -->
+    <div class="container contacto-container">
+        
+        <!-- Lado Izquierdo: Información de Oficinas y Contacto -->
+        <div class="info-contacto">
+            <h1 class="fw-bold text-uppercase" style="color: #D4AF37;">Visita Nuestras Oficinas</h1>
+            <p class="fw-bold" style="color: #001F3F;">World Trade Center</p>
+            <p><strong>Dirección:</strong> Montecito 38, Piso 17, Oficina 16, CDMX.</p>
+            
+            <h2 class="fw-bold mt-4" style="color: #D4AF37;">Contáctanos</h2>
+            <p>¿Necesitas un abogado? Te asesoramos antes de cualquier acción legal.</p>
+            <h3 class="fw-bold">¡Llámanos!</h3>
+            <p><strong>Correo:</strong> contactolexvargas.com</p>
+            <p><strong>Horario:</strong> Lunes a Jueves 9:00-19:00 | Viernes 9:00-14:00</p>
+            <p><strong>Teléfonos:</strong> 55-9000-0136, 55-9000-0739</p>
+        </div>
+
+        <!-- Lado Derecho: Formulario de Contacto -->
+        <div class="formulario-contacto">
+            <h3 class="text-center fw-bold" style="color: #D4AF37;">Déjanos Tus Datos</h3>
+            <form class="p-4 border rounded shadow">
+                <div class="input-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" placeholder="Tu nombre">
+                </div>
+                <div class="input-group">
+                    <label>Teléfono</label>
+                    <input type="tel" class="form-control" placeholder="Tu teléfono">
+                </div>
+                <div class="input-group">
+                    <label>Correo electrónico</label>
+                    <input type="email" class="form-control" placeholder="Tu correo electrónico">
+                </div>
+                <div class="input-group">
+                    <label>Asunto</label>
+                    <input type="text" class="form-control" placeholder="Motivo de tu consulta">
+                </div>
+                <div class="input-group">
+                    <label>Tu mensaje</label>
+                    <textarea class="form-control" rows="3" placeholder="Detalles de tu caso"></textarea>
+                </div>
+                <button type="submit" class="btn btn-enviar">Enviar mensaje</button>
+            </form>
+        </div>
+        
+    </div>
+
+    <!-- Redes Sociales y Mapa debajo -->
+    <div class="container mt-5 text-center">
+        <h3 class="fw-bold" style="color: #D4AF37;">Síguenos en Redes Sociales</h3>
+        <div>
+            <a href="#" class="btn btn-outline-dark mx-2">Twitter</a>
+            <a href="#" class="btn btn-outline-dark mx-2">Facebook</a>
+            <a href="#" class="btn btn-outline-dark mx-2">LinkedIn</a>
+        </div>
+    </div>
+
+    <div class="container mt-5 text-center">
+        <h3 class="fw-bold" style="color: #D4AF37;">¿Dónde estamos?</h3>
+        <iframe src="https://www.google.com/maps/embed?..." width="600" height="450" style="border:0;" allowfullscreen></iframe>
+    </div>
+
+    <!-- Botón Cita -->
+    <a href="login" class="btn btn-primary btn-solicitar-cita">Solicitar Cita</a>
+
+    <app-pie-pagina></app-pie-pagina>
+

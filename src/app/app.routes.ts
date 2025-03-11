@@ -35,6 +35,7 @@ import { BadRequestComponent } from './components/pages/bad-request/bad-request.
 import { ConocenosComponent } from './components/pagina-principal/conocenos/conocenos.component';
 import { ServiciosComponent } from './components/pagina-principal/servicios/servicios.component';
 import { ContancosComponent } from './components/pagina-principal/contancos/contancos.component';
+import { MapaSitioComponent } from './components/pagina-principal/mapa-sitio/mapa-sitio.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -70,6 +71,7 @@ export const routes: Routes = [
   { path: 'principal-conocenos', component: ConocenosComponent, data: { breadcrumbLabel: 'Conócenos' } },
   { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumbLabel: 'Servicios' } },
   { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumbLabel: 'Contactos' } },
+  { path: 'mapa-sitio', component: MapaSitioComponent, data: {breadcrumLabel: 'Mapa del sitio'}},
   
   /** La ruta ** (wildcard) atrapa todas las rutas que no coincidan con las anteriores y las redirigue a home */
   { path: '**', component: NotFoundComponent },

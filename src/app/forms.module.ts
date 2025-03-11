@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { RouterModule } from '@angular/router';
 
 
 registerLocaleData(localeEs);
@@ -37,7 +38,8 @@ registerLocaleData(localeEs);
     MatDatepickerModule,
     MatNativeDateModule,
     NgbModule,
-    DatePipe
+    DatePipe,
+    RouterModule
   ],
   exports: [
     ReactiveFormsModule,
