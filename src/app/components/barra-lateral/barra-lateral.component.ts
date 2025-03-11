@@ -1,7 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -9,7 +9,9 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     ReactiveFormsModule, 
-    CommonModule
+    CommonModule,
+    RouterModule,
+    FormsModule
   ],
   templateUrl: './barra-lateral.component.html',
   styleUrls: ['./barra-lateral.component.css']

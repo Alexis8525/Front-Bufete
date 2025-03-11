@@ -1,0 +1,40 @@
+<div class="wrapper">
+    <!-- Barra lateral -->
+    <app-barra-lateral></app-barra-lateral>
+  
+    <!-- Contenedor principal -->
+    <div class="main">
+      <!-- Barra de navegación -->
+      <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+        <div class="container-fluid p-0">
+          <a class="navbar-brand" href="/home">
+            <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+          </a>
+        </div>
+      </nav>
+  
+      <!-- Contenido de la configuración -->
+      <div class="p-3">
+        <div class="settings-container">
+          <h1  style="background-color: #f6f7f8; text-align: center">Configuración</h1>
+          <div class="settings-options">
+            <div class="settings-card">
+              <h2 style="background-color: #e0ebe0; text-align: center">Perfil</h2>
+              <p>Actualiza tu información personal.</p>
+              <button class="btn btn-primary" (click)="editProfile()">Editar Perfil</button>
+            </div>
+            <div class="settings-card">
+              <h2 style="background-color: #e0ebe0; text-align: center">Seguridad</h2>
+              <p>Cambia tu contraseña y configura la autenticación.</p>
+              <button  class="btn btn-primary" (click)="changePassword()">Cambiar Contraseña</button>
+            </div>
+            <div class="settings-card">
+              <h2 style="background-color: #e0ebe0; text-align: center">Notificaciones</h2>
+              <p>Configura cómo recibes notificaciones.</p>
+              <button class="btn btn-primary" (click)="configureNotifications()">Configurar Notificaciones</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

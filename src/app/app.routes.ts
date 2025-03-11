@@ -36,6 +36,7 @@ import { ConocenosComponent } from './components/pagina-principal/conocenos/cono
 import { ServiciosComponent } from './components/pagina-principal/servicios/servicios.component';
 import { ContancosComponent } from './components/pagina-principal/contancos/contancos.component';
 import { MapaSitioComponent } from './components/pagina-principal/mapa-sitio/mapa-sitio.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -72,7 +73,7 @@ export const routes: Routes = [
   { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumbLabel: 'Servicios' } },
   { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumbLabel: 'Contactos' } },
   { path: 'mapa-sitio', component: MapaSitioComponent, data: {breadcrumLabel: 'Mapa del sitio'}},
-  
+  { path: 'settings', component: SettingsComponent },
   /** La ruta ** (wildcard) atrapa todas las rutas que no coincidan con las anteriores y las redirigue a home */
   { path: '**', component: NotFoundComponent },
   { path: '**', redirectTo: 'home' },
