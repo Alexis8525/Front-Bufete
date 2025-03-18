@@ -26,14 +26,31 @@ export class VisualizarPdfComponent implements OnInit {
   pdfSrc: SafeResourceUrl | null = null;
   expedientePrioritario: string = ''; // Inicializado
   expedienteArchivado: string = ''; // Inicializado
+  terminoBusqueda: string = '';
+  expedientesFiltrados: any[] = []; // Lista filtrada que se mostrará
 
   constructor(
     private http: HttpClient,
-    
     private uploadFileService: UploadFileService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private sanitizer: DomSanitizer // Inyección de dependencias
+    private sanitizer: DomSanitizer
   ) {}
+
+  buscar(): void {
+    const termino = this.terminoBusqueda.toLowerCase().trim();
+  
+    if (termino === '') {
+      this.expedientesFiltrados = [...this.expedientes]; // Restaurar la lista completa si el campo está vacío
+    } else {
+      this.expedientesFiltrados = this.expedientes.filter(expediente =>
+        expediente.numeroExpediente.toLowerCase().includes(termino) || // Buscar por número de expediente
+        expediente.nombreExpediente.toLowerCase().includes(termino) || // Buscar por nombre del expediente
+        expediente.datosCliente.toLowerCase().includes(termino) || // Buscar por datos del cliente
+        expediente.datosAbogado.toLowerCase().includes(termino) // Buscar por datos del abogado
+      );
+    }
+  }
+  
 
   ngOnInit(): void {
     this.loadExpedientes();
@@ -43,22 +60,21 @@ export class VisualizarPdfComponent implements OnInit {
     this.uploadFileService.getExpedienteCompleto().subscribe(
       (response: any[]) => {
         this.expedientes = response.map((expediente: any) => {
-          // let expedienteComponent: ExpedienteComponent = new ExpedienteBase();
-
-  
-          // Procesar datos del abogado
           const datosAbogado = expediente.datosAbogado ? JSON.parse(expediente.datosAbogado) : {};
           const datosAbogadoConcatenados = `${datosAbogado.nombreEmpleado || ''} ${datosAbogado.aPEmpleado || ''} ${datosAbogado.aMEmpleado || ''}, Licencia: ${datosAbogado.licencia || 'No registrada'}, Teléfono: ${datosAbogado.telefono || 'Sin teléfono'}`;
 
-          // Procesar datos del cliente
           const datosCliente = expediente.datosCliente ? JSON.parse(expediente.datosCliente) : {};
-          const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}, Dirección: ${datosCliente.direccion || 'No especificada'}, Teléfono: ${datosCliente.telefono || 'Sin teléfono'}, Correo: ${datosCliente.correo || 'Sin correo'}`
+          const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}, Dirección: ${datosCliente.direccion || 'No especificada'}, Teléfono: ${datosCliente.telefono || 'Sin teléfono'}, Correo: ${datosCliente.correo || 'Sin correo'}`;
+
           return {
             ...expediente,
             datosAbogado: datosAbogadoConcatenados,
             datosCliente: datosClienteConcatenados,
           };
         });
+
+        // Copia inicial para mostrar todos los expedientes al inicio
+        this.expedientesFiltrados = [...this.expedientes];
       },
       (error: any) => {
         console.error('Error al obtener los expedientes:', error);

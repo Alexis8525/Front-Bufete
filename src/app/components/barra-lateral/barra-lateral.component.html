@@ -45,11 +45,11 @@
           <li class="sidebar-item" *ngIf="isCliente()">
             <a href="cita" class="sidebar-link">Nueva cita</a>
           </li>
-          <li class="sidebar-item" *ngIf="isCliente()">
+          <!-- <li class="sidebar-item" *ngIf="isCliente()">
             <a href="gestion-cita" class="sidebar-link">Citas programadas</a>
-          </li>
+          </li> -->
           <li class="sidebar-item" *ngIf="isCliente()">
-            <a href="calendario-cliente" class="sidebar-link">Citas programadas prueba</a>
+            <a href="calendario-cliente" class="sidebar-link">Citas programadas</a>
           </li>
           
           <!-- Solo muestra este bloque si el rol es de Abogado -->
@@ -65,6 +65,9 @@
           <!-- <li class="sidebar-item">
             <a href="gestion-pago" class="sidebar-link">Ver Pagos</a>
           </li> -->
+          <li class="sidebar-item" *ngIf="isAbogado()">
+            <a href="upload-file" class="sidebar-link">Crear Expediente</a>
+          </li>
           <li class="sidebar-item" *ngIf="isAbogado()">
             <a href="visualizar" class="sidebar-link">Ver expedientes</a>
           </li>

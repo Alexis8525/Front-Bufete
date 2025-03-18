@@ -3,10 +3,27 @@
 
   <div class="main">
     <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
-      <div class="container-fluid p-0">
-        <a class="navbar-brand" href="/home">
+      <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
+        <!-- Logo -->
+        <a class="navbar-brand ms-3" href="/home">
           <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
+
+        <form class="d-flex me-3" (submit)="buscar(); $event.preventDefault();">
+          <input 
+            class="form-control me-2" 
+            type="search" 
+            placeholder="Buscar citas, clientes, abogados..." 
+            aria-label="Buscar"
+            [(ngModel)]="terminoBusqueda"
+            (ngModelChange)="buscar()"
+            name="buscador"
+          >
+          <button class="btn btn-light" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </form>
+        
       </div>
     </nav>
 
@@ -41,12 +58,12 @@
                 <strong>Motivo:</strong> {{ cita.motivo }}
               </p>
               <button
-      *ngIf="usuario.rol === 2"
-      (click)="atenderCita(cita.idCita)"
-      class="btn btn-primary"
-    >
-      Atender
-    </button>
+                *ngIf="usuario.rol === 2"
+                (click)="atenderCita(cita.idCita)"
+                class="btn btn-primary"
+              >
+                Atender
+              </button>
             </div>
           </div>
         </div>

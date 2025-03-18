@@ -14,6 +14,8 @@ import { formatDate } from '@angular/common'; // Importar el helper para formate
 import { ConcreteComponent } from '../../patterns/decorators/concrete-component';
 import { RoleValidationDecorator } from '../../patterns/decorators/role-validation-decorator';
 import { StateUpdateDecorator } from '../../patterns/decorators/state-update-decorator';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-principal',
@@ -24,6 +26,8 @@ import { StateUpdateDecorator } from '../../patterns/decorators/state-update-dec
     BarraLateralComponent,
     CommonModule,
     DatePipe,
+    RouterModule,
+    FormsModule
   ],
 })
 export class PrincipalComponent implements OnInit {
@@ -31,6 +35,7 @@ export class PrincipalComponent implements OnInit {
   fechaActual: Date = new Date();
   loading: boolean = true;
   usuario: any = {}; // Información del usuario actual
+  terminoBusqueda: string = '';
 
   constructor(
     private citaService: CitaService,
@@ -38,11 +43,32 @@ export class PrincipalComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {}
 
+
+  buscar() {
+    if (this.terminoBusqueda.trim() !== '') {
+      console.log('Buscando:', this.terminoBusqueda);
+  
+      // Filtrar citas
+      this.citasHoy = this.citasHoy.filter(cita =>
+        cita.cliente?.toLowerCase().includes(this.terminoBusqueda.toLowerCase()) ||
+        cita.abogado?.toLowerCase().includes(this.terminoBusqueda.toLowerCase()) ||
+        cita.nombreServicio.toLowerCase().includes(this.terminoBusqueda.toLowerCase()) ||
+        cita.motivo.toLowerCase().includes(this.terminoBusqueda.toLowerCase())
+      );
+    } else {
+      // Volver a cargar citas si el campo de búsqueda está vacío
+      this.ngOnInit();
+    }
+  }
+  
+
   ngOnInit(): void {
     if (!this.localStorageService.isBrowser()) {
       console.error('localStorage no está disponible en este entorno.');
       return;
     }
+
+    
 
     this.usuario = JSON.parse(this.localStorageService.getItem('usuario') || '{}');
     const userId = parseInt(this.localStorageService.getItem('usuarioId') || '0', 10);
