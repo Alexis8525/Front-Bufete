@@ -2,6 +2,7 @@
   <app-barra-lateral></app-barra-lateral>
 
   <div class="main">
+    <!-- Barra de navegación con la barra de búsqueda global -->
     <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
       <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
         <!-- Logo -->
@@ -9,21 +10,20 @@
           <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
 
-        <form class="d-flex me-3" (submit)="buscar(); $event.preventDefault();">
+        <!-- Barra de búsqueda global -->
+        <form class="d-flex me-3" (submit)="buscarGlobal(); $event.preventDefault();">
           <input 
             class="form-control me-2" 
             type="search" 
-            placeholder="Buscar citas, clientes, abogados..." 
+            placeholder="Buscar citas, clientes, expedientes..." 
             aria-label="Buscar"
             [(ngModel)]="terminoBusqueda"
-            (ngModelChange)="buscar()"
             name="buscador"
           >
           <button class="btn btn-light" type="submit">
             <i class="fa fa-search"></i>
           </button>
         </form>
-        
       </div>
     </nav>
 

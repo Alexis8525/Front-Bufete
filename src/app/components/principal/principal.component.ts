@@ -10,12 +10,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { SecretariaCitasStrategy } from '../../patterns/strategies/secretaria-citas-strategy';
 import { CitaAdaptada } from '../../models/cita-adaptada';
-import { formatDate } from '@angular/common'; // Importar el helper para formateo
+import { formatDate } from '@angular/common';
 import { ConcreteComponent } from '../../patterns/decorators/concrete-component';
 import { RoleValidationDecorator } from '../../patterns/decorators/role-validation-decorator';
 import { StateUpdateDecorator } from '../../patterns/decorators/state-update-decorator';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
@@ -34,41 +35,42 @@ export class PrincipalComponent implements OnInit {
   citasHoy: CitaAdaptada[] = [];
   fechaActual: Date = new Date();
   loading: boolean = true;
-  usuario: any = {}; // Información del usuario actual
+  usuario: any = {};
   terminoBusqueda: string = '';
+
+  // Define un tipo para las palabras clave
+  private palabrasClave: { [key: string]: { termino: string; ruta: string }[] } = {
+    secretaria: [
+      { termino: 'empleados', ruta: '/empleado' },
+      { termino: 'clientes', ruta: '/gestion-cliente' },
+      { termino: 'horarios', ruta: '/gestion-horario' },
+      { termino: 'calendario secretaria', ruta: '/calendario-secretaria' },
+      { termino: 'crear expediente', ruta: '/upload-file' }
+    ],
+    abogado: [
+      { termino: 'calendario abogado', ruta: '/calendario-abogado' },
+      { termino: 'crear expediente', ruta: '/upload-file' },
+      { termino: 'ver expedientes', ruta: '/visualizar' },
+      { termino: 'papelera', ruta: '/historial-expedientes' }
+    ],
+    cliente: [
+      { termino: 'nueva cita', ruta: '/cita' },
+      { termino: 'citas programadas', ruta: '/calendario-cliente' }
+    ]
+  };
 
   constructor(
     private citaService: CitaService,
     private servicioService: ServicioService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {}
-
-
-  buscar() {
-    if (this.terminoBusqueda.trim() !== '') {
-      console.log('Buscando:', this.terminoBusqueda);
-  
-      // Filtrar citas
-      this.citasHoy = this.citasHoy.filter(cita =>
-        cita.cliente?.toLowerCase().includes(this.terminoBusqueda.toLowerCase()) ||
-        cita.abogado?.toLowerCase().includes(this.terminoBusqueda.toLowerCase()) ||
-        cita.nombreServicio.toLowerCase().includes(this.terminoBusqueda.toLowerCase()) ||
-        cita.motivo.toLowerCase().includes(this.terminoBusqueda.toLowerCase())
-      );
-    } else {
-      // Volver a cargar citas si el campo de búsqueda está vacío
-      this.ngOnInit();
-    }
-  }
-  
 
   ngOnInit(): void {
     if (!this.localStorageService.isBrowser()) {
       console.error('localStorage no está disponible en este entorno.');
       return;
     }
-
-    
 
     this.usuario = JSON.parse(this.localStorageService.getItem('usuario') || '{}');
     const userId = parseInt(this.localStorageService.getItem('usuarioId') || '0', 10);
@@ -108,36 +110,53 @@ export class PrincipalComponent implements OnInit {
       });
   }
 
-  // Filtra citas para mostrar solo las del día actual
+  buscarGlobal(): void {
+    const termino = this.terminoBusqueda.toLowerCase().trim();
+
+    // Obtener las palabras clave según el rol
+    let palabrasClaveRol: { termino: string; ruta: string }[];
+    switch (this.usuario.rol) {
+      case 1: // Secretaria
+        palabrasClaveRol = this.palabrasClave['secretaria'];
+        break;
+      case 2: // Abogado
+        palabrasClaveRol = this.palabrasClave['abogado'];
+        break;
+      case 3: // Cliente
+        palabrasClaveRol = this.palabrasClave['cliente'];
+        break;
+      default:
+        palabrasClaveRol = [];
+        break;
+    }
+
+    // Buscar coincidencias parciales
+    const coincidencia = palabrasClaveRol.find(palabra => 
+      palabra.termino.includes(termino) || termino.includes(palabra.termino)
+    );
+
+    if (coincidencia) {
+      this.router.navigate([coincidencia.ruta]);
+    } else {
+      // Si no hay coincidencia, redirigir a una página de resultados de búsqueda
+      this.router.navigate(['/buscar'], { queryParams: { q: termino } });
+    }
+  }
+
   filtrarCitasDelDia(citas: CitaAdaptada[]): CitaAdaptada[] {
     const hoy = new Date();
-    const diaActual = hoy.getUTCDate(); // Usar UTC para evitar desfases
-    const mesActual = hoy.getUTCMonth(); // Mes también en UTC
+    const diaActual = hoy.getUTCDate();
+    const mesActual = hoy.getUTCMonth();
     const anioActual = hoy.getUTCFullYear();
 
-    console.log('Fecha actual en UTC (sin horas):', {
-      diaActual,
-      mesActual,
-      anioActual,
-    });
-
     return citas.filter((cita) => {
-      const fechaCita = new Date(cita.fechaCita); // Convertimos la fecha de la cita
-      const diaCita = fechaCita.getUTCDate(); // Extraemos día en UTC
-      const mesCita = fechaCita.getUTCMonth(); // Extraemos mes en UTC
-      const anioCita = fechaCita.getUTCFullYear(); // Extraemos año en UTC
+      const fechaCita = new Date(cita.fechaCita);
+      const diaCita = fechaCita.getUTCDate();
+      const mesCita = fechaCita.getUTCMonth();
+      const anioCita = fechaCita.getUTCFullYear();
 
-      const estadoValido = cita.estadoCita === 'programada'; // Solo citas programadas
+      const estadoValido = cita.estadoCita === 'programada';
       const fechaValida = diaCita === diaActual && mesCita === mesActual && anioCita === anioActual;
-
-      console.log(`Evaluando cita: ${cita.idCita}`, {
-        fechaCita: fechaCita.toISOString(),
-        diaCita,
-        mesCita,
-        anioCita,
-        estadoValido,
-        fechaValida,
-      });
 
       return estadoValido && fechaValida;
     });
@@ -146,46 +165,34 @@ export class PrincipalComponent implements OnInit {
   normalizarHorasCitas(citas: CitaAdaptada[]): CitaAdaptada[] {
     return citas.map((cita) => ({
       ...cita,
-      horaInicio: this.extraerHora(cita.horaInicio), // Extraer hora correctamente
-      horaFinal: this.extraerHora(cita.horaFinal),   // Extraer hora correctamente
+      horaInicio: this.extraerHora(cita.horaInicio),
+      horaFinal: this.extraerHora(cita.horaFinal),
     }));
   }
 
-  // Función para extraer solo la hora de un string o un objeto Date
   extraerHora(hora: string | Date): string {
-    const date = typeof hora === 'string' ? new Date(hora) : hora; // Asegura que sea un objeto Date
-    return formatDate(date, 'h:mm a', 'en-US'); // Formatea la hora (12h con AM/PM)
+    const date = typeof hora === 'string' ? new Date(hora) : hora;
+    return formatDate(date, 'h:mm a', 'en-US');
   }
 
-  // Verifica si el usuario tiene el rol necesario para realizar una acción
-  canPerformAction(requiredRole: number): boolean {
-    const user = JSON.parse(localStorage.getItem('usuario') || '{}');
-    return user.rol === requiredRole;
-  }
-
-  // Lógica para atender una cita
   atenderCita(idCita: number | undefined): void {
     if (idCita === undefined) {
       console.error('El ID de la cita es indefinido.');
       return;
     }
-  
-    // Crear el componente base
+
     const baseComponent = new ConcreteComponent();
-  
-    // Aplicar el decorador para validar el rol
     const roleValidationDecorator = new RoleValidationDecorator(baseComponent, this.usuario.rol);
-  
-    // Aplicar el decorador para actualizar el estado de la cita
     const stateUpdateDecorator = new StateUpdateDecorator(
       roleValidationDecorator,
       this.citaService,
-      () => this.ngOnInit() // O un método específico como this.cargarCitas()
+      () => this.ngOnInit()
     );
-      
-    // Ejecutar la operación con decoradores
+
     stateUpdateDecorator.operation(idCita);
   }
-  
-  
+
+  logout(): void {
+    console.log('Cerrando sesión...');
+  }
 }
