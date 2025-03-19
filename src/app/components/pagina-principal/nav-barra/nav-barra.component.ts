@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
 import { Location } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common'; // Import for platform check
+import { BarraBusquedaHomeComponent } from '../barra-busqueda-home/barra-busqueda-home.component';
 
 // Definir la interface fuera de la clase
 export interface NavLink {
@@ -10,9 +11,10 @@ export interface NavLink {
 
 @Component({
   selector: 'app-nav-barra',
+  standalone: true,
+  imports: [BarraBusquedaHomeComponent],
   templateUrl: './nav-barra.component.html',
   styleUrls: ['./nav-barra.component.css'],
-  standalone: true,
 })
 export class NavBarraComponent implements OnInit {
 
