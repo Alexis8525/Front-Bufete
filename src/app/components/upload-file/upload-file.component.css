@@ -37,7 +37,7 @@ select.form-control:focus {
   max-height: 100vh; /* O la altura que prefieras */
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #007bff #e9ecef;
+  scrollbar-color: #007bff #e9ecef; 
 }
 
 /* Estilos del formulario */

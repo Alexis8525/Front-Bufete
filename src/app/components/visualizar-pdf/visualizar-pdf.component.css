@@ -27,17 +27,26 @@
   overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
 }
 
+/* Contenedor de las tarjetas */
+.card-container {
+  display: flex;
+  justify-content: center; /* Centra las tarjetas horizontalmente */
+  flex-wrap: wrap;
+  gap: 20px; /* Espacio entre las tarjetas */
+  padding: 20px; /* Espacio interno para evitar que las tarjetas toquen los bordes */
+}
+
 .card {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
-  margin: 10px; /* Se añadió margen para separar las tarjetas */
-  flex: 1 1 auto; /* Las tarjetas ocupan toda la anchura disponible */
+  flex: 1 1 calc(50% - 40px); /* Asegura que cada tarjeta ocupe el 50% del ancho menos el espacio del gap */
+  max-width: calc(50% - 40px); /* Limita el ancho máximo para evitar que las tarjetas se estiren demasiado */
   display: flex;
   flex-direction: column;
-  min-height: 100%; /* Asegura que ocupe toda la altura disponible */
+  min-height: 100%; /* Asegura que las tarjetas ocupen toda la altura disponible */
   box-sizing: border-box;
 }
 
@@ -55,30 +64,12 @@
   color: #5a5a5a; /* Color de texto en el cuerpo de la tarjeta */
 }
 
-
-.row-cols-1,
-.row-cols-md-2,
-.row-cols-lg-3 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Se redujo el valor de gap para ajustarse mejor */
-}
-
 .card-body {
   padding: 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1; /* Permite que el contenido de la tarjeta ocupe el espacio disponible */
   overflow-y: auto; /* Para el caso de contenido largo */
-}
-
-.table {
-  width: 100%;
-  margin-top: 15px;
-}
-
-.table th, .table td {
-  text-align: center;
 }
 
 .card-footer {
@@ -159,23 +150,25 @@ button {
 .btn-actualizar {
   background-color: #28a745;
   color: white;
-  &:hover {
-    background-color: #218838;
-  }
+}
+
+.btn-actualizar:hover {
+  background-color: #218838;
 }
 
 .btn-eliminar {
   background-color: #dc3545;
   color: white;
-  &:hover {
-    background-color: #c82333;
-  }
 }
 
-.table th, .table td {
+.btn-eliminar:hover {
+  background-color: #c82333;
+}
+
+.table th,
+.table td {
   vertical-align: middle;
 }
-
 
 .modal button {
   background-color: #b30000;

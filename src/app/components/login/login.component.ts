@@ -4,6 +4,9 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
+import { NavBarraComponent } from '../pagina-principal/nav-barra/nav-barra.component';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { PiePaginaComponent } from '../pie-de-pagina/pie-pagina/pie-pagina.component';
 
 
 @Component({
@@ -15,7 +18,11 @@ import { CommonModule } from '@angular/common';
     BarraLateralComponent,
     ReactiveFormsModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    NavBarraComponent, BreadcrumbsComponent, PiePaginaComponent
   ]
 })
 export class LoginComponent implements OnInit {

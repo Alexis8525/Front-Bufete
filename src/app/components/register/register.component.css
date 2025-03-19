@@ -3,25 +3,65 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-image: url('/imagenes/edificio.jpeg'); /* Ruta correcta de la imagen de fondo */
+  min-height: 100vh; /* Cambia height a min-height */
+  background-image: url('/imagenes/edificio.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* Hace que la imagen de fondo esté fija */
+  background-attachment: fixed;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  
+}
+
+.wrapper {
+  display: flex;
+  height: 100vh;
+  min-height: 100vh; /* Asegura que el wrapper ocupe al menos el 100% de la altura */
+
+}
+body, html {
+  height: 100%; /* Ocupa toda la pantalla */
+  margin: 0; /* Elimina el margen predeterminado */
+  background-image: url('/imagenes/edificio.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   font-family: 'Arial', sans-serif;
   color: #333;
 }
 
-/* Contenedor del formulario de registro */
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 150px; /* Mueve el contenido hacia abajo */
+}
+
 .register-container {
+  margin-top: 120px; /* Aumenta este valor según la altura real de tu navbar */
   width: 400px;
   background-color: rgba(255, 255, 255, 0.95);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
 }
+
+.app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.nav-barra {
+  width: 100%;
+  position: fixed;  /* Para que quede arriba siempre */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Por si tienes otros elementos que puedan taparla */
+}
+/* Contenedor del formulario de registro */
 
 
 /* Estilo de la tarjeta del formulario */

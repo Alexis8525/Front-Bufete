@@ -23,29 +23,26 @@
             <i class="fa fa-search"></i>
           </button>
         </form>
-        
       </div>
     </nav>
 
     <div class="p-3">
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div *ngFor="let expediente of expedientesFiltrados" class="col">
-          <div class="card" [ngClass]="{'card-prioridad-alta': expediente.estado.toLowerCase() === 'Prioridad Alta'}">
-            <div class="card-header">
-              <h2>{{ expediente.nombreExpediente }} ({{ expediente.numeroExpediente }})</h2>
-            </div>
-            <div class="card-body">
-              <p>Fecha de creación: {{ expediente.fechaCreacion }}</p>
-              <p>Estado: <strong>{{ expediente.estado || 'Prioridad Alta' }}</strong></p>
-              <p>Descripción: <strong>{{ expediente.descripcion || 'Sin descripción' }}</strong></p>
-              <p>Datos del Abogado: <strong>{{ expediente.datosAbogado }}</strong></p>
-              <p>Datos del Cliente: <strong>{{ expediente.datosCliente }}</strong></p>
-            </div>
-            <div class="card-footer d-flex justify-content-end gap-2">
-              <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
-              <button class="btn btn-warning" (click)="actualizarExpediente(expediente.idExpediente)">Actualizar</button>
-              <button class="btn btn-danger" (click)="confirmarEliminacion(expediente.idExpediente)">Eliminar</button>
-            </div>            
+      <div class="card-container">
+        <div *ngFor="let expediente of expedientesFiltrados" class="card" [ngClass]="{'card-prioridad-alta': expediente.estado.toLowerCase() === 'Prioridad Alta'}">
+          <div class="card-header">
+            <h2>{{ expediente.nombreExpediente }} ({{ expediente.numeroExpediente }})</h2>
+          </div>
+          <div class="card-body">
+            <p>Fecha de creación: {{ expediente.fechaCreacion }}</p>
+            <p>Estado: <strong>{{ expediente.estado || 'Prioridad Alta' }}</strong></p>
+            <p>Descripción: <strong>{{ expediente.descripcion || 'Sin descripción' }}</strong></p>
+            <p>Datos del Abogado: <strong>{{ expediente.datosAbogado }}</strong></p>
+            <p>Datos del Cliente: <strong>{{ expediente.datosCliente }}</strong></p>
+          </div>
+          <div class="card-footer d-flex justify-content-end gap-2">
+            <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
+            <button class="btn btn-warning" (click)="actualizarExpediente(expediente.idExpediente)">Actualizar</button>
+            <button class="btn btn-danger" (click)="confirmarEliminacion(expediente.idExpediente)">Eliminar</button>
           </div>
         </div>
       </div>

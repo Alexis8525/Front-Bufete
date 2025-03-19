@@ -1,22 +1,31 @@
-/* Fondo de la página */
 :host {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-image: url('/imagenes/edificio.jpeg'); /* Asegúrate de que la ruta sea correcta */
+  align-items: flex-start; /* Cambia a flex-start para alinear el contenido arriba */
+  min-height: 100vh; /* Usa min-height en lugar de height */
+  background-image: url('/imagenes/edificio.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed; /* Fija la imagen de fondo */
   font-family: 'Arial', sans-serif;
   color: #333;
-  display: flex;
-  justify-content: center; 
-  align-items: center; /* Centra el contenido vertical y horizontalmente */
-  font-family: Arial, sans-serif;
 }
 
-/* Contenedor del formulario de inicio de sesión */
+.wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh; /* Asegura que el wrapper ocupe al menos el 100% de la altura */
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 150px; /* Mueve el contenido hacia abajo */
+}
+
 .login-container {
   width: 400px;
   background-color: rgba(255, 255, 255, 0.95);
@@ -25,6 +34,23 @@
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
+.app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+
+.nav-barra {
+  width: 100%;
+  position: fixed;  /* Para que quede arriba siempre */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Por si tienes otros elementos que puedan taparla */
+}
+
+/* Contenedor del formulario de inicio de sesión */
+/* Contenedor del formulario de inicio de sesión */
+
 /* Contenedor del logo */
 .logo-container {
   margin-bottom: 1rem;
@@ -32,7 +58,7 @@
 
 .logo-img {
   width: 100px;
-  height: auto;
+  height: 150;
   /* Ajustes para que el logo no se distorsione */
   margin-bottom: 10px;
 }
@@ -57,35 +83,34 @@
 
 
 h2 {
-  margin-bottom: 20px; /* Espacio entre el título y el formulario */
-  color: #333; /* Color del título */
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .form-group {
-  margin-bottom: 20px; /* Espacio entre los campos */
+  margin-bottom: 20px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px; /* Espacio entre el label y el input */
-  font-weight: bold; /* Estilo del label */
-  color: #555; /* Color del label */
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
 }
 
 input.form-control {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc; /* Borde del input */
-  border-radius: 5px; /* Esquinas redondeadas */
-  font-size: 16px; /* Tamaño de la fuente */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 input.form-control:focus {
-  border-color: #007bff; /* Color del borde cuando el input está enfocado */
-  outline: none; /* Quitar el outline predeterminado */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra del borde */
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-
 
 h2 {
   margin-bottom: 20px;

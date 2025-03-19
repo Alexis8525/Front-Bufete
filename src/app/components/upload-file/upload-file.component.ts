@@ -294,7 +294,5 @@ export class UploadFileComponent implements ExpedienteComponent{
     }
   
     this.crearExpediente();
-  }
-  
-  
+  }  
 }
