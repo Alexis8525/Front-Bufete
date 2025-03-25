@@ -68,7 +68,6 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.localStorageService.isBrowser()) {
-      console.error('localStorage no está disponible en este entorno.');
       return;
     }
 

@@ -27,7 +27,8 @@ export class BarraBusquedaHomeComponent {
     { termino: 'teléfonos', ruta: '/principal-contactos' }, // Nueva palabra clave
     { termino: 'correo', ruta: '/principal-contactos' }, // Nueva palabra clave
     { termino: 'redes sociales', ruta: '/principal-contactos' }, // Nueva palabra clave
-    { termino: 'mapa del sitio', ruta: '/principal-contactos' } // Nueva palabra clave
+    { termino: 'mapa del sitio', ruta: '/mapa-sitio' }, // Nueva palabra clave
+    { termino: 'Localización', ruta: '/principal-contactos' } // Nueva palabra clave
   ];
 
   // Palabras clave relacionadas con "principal" que deben redirigir a login
