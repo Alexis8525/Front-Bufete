@@ -17,6 +17,7 @@ import { StateUpdateDecorator } from '../../patterns/decorators/state-update-dec
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-principal',
@@ -27,9 +28,8 @@ import { Router } from '@angular/router';
     BarraLateralComponent,
     CommonModule,
     DatePipe,
-    RouterModule,
-    FormsModule
-  ],
+    BreadcrumbsComponent
+],
 })
 export class PrincipalComponent implements OnInit {
   citasHoy: CitaAdaptada[] = [];

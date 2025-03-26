@@ -58,15 +58,20 @@ export const routes: Routes = [
   { path: 'error/400', component: BadRequestComponent },
   { path: 'error/402', component: PaymentRequiredComponent },
   { path: 'error/403', component: ForbiddenComponent },
+  { path: 'settings', component: SettingsComponent },
+  /** La ruta ** (wildcard) atrapa todas las rutas que no coincidan con las anteriores y las redirigue a home */
+  
+  // Páginas principales
   { path: 'principal-conocenos', component: ConocenosComponent, data: { breadcrumbLabel: 'Conócenos' } },
   { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumbLabel: 'Servicios' } },
   { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumbLabel: 'Contactos' } },
-  { path: 'mapa-sitio', component: MapaSitioComponent, data: {breadcrumLabel: 'Mapa del sitio'}},
-  { path: 'settings', component: SettingsComponent },
-  /** La ruta ** (wildcard) atrapa todas las rutas que no coincidan con las anteriores y las redirigue a home */
+  { path: 'mapa-sitio', component: MapaSitioComponent, data: { breadcrumbLabel: 'Mapa del Sitio' } },
+  
+  /** La ruta ** (wildcard) atrapa todas las rutas que no coincidan con las anteriores y las redirige a home */
   { path: '**', component: NotFoundComponent },
   { path: '**', redirectTo: 'home' },
 ];
+
 
 @NgModule({
   declarations: [

@@ -8,6 +8,7 @@ import { DetalleCitaClienteComponent } from '../modals/detalle-cita-cliente/deta
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ServicioService } from '../../services/servicio.service';
 import { Servicio } from '../../models/servicio';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 interface FechaCitaExtendida extends FechaCita {
   date: number;
@@ -35,7 +36,8 @@ interface Appointment {
     CommonModule,
     FormsModule,
     BarraLateralComponent,
-  ]
+    BreadcrumbsComponent
+]
 })
 export class CalendarioCitasAbogadoComponent implements OnInit {
 

@@ -1,10 +1,10 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="/home" class="breadcrumb-link">Inicio</a>
+<div class="breadcrumb">
+  <h4>{{ activePage }}</h4>
+  <ul class="breadcrumb-list">
+    <li *ngFor="let item of parts; let i = index" [ngClass]="{ 'breadcrumb-item': true, 'separator': i > 0 }">
+      <ng-container *ngIf="i > 0"></ng-container>
+      <a *ngIf="i !== parts.length - 1" [routerLink]="url[i]">{{ item }}</a>
+      <span *ngIf="i === parts.length - 1" class="active">{{ item }}</span>
     </li>
-    <li *ngFor="let breadcrumb of breadcrumbService.breadcrumbs" class="breadcrumb-item" [ngClass]="{'active': breadcrumb.url === currentLocation}">
-      <a [routerLink]="breadcrumb.url" class="breadcrumb-link">{{ breadcrumb.label }}</a>
-    </li>
-  </ol>
-</nav>
+  </ul>
+</div>

@@ -16,6 +16,7 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { RouterModule } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 
 registerLocaleData(localeEs);
@@ -39,7 +40,8 @@ registerLocaleData(localeEs);
     MatNativeDateModule,
     NgbModule,
     DatePipe,
-    RouterModule
+    RouterModule,
+    RecaptchaModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -53,7 +55,8 @@ registerLocaleData(localeEs);
     MatDatepickerModule,
     MatNativeDateModule,
     NgbModule,
-    DatePipe
+    DatePipe,
+    RecaptchaModule
   ],
   providers: [
     provideHttpClient(withFetch()),

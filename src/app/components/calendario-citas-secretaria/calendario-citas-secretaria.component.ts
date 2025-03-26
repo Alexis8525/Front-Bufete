@@ -9,6 +9,7 @@ import { DetalleCitaClienteComponent } from '../modals/detalle-cita-cliente/deta
 import { ServicioService } from '../../services/servicio.service';
 import { EmpleadoService } from '../../services/empleado.service';
 import { ClienteService } from '../../services/cliente.service';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 interface FechaCitaExtendida extends CitaDetallada {
   date: number;
@@ -37,8 +38,9 @@ interface Appointment {
   imports: [
     BarraLateralComponent,
     FormsModule,
-    CommonModule
-  ]
+    CommonModule,
+    BreadcrumbsComponent
+]
 })
 export class CalendarioCitasSecretariaComponent implements OnInit {
   diasDelMes: (number | null)[] = [];

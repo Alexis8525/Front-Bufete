@@ -7,6 +7,7 @@ import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component'
 import { Pago } from '../../models/pagos';
 import { PagoService } from '../../services/pago.service';
 import { CommonModule } from '@angular/common';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 declare var paypal: any;
 
@@ -16,8 +17,9 @@ declare var paypal: any;
   imports: [
     FormsModule,
     BarraLateralComponent,
-    CommonModule
-  ],
+    CommonModule,
+    BreadcrumbsComponent
+],
   templateUrl: './gestion-pago.component.html',
   styleUrls: ['./gestion-pago.component.css']
 })

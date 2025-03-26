@@ -70,8 +70,8 @@ export class UsuarioService {
     );
   }
 
-  login(email: string, password: string) {
-    return this.http.post(`${this.URL_API}login`, { email, password }).pipe(
+  login(email: string, password: string, recaptcha: string) {
+    return this.http.post(`${this.URL_API}login`, { email, password, recaptcha }).pipe(
       catchError((error) => this.manejarError(error))
     );
   }

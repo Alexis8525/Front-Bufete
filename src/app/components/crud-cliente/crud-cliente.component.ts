@@ -6,6 +6,7 @@ import { ClienteService } from '../../services/cliente.service';
 import { FormsModule } from '@angular/forms';
 import { NuevoClienteComponent } from '../modals/nuevo-cliente/nuevo-cliente.component';
 import { EditarClienteComponent } from '../modals/editar-cliente/editar-cliente.component';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 @Component({
   selector: 'app-crud-cliente',
@@ -15,8 +16,9 @@ import { EditarClienteComponent } from '../modals/editar-cliente/editar-cliente.
     CommonModule,
     FormsModule,
     NuevoClienteComponent,
-    EditarClienteComponent
-  ],
+    EditarClienteComponent,
+    BreadcrumbsComponent
+],
   templateUrl: './crud-cliente.component.html',
   styleUrls: ['./crud-cliente.component.css']
 })
