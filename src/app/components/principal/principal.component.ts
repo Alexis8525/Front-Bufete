@@ -45,12 +45,12 @@ export class PrincipalComponent implements OnInit {
       { termino: 'clientes', ruta: '/gestion-cliente' },
       { termino: 'horarios', ruta: '/gestion-horario' },
       { termino: 'calendario secretaria', ruta: '/calendario-secretaria' },
-      { termino: 'crear expediente', ruta: '/upload-file' }
+      { termino: 'crear expediente', ruta: '/crear-expediente' }
     ],
     abogado: [
       { termino: 'calendario abogado', ruta: '/calendario-abogado' },
-      { termino: 'crear expediente', ruta: '/upload-file' },
-      { termino: 'ver expedientes', ruta: '/visualizar' },
+      { termino: 'crear expediente', ruta: '/crear-expediente' },
+      { termino: 'ver expedientes', ruta: '/visualizar-expediente' },
       { termino: 'papelera', ruta: '/historial-expedientes' }
     ],
     cliente: [

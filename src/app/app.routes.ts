@@ -32,6 +32,7 @@ import { ServiciosComponent } from './components/pagina-principal/servicios/serv
 import { ContancosComponent } from './components/pagina-principal/contancos/contancos.component';
 import { MapaSitioComponent } from './components/pagina-principal/mapa-sitio/mapa-sitio.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { NavigationHistoryService } from './services/navigation-history.service';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -40,8 +41,8 @@ export const routes: Routes = [
   { path: 'documentos', component: DocumentacionLegalComponent },
   { path: 'citasRegistro', component: RegistroCitasComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'upload-file', component: UploadFileComponent },
-  { path: 'visualizar', component: VisualizarPdfComponent },
+  { path: 'crear-expediente', component: UploadFileComponent },
+  { path: 'visualizar-expediente', component: VisualizarPdfComponent },
   { path: 'cita', component: SolicitudCitaComponent },
   { path: 'historial-expedientes', component: HistorialExpedienteComponent },
   { path: 'empleado', component: CrudEmpleadoComponent },
@@ -81,5 +82,6 @@ export const routes: Routes = [
   exports: [
     UploadFileComponent
   ],
+  providers: [NavigationHistoryService],
 })
 export class AppRoutingModule {}

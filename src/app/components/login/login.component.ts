@@ -70,8 +70,6 @@ export class LoginComponent implements OnInit {
             usuarioId = response.usuario.idCliente; // Almacena idCliente
           }
 
-
-          console.log('ID guardado en localStorage:', usuarioId);
           localStorage.setItem('usuarioId', usuarioId.toString()); // Asegúrate de convertir a cadena
           localStorage.setItem('usuario', JSON.stringify(response.usuario));
 
