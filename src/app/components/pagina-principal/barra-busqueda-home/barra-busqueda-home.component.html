@@ -1,5 +1,5 @@
 <div class="search-container position-relative">
-  <form class="d-flex" (submit)="buscarGlobal(); $event.preventDefault()">
+  <form class="d-flex" (submit)="buscarGlobal($event)">
     <input
       #searchInput
       class="form-control me-2"
@@ -23,10 +23,18 @@
       *ngFor="let sugerencia of sugerencias; let i = index" 
       class="sugerencia-item" 
       [class.active]="i === sugerenciaSeleccionada"
-      (mousedown)="seleccionarSugerencia(sugerencia, i)"
+      [class.requiere-login]="sugerencia.categoria === 'Acceso requerido'"
+      (mousedown)="seleccionarSugerencia(sugerencia)"
     >
-      <div class="sugerencia-termino">{{ sugerencia.termino }}</div>
-      <div class="sugerencia-categoria badge bg-secondary">{{ sugerencia.categoria }}</div>
+      <div class="sugerencia-termino">
+        <i *ngIf="sugerencia.categoria === 'Acceso requerido'" class="fas fa-lock me-2"></i>
+        {{ sugerencia.termino }}
+      </div>
+      <div class="sugerencia-categoria badge" 
+           [class.bg-warning]="sugerencia.categoria === 'Acceso requerido'"
+           [class.bg-secondary]="sugerencia.categoria !== 'Acceso requerido'">
+        {{ sugerencia.categoria }}
+      </div>
     </div>
   </div>
 </div>

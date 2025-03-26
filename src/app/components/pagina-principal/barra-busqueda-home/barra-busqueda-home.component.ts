@@ -1,7 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-barra-busqueda-home',
@@ -16,16 +17,17 @@ export class BarraBusquedaHomeComponent {
   sugerencias: any[] = [];
   mostrarSugerencias: boolean = false;
   sugerenciaSeleccionada: number = -1;
+  isBrowser: boolean;
 
   private palabrasClaveHome = [
     { termino: 'servicios', ruta: '/principal-servicios', categoria: 'Inicio' },
     { termino: 'contacto', ruta: '/principal-contactos', categoria: 'Inicio' },
     { termino: 'conócenos', ruta: '/principal-conocenos', categoria: 'Inicio' },
     { termino: 'inicio', ruta: '/home', categoria: 'Inicio' },
-    { termino: 'historia', ruta: '/principal-conocenos#historia', categoria: 'Nosotros' },
-    { termino: 'valores', ruta: '/principal-conocenos#valores', categoria: 'Nosotros' },
-    { termino: 'misión', ruta: '/principal-conocenos#mision', categoria: 'Nosotros' },
-    { termino: 'visión', ruta: '/principal-conocenos#vision', categoria: 'Nosotros' },
+    { termino: 'historia', ruta: '/principal-conocenos', categoria: 'Nosotros' },
+    { termino: 'valores', ruta: '/principal-conocenos', categoria: 'Nosotros' },
+    { termino: 'misión', ruta: '/principal-conocenos', categoria: 'Nosotros' },
+    { termino: 'visión', ruta: '/principal-conocenos', categoria: 'Nosotros' },
     { termino: 'oficinas', ruta: '/principal-contactos', categoria: 'Contacto' },
     { termino: 'teléfonos', ruta: '/principal-contactos', categoria: 'Contacto' },
     { termino: 'correo', ruta: '/principal-contactos', categoria: 'Contacto' },
@@ -35,10 +37,14 @@ export class BarraBusquedaHomeComponent {
   ];
 
   private palabrasClavePrincipal = [
-    'citas', 'empleados', 'clientes', 'horarios', 'expedientes'
+    { termino: 'citas', ruta: '/login', categoria: 'Acceso requerido' },
+    { termino: 'empleados', ruta: '/login', categoria: 'Acceso requerido' },
+    { termino: 'clientes', ruta: '/login', categoria: 'Acceso requerido' },
+    { termino: 'horarios', ruta: '/login', categoria: 'Acceso requerido' },
+    { termino: 'expedientes', ruta: '/login', categoria: 'Acceso requerido' }
   ];
 
-  private palabrasClaveRol = {
+  private palabrasClaveRol: { [key: string]: { termino: string; ruta: string; categoria: string }[] } = {
     secretaria: [
       { termino: 'empleados', ruta: '/empleado', categoria: 'Secretaría' },
       { termino: 'clientes', ruta: '/gestion-cliente', categoria: 'Secretaría' },
@@ -58,7 +64,12 @@ export class BarraBusquedaHomeComponent {
     ]
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   buscarSugerencias(): void {
     const termino = this.terminoBusqueda.toLowerCase().trim();
@@ -70,64 +81,69 @@ export class BarraBusquedaHomeComponent {
       return;
     }
 
-    // Obtener el rol del usuario si está logueado
-    const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
+    const usuario = this.isBrowser ? JSON.parse(localStorage.getItem('usuario') || '{}') : {};
     const rol = usuario.rol;
+    const autenticado = !!usuario.id;
 
     // Buscar coincidencias en home
     this.palabrasClaveHome.forEach(palabra => {
-      if (palabra.termino.includes(termino) || termino.includes(palabra.termino)) {
+      if (this.coincideTermino(palabra.termino, termino)) {
         this.sugerencias.push({...palabra, tipo: 'home'});
       }
     });
 
+    // Buscar coincidencias en palabras clave de principal
+    this.palabrasClavePrincipal.forEach(palabra => {
+      if (this.coincideTermino(palabra.termino, termino)) {
+        const sugerencia = {...palabra};
+        if (!autenticado) {
+          sugerencia.termino = `${palabra.termino} (Inicia sesión)`;
+          sugerencia.ruta = '/login';
+          sugerencia.categoria = 'Acceso requerido';
+        }
+        this.sugerencias.push({...sugerencia, tipo: 'principal'});
+      }
+    });
+
     // Buscar coincidencias por rol
-    if (rol === 1) { // Secretaria
-      this.palabrasClaveRol.secretaria.forEach(palabra => {
-        if (palabra.termino.includes(termino) || termino.includes(palabra.termino)) {
+    if (autenticado && rol) {
+      const rolNombre = this.obtenerNombreRol(rol);
+      const palabrasRol = rolNombre ? this.palabrasClaveRol[rolNombre] || [] : [];
+      
+      palabrasRol.forEach((palabra: { termino: string; ruta: string; categoria: string }) => {
+        if (this.coincideTermino(palabra.termino, termino)) {
           this.sugerencias.push({...palabra, tipo: 'rol'});
         }
-      });
-    } else if (rol === 2) { // Abogado
-      this.palabrasClaveRol.abogado.forEach(palabra => {
-        if (palabra.termino.includes(termino) || termino.includes(palabra.termino)) {
-          this.sugerencias.push({...palabra, tipo: 'rol'});
-        }
-      });
-    } else if (rol === 3) { // Cliente
-      this.palabrasClaveRol.cliente.forEach(palabra => {
-        if (palabra.termino.includes(termino) || termino.includes(palabra.termino)) {
-          this.sugerencias.push({...palabra, tipo: 'rol'});
-        }
-      });
-    }
-
-    // Buscar coincidencias en palabras clave de principal (solo muestra sugerencia de login)
-    const esBusquedaPrincipal = this.palabrasClavePrincipal.some(palabra =>
-      termino.includes(palabra)
-    );
-
-    if (esBusquedaPrincipal && this.sugerencias.length === 0) {
-      this.sugerencias.push({
-        termino: 'Iniciar sesión para acceder',
-        ruta: '/login',
-        categoria: 'Acceso requerido',
-        tipo: 'login'
       });
     }
 
     this.mostrarSugerencias = this.sugerencias.length > 0;
   }
 
-  seleccionarSugerencia(sugerencia: any, index: number): void {
-    this.terminoBusqueda = sugerencia.termino;
-    this.router.navigate([sugerencia.ruta]);
-    this.mostrarSugerencias = false;
+  private coincideTermino(palabra: string, termino: string): boolean {
+    return palabra.includes(termino) || termino.includes(palabra);
   }
 
-  buscarGlobal(): void {
+  private obtenerNombreRol(rolId: number): string | null {
+    switch(rolId) {
+      case 1: return 'secretaria';
+      case 2: return 'abogado';
+      case 3: return 'cliente';
+      default: return null;
+    }
+  }
+
+  seleccionarSugerencia(sugerencia: any): void {
+    this.terminoBusqueda = '';
+    this.mostrarSugerencias = false;
+    this.router.navigate([sugerencia.ruta]);
+  }
+
+  buscarGlobal(event: Event): void {
+    event.preventDefault();
+    
     if (this.sugerenciaSeleccionada >= 0 && this.sugerencias[this.sugerenciaSeleccionada]) {
-      this.seleccionarSugerencia(this.sugerencias[this.sugerenciaSeleccionada], this.sugerenciaSeleccionada);
+      this.seleccionarSugerencia(this.sugerencias[this.sugerenciaSeleccionada]);
       return;
     }
 
@@ -135,11 +151,10 @@ export class BarraBusquedaHomeComponent {
     
     if (termino.length === 0) return;
 
-    // Lógica de búsqueda global existente...
     this.buscarSugerencias();
     
     if (this.sugerencias.length > 0) {
-      this.seleccionarSugerencia(this.sugerencias[0], 0);
+      this.seleccionarSugerencia(this.sugerencias[0]);
     } else {
       this.router.navigate(['/buscar'], { queryParams: { q: termino } });
     }
@@ -156,7 +171,7 @@ export class BarraBusquedaHomeComponent {
       this.sugerenciaSeleccionada = Math.max(this.sugerenciaSeleccionada - 1, -1);
     } else if (event.key === 'Enter' && this.sugerenciaSeleccionada >= 0) {
       event.preventDefault();
-      this.seleccionarSugerencia(this.sugerencias[this.sugerenciaSeleccionada], this.sugerenciaSeleccionada);
+      this.seleccionarSugerencia(this.sugerencias[this.sugerenciaSeleccionada]);
     } else if (event.key === 'Escape') {
       this.mostrarSugerencias = false;
     }
