@@ -17,6 +17,7 @@ import { CommandManager } from '../../patterns/command/command-manager';
 import { ValidateNoteCommand } from '../../patterns/command/validate-note-command';
 import { CreateNoteCommand } from '../../patterns/command/create-note-command';
 import { SendEmailCommand } from '../../patterns/command/send-email-command';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-expediente',
@@ -27,7 +28,8 @@ import { SendEmailCommand } from '../../patterns/command/send-email-command';
     BarraLateralComponent,
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    BreadcrumbsComponent
   ],
 })
 export class ExpedienteComponent implements OnInit {

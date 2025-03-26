@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ServicioService } from '../../services/servicio.service';
 import { Cita } from '../../models/cita';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-solicitud-cita',
@@ -18,6 +19,7 @@ import { Cita } from '../../models/cita';
     BarraLateralComponent,
     FormsModule,
     CommonModule,
+    BreadcrumbsComponent
   ]
 })
 export class SolicitudCitaComponent implements OnInit {

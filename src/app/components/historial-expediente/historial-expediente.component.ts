@@ -5,6 +5,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { RouterModule } from '@angular/router';
 
 declare var bootstrap: any;
 
@@ -14,7 +16,9 @@ declare var bootstrap: any;
   imports: [
     BarraLateralComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    BreadcrumbsComponent,
+    RouterModule
   ],
   templateUrl: './historial-expediente.component.html',
   styleUrls: ['./historial-expediente.component.css'],

@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -14,8 +14,15 @@ export class BreadcrumbsComponent implements OnInit {
   @Input() parts: string[] = [];
   @Input() activePage: string = '';
   url: string[] = [];
+  private isBrowser: boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     this.updateBreadcrumbs();
@@ -28,29 +35,31 @@ export class BreadcrumbsComponent implements OnInit {
 
   private updateBreadcrumbs(): void {
     this.parts = [];
-    let currentRoute: ActivatedRoute | null = this.route.root; // Permitir que currentRoute sea null
+    let currentRoute: ActivatedRoute | null = this.route.root;
 
-    // Recorrer las rutas hijas mientras existan
     while (currentRoute) {
-      // Verificar si hay un label de migas de pan en los datos de la ruta
       if (currentRoute.snapshot.data['breadcrumbLabel']) {
         this.parts.push(currentRoute.snapshot.data['breadcrumbLabel']);
       }
-      
-      // Mover al siguiente hijo, si existe
       currentRoute = currentRoute.firstChild;
     }
 
-    // Asegurar que 'Inicio' esté al principio de las migas de pan
-    if (!this.parts.includes('Inicio')) {
-      this.parts.unshift('Inicio');
+    // 🔹 Verificación segura de autenticación
+    const usuarioAutenticado = this.isBrowser 
+      ? localStorage.getItem('usuario') !== null 
+      : false; // Valor por defecto en SSR
+
+    // 🔹 Establecer el primer breadcrumb dinámicamente
+    const primerBreadcrumb = usuarioAutenticado ? 'Principal' : 'Inicio';
+
+    // 🔹 Asegurar que el primer breadcrumb sea correcto
+    if (this.parts.length === 0 || this.parts[0] !== primerBreadcrumb) {
+      this.parts.unshift(primerBreadcrumb);
     }
 
-    // Construir la URL de las migas de pan
+    // 🔹 Construir la URL de las migas de pan
     this.url = this.parts.map((part, index) => {
-      return index === 0
-        ? ''
-        : this.url[index - 1] + '/' + part.toLowerCase().replace(/\s/g, '-');
+      return index === 0 ? '' : this.url[index - 1] + '/' + part.toLowerCase().replace(/\s/g, '-');
     });
   }
 }

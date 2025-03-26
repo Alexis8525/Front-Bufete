@@ -12,6 +12,7 @@ import { Empleado } from '../../models/empleados';
 import { ExpedienteComponent } from '../../decoradores/decoradorExpedinete/expediente.component';
 import { ExpedienteConPrioridadDecorator } from '../../decoradores/decoradorExpedinete/expediente-con-prioridad.decorador';
 import { ExpedienteArchivadoDecorator } from '../../decoradores/decoradorExpedinete/expediente-archivado.decorador';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 
 
 @Component({
@@ -20,7 +21,8 @@ import { ExpedienteArchivadoDecorator } from '../../decoradores/decoradorExpedin
   imports: [
     BarraLateralComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    BreadcrumbsComponent
   ],
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss'],

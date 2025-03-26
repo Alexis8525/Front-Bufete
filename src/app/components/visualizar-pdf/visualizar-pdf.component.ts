@@ -6,6 +6,7 @@ import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component'
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router'; 
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 
 declare var bootstrap: any;
 
@@ -16,7 +17,8 @@ declare var bootstrap: any;
     BarraLateralComponent,
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    BreadcrumbsComponent
   ],
   templateUrl: './visualizar-pdf.component.html',
   styleUrls: ['./visualizar-pdf.component.scss']
