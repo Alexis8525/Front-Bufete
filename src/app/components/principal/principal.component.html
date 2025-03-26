@@ -11,16 +11,16 @@
         </a>
 
         <!-- Barra de búsqueda global -->
-        <form class="d-flex me-3" (submit)="buscarGlobal(); $event.preventDefault();">
-          <input 
-            class="form-control me-2" 
-            type="search" 
-            placeholder="Buscar citas, clientes, expedientes..." 
+        <form class="d-flex" (submit)="buscarGlobal(); $event.preventDefault();">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Buscar servicios, contacto, conócenos..."
             aria-label="Buscar"
             [(ngModel)]="terminoBusqueda"
             name="buscador"
           >
-          <button class="btn btn-light" type="submit">
+          <button class="btn btn-outline-light" type="submit">
             <i class="fa fa-search"></i>
           </button>
         </form>

@@ -28,7 +28,9 @@ import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
     BarraLateralComponent,
     CommonModule,
     DatePipe,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    FormsModule,
+    RouterModule
 ],
 })
 export class PrincipalComponent implements OnInit {
