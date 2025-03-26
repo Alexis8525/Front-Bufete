@@ -10,25 +10,12 @@
           <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
 
-        <!-- Barra de búsqueda global -->
-        <form class="d-flex" (submit)="buscarGlobal(); $event.preventDefault();">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Buscar servicios, contacto, conócenos..."
-            aria-label="Buscar"
-            [(ngModel)]="terminoBusqueda"
-            name="buscador"
-          >
-          <button class="btn btn-outline-light" type="submit">
-            <i class="fa fa-search"></i>
-          </button>
-        </form>
+        <!-- Reemplaza el formulario de búsqueda antiguo por el componente mejorado -->
+        <app-barra-busqueda-home></app-barra-busqueda-home>
       </div>
     </nav>
 
     <div class="p-3">
-
       <app-breadcrumbs></app-breadcrumbs>
 
       <h2 class="titulo-empleados">Citas del Día - {{ fechaActual | date: 'longDate' }}</h2>
