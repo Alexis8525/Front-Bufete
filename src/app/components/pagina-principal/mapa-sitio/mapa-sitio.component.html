@@ -1,37 +1,54 @@
 <app-nav-barra></app-nav-barra>
 <app-breadcrumbs></app-breadcrumbs>
+
 <div class="site-map">
   <div class="category main-category">LEXVARGAS</div>
 
   <div class="category-container">
+    <!-- Inicio -->
     <div class="category">
       <a routerLink="/inicio" class="category-title">Inicio</a>
-    </div>
-
-    <div class="category">
-      <a routerLink="/conocenos" class="category-title">Conócenos</a>
       <ul class="subcategory-container">
-        <a [routerLink]="['/principal-conocenos']" fragment="historia" class="subcategory">Nuestra historia</a>
-        <a [routerLink]="['/principal-conocenos']" fragment="valores" class="subcategory">Nuestros valores</a>
-        <a [routerLink]="['/principal-conocenos']" fragment="mision" class="subcategory">Nuestra misión</a>
-        <a [routerLink]="['/principal-conocenos']" fragment="vision" class="subcategory">Nuestra visión</a>
+        <a [routerLink]="'/home'" fragment="nosotros" class="subcategory">Sobre Nosotros</a>
+        <a [routerLink]="'/home'" fragment="equipo" class="subcategory">Nuestro Equipo</a>
+        <a [routerLink]="'/home'" fragment="testimonios" class="subcategory">Testimonios</a>
       </ul>
     </div>
 
+    <!-- Conócenos -->
+    <div class="category">
+      <a routerLink="/conocenos" class="category-title">Conócenos</a>
+      <ul class="subcategory-container">
+        <a [routerLink]="'/principal-conocenos'" fragment="historia" class="subcategory">Nuestra Historia</a>
+        <a [routerLink]="'/principal-conocenos'" fragment="valores" class="subcategory">Nuestros Valores</a>
+        <a [routerLink]="'/principal-conocenos'" fragment="mision" class="subcategory">Nuestra Misión</a>
+        <a [routerLink]="'/principal-conocenos'" fragment="vision" class="subcategory">Nuestra Visión</a>
+      </ul>
+    </div>
+
+    <!-- Servicios -->
     <div class="category">
       <a routerLink="/servicios" class="category-title">Servicios</a>
       <div class="subcategory-container">
-        <a [routerLink]="['/principal-servicios']"  fragment="accordionDerechoAmbiental" class="subcategory">Derecho Civil</a>
-        <a [routerLink]="['/principal-servicios']"  fragment="accordionDerechoComercial" class="subcategory">Derecho Comercial</a>
-        <a [routerLink]="['/principal-servicios']" fragment="accordionDerechoAmbiental" class="subcategory">Derecho Ambiental</a>
-        <a [routerLink]="['/principal-servicios']" fragment="accordionPropiedadIntelectual" class="subcategory">Derecho de la Propiedad Intelectual</a>
-        <a [routerLink]="['/principal-servicios']" fragment="accordionDerechoFiscal" class="subcategory">Derecho Fiscal</a>
+        <a [routerLink]="'/principal-servicios'" fragment="accordionDerechoCivil" class="subcategory">Derecho Civil</a>
+        <a [routerLink]="'/principal-servicios'" fragment="accordionDerechoComercial" class="subcategory">Derecho Comercial</a>
+        <a [routerLink]="'/principal-servicios'" fragment="accordionDerechoAmbiental" class="subcategory">Derecho Ambiental</a>
+        <a [routerLink]="'/principal-servicios'" fragment="accordionPropiedadIntelectual" class="subcategory">Propiedad Intelectual</a>
+        <a [routerLink]="'/principal-servicios'" fragment="accordionDerechoFiscal" class="subcategory">Derecho Fiscal</a>
       </div>
     </div>
 
+    <!-- Contacto -->
     <div class="category">
       <a routerLink="/contacto" class="category-title">Contacto</a>
+      <ul class="subcategory-container">
+        <a [routerLink]="'/principal-contactos'" fragment="oficinas" class="subcategory">Nuestras Oficinas</a>
+        <a [routerLink]="'/principal-contactos'" fragment="formulario" class="subcategory">Formulario de Contacto</a>
+        <a [routerLink]="'/principal-contactos'" fragment="telefono" class="subcategory">Teléfonos</a>
+        <a [routerLink]="'/principal-contactos'" fragment="redes" class="subcategory">Redes Sociales</a>
+      </ul>
     </div>
   </div>
 </div>
+
 <app-pie-pagina></app-pie-pagina>

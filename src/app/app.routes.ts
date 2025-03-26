@@ -35,41 +35,56 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { NavigationHistoryService } from './services/navigation-history.service';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent, data: { breadcrumbLabel: 'Inicio de sesión' } },
-  { path: 'barra', component: BarraLateralComponent, data: { breadcrumbLabel: 'Barra lateral' } },
+  { path: 'login', component: LoginComponent, data: { breadcrumbLabel: 'Iniciar Sesión' } },
   { path: 'register', component: RegisterComponent, data: { breadcrumbLabel: 'Registro' } },
-  { path: 'documentos', component: DocumentacionLegalComponent, data: { breadcrumbLabel: 'Documentación legal' } },
-  { path: 'citasRegistro', component: RegistroCitasComponent, data: { breadcrumbLabel: 'Registro de citas' } },
   { path: 'home', component: HomeComponent, data: { breadcrumbLabel: 'Inicio' } },
-  { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumbLabel: 'Subir expediente' } },
-  { path: 'visualizar-expediente', component: VisualizarPdfComponent, data: { breadcrumbLabel: 'Visualizar expediente' } },
-  { path: 'cita', component: SolicitudCitaComponent, data: { breadcrumbLabel: 'Solicitar cita' } },
-  { path: 'historial-expedientes', component: HistorialExpedienteComponent, data: { breadcrumbLabel: 'Historial de expedientes' } },
-  { path: 'empleado', component: CrudEmpleadoComponent, data: { breadcrumbLabel: 'Gestión de empleados' } },
-  { path: 'gestion-cita', component: GestionCitaComponent, data: { breadcrumbLabel: 'Gestión de citas' } },
-  { path: 'gestion-pago', component: GestionPagoComponent, data: { breadcrumbLabel: 'Gestión de pagos' } },
-  { path: 'gestion-cliente', component: CrudClienteComponent, data: { breadcrumbLabel: 'Gestión de clientes' } },
-  { path: 'gestion-horario', component: GestionHorarioComponent, data: { breadcrumbLabel: 'Gestión de horarios' } },
   { path: 'principal', component: PrincipalComponent, data: { breadcrumbLabel: 'Principal' } },
-  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent, data: { breadcrumbLabel: 'Calendario (Cliente)' } },
-  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent, data: { breadcrumbLabel: 'Calendario (Abogado)' } },
-  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent, data: { breadcrumbLabel: 'Calendario (Secretaría)' } },
-  { path: 'expediente/:idExpediente', component: ExpedienteComponent, data: { breadcrumbLabel: 'Expediente' } },
+  { path: 'settings', component: SettingsComponent, data: { breadcrumbLabel: 'Configuración' } },
+
+  // Módulos de expedientes
+  { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumbLabel: 'Crear Expediente' } },
+  { path: 'visualizar-expediente', component: VisualizarPdfComponent, data: { breadcrumbLabel: 'Visualizar Expediente' } },
+  { path: 'historial-expedientes', component: HistorialExpedienteComponent, data: { breadcrumbLabel: 'Historial de Expedientes' } },
+  { path: 'expediente/:idExpediente', component: ExpedienteComponent, data: { breadcrumbLabel: 'Detalle de Expediente' } },
+
+  // Citas
+  { path: 'cita', component: SolicitudCitaComponent, data: { breadcrumbLabel: 'Solicitar Cita' } },
+  { path: 'citasRegistro', component: RegistroCitasComponent, data: { breadcrumbLabel: 'Registro de Citas' } },
+  { path: 'gestion-cita', component: GestionCitaComponent, data: { breadcrumbLabel: 'Gestión de Citas' } },
+
+  // Gestión
+  { path: 'empleado', component: CrudEmpleadoComponent, data: { breadcrumbLabel: 'Gestión de Empleados' } },
+  { path: 'gestion-cliente', component: CrudClienteComponent, data: { breadcrumbLabel: 'Gestión de Clientes' } },
+  { path: 'gestion-horario', component: GestionHorarioComponent, data: { breadcrumbLabel: 'Gestión de Horarios' } },
+  { path: 'gestion-pago', component: GestionPagoComponent, data: { breadcrumbLabel: 'Gestión de Pagos' } },
+
+  // Calendarios
+  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent, data: { breadcrumbLabel: 'Calendario Cliente' } },
+  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent, data: { breadcrumbLabel: 'Calendario Abogado' } },
+  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent, data: { breadcrumbLabel: 'Calendario Secretaría' } },
+
+  // Documentación
+  { path: 'documentos', component: DocumentacionLegalComponent, data: { breadcrumbLabel: 'Documentación Legal' } },
+
+  // Páginas informativas
+  { path: 'principal-conocenos', component: ConocenosComponent, data: { breadcrumbLabel: 'Conócenos' } },
+  { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumbLabel: 'Servicios' } },
+  { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumbLabel: 'Contacto' } },
+  { path: 'mapa-sitio', component: MapaSitioComponent, data: { breadcrumbLabel: 'Mapa del Sitio' } },
+
+  // Barra y Navbar
+  { path: 'barra', component: BarraLateralComponent, data: { breadcrumbLabel: 'Barra Lateral' } },
+  { path: 'navbar', component: NavbarComponent, data: { breadcrumbLabel: 'Navegación' } },
+
+  // Páginas de error
   { path: 'error/400', component: BadRequestComponent, data: { breadcrumbLabel: 'Error 400' } },
   { path: 'error/402', component: PaymentRequiredComponent, data: { breadcrumbLabel: 'Error 402' } },
   { path: 'error/403', component: ForbiddenComponent, data: { breadcrumbLabel: 'Error 403' } },
-  { path: 'settings', component: SettingsComponent, data: { breadcrumbLabel: 'Configuración' } },
-  
-  // Páginas principales
-  { path: 'principal-conocenos', component: ConocenosComponent, data: { breadcrumbLabel: 'Conócenos' } },
-  { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumbLabel: 'Servicios' } },
-  { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumbLabel: 'Contactos' } },
-  { path: 'mapa-sitio', component: MapaSitioComponent, data: { breadcrumbLabel: 'Mapa del Sitio' } },
-  
-  // Rutas comodín
-  { path: '**', component: NotFoundComponent, data: { breadcrumbLabel: 'Página no encontrada' } },
-  { path: '**', redirectTo: 'home' }
+
+  // Ruta por defecto y 404
+  { path: '**', component: NotFoundComponent, data: { breadcrumbLabel: 'Página No Encontrada' } },
 ];
+
 
 @NgModule({
   declarations: [
@@ -87,4 +102,4 @@ export const routes: Routes = [
   ],
   providers: [NavigationHistoryService],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
