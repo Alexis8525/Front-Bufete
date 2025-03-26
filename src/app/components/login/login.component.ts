@@ -4,6 +4,8 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
+import { RecaptchaModule } from 'ng-recaptcha';
+
 
 
 @Component({
@@ -12,14 +14,16 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.component.scss'],
   standalone: true,
   imports: [
-    BarraLateralComponent,
     ReactiveFormsModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    RecaptchaModule
   ]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  captchaResolved: boolean = false; // Variable para habilitar/deshabilitar el botón de login
+  captchaToken: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -29,14 +33,12 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      recaptcha: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    // this.usuarioService.getUsuarios().subscribe({
-    //   next: (usuarios) => console.log('Usuarios:', usuarios),
-    //   error: (err) => console.error('Error al obtener usuarios:', err.message),
-    // });
+   
   }
 
   get email() {
@@ -47,34 +49,46 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
+  resolved(captchaResponse: string | null): void {
+    if (captchaResponse) { 
+      console.log(`Captcha resuelto: ${captchaResponse}`);
+      this.captchaResolved = true;
+      this.captchaToken = captchaResponse;
+      this.loginForm.patchValue({ recaptcha: captchaResponse });
+    } else {
+      this.captchaResolved = false; 
+    } 
+  }
+  
+
   login() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.usuarioService.login(email, password).subscribe(
+    if (this.loginForm.valid && this.captchaResolved) {
+      const { email, password, recaptcha } = this.loginForm.value;
+
+      console.log("Enviando login con recaptcha:", recaptcha); 
+
+      this.usuarioService.login(email, password, recaptcha).subscribe(
         (response: any) => {
-          // Maneja la respuesta del servidor aquí
           console.log(response);
 
-          // Verifica el rol y almacena el ID correspondiente
           let usuarioId: string;
-          if (response.usuario.rol === 2 || response.usuario.rol === 1) { 
-            usuarioId = response.usuario.idEmpleado; // Almacena idEmpleado
+          if (response.usuario.rol === 2 || response.usuario.rol === 1) {
+            usuarioId = response.usuario.idEmpleado;
           } else {
-            usuarioId = response.usuario.idCliente; // Almacena idCliente
+            usuarioId = response.usuario.idCliente;
           }
 
-
-          console.log('ID guardado en localStorage:', usuarioId);
-          localStorage.setItem('usuarioId', usuarioId.toString()); // Asegúrate de convertir a cadena
+          localStorage.setItem('usuarioId', usuarioId.toString());
           localStorage.setItem('usuario', JSON.stringify(response.usuario));
 
-          // Si es exitoso, redirige a la página principal
           this.router.navigate(['/principal']);
         },
         (error) => {
           console.error('Error al iniciar sesión:', error);
         }
       );
+    } else {
+      alert('Por favor, completa el reCAPTCHA antes de iniciar sesión.');
     }
   }
 

@@ -1,72 +1,59 @@
-/* Fondo de la barra de migas de pan */
-nav[aria-label="breadcrumb"] {
-    background-color: #ffffff;  /* Fondo blanco */
-    padding: 12px 25px;  /* Mayor espaciado para una apariencia más elegante */
-    border-radius: 8px;  /* Bordes redondeados para darle un toque suave */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* Sombra más pronunciada para un efecto flotante */
-    margin-bottom: 30px;  /* Espacio inferior para separar el contenido */
-    border: 1px solid #e6e6e6; /* Borde sutil para resaltar */
-  }
-  
-  /* Estilo de la lista de migas de pan */
-  .breadcrumb {
-    padding: 0;
-    margin-bottom: 0;
-    background: none; /* Sin fondo */
-    list-style: none;  /* Eliminar los puntos predeterminados */
-    display: flex; /* Usamos flexbox para mejorar el diseño */
-    flex-wrap: wrap; /* Asegura que los elementos no se desborden */
-  }
-  
-  /* Estilo para cada item de la miga de pan */
-  .breadcrumb-item {
-    font-size: 14px;
-    color: #495057; /* Color gris suave para el texto */
-    display: inline-block;
-    font-weight: 500;
-    margin-right: 15px; /* Espaciado entre elementos */
-    transition: all 0.3s ease; /* Transiciones suaves */
-  }
-  
-  /* Icono antes de cada miga de pan */
-  .breadcrumb-item a::before {
-    content: "›"; /* Usamos un símbolo "mayor que" como icono */
-    font-size: 18px; /* Aumentamos el tamaño del icono */
-    color: #007bff; /* El icono será de color azul */
-    margin-right: 8px; /* Espaciado entre el icono y el texto */
-  }
-  
-  /* Enlaces de las migas de pan */
-  .breadcrumb-link {
-    text-decoration: none; /* Eliminamos el subrayado */
-    color: #007bff; /* Color azul brillante para los enlaces */
-    font-weight: 500; /* Aseguramos que los enlaces sean visibles */
-    transition: color 0.3s ease, transform 0.3s ease; /* Transición suave */
-  }
-  
-  /* Efecto hover para los enlaces */
-  .breadcrumb-link:hover {
-    color: #0056b3; /* Color más oscuro al pasar el mouse */
-    text-decoration: underline; /* Subrayado para indicar interactividad */
-    transform: translateX(4px); /* Movimiento sutil a la derecha al pasar el mouse */
-  }
-  
-  /* Estilo cuando el elemento está activo (la última miga de pan) */
-  .breadcrumb-item .active {
-    font-weight: 600; /* Texto en negrita */
-    color: #6c757d; /* Gris suave para el texto activo */
-    cursor: default; /* Evitamos que se pueda hacer clic en el elemento activo */
-  }
-  
-  /* El último ítem (sin enlace) */
-  .breadcrumb-item:last-child {
-    font-weight: 600;  /* Negrita para el último ítem */
-    color: #6c757d; /* Gris claro */
-    cursor: default; /* No es clickeable */
-  }
-  
-  /* Agregar un poco de separación entre la barra de migas de pan y el contenido */
-  .breadcrumb-item + .breadcrumb-item {
-    margin-left: 15px;  /* Espaciado entre elementos */
-  }
-  
+.breadcrumb {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.breadcrumb h4 {
+  margin: 0;
+  color: #343a40;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.breadcrumb-list {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.breadcrumb-item {
+  font-size: 1.1em;
+  color: #007bff;
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: normal;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+  font-weight: bold;
+}
+
+.breadcrumb-item.active + .separator {
+  color: #6c757d;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.breadcrumb-item a:focus {
+  outline: none;
+}

@@ -9,6 +9,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { CitaService } from '../../services/cita.service';  // Importa el servicio
 import { Cita } from '../../models/cita';
 import { FormsModule } from '@angular/forms';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 @Component({
   selector: 'app-gestion-cita',
@@ -17,8 +18,9 @@ import { FormsModule } from '@angular/forms';
     BarraLateralComponent,
     FullCalendarModule,
     FormsModule,
-    CommonModule
-  ],
+    CommonModule,
+    BreadcrumbsComponent
+],
   templateUrl: './gestion-cita.component.html',
   styleUrls: ['./gestion-cita.component.css']
 })

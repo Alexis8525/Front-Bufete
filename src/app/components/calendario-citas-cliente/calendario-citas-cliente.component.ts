@@ -6,6 +6,7 @@ import { CitaService } from '../../services/cita.service';
 import { FechaCita } from '../../models/fechas-citas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DetalleCitaClienteComponent } from '../modals/detalle-cita-cliente/detalle-cita-cliente.component';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 interface FechaCitaExtendida extends FechaCita {
   date: number;
@@ -32,7 +33,8 @@ interface Appointment {
     BarraLateralComponent,
     CommonModule,
     FormsModule,
-  ]
+    BreadcrumbsComponent
+]
 })
 export class CalendarioCitasClienteComponent implements OnInit {
   diasDelMes: (number | null)[] = [];

@@ -8,6 +8,7 @@ import { EspecialidadService } from '../../services/especialidad.service';
 import { FormsModule } from '@angular/forms';
 import { NuevoEmpleadoComponent } from '../modals/nuevo-empleado/nuevo-empleado.component';
 import { EditarEmpleadoComponent } from '../modals/editar-empleado/editar-empleado.component';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 @Component({
   selector: 'app-crud-empleado',
@@ -18,7 +19,8 @@ import { EditarEmpleadoComponent } from '../modals/editar-empleado/editar-emplea
     FormsModule,
     NuevoEmpleadoComponent,
     EditarEmpleadoComponent,
-  ],
+    BreadcrumbsComponent
+],
   templateUrl: './crud-empleado.component.html',
   styleUrls: ['./crud-empleado.component.css']
 })

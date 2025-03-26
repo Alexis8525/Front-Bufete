@@ -14,6 +14,7 @@ import { formatDate } from '@angular/common'; // Importar el helper para formate
 import { ConcreteComponent } from '../../patterns/decorators/concrete-component';
 import { RoleValidationDecorator } from '../../patterns/decorators/role-validation-decorator';
 import { StateUpdateDecorator } from '../../patterns/decorators/state-update-decorator';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 @Component({
   selector: 'app-principal',
@@ -24,7 +25,8 @@ import { StateUpdateDecorator } from '../../patterns/decorators/state-update-dec
     BarraLateralComponent,
     CommonModule,
     DatePipe,
-  ],
+    BreadcrumbsComponent
+],
 })
 export class PrincipalComponent implements OnInit {
   citasHoy: CitaAdaptada[] = [];

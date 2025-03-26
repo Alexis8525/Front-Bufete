@@ -8,6 +8,7 @@ import { EmpleadoService } from '../../services/empleado.service';
 import { Agenda } from '../../models/agenda';
 import { AgendaService } from '../../services/agenda-service.service';
 import { Empleado } from '../../models/empleados';
+import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
 
 @Component({
   selector: 'app-gestion-horario',
@@ -18,8 +19,9 @@ import { Empleado } from '../../models/empleados';
     BarraLateralComponent,
     CommonModule,
     FormsModule,
-    SeleccionHorasComponent
-  ]
+    SeleccionHorasComponent,
+    BreadcrumbsComponent
+]
 })
 export class GestionHorarioComponent implements OnInit {
   @Input() selectedAbogado!: {
