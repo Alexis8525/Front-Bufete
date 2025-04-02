@@ -33,7 +33,8 @@ export class BarraBusquedaHomeComponent {
     { termino: 'correo', ruta: '/principal-contactos', categoria: 'Contacto' },
     { termino: 'redes sociales', ruta: '/principal-contactos', categoria: 'Contacto' },
     { termino: 'mapa del sitio', ruta: '/mapa-sitio', categoria: 'Navegación' },
-    { termino: 'localización', ruta: '/principal-contactos', categoria: 'Contacto' }
+    { termino: 'localización', ruta: '/principal-contactos', categoria: 'Contacto' },
+    { termino: 'registro', ruta: '/register', categoria: 'Registro' }
   ];
 
   private palabrasClavePrincipal = [
@@ -41,7 +42,8 @@ export class BarraBusquedaHomeComponent {
     { termino: 'empleados', ruta: '/login', categoria: 'Acceso requerido' },
     { termino: 'clientes', ruta: '/login', categoria: 'Acceso requerido' },
     { termino: 'horarios', ruta: '/login', categoria: 'Acceso requerido' },
-    { termino: 'expedientes', ruta: '/login', categoria: 'Acceso requerido' }
+    { termino: 'expedientes', ruta: '/login', categoria: 'Acceso requerido' },
+    
   ];
 
   private palabrasClaveRol: { [key: string]: { termino: string; ruta: string; categoria: string }[] } = {

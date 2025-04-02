@@ -1,0 +1,317 @@
+/* Estilos generales del wrapper */
+.wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden; /* Evita el desbordamiento */
+}
+
+.app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.p-3 {
+  background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
+  background-position: center; /* Centra la imagen en el contenedor */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
+  max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
+  background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
+  padding: 2rem; /* Añade algo de espacio alrededor del contenido */
+  overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
+}
+/* Agrega esto a tu archivo SCSS existente */
+#audienciaModal {
+  .modal-header {
+    background-color: #001f3f;
+    color: white;
+    
+    .btn-close {
+      filter: invert(1);
+    }
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }
+}
+
+/* Contenedor de las tarjetas */
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  position: relative; /* Contexto de posicionamiento para los tooltips */
+}
+
+/* Estilos base de las tarjetas */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  flex: 1 1 calc(50% - 40px);
+  max-width: calc(50% - 40px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow: visible; /* Permite que el tooltip se muestre fuera de la tarjeta */
+  margin-bottom: 20px; /* Espacio para el tooltip */
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 10; /* Asegura que la tarjeta hover esté sobre las demás */
+  }
+}
+
+/* Estilos para tarjetas de prioridad alta */
+.card-prioridad-alta {
+  background-color: #f6f1f1; /* Rojo claro */
+  border: 1px solid #918f8f; /* Borde rojo oscuro */
+
+  .card-header {
+    background-color: #b8b3b3; /* Color de fondo rojo en el header */
+    color: white; /* Texto blanco en el header */
+  }
+
+  .card-body {
+    color: #5a5a5a; /* Color de texto en el cuerpo de la tarjeta */
+  }
+}
+
+/* Partes de la tarjeta */
+.card-header {
+  h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #0e2238;
+  }
+}
+
+.card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: auto;
+  
+  p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Tooltip de detalles */
+.card-detalles {
+  position: absolute;
+  bottom: calc(100% + 10px); /* Aparece arriba de la tarjeta */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 90%;
+  max-width: 300px;
+  background-color: rgba(15, 95, 175, 0.95);
+  color: rgb(9, 3, 65);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 20;
+  pointer-events: none;
+  
+  /* Triángulo indicador */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: rgba(0, 31, 63, 0.95) transparent transparent transparent;
+  }
+  
+  h4 {
+    color: white;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  
+  p {
+    color: #f70e0e;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mostrar tooltip al hacer hover */
+.card:hover .card-detalles {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Estilos para los filtros */
+.filtros-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  
+  &.show {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+  }
+}
+
+/* Estilos para el scroll */
+.p-3 {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #001f3f;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #003366;
+  }
+}
+
+/* Botón flotante para ir arriba */
+.btn-ir-arriba {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #001f3f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  &:hover {
+    background-color: #003366;
+  }
+}
+
+/* Estilos generales para títulos y texto */
+.p-3 {
+  h2, h3 {
+    font-size: 1.8rem;
+    color: #001f3f;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    
+    li {
+      background-color: #f9f9f9;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1500ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+
+/* Estilos específicos para botones */
+button {
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.btn-actualizar {
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilos para tablas */
+.table {
+  th, td {
+    vertical-align: middle;
+  }
+}
+
+
+
+/* Estilos para modales */
+.modal {
+  button {
+    background-color: #b30000;
+    color: white;
+  }
+}

@@ -1,23 +1,23 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
+import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Expediente } from '../../models/expediente';
-import { ExpedienteService } from '../../services/expediente.service';
-import { DocumentosService } from '../../services/documentos.service';
+import { Expediente } from '../../../models/expediente';
+import { ExpedienteService } from '../../../services/expediente.service';
+import { DocumentosService } from '../../../services/documentos.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router'; 
-import { CitaService } from '../../services/cita.service';
-import { NotaService } from '../../services/nota.service';
-import { Nota } from '../../models/notas';
+import { CitaService } from '../../../services/cita.service';
+import { NotaService } from '../../../services/nota.service';
+import { Nota } from '../../../models/notas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { VerNotasModalComponent } from '../modals/ver-notas/ver-notas.component';
-import { CrearNotaModalComponent } from '../modals/nueva-nota/nueva-nota.component';
-import { CommandManager } from '../../patterns/command/command-manager';
-import { ValidateNoteCommand } from '../../patterns/command/validate-note-command';
-import { CreateNoteCommand } from '../../patterns/command/create-note-command';
-import { SendEmailCommand } from '../../patterns/command/send-email-command';
-import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { VerNotasModalComponent } from '../../modals/ver-notas/ver-notas.component';
+import { CrearNotaModalComponent } from '../../modals/nueva-nota/nueva-nota.component';
+import { CommandManager } from '../../../patterns/command/command-manager';
+import { ValidateNoteCommand } from '../../../patterns/command/validate-note-command';
+import { CreateNoteCommand } from '../../../patterns/command/create-note-command';
+import { SendEmailCommand } from '../../../patterns/command/send-email-command';
+import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-expediente',

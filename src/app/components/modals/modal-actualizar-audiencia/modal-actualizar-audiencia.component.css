@@ -1,0 +1,18 @@
+.modal-header {
+    background-color: #001f3f;
+    color: white;
+    
+    .close {
+      color: white;
+    }
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }
+  
+  .modal-footer {
+    justify-content: space-between;
+  }
+
+  
