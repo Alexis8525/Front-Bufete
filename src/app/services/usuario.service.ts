@@ -75,4 +75,11 @@ export class UsuarioService {
       catchError((error) => this.manejarError(error))
     );
   }
+
+  verifyOTP(email: string, otp: string) {
+    return this.http.post(`${this.URL_API}verify-otp`, { email, otp }).pipe(
+      catchError((error) => this.manejarError(error))
+    );
+  }
+  
 }

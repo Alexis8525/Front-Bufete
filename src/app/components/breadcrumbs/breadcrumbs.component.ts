@@ -11,46 +11,46 @@ import { filter } from 'rxjs';
   imports: [CommonModule, RouterModule],
 })
 export class BreadcrumbsComponent implements OnInit {
-  @Input() parts: string[] = [];
+  @Input() parts: { label: string, url: string }[] = [];
   @Input() activePage: string = '';
-  url: string[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.updateBreadcrumbs();
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.updateBreadcrumbs();
-      });
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+      this.updateBreadcrumbs();
+    });
   }
 
   private updateBreadcrumbs(): void {
     this.parts = [];
-    let currentRoute: ActivatedRoute | null = this.route.root; // Permitir que currentRoute sea null
-
-    // Recorrer las rutas hijas mientras existan
+    let currentRoute: ActivatedRoute | null = this.route.root;
+    let fullPath = '';
+  
     while (currentRoute) {
-      // Verificar si hay un label de migas de pan en los datos de la ruta
       if (currentRoute.snapshot.data['breadcrumbLabel']) {
-        this.parts.push(currentRoute.snapshot.data['breadcrumbLabel']);
+        fullPath += '/' + currentRoute.snapshot.url.map(segment => segment.path).join('/');
+        this.parts.push({ label: currentRoute.snapshot.data['breadcrumbLabel'], url: fullPath });
       }
-      
-      // Mover al siguiente hijo, si existe
       currentRoute = currentRoute.firstChild;
     }
-
-    // Asegurar que 'Inicio' esté al principio de las migas de pan
-    if (!this.parts.includes('Inicio')) {
-      this.parts.unshift('Inicio');
+  
+    // Verificar si el usuario está autenticado
+    const usuarioAutenticado = !!localStorage.getItem('token'); // Usa un servicio en producción
+  
+    // Definir el breadcrumb raíz según el estado del usuario
+    const breadcrumbRoot = usuarioAutenticado
+      ? { label: 'Principal', url: '/principal' }
+      : { label: 'Inicio', url: '/home' };
+  
+    // Insertar el primer breadcrumb correctamente
+    if (!this.parts.length || this.parts[0].url !== breadcrumbRoot.url) {
+      this.parts.unshift(breadcrumbRoot);
     }
-
-    // Construir la URL de las migas de pan
-    this.url = this.parts.map((part, index) => {
-      return index === 0
-        ? ''
-        : this.url[index - 1] + '/' + part.toLowerCase().replace(/\s/g, '-');
-    });
+  
+    // Actualizar activePage con el último breadcrumb visible
+    this.activePage = this.parts.length > 0 ? this.parts[this.parts.length - 1].label : '';
   }
+  
 }

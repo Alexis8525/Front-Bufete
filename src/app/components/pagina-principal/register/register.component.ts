@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegisterService } from '../../services/register.service';
+import { RegisterService } from '../../../services/register.service';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../../services/usuario.service';
+import { UsuarioService } from '../../../services/usuario.service';
 import { CommonModule } from '@angular/common';
-import { NavBarraComponent } from '../pagina-principal/nav-barra/nav-barra.component';
-import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
-import { PiePaginaComponent } from '../pie-de-pagina/pie-pagina/pie-pagina.component';
+import { NavBarraComponent } from '../nav-barra/nav-barra.component';
+import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
+import { PiePaginaComponent } from '../../pie-de-pagina/pie-pagina/pie-pagina.component';
 
 @Component({
   selector: 'app-register',
