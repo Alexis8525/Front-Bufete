@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { BarraBusquedaHomeComponent } from '../pagina-principal/barra-busqueda-home/barra-busqueda-home.component';
 
 @Component({
   selector: 'app-principal',
@@ -30,36 +31,17 @@ import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
     DatePipe,
     BreadcrumbsComponent,
     FormsModule,
-    RouterModule
-],
+    RouterModule,
+    BarraBusquedaHomeComponent // Agregar el componente de búsqueda
+  ],
 })
 export class PrincipalComponent implements OnInit {
   citasHoy: CitaAdaptada[] = [];
   fechaActual: Date = new Date();
   loading: boolean = true;
   usuario: any = {};
-  terminoBusqueda: string = '';
 
-  // Define un tipo para las palabras clave
-  private palabrasClave: { [key: string]: { termino: string; ruta: string }[] } = {
-    secretaria: [
-      { termino: 'empleados', ruta: '/empleado' },
-      { termino: 'clientes', ruta: '/gestion-cliente' },
-      { termino: 'horarios', ruta: '/gestion-horario' },
-      { termino: 'calendario secretaria', ruta: '/calendario-secretaria' },
-      { termino: 'crear expediente', ruta: '/crear-expediente' }
-    ],
-    abogado: [
-      { termino: 'calendario abogado', ruta: '/calendario-abogado' },
-      { termino: 'crear expediente', ruta: '/crear-expediente' },
-      { termino: 'ver expedientes', ruta: '/visualizar-expediente' },
-      { termino: 'papelera', ruta: '/historial-expedientes' }
-    ],
-    cliente: [
-      { termino: 'nueva cita', ruta: '/cita' },
-      { termino: 'citas programadas', ruta: '/calendario-cliente' }
-    ]
-  };
+  // Elimina las palabras clave ya que ahora están en BarraBusquedaHomeComponent
 
   constructor(
     private citaService: CitaService,
@@ -111,38 +93,7 @@ export class PrincipalComponent implements OnInit {
       });
   }
 
-  buscarGlobal(): void {
-    const termino = this.terminoBusqueda.toLowerCase().trim();
-
-    // Obtener las palabras clave según el rol
-    let palabrasClaveRol: { termino: string; ruta: string }[];
-    switch (this.usuario.rol) {
-      case 1: // Secretaria
-        palabrasClaveRol = this.palabrasClave['secretaria'];
-        break;
-      case 2: // Abogado
-        palabrasClaveRol = this.palabrasClave['abogado'];
-        break;
-      case 3: // Cliente
-        palabrasClaveRol = this.palabrasClave['cliente'];
-        break;
-      default:
-        palabrasClaveRol = [];
-        break;
-    }
-
-    // Buscar coincidencias parciales
-    const coincidencia = palabrasClaveRol.find(palabra => 
-      palabra.termino.includes(termino) || termino.includes(palabra.termino)
-    );
-
-    if (coincidencia) {
-      this.router.navigate([coincidencia.ruta]);
-    } else {
-      // Si no hay coincidencia, redirigir a una página de resultados de búsqueda
-      this.router.navigate(['/buscar'], { queryParams: { q: termino } });
-    }
-  }
+  // Elimina el método buscarGlobal() ya que está en BarraBusquedaHomeComponent
 
   filtrarCitasDelDia(citas: CitaAdaptada[]): CitaAdaptada[] {
     const hoy = new Date();

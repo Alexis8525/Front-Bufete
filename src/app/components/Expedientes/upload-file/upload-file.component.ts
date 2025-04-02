@@ -1,17 +1,20 @@
 //componte upload-file-component.ts
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UploadFileService } from '../../services/upload-file.service';
+import { UploadFileService } from '../../../services/upload-file.service';
 import { FormsModule } from '@angular/forms';
-import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
+import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
-import { ClienteService } from '../../services/cliente.service';
-import { Cliente } from '../../models/cliente';
-import { EmpleadoService } from '../../services/empleado.service';
-import { Empleado } from '../../models/empleados';
-import { ExpedienteComponent } from '../../decoradores/decoradorExpedinete/expediente.component';
-import { ExpedienteConPrioridadDecorator } from '../../decoradores/decoradorExpedinete/expediente-con-prioridad.decorador';
-import { ExpedienteArchivadoDecorator } from '../../decoradores/decoradorExpedinete/expediente-archivado.decorador';
+import { ClienteService } from '../../../services/cliente.service';
+import { Cliente } from '../../../models/cliente';
+import { EmpleadoService } from '../../../services/empleado.service';
+import { Empleado } from '../../../models/empleados';
+import { ExpedienteComponent } from '../../../decoradores/decoradorExpedinete/expediente.component';
+import { ExpedienteConPrioridadDecorator } from '../../../decoradores/decoradorExpedinete/expediente-con-prioridad.decorador';
+import { ExpedienteArchivadoDecorator } from '../../../decoradores/decoradorExpedinete/expediente-archivado.decorador';
+import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -20,7 +23,9 @@ import { ExpedienteArchivadoDecorator } from '../../decoradores/decoradorExpedin
   imports: [
     BarraLateralComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+    BreadcrumbsComponent,
+    RouterModule
   ],
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.scss'],
@@ -71,18 +76,121 @@ export class UploadFileComponent implements ExpedienteComponent{
 
   idExpedienteCreado: number | null = null;
 
+  expedientes: any[] = [];
+  nuevoExpediente: any = {
+    nombreExpediente: '',
+    numeroExpediente: '',
+    descripcion: '',
+    estado: 'En Proceso',
+    datosAbogado: {},
+    datosCliente: {}
+  };
+  mostrarFormulario: boolean = false;
+  expedienteAEliminar: any = null;
+
+  cargando = false;
+  errorCarga: string | null = null;
+  
+
   constructor(
     private http: HttpClient,
     private uploadFileService: UploadFileService,
     private clienteService: ClienteService,
-    private empleadiService: EmpleadoService
+    private empleadiService: EmpleadoService,
+    private modalService: NgbModal
     ) {}
 
    ngOnInit(): void {
     this.cargarClientes();  // Cargar los clientes al inicializar el componente
     this.cargarAbogado();  // Cargar los abogados
+    this.cargarExpedientes();
   }
-  
+
+  cargarExpedientes(): void {
+    this.cargando = true;
+    this.errorCarga = null;
+    
+    this.uploadFileService.obtenerExpedientes().subscribe({
+      next: (data) => {
+        this.expedientes = data;
+        this.cargando = false;
+      },
+      error: (err) => {
+        this.errorCarga = 'Error al cargar expedientes. Intente nuevamente.';
+        this.cargando = false;
+        console.error(err);
+      }
+    });
+  }
+
+  mostrarFormularioNuevo(): void {
+    this.mostrarFormulario = true;
+    this.resetearFormulario();
+  }
+
+  resetearFormulario(): void {
+    this.nuevoExpediente = {
+      nombreExpediente: '',
+      numeroExpediente: '',
+      descripcion: '',
+      estado: 'En Proceso',
+      datosAbogado: {},
+      datosCliente: {}
+    };
+  }
+
+  agregarExpediente(nuevoExpediente: any): void {
+    this.cargando = true;
+    
+    this.uploadFileService.crearExpediente(nuevoExpediente).subscribe({
+      next: (response) => {
+        this.expedientes.unshift(response);
+        this.cargando = false;
+      },
+      error: (err) => {
+        this.errorCarga = 'Error al crear expediente';
+        this.cargando = false;
+      }
+    });
+  }
+
+  abrirModalEliminar(modal: any, expediente: any): void {
+    this.expedienteAEliminar = expediente;
+    this.modalService.open(modal);
+  }
+
+  eliminarExpediente(id: string): void {
+    if (confirm('¿Está seguro de eliminar este expediente?')) {
+      this.cargando = true;
+      
+      this.uploadFileService.eliminarExpediente(id).subscribe({
+        next: () => {
+          this.expedientes = this.expedientes.filter(e => e.id !== id);
+          this.cargando = false;
+        },
+        error: (err) => {
+          this.errorCarga = 'Error al eliminar expediente';
+          this.cargando = false;
+        }
+      });
+    }
+  }
+
+  confirmarEliminacion(): void {
+    if (!this.expedienteAEliminar) return;
+
+    this.uploadFileService.eliminarExpediente(this.expedienteAEliminar.idExpediente).subscribe({
+      next: () => {
+        this.expedientes = this.expedientes.filter(e => e.idExpediente !== this.expedienteAEliminar.idExpediente);
+        this.modalService.dismissAll();
+        alert('Expediente eliminado correctamente');
+      },
+      error: (error) => {
+        console.error('Error al eliminar expediente:', error);
+        alert('Error al eliminar el expediente');
+      }
+    });
+  }
 
   cargarAbogado(): void {
     this.empleadiService.getAbogado().subscribe(

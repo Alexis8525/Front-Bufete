@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './components/pagina-principal/home/home.component';
 import { LoginComponent } from './components/pagina-principal/login/login.component';
 import { RegisterComponent } from './components/pagina-principal/register/register.component';
-import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { UploadFileComponent } from './components/Expedientes/upload-file/upload-file.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { BarraLateralComponent } from './components/barra-lateral/barra-lateral.component';
 import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-cita.component';
@@ -18,9 +18,9 @@ import { CalendarioCitasClienteComponent } from './components/calendario-citas-c
 import { CalendarioCitasAbogadoComponent } from './components/calendario-citas-abogado/calendario-citas-abogado.component';
 import { CalendarioCitasSecretariaComponent } from './components/calendario-citas-secretaria/calendario-citas-secretaria.component';
 import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
-import { VisualizarPdfComponent } from './components/visualizar-pdf/visualizar-pdf.component';
+import { VisualizarPdfComponent } from './components/Expedientes/visualizar-pdf/visualizar-pdf.component';
 import { HistorialExpedienteComponent } from './components/historial-expediente/historial-expediente.component';
-import { ExpedienteComponent } from './components/expediente/expediente.component';
+import { ExpedienteComponent } from './components/Expedientes/expediente/expediente.component';
 import { RegistroCitasComponent } from './components/registro-citas/registro-citas.component';
 import { DocumentacionLegalComponent } from './components/documentacion-legal/documentacion-legal.component';
 import { NotFoundComponent } from './components/pages/not-found/not-found.component';
@@ -67,10 +67,54 @@ export const routes: Routes = [
   { path: 'documentos', component: DocumentacionLegalComponent, data: { breadcrumbLabel: 'Documentación Legal' } },
 
   // Páginas informativas
+  { path: 'login', component: LoginComponent, data: { breadcrumbLabel: 'Iniciar Sesión' } },
+  { path: 'register', component: RegisterComponent, data: { breadcrumbLabel: 'Registro' } },
+  { path: 'home', component: HomeComponent, data: { breadcrumbLabel: 'Inicio' } },
+  { path: 'principal', component: PrincipalComponent, data: { breadcrumbLabel: 'Principal' } },
+  { path: 'settings', component: SettingsComponent, data: { breadcrumbLabel: 'Configuración' } },
+
+  // Módulos de expedientes
+  { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumbLabel: 'Crear Expediente' } },
+  { path: 'visualizar-expediente', component: VisualizarPdfComponent, data: { breadcrumbLabel: 'Visualizar Expediente' } },
+  { path: 'historial-expedientes', component: HistorialExpedienteComponent, data: { breadcrumbLabel: 'Historial de Expedientes' } },
+  { path: 'expediente/:idExpediente', component: ExpedienteComponent, data: { breadcrumbLabel: 'Detalle de Expediente' } },
+
+  // Citas
+  { path: 'cita', component: SolicitudCitaComponent, data: { breadcrumbLabel: 'Solicitar Cita' } },
+  { path: 'citasRegistro', component: RegistroCitasComponent, data: { breadcrumbLabel: 'Registro de Citas' } },
+  { path: 'gestion-cita', component: GestionCitaComponent, data: { breadcrumbLabel: 'Gestión de Citas' } },
+
+  // Gestión
+  { path: 'empleado', component: CrudEmpleadoComponent, data: { breadcrumbLabel: 'Gestión de Empleados' } },
+  { path: 'gestion-cliente', component: CrudClienteComponent, data: { breadcrumbLabel: 'Gestión de Clientes' } },
+  { path: 'gestion-horario', component: GestionHorarioComponent, data: { breadcrumbLabel: 'Gestión de Horarios' } },
+  { path: 'gestion-pago', component: GestionPagoComponent, data: { breadcrumbLabel: 'Gestión de Pagos' } },
+
+  // Calendarios
+  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent, data: { breadcrumbLabel: 'Calendario Cliente' } },
+  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent, data: { breadcrumbLabel: 'Calendario Abogado' } },
+  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent, data: { breadcrumbLabel: 'Calendario Secretaría' } },
+
+  // Documentación
+  { path: 'documentos', component: DocumentacionLegalComponent, data: { breadcrumbLabel: 'Documentación Legal' } },
+
+  // Páginas informativas
   { path: 'principal-conocenos', component: ConocenosComponent, data: { breadcrumbLabel: 'Conócenos' } },
   { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumbLabel: 'Servicios' } },
   { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumbLabel: 'Contacto' } },
   { path: 'mapa-sitio', component: MapaSitioComponent, data: { breadcrumbLabel: 'Mapa del Sitio' } },
+
+  // Barra y Navbar
+  { path: 'barra', component: BarraLateralComponent, data: { breadcrumbLabel: 'Barra Lateral' } },
+  { path: 'navbar', component: NavbarComponent, data: { breadcrumbLabel: 'Navegación' } },
+
+  // Páginas de error
+  { path: 'error/400', component: BadRequestComponent, data: { breadcrumbLabel: 'Error 400' } },
+  { path: 'error/402', component: PaymentRequiredComponent, data: { breadcrumbLabel: 'Error 402' } },
+  { path: 'error/403', component: ForbiddenComponent, data: { breadcrumbLabel: 'Error 403' } },
+
+  // Ruta por defecto y 404
+  { path: '**', component: NotFoundComponent, data: { breadcrumbLabel: 'Página No Encontrada' } },
 
   // Barra y Navbar
   { path: 'barra', component: BarraLateralComponent, data: { breadcrumbLabel: 'Barra Lateral' } },

@@ -8,8 +8,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UploadFileService {
-  private apiUrl = 'http://localhost:3000/expedientes'; // Asegúrate de que la URL esté correcta
-
+  private apiUrl = 'http://localhost:3000/expedientes';
   constructor(private http: HttpClient, private router: Router) {}
 
   private manejarError(error: HttpErrorResponse) {
@@ -36,6 +35,21 @@ export class UploadFileService {
     }
 
     return throwError(() => new Error(mensajeError));
+  }
+
+  actualizarUltimaModificacion(idExpediente: string, fecha: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/expedientes/${idExpediente}/ultima-actualizacion`, { fecha });
+  }
+
+  actualizarProximaAudiencia(idExpediente: string, fecha: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/expedientes/${idExpediente}/proxima-audiencia`, { fecha });
+  }
+
+  actualizarFechasExpediente(idExpediente: string, ultimaActualizacion: string, proximaAudiencia: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/expedientes/${idExpediente}/fechas`, {
+      ultimaActualizacion,
+      proximaAudiencia
+    });
   }
 
   crearExpediente(expedienteData: any): Observable<any> {

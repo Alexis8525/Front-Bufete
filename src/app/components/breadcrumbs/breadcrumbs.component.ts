@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -13,8 +13,16 @@ import { filter } from 'rxjs';
 export class BreadcrumbsComponent implements OnInit {
   @Input() parts: { label: string, url: string }[] = [];
   @Input() activePage: string = '';
+  url: string[] = [];
+  private isBrowser: boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     this.updateBreadcrumbs();
@@ -26,8 +34,7 @@ export class BreadcrumbsComponent implements OnInit {
   private updateBreadcrumbs(): void {
     this.parts = [];
     let currentRoute: ActivatedRoute | null = this.route.root;
-    let fullPath = '';
-  
+
     while (currentRoute) {
       if (currentRoute.snapshot.data['breadcrumbLabel']) {
         fullPath += '/' + currentRoute.snapshot.url.map(segment => segment.path).join('/');
@@ -35,22 +42,23 @@ export class BreadcrumbsComponent implements OnInit {
       }
       currentRoute = currentRoute.firstChild;
     }
-  
-    // Verificar si el usuario está autenticado
-    const usuarioAutenticado = !!localStorage.getItem('token'); // Usa un servicio en producción
-  
-    // Definir el breadcrumb raíz según el estado del usuario
-    const breadcrumbRoot = usuarioAutenticado
-      ? { label: 'Principal', url: '/principal' }
-      : { label: 'Inicio', url: '/home' };
-  
-    // Insertar el primer breadcrumb correctamente
-    if (!this.parts.length || this.parts[0].url !== breadcrumbRoot.url) {
-      this.parts.unshift(breadcrumbRoot);
+
+    // 🔹 Verificación segura de autenticación
+    const usuarioAutenticado = this.isBrowser 
+      ? localStorage.getItem('usuario') !== null 
+      : false; // Valor por defecto en SSR
+
+    // 🔹 Establecer el primer breadcrumb dinámicamente
+    const primerBreadcrumb = usuarioAutenticado ? 'Principal' : 'Inicio';
+
+    // 🔹 Asegurar que el primer breadcrumb sea correcto
+    if (this.parts.length === 0 || this.parts[0] !== primerBreadcrumb) {
+      this.parts.unshift(primerBreadcrumb);
     }
-  
-    // Actualizar activePage con el último breadcrumb visible
-    this.activePage = this.parts.length > 0 ? this.parts[this.parts.length - 1].label : '';
+
+    // 🔹 Construir la URL de las migas de pan
+    this.url = this.parts.map((part, index) => {
+      return index === 0 ? '' : this.url[index - 1] + '/' + part.toLowerCase().replace(/\s/g, '-');
+    });
   }
-  
 }

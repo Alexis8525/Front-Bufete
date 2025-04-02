@@ -4,13 +4,18 @@
   <div class="main">
     <nav class="navbar navbar-expand-lg" style="background-color: #001f3f;">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/home">
+        <a class="navbar-brand" href="/principal">
           <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
       </div>
     </nav>
 
     <div class="p-3 container">
+      <app-breadcrumbs></app-breadcrumbs>
+      
+
+      
+
       <!-- Selección de Cliente -->
       <div class="form-group mb-4">
         <label for="cliente">Selecciona al Cliente:</label>
@@ -94,7 +99,7 @@
                 <div class="modal-body">
                   <p>¿Deseas asignar prioridad a este expediente?</p>
                   <p>Esta acción cambiará el estado del expediente a "Prioridad Alta".</p>
-                  <button class="btn btn-success"  (click)="aplicarDecorador('prioridad')">Sí, asignar prioridad</button>
+                  <button class="btn btn-success" (click)="aplicarDecorador('prioridad')">Sí, asignar prioridad</button>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -128,6 +133,101 @@
           <button type="submit" class="btn btn-primary btn-submit">Crear Expediente</button>
         </form>
       </div>
+
+      <!-- Lista de expedientes existentes -->
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4>Expedientes Registrados</h4>
+          <button class="btn btn-primary" (click)="cargarExpedientes()" [disabled]="cargando">
+            <i class="fas fa-sync-alt" [class.fa-spin]="cargando"></i> 
+            {{ cargando ? 'Cargando...' : 'Recargar' }}
+          </button>
+        </div>
+        
+        <div class="card-body">
+          <!-- Mensaje de error -->
+          <div *ngIf="errorCarga" class="alert alert-danger">
+            {{ errorCarga }}
+            <button class="btn btn-sm btn-link" (click)="cargarExpedientes()">Reintentar</button>
+          </div>
+          
+          <!-- Spinner durante carga -->
+          <div *ngIf="cargando && expedientes.length === 0" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2">Cargando expedientes...</p>
+          </div>
+          
+          <!-- Tabla de resultados -->
+          <div *ngIf="!cargando || expedientes.length > 0" class="table-responsive">
+            <table class="table table-hover">
+              <!-- Cabecera de tabla -->
+              <thead>
+                <tr>
+                  <th>Número</th>
+                  <th>Nombre</th>
+                  <th>Estado</th>
+                  <th>Fecha Creación</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              
+              <!-- Cuerpo de tabla -->
+              <tbody>
+                <tr *ngFor="let expediente of expedientes">
+                  <td>{{ expediente.numeroExpediente }}</td>
+                  <td>{{ expediente.nombreExpediente }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="{
+                      'bg-danger': expediente.estado === 'Prioridad Alta',
+                      'bg-secondary': expediente.estado === 'Archivado',
+                      'bg-primary': expediente.estado === 'En Proceso'
+                    }">
+                      {{ expediente.estado }}
+                    </span>
+                  </td>
+                  <td>{{ expediente.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+                  <td>
+                    <div class="d-flex gap-2">
+                      <a [routerLink]="['/visualizar-expediente']" 
+                         class="btn btn-sm btn-primary">
+                        <i class="fas fa-eye"></i> Detalle
+                      </a>
+                      <button class="btn btn-sm btn-danger" 
+                              (click)="eliminarExpediente(expediente.idExpediente)"
+                              [disabled]="cargando">
+                        <i class="fas fa-trash"></i> 
+                        {{ cargando ? 'Eliminando...' : 'Eliminar' }}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a [routerLink]="['/visualizar-expediente']" 
+                         class="btn btn-sm btn-primary">
+                        <i class="fas fa-eye"></i> Detalle
+                      </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Modal de confirmación para eliminar -->
+<ng-template #modalEliminar let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Confirmar Eliminación</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p>¿Está seguro que desea eliminar el expediente <strong>{{ expedienteAEliminar?.nombreExpediente }}</strong>?</p>
+    <p class="text-danger">Esta acción no se puede deshacer.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="confirmarEliminacion()">Eliminar</button>
+  </div>
+</ng-template>

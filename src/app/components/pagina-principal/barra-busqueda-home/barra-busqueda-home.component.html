@@ -1,13 +1,40 @@
-<form class="d-flex" (submit)="buscarGlobal(); $event.preventDefault();">
+<div class="search-container position-relative">
+  <form class="d-flex" (submit)="buscarGlobal($event)">
     <input
+      #searchInput
       class="form-control me-2"
       type="search"
       placeholder="Buscar servicios, contacto, conócenos..."
       aria-label="Buscar"
       [(ngModel)]="terminoBusqueda"
       name="buscador"
+      (input)="buscarSugerencias()"
+      (keydown)="manejarTeclado($event)"
+      (blur)="cerrarSugerencias()"
+      autocomplete="off"
     >
     <button class="btn btn-outline-light" type="submit">
       <i class="fa fa-search"></i>
     </button>
   </form>
+
+  <div *ngIf="mostrarSugerencias && sugerencias.length > 0" class="sugerencias-dropdown">
+    <div 
+      *ngFor="let sugerencia of sugerencias; let i = index" 
+      class="sugerencia-item" 
+      [class.active]="i === sugerenciaSeleccionada"
+      [class.requiere-login]="sugerencia.categoria === 'Acceso requerido'"
+      (mousedown)="seleccionarSugerencia(sugerencia)"
+    >
+      <div class="sugerencia-termino">
+        <i *ngIf="sugerencia.categoria === 'Acceso requerido'" class="fas fa-lock me-2"></i>
+        {{ sugerencia.termino }}
+      </div>
+      <div class="sugerencia-categoria badge" 
+           [class.bg-warning]="sugerencia.categoria === 'Acceso requerido'"
+           [class.bg-secondary]="sugerencia.categoria !== 'Acceso requerido'">
+        {{ sugerencia.categoria }}
+      </div>
+    </div>
+  </div>
+</div>
