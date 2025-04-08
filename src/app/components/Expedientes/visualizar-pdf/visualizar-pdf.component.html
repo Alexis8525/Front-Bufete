@@ -91,43 +91,50 @@
             <button class="btn-eliminar" (click)="confirmarEliminacion(expediente.idExpediente)">Eliminar</button>
           </div>
           
-          <!-- Detalles adicionales que aparecen al pasar el mouse -->
           <div class="card-detalles" *ngIf="expedienteHover === expediente.idExpediente">
             <div class="detalles-contenido">
               <h4>Detalles adicionales</h4>
-              <p><strong>Última actualización:</strong> {{ expediente.ultimaActualizacion || 'No disponible' }}</p>
+              <p><strong>Última actualización:</strong> {{ expediente.fechaCreacion  || 'No disponible' }}</p>
               <p><strong>Próxima audiencia:</strong> {{ expediente.proximaAudiencia || 'No programada' }}</p>
             </div>
           </div>
         </div>
       </div>
       
-      <!-- Mensaje cuando no hay resultados -->
       <div class="alert alert-warning" *ngIf="expedientesFiltrados.length === 0">
         No se encontraron expedientes que coincidan con los criterios de búsqueda.
       </div>
     </div>
-  </div>
-  <!-- Modal Reutilizado para Audiencias (usa el mismo que tienes para PDF) -->
-<div class="modal fade" id="audienciaModal" tabindex="-1" aria-labelledby="audienciaModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="audienciaModalLabel">Programar Próxima Audiencia</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="fechaAudiencia" class="form-label">Fecha de la próxima audiencia</label>
-          <input type="date" class="form-control" id="fechaAudiencia" 
-                 [(ngModel)]="fechaAudiencia" name="fechaAudiencia">
+    
+    <!-- Botón de "Ir arriba" - POSICIÓN CORRECTA (fuera del div.p-3) -->
+    <button *ngIf="mostrarBotonArriba" 
+            class="btn btn-scroll-top"
+            (click)="scrollToTop()"
+            title="Ir arriba">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+  </div> <!-- Cierre del div.main -->
+
+  <!-- Modal Reutilizado para Audiencias -->
+  <div class="modal fade" id="audienciaModal" tabindex="-1" aria-labelledby="audienciaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="audienciaModalLabel">Programar Próxima Audiencia</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="cerrarModalAudiencia()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarAudiencia()">Guardar</button>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="fechaAudiencia" class="form-label">Fecha de la próxima audiencia</label>
+            <input type="date" class="form-control" id="fechaAudiencia" 
+                  [(ngModel)]="fechaAudiencia" name="fechaAudiencia">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cerrarModalAudiencia()">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="guardarAudiencia()">Guardar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

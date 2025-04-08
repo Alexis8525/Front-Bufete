@@ -16,6 +16,34 @@
   flex-direction: column;
 }
 
+.btn-scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #001f3f;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: darken(#001f3f, 10%);
+    transform: translateY(-3px);
+  }
+
+  i {
+    font-size: 1.25rem;
+  }
+}
 .p-3 {
   background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
   background-position: center; /* Centra la imagen en el contenedor */

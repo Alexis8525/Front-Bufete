@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 import { BarraBusquedaHomeComponent } from '../pagina-principal/barra-busqueda-home/barra-busqueda-home.component';
+import { NavigationHistoryService } from '../../services/navigation-history.service';
 
 @Component({
   selector: 'app-principal',
@@ -47,7 +48,8 @@ export class PrincipalComponent implements OnInit {
     private citaService: CitaService,
     private servicioService: ServicioService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private navService: NavigationHistoryService
   ) {}
 
   ngOnInit(): void {
