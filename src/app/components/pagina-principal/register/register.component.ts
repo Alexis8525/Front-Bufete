@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegisterService } from '../../../services/register.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../../../services/usuario.service';
+import { ClienteService } from '../../../services/cliente.service';  // Asegúrate de que la ruta sea correcta
+import { Cliente } from '../../../models/cliente';
+import { NavBarraComponent } from "../nav-barra/nav-barra.component";  // Asegúrate de que la ruta sea correcta
 import { CommonModule } from '@angular/common';
-import { NavBarraComponent } from '../nav-barra/nav-barra.component';
-import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
-import { PiePaginaComponent } from '../../pie-de-pagina/pie-pagina/pie-pagina.component';
 
 @Component({
   selector: 'app-register',
@@ -15,17 +13,17 @@ import { PiePaginaComponent } from '../../pie-de-pagina/pie-pagina/pie-pagina.co
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule,
     ReactiveFormsModule,
-    NavBarraComponent, BreadcrumbsComponent, PiePaginaComponent
-  ]
+    NavBarraComponent,
+    CommonModule
+]
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private usuarioService: UsuarioService,
+    private clienteService: ClienteService,  // Usa ClienteService
     private router: Router
   ) {
     this.registerForm = this.fb.group({
@@ -42,22 +40,41 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // Validador de que las contraseñas coincidan
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('pass')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  get nombreCliente() { return this.registerForm.get('nombreCliente'); }
-  get aPCliente() { return this.registerForm.get('aPCliente'); }
-  get aMCliente() { return this.registerForm.get('aMCliente'); }
-  get direccion() { return this.registerForm.get('direccion'); }
-  get correo() { return this.registerForm.get('correo'); }
-  get telefono() { return this.registerForm.get('telefono'); }
-  get pass() { return this.registerForm.get('pass'); }
-  get confirmPassword() { return this.registerForm.get('confirmPassword'); }
-
+  // Método para registrar el cliente
   register() {
-    
+    if (this.registerForm.valid) {
+      const nuevoCliente: Cliente = {
+        idCliente: 0,  // En tu backend podría auto-generarse
+        nombreCliente: this.registerForm.value.nombreCliente,
+        aPCliente: this.registerForm.value.aPCliente,
+        aMCliente: this.registerForm.value.aMCliente,
+        direccion: this.registerForm.value.direccion,
+        correo: this.registerForm.value.correo,
+        telefono: this.registerForm.value.telefono,
+        pass: this.registerForm.value.pass,  // Contraseña (asegúrate de manejarla de forma segura)
+        idRolFK: 3,  // O el valor que corresponda para el rol del cliente
+      };
+
+      // Llamar al servicio para crear el cliente
+      this.clienteService.crearCliente(nuevoCliente).subscribe(
+        response => {
+          console.log('Cliente registrado exitosamente:', response);
+          this.router.navigate(['/login']);  // Redirigir al login u otra página
+        },
+        error => {
+          console.error('Error al registrar cliente:', error);
+          alert('Error al registrar cliente');
+        }
+      );
+    } else {
+      alert('Formulario inválido. Por favor, revise los campos.');
+    }
   }
 }

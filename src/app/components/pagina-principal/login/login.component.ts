@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Router, RouterLink } from '@angular/router';
-import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
 import { NavBarraComponent } from '../nav-barra/nav-barra.component';
 import { RecaptchaModule } from 'ng-recaptcha';
@@ -13,15 +12,11 @@ import { RecaptchaModule } from 'ng-recaptcha';
   styleUrls: ['./login.component.scss'],
   standalone: true,
   imports: [
-    ReactiveFormsModule,
     CommonModule,
-    FormsModule,
     RecaptchaModule,
-    FormsModule,
-    CommonModule,
-    ReactiveFormsModule,
     NavBarraComponent,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule
   ],
 })
 export class LoginComponent implements OnInit {
@@ -119,12 +114,17 @@ export class LoginComponent implements OnInit {
     } else {
       usuarioId = response.usuario.idCliente;
     }
-
+  
     localStorage.setItem('usuarioId', usuarioId.toString());
     localStorage.setItem('usuario', JSON.stringify(response.usuario));
-
+  
+    // Ver en consola lo que se guardó en localStorage
+    console.log('Usuario guardado en localStorage:', localStorage.getItem('usuario'));
+    console.log('UsuarioId guardado en localStorage:', localStorage.getItem('usuarioId'));
+  
     this.router.navigate(['/principal']);
   }
+  
 
   navigateToRegister() {
     this.router.navigate(['/register']);

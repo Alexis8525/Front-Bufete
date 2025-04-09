@@ -64,11 +64,11 @@ export class BarraLateralComponent {
     return this.rol === 1;
   }
 
-  //Método para cerrar sesión
   logout(): void {
     if (this.isBrowser) {
       localStorage.removeItem('usuario'); // Eliminar el usuario de localStorage
-      this.router.navigate(['/home']); // Redirigir a la página de login
+      this.router.navigate(['/login']); // Redirigir a la página de login
     }
   }
+  
 }
