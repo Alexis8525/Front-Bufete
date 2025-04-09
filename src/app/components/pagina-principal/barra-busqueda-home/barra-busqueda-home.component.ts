@@ -34,7 +34,9 @@ export class BarraBusquedaHomeComponent {
     { termino: 'redes sociales', ruta: '/principal-contactos', categoria: 'Contacto' },
     { termino: 'mapa del sitio', ruta: '/mapa-sitio', categoria: 'Navegación' },
     { termino: 'localización', ruta: '/principal-contactos', categoria: 'Contacto' },
-    { termino: 'registro', ruta: '/register', categoria: 'Registro' }
+    { termino: 'registro', ruta: '/register', categoria: 'Registro' },
+    { termino: 'login', ruta: '/login', categoria: 'Logearse' }
+
   ];
 
   private palabrasClavePrincipal = [
