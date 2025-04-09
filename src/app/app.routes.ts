@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './components/pagina-principal/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/pagina-principal/login/login.component';
+import { RegisterComponent } from './components/pagina-principal/register/register.component';
 import { UploadFileComponent } from './components/Expedientes/upload-file/upload-file.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { BarraLateralComponent } from './components/barra-lateral/barra-lateral.component';
@@ -33,6 +33,9 @@ import { ContancosComponent } from './components/pagina-principal/contancos/cont
 import { MapaSitioComponent } from './components/pagina-principal/mapa-sitio/mapa-sitio.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { NavigationHistoryService } from './services/navigation-history.service';
+import { RecuperacionContraseñaComponent } from './components/pagina-principal/recuperacion-contraseña/recuperacion-contraseña.component';
+import { RestablecerContrasenaComponent } from './components/pagina-principal/restablecer-contrasena/restablecer-contrasena.component';
+
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { breadcrumbLabel: 'Iniciar Sesión' } },
@@ -40,6 +43,40 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, data: { breadcrumbLabel: 'Inicio' } },
   { path: 'principal', component: PrincipalComponent, data: { breadcrumbLabel: 'Principal' } },
   { path: 'settings', component: SettingsComponent, data: { breadcrumbLabel: 'Configuración' } },
+
+  // Módulos de expedientes
+  { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumbLabel: 'Crear Expediente' } },
+  { path: 'visualizar-expediente', component: VisualizarPdfComponent, data: { breadcrumbLabel: 'Visualizar Expediente' } },
+  { path: 'historial-expedientes', component: HistorialExpedienteComponent, data: { breadcrumbLabel: 'Historial de Expedientes' } },
+  { path: 'expediente/:idExpediente', component: ExpedienteComponent, data: { breadcrumbLabel: 'Detalle de Expediente' } },
+
+  // Citas
+  { path: 'cita', component: SolicitudCitaComponent, data: { breadcrumbLabel: 'Solicitar Cita' } },
+  { path: 'citasRegistro', component: RegistroCitasComponent, data: { breadcrumbLabel: 'Registro de Citas' } },
+  { path: 'gestion-cita', component: GestionCitaComponent, data: { breadcrumbLabel: 'Gestión de Citas' } },
+
+  // Gestión
+  { path: 'empleado', component: CrudEmpleadoComponent, data: { breadcrumbLabel: 'Gestión de Empleados' } },
+  { path: 'gestion-cliente', component: CrudClienteComponent, data: { breadcrumbLabel: 'Gestión de Clientes' } },
+  { path: 'gestion-horario', component: GestionHorarioComponent, data: { breadcrumbLabel: 'Gestión de Horarios' } },
+  { path: 'gestion-pago', component: GestionPagoComponent, data: { breadcrumbLabel: 'Gestión de Pagos' } },
+
+  // Calendarios
+  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent, data: { breadcrumbLabel: 'Calendario Cliente' } },
+  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent, data: { breadcrumbLabel: 'Calendario Abogado' } },
+  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent, data: { breadcrumbLabel: 'Calendario Secretaría' } },
+
+  // Documentación
+  { path: 'documentos', component: DocumentacionLegalComponent, data: { breadcrumbLabel: 'Documentación Legal' } },
+
+  // Páginas informativas
+  { path: 'login', component: LoginComponent, data: { breadcrumbLabel: 'Iniciar Sesión' } },
+  { path: 'register', component: RegisterComponent, data: { breadcrumbLabel: 'Registro' } },
+  { path: 'home', component: HomeComponent, data: { breadcrumbLabel: 'Inicio' } },
+  { path: 'principal', component: PrincipalComponent, data: { breadcrumbLabel: 'Principal' } },
+  { path: 'settings', component: SettingsComponent, data: { breadcrumbLabel: 'Configuración' } },
+  { path: 'recuperar-contrasena', component: RecuperacionContraseñaComponent, data: { breadcrumbLabel: 'Recuperacion contraseña'} },
+  { path: 'restablecer-contrasena/:token', component: RestablecerContrasenaComponent },
 
   // Módulos de expedientes
   { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumbLabel: 'Crear Expediente' } },
@@ -76,6 +113,19 @@ export const routes: Routes = [
   { path: 'barra', component: BarraLateralComponent, data: { breadcrumbLabel: 'Barra Lateral' } },
   { path: 'navbar', component: NavbarComponent, data: { breadcrumbLabel: 'Navegación' } },
 
+  // Páginas de error
+  { path: 'error/400', component: BadRequestComponent, data: { breadcrumbLabel: 'Error 400' } },
+  { path: 'error/402', component: PaymentRequiredComponent, data: { breadcrumbLabel: 'Error 402' } },
+  { path: 'error/403', component: ForbiddenComponent, data: { breadcrumbLabel: 'Error 403' } },
+
+  // Ruta por defecto y 404
+  { path: '**', component: NotFoundComponent, data: { breadcrumbLabel: 'Página No Encontrada' } },
+
+  // Barra y Navbar
+  { path: 'barra', component: BarraLateralComponent, data: { breadcrumbLabel: 'Barra Lateral' } },
+  { path: 'navbar', component: NavbarComponent, data: { breadcrumbLabel: 'Navegación' } },
+
+  
   // Páginas de error
   { path: 'error/400', component: BadRequestComponent, data: { breadcrumbLabel: 'Error 400' } },
   { path: 'error/402', component: PaymentRequiredComponent, data: { breadcrumbLabel: 'Error 402' } },

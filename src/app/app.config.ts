@@ -16,8 +16,7 @@ export const appConfig: ApplicationConfig = {
     // provideHttpClient(withInterceptors([errorInterceptor])),
     provideRouter(routes),
     provideClientHydration(),
-    importProvidersFrom(ReactiveFormsModule, HttpClientModule, FormModule),
-    provideHttpClient(),
+     provideHttpClient(),
     FullCalendarModule, provideAnimationsAsync(),
   ],
 };

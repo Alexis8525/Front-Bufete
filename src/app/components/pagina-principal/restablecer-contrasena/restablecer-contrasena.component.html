@@ -1,0 +1,24 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" (ngModelChange)="debugForm()" novalidate>
+  <h2>Restablecer Contraseña</h2>
+
+  <label for="password">Nueva contraseña</label>
+  <input
+    type="text"
+    id="password"
+    formControlName="password"
+    (input)="debugForm()"
+  />
+
+  <label for="confirmPassword">Confirmar contraseña</label>
+  <input
+    type="text"
+    id="confirmPassword"
+    formControlName="confirmPassword"
+    (input)="debugForm()"
+  />
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+
+  <button type="submit">Restablecer</button>
+</form>

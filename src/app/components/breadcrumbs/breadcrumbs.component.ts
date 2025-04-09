@@ -11,7 +11,7 @@ import { filter } from 'rxjs';
   imports: [CommonModule, RouterModule],
 })
 export class BreadcrumbsComponent implements OnInit {
-  @Input() parts: string[] = [];
+  @Input() parts: { label: string, url: string }[] = [];
   @Input() activePage: string = '';
   url: string[] = [];
   private isBrowser: boolean;
@@ -27,39 +27,45 @@ export class BreadcrumbsComponent implements OnInit {
   ngOnInit(): void {
     this.updateBreadcrumbs();
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.updateBreadcrumbs();
-      });
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.updateBreadcrumbs());
   }
 
   private updateBreadcrumbs(): void {
     this.parts = [];
+    let fullPath = '/home';
     let currentRoute: ActivatedRoute | null = this.route.root;
 
     while (currentRoute) {
-      if (currentRoute.snapshot.data['breadcrumbLabel']) {
-        this.parts.push(currentRoute.snapshot.data['breadcrumbLabel']);
+      const label = currentRoute.snapshot.data['breadcrumbLabel'];
+      if (label) {
+        const segment = currentRoute.snapshot.url.map(seg => seg.path).join('/');
+        fullPath += '/' + segment;
+        this.parts.push({ label, url: fullPath });
       }
       currentRoute = currentRoute.firstChild;
     }
 
-    // 🔹 Verificación segura de autenticación
-    const usuarioAutenticado = this.isBrowser 
-      ? localStorage.getItem('usuario') !== null 
-      : false; // Valor por defecto en SSR
+    const usuarioAutenticado = this.isBrowser
+      ? localStorage.getItem('usuario') !== null
+      : false;
 
-    // 🔹 Establecer el primer breadcrumb dinámicamente
-    const primerBreadcrumb = usuarioAutenticado ? 'Principal' : 'Inicio';
+    const primerBreadcrumb = usuarioAutenticado
+      ? { label: 'Principal', url: '/' }
+      : { label: 'Inicio', url: '/' };
 
-    // 🔹 Asegurar que el primer breadcrumb sea correcto
-    if (this.parts.length === 0 || this.parts[0] !== primerBreadcrumb) {
+    if (this.parts.length === 0 || this.parts[0].label !== primerBreadcrumb.label) {
       this.parts.unshift(primerBreadcrumb);
     }
 
-    // 🔹 Construir la URL de las migas de pan
+    let accumulatedPath = '';
     this.url = this.parts.map((part, index) => {
-      return index === 0 ? '' : this.url[index - 1] + '/' + part.toLowerCase().replace(/\s/g, '-');
+      if (index === 0) {
+        accumulatedPath = '';
+      } else {
+        accumulatedPath += '/' + part.label.toLowerCase().replace(/\s/g, '-');
+      }
+      return accumulatedPath;
     });
   }
 }
