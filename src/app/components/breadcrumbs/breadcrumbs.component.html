@@ -1,11 +1,18 @@
 <div class="breadcrumb">
   <h1>{{ activePage }}</h1>
   <ul class="breadcrumb-list">
-    <li *ngFor="let item of parts; let i = index" [ngClass]="{ 'breadcrumb-item': true, 'separator': i > 0 }">
-      <ng-container *ngIf="i > 0"></ng-container>
-      <a *ngIf="i !== parts.length - 1" [routerLink]="item.url">{{ item.label }}</a>
-      <span *ngIf="i === parts.length - 1" class="active">{{ item.label }}</span>
+    <li class="breadcrumb-item">
+      <a [routerLink]="homeBreadcrumb.url">{{ homeBreadcrumb.label }}</a>
+    </li>
+    <li *ngFor="let item of breadcrumbs; let last = last" 
+        class="breadcrumb-item" 
+        [class.separator]="!last">
+      <ng-container *ngIf="!last">
+        <a [routerLink]="item.url">{{ item.label }}</a>
+      </ng-container>
+      <ng-container *ngIf="last">
+        <span class="active">{{ item.label }}</span>
+      </ng-container>
     </li>
   </ul>
 </div>
-    

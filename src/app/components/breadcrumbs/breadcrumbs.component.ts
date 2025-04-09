@@ -11,61 +11,63 @@ import { filter } from 'rxjs';
   imports: [CommonModule, RouterModule],
 })
 export class BreadcrumbsComponent implements OnInit {
-  @Input() parts: { label: string, url: string }[] = [];
   @Input() activePage: string = '';
-  url: string[] = [];
+  breadcrumbs: Array<{ label: string, url: string }> = [];
+  homeBreadcrumb: { label: string, url: string };
   private isBrowser: boolean;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    this.homeBreadcrumb = this.getHomeBreadcrumb();
   }
 
   ngOnInit(): void {
-    this.updateBreadcrumbs();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => this.updateBreadcrumbs());
+      .subscribe(() => {
+        this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
+      });
+    
+    // Inicializar breadcrumbs
+    this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
   }
 
-  private updateBreadcrumbs(): void {
-    this.parts = [];
-    let fullPath = '/home';
-    let currentRoute: ActivatedRoute | null = this.route.root;
+  private createBreadcrumbs(
+    route: ActivatedRoute, 
+    url: string = '', 
+    breadcrumbs: Array<{ label: string, url: string }> = []
+  ): Array<{ label: string, url: string }> {
+    const children: ActivatedRoute[] = route.children;
 
-    while (currentRoute) {
-      const label = currentRoute.snapshot.data['breadcrumbLabel'];
+    if (children.length === 0) {
+      return breadcrumbs;
+    }
+
+    for (const child of children) {
+      const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
+      if (routeURL !== '') {
+        url += `/${routeURL}`;
+      }
+
+      const label = child.snapshot.data['breadcrumbLabel'];
       if (label) {
-        const segment = currentRoute.snapshot.url.map(seg => seg.path).join('/');
-        fullPath += '/' + segment;
-        this.parts.push({ label, url: fullPath });
+        breadcrumbs.push({ label, url });
       }
-      currentRoute = currentRoute.firstChild;
+
+      return this.createBreadcrumbs(child, url, breadcrumbs);
     }
 
-    const usuarioAutenticado = this.isBrowser
-      ? localStorage.getItem('usuario') !== null
-      : false;
+    return breadcrumbs;
+  }
 
-    const primerBreadcrumb = usuarioAutenticado
-      ? { label: 'Principal', url: '/' }
-      : { label: 'Inicio', url: '/' };
-
-    if (this.parts.length === 0 || this.parts[0].label !== primerBreadcrumb.label) {
-      this.parts.unshift(primerBreadcrumb);
-    }
-
-    let accumulatedPath = '';
-    this.url = this.parts.map((part, index) => {
-      if (index === 0) {
-        accumulatedPath = '';
-      } else {
-        accumulatedPath += '/' + part.label.toLowerCase().replace(/\s/g, '-');
-      }
-      return accumulatedPath;
-    });
+  private getHomeBreadcrumb(): { label: string, url: string } {
+    const isAuthenticated = this.isBrowser ? localStorage.getItem('usuario') !== null : false;
+    return isAuthenticated 
+      ? { label: 'Principal', url: '/principal' } 
+      : { label: 'Inicio', url: '/home' };
   }
 }

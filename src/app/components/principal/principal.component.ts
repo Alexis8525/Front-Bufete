@@ -147,6 +147,13 @@ export class PrincipalComponent implements OnInit {
   }
 
   logout(): void {
-    console.log('Cerrando sesión...');
+    this.router.navigate(['/home']).then(success => {
+      if (success) {
+        window.location.reload(); // Recargar para limpiar el estado
+      } else {
+        // Si /home falla, intentar con /inicio
+        this.router.navigate(['/inicio']).then(() => window.location.reload());
+      }
+    });
   }
 }

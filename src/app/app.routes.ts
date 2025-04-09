@@ -41,6 +41,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { breadcrumbLabel: 'Iniciar Sesión' } },
   { path: 'register', component: RegisterComponent, data: { breadcrumbLabel: 'Registro' } },
   { path: 'home', component: HomeComponent, data: { breadcrumbLabel: 'Inicio' } },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'principal', component: PrincipalComponent, data: { breadcrumbLabel: 'Principal' } },
   { path: 'settings', component: SettingsComponent, data: { breadcrumbLabel: 'Configuración' } },
 
@@ -133,6 +135,7 @@ export const routes: Routes = [
 
   // Ruta por defecto y 404
   { path: '**', component: NotFoundComponent, data: { breadcrumbLabel: 'Página No Encontrada' } },
+  
 ];
 
 
