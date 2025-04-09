@@ -1,24 +1,45 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" (ngModelChange)="debugForm()" novalidate>
-  <h2>Restablecer Contraseña</h2>
+<div class="wrapper">
+  <div class="main">
+    <div class="container mt-5 reset-container">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="card shadow border-0">
+          <div class="card-header text-center">
+            <h5>Restablecer Contraseña</h5>
+          </div>
+          <div class="card-body">
+            <!-- Nueva Contraseña -->
+            <div class="form-group mb-3">
+              <label for="password" class="form-label">Nueva Contraseña</label>
+              <input type="password" id="password" class="form-control" formControlName="password" placeholder="Ingresa nueva contraseña" />
+              <small *ngIf="form.get('password')?.invalid && (form.get('password')?.touched || form.get('password')?.dirty)" class="text-danger">
+                Ingresa una contraseña válida.
+              </small>
+            </div>
 
-  <label for="password">Nueva contraseña</label>
-  <input
-    type="text"
-    id="password"
-    formControlName="password"
-    (input)="debugForm()"
-  />
+            <!-- Confirmar Contraseña -->
+            <div class="form-group mb-3">
+              <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+              <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Confirma tu contraseña" />
+              <small *ngIf="form.get('confirmPassword')?.invalid && (form.get('confirmPassword')?.touched || form.get('confirmPassword')?.dirty)" class="text-danger">
+                Las contraseñas deben coincidir.
+              </small>
+            </div>
 
-  <label for="confirmPassword">Confirmar contraseña</label>
-  <input
-    type="text"
-    id="confirmPassword"
-    formControlName="confirmPassword"
-    (input)="debugForm()"
-  />
+            <!-- Botón de restablecer -->
+            <button type="submit" class="btn-submit w-100 mt-3" [disabled]="form.invalid">Restablecer</button>
+          </div>
+        </div>
+      </form>
 
-  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-  <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+      <!-- Mensaje de error -->
+      <div *ngIf="errorMessage" class="error">
+        {{ errorMessage }}
+      </div>
 
-  <button type="submit">Restablecer</button>
-</form>
+      <!-- Mensaje de éxito -->
+      <div *ngIf="successMessage" class="alert alert-success mt-3">
+        {{ successMessage }}
+      </div>
+    </div>
+  </div>
+</div>

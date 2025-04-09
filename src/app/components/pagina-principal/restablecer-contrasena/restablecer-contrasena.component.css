@@ -1,70 +1,95 @@
-/* restablecer-contrasena.component.css */
+/* Estilo del contenedor principal */
+.wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh; /* Asegura que el wrapper ocupe al menos el 100% de la altura */
+}
 
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px; /* Ajuste de espacio superior */
+}
+
+/* Estilo del formulario de restablecimiento */
 .reset-container {
-    max-width: 400px;
-    margin: 80px auto;
-    padding: 30px;
-    background-color: #f7f7f7;
-    border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .reset-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  label {
-    display: block;
-    margin-top: 15px;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  button[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    margin-top: 25px;
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
-  .error {
-    margin-top: 15px;
-    color: #d9534f;
-    font-size: 14px;
-    text-align: center;
-  }
-  
-  .success {
-    margin-top: 15px;
-    color: #28a745;
-    font-size: 14px;
-    text-align: center;
-  }
-  
-  p {
-    color: #d9534f;
-    text-align: center;
-    margin-top: 20px;
-  }
-  
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.95); /* Fondo blanco semi-transparente */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  margin-bottom: 10%;
+}
+
+/* Estilo para los campos de entrada */
+.reset-container .form-control {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.reset-container .form-control:focus {
+  border-color: #0e2238; /* Azul oscuro */
+  box-shadow: 0 0 5px rgba(14, 34, 56, 0.3); /* Sombra de foco */
+}
+
+/* Estilo del botón */
+.reset-container button[type="submit"] {
+  background-color: #BF913B; /* Color dorado */
+  color: white;
+  font-size: 1em;
+  font-weight: 600;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Efecto hover */
+}
+
+.reset-container button[type="submit"]:hover {
+  background-color: #0e2238; /* Azul oscuro */
+  transform: scale(1.05); /* Ligeramente más grande al hacer hover */
+}
+
+.reset-container button[type="submit"]:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Estilo de los mensajes de error */
+.reset-container .error {
+  color: #d9534f; /* Rojo para errores */
+  font-size: 0.85em;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Estilo para el fondo */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinea hacia arriba */
+  min-height: 100vh;
+  background-image: url('/imagenes/edificio.jpeg'); /* Imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Fija la imagen */
+  font-family: 'Arial', sans-serif;
+  color: #333; /* Color de texto principal */
+}
+
+/* Estilo para encabezados de la tarjeta */
+.card-header {
+  background-color: #0e2238; /* Azul oscuro */
+  color: white;
+  font-size: 1.25em;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 8px 8px 0 0;
+  text-align: center;
+}
