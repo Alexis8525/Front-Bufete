@@ -33,6 +33,9 @@ import { ContancosComponent } from './components/pagina-principal/contancos/cont
 import { MapaSitioComponent } from './components/pagina-principal/mapa-sitio/mapa-sitio.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { NavigationHistoryService } from './services/navigation-history.service';
+import { RecuperacionContraseñaComponent } from './components/pagina-principal/recuperacion-contraseña/recuperacion-contraseña.component';
+import { RestablecerContrasenaComponent } from './components/pagina-principal/restablecer-contrasena/restablecer-contrasena.component';
+
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { breadcrumbLabel: 'Iniciar Sesión' } },
@@ -72,6 +75,8 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, data: { breadcrumbLabel: 'Inicio' } },
   { path: 'principal', component: PrincipalComponent, data: { breadcrumbLabel: 'Principal' } },
   { path: 'settings', component: SettingsComponent, data: { breadcrumbLabel: 'Configuración' } },
+  { path: 'recuperar-contrasena', component: RecuperacionContraseñaComponent, data: { breadcrumbLabel: 'Recuperacion contraseña'} },
+  { path: 'restablecer-contrasena/:token', component: RestablecerContrasenaComponent },
 
   // Módulos de expedientes
   { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumbLabel: 'Crear Expediente' } },
@@ -120,6 +125,7 @@ export const routes: Routes = [
   { path: 'barra', component: BarraLateralComponent, data: { breadcrumbLabel: 'Barra Lateral' } },
   { path: 'navbar', component: NavbarComponent, data: { breadcrumbLabel: 'Navegación' } },
 
+  
   // Páginas de error
   { path: 'error/400', component: BadRequestComponent, data: { breadcrumbLabel: 'Error 400' } },
   { path: 'error/402', component: PaymentRequiredComponent, data: { breadcrumbLabel: 'Error 402' } },

@@ -81,5 +81,15 @@ export class UsuarioService {
       catchError((error) => this.manejarError(error))
     );
   }
+
+  enviarCorreoRecuperacion(email: string) {
+    return this.http.post(`${this.URL_API}recuperar-contrasena`, { email });
+  }
+
+  restablecerContrasena(token: string, nuevaContrasena: string) {
+    console.log('Enviando datos al backend:', { token, nuevaContrasena });
+    return this.http.post(`${this.URL_API}restablecer-contrasena`, { token, nuevaContrasena });
+}
+ 
   
 }

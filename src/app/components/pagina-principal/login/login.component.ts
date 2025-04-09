@@ -1,22 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
-//import { RecaptchaModule } from 'ng-recaptcha';
-
 import { NavBarraComponent } from '../nav-barra/nav-barra.component';
-import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
-import { PiePaginaComponent } from '../../pie-de-pagina/pie-pagina/pie-pagina.component';
 import { RecaptchaModule } from 'ng-recaptcha';
-import { error } from 'node:console';
 
 @Component({
   selector: 'app-login',
@@ -32,11 +21,12 @@ import { error } from 'node:console';
     CommonModule,
     ReactiveFormsModule,
     NavBarraComponent,
+    RouterLink
   ],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  captchaResolved: boolean = false; // Variable para habilitar/deshabilitar el botón de login
+  captchaResolved: boolean = false; 
   captchaToken: string = '';
   tempEmail: string = '';
   show2FAVerification: boolean = false;
