@@ -27,6 +27,13 @@ export class LoginComponent implements OnInit {
   show2FAVerification: boolean = false;
   twoFactorForm: FormGroup;
 
+  showPasswordRequirements = false;
+  hasMinLength = false;
+  hasUpperCase = false;
+  hasLowerCase = false;
+  hasNumber = false;
+  hasSpecialChar = false;
+
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
@@ -47,6 +54,29 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  checkPasswordStrength(password: string) {
+    this.hasMinLength = password.length >= 8;
+    this.hasUpperCase = /[A-Z]/.test(password);
+    this.hasLowerCase = /[a-z]/.test(password);
+    this.hasNumber = /\d/.test(password);
+    this.hasSpecialChar = /[@$!%*?&]/.test(password);
+  }
+
+  onPasswordFocus() {
+    this.showPasswordRequirements = true;
+  }
+
+  onPasswordBlur() {
+    if (!this.loginForm.get('password')?.value) {
+      this.showPasswordRequirements = false;
+    }
+  }
+
+  onPasswordInput(event: any) {
+    const password = event.target.value;
+    this.checkPasswordStrength(password);
+  }
 
   get email() {
     return this.loginForm.get('email');

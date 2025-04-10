@@ -21,13 +21,41 @@
             </div>
     
             <!-- Campo de Contraseña -->
-            <div class="form-group mb-4">
-              <label for="password" class="form-label">Contraseña</label>
-              <input type="password" id="password" class="form-control" formControlName="password" placeholder="••••••••" />
-              <small *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error-message">
-                <div *ngIf="password?.hasError('required')">Este campo es obligatorio.</div>
-              </small>
-            </div>
+            <!-- Campo de Contraseña -->
+<div class="form-group mb-4">
+  <label for="password" class="form-label">Contraseña</label>
+  <input type="password" id="password" class="form-control" formControlName="password" placeholder="••••••••" 
+         (focus)="onPasswordFocus()" 
+         (blur)="onPasswordBlur()"
+         (input)="onPasswordInput($event)"/>
+  
+  <small *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error-message">
+    <div *ngIf="password?.hasError('required')">Este campo es obligatorio.</div>
+  </small>
+
+  <div class="password-requirements mt-2" *ngIf="showPasswordRequirements">
+    <div class="requirement" [class.valid]="hasMinLength">
+      <span class="requirement-icon">{{ hasMinLength ? '✓' : '•' }}</span>
+      Mínimo 8 caracteres
+    </div>
+    <div class="requirement" [class.valid]="hasUpperCase">
+      <span class="requirement-icon">{{ hasUpperCase ? '✓' : '•' }}</span>
+      Al menos una mayúscula
+    </div>
+    <div class="requirement" [class.valid]="hasLowerCase">
+      <span class="requirement-icon">{{ hasLowerCase ? '✓' : '•' }}</span>
+      Al menos una minúscula
+    </div>
+    <div class="requirement" [class.valid]="hasNumber">
+      <span class="requirement-icon">{{ hasNumber ? '✓' : '•' }}</span>
+      Al menos un número
+    </div>
+    <div class="requirement" [class.valid]="hasSpecialChar">
+      <span class="requirement-icon">{{ hasSpecialChar ? '✓' : '•' }}</span>
+      Al menos un carácter especial (&#64;$!%*?&)
+    </div>
+  </div>
+</div>
 
             <div class="text-end">
               <a [routerLink]="['/recuperar-contrasena']">¿Olvidaste tu contraseña?</a>
