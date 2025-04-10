@@ -44,6 +44,13 @@ export class LoginComponent implements OnInit {
   hasNumber = false;
   hasSpecialChar = false;
 
+  showPasswordRequirements = false;
+  hasMinLength = false;
+  hasUpperCase = false;
+  hasLowerCase = false;
+  hasNumber = false;
+  hasSpecialChar = false;
+
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,

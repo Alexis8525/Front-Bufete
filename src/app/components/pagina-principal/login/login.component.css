@@ -30,7 +30,6 @@
   align-items: center;
 }
 
-
 .password-requirements {
   font-size: 0.85rem;
   color: #6c757d;
@@ -64,7 +63,6 @@
   color: #dc3545;
   font-size: 0.8rem;
 }
-
 
 /* Contenedor de login con fondo personalizado */
 .login-container {
