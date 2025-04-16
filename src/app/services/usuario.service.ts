@@ -26,7 +26,7 @@ export class UsuarioService {
 
   private manejarError(error: HttpErrorResponse) {
     let mensajeError = 'Ocurrió un error inesperado.';
-    
+
     switch (error.status) {
       case 400:
         mensajeError = 'Error 400: Solicitud incorrecta.';
@@ -47,39 +47,39 @@ export class UsuarioService {
   }
 
   getUsuarios() {
-    return this.http.get<Usuario[]>(this.URL_API).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http
+      .get<Usuario[]>(this.URL_API)
+      .pipe(catchError((error) => this.manejarError(error)));
   }
 
   crearUsuario(usuario: Usuario) {
-    return this.http.post(this.URL_API, usuario).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http
+      .post(this.URL_API, usuario)
+      .pipe(catchError((error) => this.manejarError(error)));
   }
 
   actualizarUsuario(usuario: Usuario) {
-    return this.http.put(this.URL_API + usuario.idUsuario, usuario).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http
+      .put(this.URL_API + usuario.idUsuario, usuario)
+      .pipe(catchError((error) => this.manejarError(error)));
   }
 
   eliminarUsuario(idUsuario: number) {
-    return this.http.delete(this.URL_API + idUsuario).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http
+      .delete(this.URL_API + idUsuario)
+      .pipe(catchError((error) => this.manejarError(error)));
   }
 
   login(email: string, password: string, recaptcha: string) {
-    return this.http.post(`${this.URL_API}login`, { email, password, recaptcha }).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http
+      .post(`${this.URL_API}login`, { email, password, recaptcha })
+      .pipe(catchError((error) => this.manejarError(error)));
   }
 
   verifyOTP(email: string, otp: string) {
-    return this.http.post(`${this.URL_API}verify-otp`, { email, otp }).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http
+      .post(`${this.URL_API}verify-otp`, { email, otp })
+      .pipe(catchError((error) => this.manejarError(error)));
   }
 
   enviarCorreoRecuperacion(email: string) {
@@ -88,8 +88,15 @@ export class UsuarioService {
 
   restablecerContrasena(token: string, nuevaContrasena: string) {
     console.log('Enviando datos al backend:', { token, nuevaContrasena });
-    return this.http.post(`${this.URL_API}restablecer-contrasena`, { token, nuevaContrasena });
-}
- 
-  
+    return this.http.post(`${this.URL_API}restablecer-contrasena`, {
+      token,
+      nuevaContrasena,
+    });
+  }
+
+  isTokenExpired(): boolean {
+    const exp = localStorage.getItem('exp');
+    if (!exp) return true;
+    return Date.now() > parseInt(exp, 10);
+  }
 }

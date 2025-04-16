@@ -3,8 +3,9 @@ import { provideRouter } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { tokenInterceptor } from './interceptors/token.interceptor';
 
-import { routes } from './app.routes';
+import { routes } from './app.routes'; 
 import { FormModule } from './forms.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importa FullCalendarModule
@@ -18,5 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
      provideHttpClient(),
     FullCalendarModule, provideAnimationsAsync(),
+    provideHttpClient(withInterceptors([tokenInterceptor])),
   ],
 };

@@ -117,6 +117,11 @@ export class LoginComponent implements OnInit {
   
     localStorage.setItem('usuarioId', usuarioId.toString());
     localStorage.setItem('usuario', JSON.stringify(response.usuario));
+    localStorage.setItem('token', response.token);
+
+    // Extraer expiración del token
+  const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
+  localStorage.setItem('exp', (tokenPayload.exp * 1000).toString()); // en ms
   
     // Ver en consola lo que se guardó en localStorage
     console.log('Usuario guardado en localStorage:', localStorage.getItem('usuario'));
