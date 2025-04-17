@@ -1,30 +1,32 @@
 <app-nav-barra></app-nav-barra>
 <app-breadcrumbs></app-breadcrumbs>
-<!-- Carrusel con botones y movimiento automático -->
-<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000"> <!-- Se mueve cada 4 segundos -->
+
+<!-- Carrusel con intervalos personalizados para cada imagen -->
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner" style="height:80%; width:auto;">
-    <div class="carousel-item active">
+    <div class="carousel-item active" data-bs-interval="5000"> <!-- 5 segundos para esta imagen -->
       <img src="img_pagina_principal/img1.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption">
         <h5>Asesoría Personalizada</h5>
         <p>Comprometidos con tu crecimiento, ofrecemos soluciones legales integrales que aseguran el futuro de tu empresa y protegen tus intereses en un mundo cada vez más globalizado.</p>
       </div>
     </div>    
-    <div class="carousel-item">
+    <div class="carousel-item" data-bs-interval="3000"> <!-- 3 segundos para esta imagen -->
       <img src="img_pagina_principal/img2.jpg" class="d-block w-100" alt="...">
       <div class="carousel-caption">
         <h5>Lex Vargas Abogados</h5>
         <p>Con más de 40 años de experiencia, en LexVargas somos tu aliado estratégico, ofreciendo asesoría legal de alta calidad que trasciende fronteras y protege lo que más importa para tu negocio.</p>
       </div>
     </div>
-    <div class="carousel-item">
+    <div class="carousel-item" data-bs-interval="7000"> <!-- 7 segundos para esta imagen -->
       <img src="img_pagina_principal/img3.png" class="d-block w-100" alt="...">
       <div class="carousel-caption">
         <h5>Lex Vargas Abogados</h5>
-        <p>En LexVargas, nuestro compromiso es tu éxito. A través de un enfoque integral y personalizado, te ayudamos a navegar las complejidades legales con confianza y claridad, siempre con resultados óptimo.</p>
+        <p>En LexVargas, nuestro compromiso es tu éxito. A través de un enfoque integral y personalizado, te ayudamos a navegar las complejidades legales con confianza y claridad, siempre con resultados óptimos.</p>
       </div>
     </div>
   </div>
+
   <!-- Botón de navegación anterior -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -36,7 +38,6 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-
 
 
 <!-- Contenido del Bufete de Abogados -->
@@ -53,7 +54,7 @@
     <div class="col-12">
       <p class="text-justify">
         Fundado en 1975, LexVargas es uno de los despachos de abogados más reconocidos de México, ofreciendo servicios integrales y especializados. Durante más de cuatro décadas, hemos participado en algunas de las operaciones legales más relevantes del país, estructurando con éxito proyectos de inversión en México y facilitando la colocación de créditos multimillonarios para actividades productivas.
-        <br><br><br>
+        <br><br>
       </p>
     </div>
 
@@ -61,7 +62,7 @@
     <div class="col-12 col-md-6">
       <p class="text-justify">
         Hemos asesorado al sector público en la privatización de empresas y servicios, incluyendo los dos primeros proyectos de asociación público-privada en México. Nos destacamos por nuestra innovación y creatividad al brindar asesoría legal a empresas nacionales e internacionales. Gracias a nuestras alianzas con firmas en los mercados más importantes del mundo, nuestra asesoría legal trasciende fronteras.
-        <br><br><br>
+        <br><br>
       </p> 
     </div>
     <div class="col-12 col-md-6">
@@ -80,32 +81,66 @@
   </div>
 </div>
 
-
 <!-- Sección: Sobre Nosotros -->
 <div id="nosotros" class="container mt-5">
   <h2 class="text-center">Sobre Nosotros</h2>
   <p class="text-center">Comprometidos con la excelencia y la innovación en la asesoría legal.</p>
+  <div class="row">
+    <div class="col-md-6">
+      <p class="text-justify">
+        En Lex Vargas, nos enfocamos en ofrecer soluciones legales creativas, adaptadas a las necesidades particulares de cada cliente. Nuestra misión es brindar una asesoría legal que no solo resuelva problemas inmediatos, sino que también anticipa los desafíos futuros para proteger de manera integral los intereses de nuestros clientes.
+      </p>
+    </div>
+    <div class="col-md-6">
+      <p class="text-justify">
+        Con más de 40 años de experiencia en el mercado, nos hemos consolidado como una firma de abogados de prestigio internacional, trabajando con clientes tanto nacionales como internacionales. Nuestro compromiso con la innovación y la excelencia nos permite mantenernos a la vanguardia en un entorno legal que está en constante evolución.
+      </p>
+    </div>
+  </div>
 </div>
 
 <!-- Sección: Nuestro Equipo -->
 <div id="equipo" class="container mt-5">
   <h2 class="text-center">Nuestro Equipo</h2>
   <p class="text-center">Contamos con abogados altamente capacitados con experiencia en diversas ramas del derecho.</p>
+  <div class="row">
+    <div class="col-md-4">
+      <h4>Juan Pérez</h4>
+      <p class="text-center"><strong>Socio Fundador</strong></p>
+      <p class="text-justify">Con más de 30 años de experiencia en derecho corporativo y fusiones y adquisiciones, Juan ha sido el líder de algunas de las transacciones más importantes del país.</p>
+    </div>
+    <div class="col-md-4">
+      <h4>Maria Gómez</h4>
+      <p class="text-center"><strong>Directora de Litigios</strong></p>
+      <p class="text-justify">Especialista en derecho penal y comercial, Maria ha sido clave en la defensa de nuestros clientes en complejos casos legales tanto nacionales como internacionales.</p>
+    </div>
+    <div class="col-md-4">
+      <h4>Carlos López</h4>
+      <p class="text-center"><strong>Abogado Asociado</strong></p>
+      <p class="text-justify">Carlos tiene un enfoque innovador en derecho de tecnología y propiedad intelectual. Su experiencia en estos campos ha ayudado a muchas empresas a proteger sus activos digitales.</p>
+    </div>
+  </div>
 </div>
 
 <!-- Sección: Testimonios -->
 <div id="testimonios" class="container mt-5">
   <h2 class="text-center">Testimonios</h2>
   <p class="text-center">Lo que nuestros clientes dicen sobre nosotros.</p>
+  <div class="row">
+    <div class="col-md-6">
+      <blockquote class="blockquote">
+        <p class="mb-0">"Lex Vargas fue fundamental para el éxito de nuestra empresa en una negociación clave. Su equipo es altamente profesional y siempre se anticipa a nuestras necesidades." </p>
+        <footer class="blockquote-footer">Pedro Martínez, <cite title="Source Title">CEO de Compañía XYZ</cite></footer>
+      </blockquote>
+    </div>
+    <div class="col-md-6">
+      <blockquote class="blockquote">
+        <p class="mb-0">"Gracias al asesoramiento de Lex Vargas, pudimos resolver un complicado litigio que nos hubiera costado mucho más. Estamos muy agradecidos por su apoyo." </p>
+        <footer class="blockquote-footer">Laura Hernández, <cite title="Source Title">Directora de Legal Solutions</cite></footer>
+      </blockquote>
+    </div>
+  </div>
 </div>
-
-<!-- Sección: ¿Dónde Estamos? 
-<div id="ubicacion" class="container mt-5 text-center">
-  <h2 class="fw-bold">¿Dónde Estamos?</h2>
-  <iframe src="https://www.google.com/maps/embed?..." width="100%" height="450" style="border:0;" allowfullscreen></iframe>
-</div>
-
--->
 
 <!-- Botón Fijo de Solicitar Cita -->
 <a href="login" class="btn btn-primary btn-solicitar-cita mt-4" role="button">

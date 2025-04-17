@@ -1,6 +1,105 @@
+/* Estilo para los enlaces activos de la barra */
 .navbar-nav .nav-link.active {
-    background-color: #004080; /* Color de fondo para el enlace activo */
-    color: #fff !important; /* Asegura que el texto se mantenga blanco */
-    border-radius: 5px; /* Esquinas redondeadas para un estilo más moderno */
+  color: #ffffff; /* Color blanco para el enlace activo */
+  border-bottom: 2px solid #ffffff; /* Línea blanca debajo del enlace activo */
+  padding-bottom: 5px; /* Añadir espacio debajo del texto */
+}
+
+/* Estilo para los enlaces normales (sin estar activos) */
+.navbar-nav .nav-link {
+  color: #ffffff; /* Texto blanco por defecto */
+  text-decoration: none; /* Elimina la decoración de texto */
+  transition: all 0.3s ease; /* Suaviza las transiciones */
+  font-size: 16px; /* Tamaño de fuente de los enlaces */
+  padding: 10px 15px; /* Añadir algo de padding para mayor espaciado */
+  font-weight: normal; /* Sin negrita */
+}
+
+/* Efecto hover para los enlaces */
+.navbar-nav .nav-link:hover {
+  color: #ffffff; /* El color del texto permanece blanco */
+  text-decoration: none; /* Elimina el subrayado predeterminado */
+  border-bottom: 2px solid #ffffff; /* Línea blanca debajo del enlace */
+  font-weight: normal; /* Asegura que no haya negrita */
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño del enlace para darle un efecto de sobresalto */
+}
+
+/* Estilo para los botones con colores invertidos */
+.custom-btn {
+  background-color: #ffffff; /* Fondo blanco para los botones */
+  color: #004080; /* Texto en azul */
+  border: 2px solid #004080; /* Borde azul */
+  border-radius: 25px; /* Bordes redondeados para los botones */
+  padding: 10px 20px; /* Ajustado para un tamaño más proporcional */
+  font-size: 16px; /* Aumento moderado en el tamaño de fuente */
+  font-weight: bolder;
+  font-family: sans-serif;
+  transition: all 0.3s ease; /* Transición suave al pasar el cursor */
+}
+
+.custom-btn:hover {
+  background-color: #004080; /* Fondo azul al pasar el cursor */
+  color: #ffffff; /* Texto blanco al pasar el cursor */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra al pasar el cursor */
+}
+
+.custom-btn:focus {
+  outline: none; /* Elimina el borde de enfoque predeterminado */
+  box-shadow: 0 0 0 0.2rem rgba(0, 64, 128, 0.5); /* Sombra cuando está enfocado */
+}
+
+/* Ajuste para la visibilidad de los elementos en la barra */
+@media (max-width: 992px) {
+  .navbar-nav .nav-link {
+    font-size: 16px; /* Tamaño de fuente para enlaces */
+    margin-right: 15px; /* Separación entre enlaces */
   }
-  
+
+  .navbar-brand img {
+    width: 120px; /* Ajusta el tamaño del logo en pantallas pequeñas */
+  }
+
+  .d-flex {
+    justify-content: flex-end; /* Alinea los botones y barra de búsqueda a la derecha */
+    align-items: center;
+  }
+}
+
+/* En pantallas muy pequeñas, ajusta el espaciado de los botones */
+@media (max-width: 576px) {
+  .d-flex {
+    flex-direction: column; /* Coloca los botones uno debajo del otro */
+    align-items: center; /* Centra los botones */
+    gap: 10px; /* Añadir espacio entre los botones */
+  }
+
+  .navbar-toggler {
+    margin-left: auto; /* Asegura que el botón del menú hamburguesa esté alineado a la derecha */
+  }
+
+  /* Eliminar cualquier scroll en el contenedor de los enlaces */
+  .navbar-nav {
+    overflow: visible; /* Asegura que el contenido no esté limitado */
+    white-space: nowrap; /* Evita que los enlaces se desborden */
+  }
+
+  .navbar-nav-scroll {
+    display: none; /* Elimina el scroll que aparece cuando se colapsa */
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 14px; /* Reduce el tamaño de los enlaces en pantallas pequeñas */
+    margin-bottom: 12px; /* Separación entre los enlaces */
+  }
+
+  app-barra-busqueda-home {
+    width: 220px; /* Ajusta el tamaño de la barra de búsqueda en pantallas pequeñas */
+  }
+}
+
+/* Cambiar el color del icono del menú hamburguesa en pantallas pequeñas */
+@media (max-width: 576px) {
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath fill='%23ffffff' d='M0 5h30v4H0zm0 6h30v4H0zm0 6h30v4H0z'/%3E%3C/svg%3E");
+  }
+}
