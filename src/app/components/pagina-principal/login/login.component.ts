@@ -1,11 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavBarraComponent } from '../nav-barra/nav-barra.component';
 import { RecaptchaModule } from 'ng-recaptcha';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';  // Importa NgbModal
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Importa NgbModal
 
 @Component({
   selector: 'app-login',
@@ -17,10 +22,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';  // Importa NgbModal
     RecaptchaModule,
     NavBarraComponent,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
   ],
 })
-
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   captchaResolved: boolean = false;
@@ -37,16 +41,22 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private router: Router,
-    private modalService: NgbModal  // Inyectamos el servicio para el modal
+    private modalService: NgbModal // Inyectamos el servicio para el modal
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]],
+      password: [
+        '',
+        [Validators.required, Validators.minLength(8), this.passwordValidator],
+      ],
       recaptcha: ['', Validators.required],
     });
 
     this.twoFactorForm = this.fb.group({
-      otp: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      otp: [
+        '',
+        [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
+      ],
     });
   }
 
@@ -87,10 +97,10 @@ export class LoginComponent implements OnInit {
 
   login() {
     console.log('Formulario de login enviado:', this.loginForm.value);
-
+  
     if (this.loginForm.valid && this.captchaResolved) {
       const { email, password, recaptcha } = this.loginForm.value;
-
+  
       this.usuarioService.login(email, password, recaptcha).subscribe(
         (response: any) => {
           console.log('OTP enviado:', response);
@@ -99,25 +109,32 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           console.error('Error al iniciar sesión:', error);
-          this.errorMessage = error.error.message || 'Error al iniciar sesión';  // Mostrar el mensaje de error en el modal
-          this.openErrorModal();  // Abre el modal de error
+          
+          // Verifica si el error tiene un mensaje del servidor
+          if (error.status === 401) {
+            this.errorMessage = 'Credenciales incorrectas, por favor intenta nuevamente.'; 
+          } else {
+            this.errorMessage = error.error.message || 'Error al iniciar sesión. Por favor, intenta nuevamente.';
+          }
+          
+          // Llama al método para abrir el modal con el error
+          this.openErrorModal();  
         }
       );
     } else {
       this.errorMessage = 'Completa el reCAPTCHA antes de iniciar sesión.';
       this.openErrorModal();  // Muestra el modal con el error.
     }
-  }
+  }  
 
   // Abre el modal de error
-openErrorModal() {
-  if (this.errorModal) {
-    this.modalService.open(this.errorModal);  // Pasa 'this.errorModal' como argumento
-  } else {
-    console.error('Error al intentar abrir el modal.');
+  openErrorModal() {
+    if (this.errorModal) {
+      this.modalService.open(this.errorModal); // Pasa 'this.errorModal' como argumento
+    } else {
+      console.error('Error al intentar abrir el modal.');
+    }
   }
-}
-
 
   verify2FA() {
     const otp = this.twoFactorForm.value.otp;

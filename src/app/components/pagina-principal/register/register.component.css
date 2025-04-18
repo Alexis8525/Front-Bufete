@@ -16,7 +16,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 60px 20px;
+  padding: 40px 20px; /* Reducido el padding-top para acercar el formulario al navbar */
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
@@ -27,14 +27,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 150px;
+  padding-top: 40px; /* Reducción de la separación entre navbar y formulario */
 }
 
 .register-container {
   width: 100%;
-  max-width: 420px;
+  max-width: 420px; /* Máximo ancho para que no se estire demasiado */
   margin: 0 auto;
-  background-color: #f5f0e6;
+  background-color: #f5f0e6; /* Color similar al del login */
   padding: 25px 30px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -98,20 +98,28 @@ input.form-control:focus {
   box-shadow: 0 0 5px rgba(191, 145, 59, 0.5);
 }
 
-/* reCAPTCHA */
+/* Ajustar el ancho del reCAPTCHA para que coincida con los campos de input */
 .recaptcha-wrapper {
   width: 100%;
 }
 
-.recaptcha-wrapper re-captcha,
-.recaptcha-wrapper > div,
+.recaptcha-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recaptcha-container > div {
+  width: 100% !important; /* Fuerza el ajuste del ancho */
+}
+
 .g-recaptcha {
   width: 100% !important;
   max-width: 100% !important;
-  display: block;
+  transform-origin: 0 0;
   margin-top: 8px;
   margin-bottom: 12px;
-  transform-origin: 0 0;
 }
 
 /* Errores */
@@ -297,31 +305,9 @@ p {
   margin-bottom: 15px;
 }
 
-/* Pie de Modal (Botón Cerrar) */
+/* Pie de Modal (Botón Cerrar) - Ya no es necesario */
 .modal-footer {
-  margin-top: 10px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-footer .btn-secondary {
-  background-color: #BF913B; /* Color dorado */
-  color: #fff;
-  border-radius: 6px;
-  padding: 8px 15px; /* Tamaño ajustado */
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.modal-footer .btn-secondary:hover {
-  background-color: #a3762f;
-  transform: scale(1.05); /* Efecto de escala suave */
-}
-
-.modal-footer .btn-secondary:focus {
-  outline: none;
-  box-shadow: 0 0 10px rgba(191, 145, 59, 0.7); /* Sombra al hacer foco */
+  display: none; /* Eliminamos el pie del modal */
 }
 
 /* Estilos para el Backdrop */
@@ -363,8 +349,81 @@ p {
   .modal-body p {
     font-size: 14px;
   }
+}
 
-  .modal-footer .btn-secondary {
-    padding: 8px 12px;
+/* Responsividad para pantallas grandes */
+@media (min-width: 992px) {
+  .register-container {
+    max-width: 500px; /* Máximo ancho para pantallas grandes */
+  }
+
+  .btn-submit {
+    font-size: 1.1rem; /* Botón más grande en pantallas grandes */
+  }
+}
+
+/* Responsividad para pantallas medianas (tablets) */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 25px; /* Asegurar que haya un padding adecuado */
+  }
+
+  .btn-submit {
+    font-size: 1rem; /* Ajuste en botones */
+  }
+
+  .wrapper {
+    padding: 40px 15px; /* Espaciado reducido para pantallas más pequeñas */
+  }
+
+  .card-header h5 {
+    font-size: 1.3rem; /* Título de la tarjeta ajustado */
+  }
+}
+
+/* Responsividad para pantallas móviles */
+@media (max-width: 576px) {
+  .register-container {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  h5 {
+    font-size: 1.2rem;
+  }
+
+  .btn-submit {
+    font-size: 0.95rem;
+  }
+
+  .register-link,
+  .text-end a {
+    font-size: 0.85rem;
+  }
+
+  input.form-control {
+    font-size: 14px;
+  }
+
+  .toggle-password {
+    font-size: 16px;
+  }
+
+  .g-recaptcha {
+    transform: scale(0.93);
+  }
+
+  /* Ajustes en el modal para móviles */
+  .modal-content {
+    width: 90%;
+    max-width: 320px;
+  }
+
+  .modal-body h5 {
+    font-size: 16px;
+  }
+
+  .modal-body p {
+    font-size: 14px;
   }
 }

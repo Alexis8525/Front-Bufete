@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +10,8 @@ import { catchError, throwError } from 'rxjs';
 export class UsuarioService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/usuarios/';
+  URL_API = 'http://localhost:3000/usuarios/';
   //URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/usuarios/';
-
 
   public usuario: Usuario = {
     idUsuario: 0,
@@ -26,62 +25,28 @@ export class UsuarioService {
 
   usuarios: Usuario[] = [];
 
-  private manejarError(error: HttpErrorResponse) {
-    let mensajeError = 'Ocurrió un error inesperado.';
-
-    switch (error.status) {
-      case 400:
-        mensajeError = 'Error 400: Solicitud incorrecta.';
-        break;
-      case 402:
-        mensajeError = 'Error 402: Se requiere pago.';
-        break;
-      case 403:
-        mensajeError = 'Error 403: Acceso prohibido.';
-        break;
-      default:
-        mensajeError = `Error ${error.status}: ${error.message}`;
-        break;
-    }
-
-    window.alert(mensajeError);
-    return throwError(() => new Error(mensajeError));
-  }
-
   getUsuarios() {
-    return this.http
-      .get<Usuario[]>(this.URL_API)
-      .pipe(catchError((error) => this.manejarError(error)));
+    return this.http.get<Usuario[]>(this.URL_API);
   }
 
   crearUsuario(usuario: Usuario) {
-    return this.http
-      .post(this.URL_API, usuario)
-      .pipe(catchError((error) => this.manejarError(error)));
+    return this.http.post(this.URL_API, usuario);
   }
 
   actualizarUsuario(usuario: Usuario) {
-    return this.http
-      .put(this.URL_API + usuario.idUsuario, usuario)
-      .pipe(catchError((error) => this.manejarError(error)));
+    return this.http.put(this.URL_API + usuario.idUsuario, usuario);
   }
 
   eliminarUsuario(idUsuario: number) {
-    return this.http
-      .delete(this.URL_API + idUsuario)
-      .pipe(catchError((error) => this.manejarError(error)));
+    return this.http.delete(this.URL_API + idUsuario);
   }
 
   login(email: string, password: string, recaptcha: string) {
-    return this.http
-      .post(`${this.URL_API}login`, { email, password, recaptcha })
-      .pipe(catchError((error) => this.manejarError(error)));
+    return this.http.post(`${this.URL_API}login`, { email, password, recaptcha });
   }
 
   verifyOTP(email: string, otp: string) {
-    return this.http
-      .post(`${this.URL_API}verify-otp`, { email, otp })
-      .pipe(catchError((error) => this.manejarError(error)));
+    return this.http.post(`${this.URL_API}verify-otp`, { email, otp });
   }
 
   enviarCorreoRecuperacion(email: string) {
