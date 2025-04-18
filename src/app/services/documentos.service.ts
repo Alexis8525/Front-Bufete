@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class DocumentosService {
 
-  private apiUrl = 'http://localhost:3000/documentos';
+  //private apiUrl = 'http://localhost:3000/documentos';
+  private apiUrl = 'https://fkgm057s-3000.usw3.devtunnels.ms/documentos';
+
     constructor(private http: HttpClient) {}
 
     subirDocumentos1(idExpediente: number, archivos: any[], idCategoria: number, idSubCategoria: number) {

@@ -1,21 +1,25 @@
 :host {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Cambia a flex-start para alinear el contenido arriba */
-  min-height: 100vh; /* Usa min-height en lugar de height */
+  align-items: flex-start;
+  min-height: 100vh;
   background-image: url('/imagenes/edificio.jpeg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* Fija la imagen de fondo */
+  background-attachment: fixed;
   font-family: 'Arial', sans-serif;
   color: #333;
-} 
+}
 
 .wrapper {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
   width: 100%;
-  min-height: 100vh; /* Asegura que el wrapper ocupe al menos el 100% de la altura */
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .main {
@@ -23,68 +27,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 150px; /* Mueve el contenido hacia abajo */
+  padding-top: 150px;
 }
 
 .register-container {
-  width: 400px;
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  margin-bottom: 10%;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  background-color: #f5f0e6;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
 }
-
-.app-barra-lateral {
-  height: 100vh;
-  flex-shrink: 0;
-}
-
 
 .nav-barra {
   width: 100%;
-  position: fixed;  /* Para que quede arriba siempre */
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* Por si tienes otros elementos que puedan taparla */
+  z-index: 1000;
 }
 
-/* Contenedor del formulario de inicio de sesión */
-/* Contenedor del formulario de inicio de sesión */
-
-/* Contenedor del logo */
-.logo-container {
-  margin-bottom: 1rem;
-}
-
-.logo-img {
-  width: 100px;
-  height: 150;
-  /* Ajustes para que el logo no se distorsione */
-  margin-bottom: 10px;
-}
-
-/* Estilo para la tarjeta del formulario */
+/* Card */
 .card {
-  border: none;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Encabezado de la tarjeta */
 .card-header {
-  background-color: #0e2238; /* Color principal: azul oscuro */
+  background-color: #BF913B;
   color: #ffffff;
-  font-size: 1.25em;
-  font-weight: 600;
-  padding: 1rem;
-  border-radius: 8px 8px 0 0;
+  border-radius: 12px 12px 0 0;
+  padding: 15px;
   text-align: center;
 }
 
-h2 {
-  margin-bottom: 20px;
-  color: #333;
+.card-header h5 {
+  margin: 0;
+  font-size: 1.4rem;
 }
 
+/* Campos */
 .form-group {
   margin-bottom: 20px;
 }
@@ -93,99 +79,96 @@ label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #555;
+  color: #001f3f;
 }
 
 input.form-control {
   width: 100%;
-  padding: 10px;
+  padding: 10px 14px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input.form-control:focus {
-  border-color: #007bff;
+  border-color: #BF913B;
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 5px rgba(191, 145, 59, 0.5);
 }
 
-h2 {
-  margin-bottom: 20px;
-  color: #333;
-}
-
-
-h2 {
-  margin-bottom: 20px; /* Espacio entre el título y el formulario */
-  color: #333; /* Color del título */
-}
-
-.form-group {
-  margin-bottom: 20px; /* Espacio entre los campos */
-}
-
-label {
-  display: block;
-  margin-bottom: 5px; /* Espacio entre el label y el input */
-  font-weight: bold; /* Estilo del label */
-  color: #555; /* Color del label */
-}
-
-input.form-control {
+/* reCAPTCHA */
+.recaptcha-wrapper {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc; /* Borde del input */
-  border-radius: 5px; /* Esquinas redondeadas */
-  font-size: 16px; /* Tamaño de la fuente */
 }
 
-input.form-control:focus {
-  border-color: #007bff; /* Color del borde cuando el input está enfocado */
-  outline: none; /* Quitar el outline predeterminado */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra del borde */
+.recaptcha-wrapper re-captcha,
+.recaptcha-wrapper > div,
+.g-recaptcha {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  transform-origin: 0 0;
 }
 
-/* Campos de entrada */
-.form-control {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  transition: all 0.3s ease;
-  background-color: #f9f9f9;
+/* Errores */
+small {
+  font-size: 0.85em;
 }
 
-.form-control:focus {
-  border-color: #0e2238; /* Azul oscuro en foco */
-  box-shadow: 0 0 5px rgba(14, 34, 56, 0.3); /* Sombra al hacer foco */
-}
-
-/* Etiquetas y mensajes de error */
-.form-label {
-  font-weight: 600;
-  color: #555;
+small.error-message {
+  display: block;
 }
 
 .error-message {
   color: #d9534f;
-  font-size: 0.85em;
+  margin-top: 5px;
+  display: block;
 }
 
-/* Botón de ingreso */
-.btn-submit {
-  background-color: #BF913B; /* Color dorado */
-  color: #ffffff;
-  font-size: 1em;
-  font-weight: 600;
-  border-radius: 5px;
-  border: none;
-  padding: 10px;
+/* Input con ícono */
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input.form-control {
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Transición para el efecto de hover */
+  color: #555;
+  font-size: 18px;
+  transition: color 0.2s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.toggle-password:hover {
+  color: #001f3f;
+}
+
+/* Botón */
+.btn-submit {
+  background-color: #BF913B;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #a3762f;
+  transform: scale(1.01);
 }
 
 .btn-submit:disabled {
@@ -193,19 +176,195 @@ button:hover {
   cursor: not-allowed;
 }
 
-/* Enlace de registro */
+/* Enlaces */
+.text-end a {
+  font-size: 0.9em;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.text-end a:hover {
+  text-decoration: underline;
+}
+
 .register-link {
   color: #333;
   font-size: 0.9em;
 }
 
 .register-link a {
-  color: #0056b3; /* Color azul medio */
+  color: #0056b3;
   font-weight: 600;
   text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
 }
 
 p {
   margin-top: 15px;
 }
 
+/* Responsive */
+@media (max-width: 576px) {
+  .register-container {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  h5 {
+    font-size: 1.2rem;
+  }
+
+  .btn-submit {
+    font-size: 0.95rem;
+  }
+
+  .register-link,
+  .text-end a {
+    font-size: 0.85rem;
+  }
+
+  input.form-control {
+    font-size: 14px;
+  }
+
+  .toggle-password {
+    font-size: 16px;
+  }
+
+  .g-recaptcha {
+    transform: scale(0.93);
+  }
+}
+
+/* Estilo del Modal */
+.modal-content {
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  max-width: 400px; /* Tamaño máximo del modal */
+  width: 85%; /* Ajuste dinámico del ancho */
+  overflow: hidden; /* Evitar contenido extra fuera del modal */
+}
+
+/* Estilo del Header (Encabezado) del Modal */
+.modal-header {
+  background-color: #003366; /* Azul oscuro */
+  color: white; /* Letras blancas */
+  text-align: right;
+  padding: 8px 15px; /* Espaciado ajustado */
+  border-radius: 8px 8px 0 0; /* Bordes redondeados solo arriba */
+}
+
+.modal-header h4 {
+  margin: 0;
+  font-size: 18px; /* Reducido el tamaño del título */
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: white; /* Color blanco para el ícono de cerrar */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-left: auto; /* Alineado a la derecha */
+}
+
+.modal-header button:hover {
+  color: #a3762f; /* Color dorado al pasar el ratón */
+}
+
+/* Estilo del Cuerpo del Modal */
+.modal-body {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.modal-body h5 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366; /* Azul para el título */
+  margin-bottom: 10px;
+}
+
+.modal-body p {
+  font-size: 14px; /* Tamaño del texto */
+  color: #555; /* Color más suave para el texto */
+  margin-bottom: 15px;
+}
+
+/* Pie de Modal (Botón Cerrar) */
+.modal-footer {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #BF913B; /* Color dorado */
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 15px; /* Tamaño ajustado */
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #a3762f;
+  transform: scale(1.05); /* Efecto de escala suave */
+}
+
+.modal-footer .btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(191, 145, 59, 0.7); /* Sombra al hacer foco */
+}
+
+/* Estilos para el Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo difuso */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out; /* Transición suave */
+}
+
+/* Animación de Fade In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive - Ajustes en pantallas pequeñas */
+@media (max-width: 576px) {
+  .modal-content {
+    width: 90%;
+    max-width: 320px; /* Ajustado para pantallas pequeñas */
+    padding: 15px;
+  }
+
+  .modal-body h5 {
+    font-size: 16px;
+  }
+
+  .modal-body p {
+    font-size: 14px;
+  }
+
+  .modal-footer .btn-secondary {
+    padding: 8px 12px;
+  }
+}

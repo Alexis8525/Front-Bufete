@@ -10,7 +10,9 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost:3000/clientes/';
+  //URL_API = 'http://localhost:3000/clientes/';
+  URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/clientes/';
+
 
   public cliente: Cliente = {
     idCliente: 0,
