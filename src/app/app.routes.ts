@@ -61,6 +61,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'recuperar-contrasena', component: RecuperacionContraseñaComponent },
   { path: 'restablecer-contrasena/:token', component: RestablecerContrasenaComponent },
+  { path: 'restablecer', component: RestablecerContrasenaComponent},
   { path: 'principal', component: PrincipalComponent },
   { path: 'settings', component: SettingsComponent },
 

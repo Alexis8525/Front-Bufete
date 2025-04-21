@@ -10,18 +10,27 @@
             <!-- Nueva Contraseña -->
             <div class="form-group mb-3">
               <label for="password" class="form-label">Nueva Contraseña</label>
-              <input type="password" id="password" class="form-control" formControlName="password" placeholder="Ingresa nueva contraseña" />
+              <div class="input-wrapper">
+                <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password" placeholder="Ingresa nueva contraseña" />
+                <i class="fa toggle-password" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
+              </div>
               <small *ngIf="form.get('password')?.invalid && (form.get('password')?.touched || form.get('password')?.dirty)" class="text-danger">
-                Ingresa una contraseña válida.
+                <div *ngIf="form.get('password')?.hasError('required')">Este campo es obligatorio.</div>
+                <div *ngIf="form.get('password')?.hasError('minlength')">Debe tener al menos 8 caracteres.</div>
+                <div *ngIf="form.get('password')?.hasError('passwordStrength')">Debe contener al menos 1 mayúscula, 1 minúscula y 1 número.</div>
               </small>
             </div>
 
             <!-- Confirmar Contraseña -->
             <div class="form-group mb-3">
               <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-              <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Confirma tu contraseña" />
+              <div class="input-wrapper">
+                <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Confirma tu contraseña" />
+                <i class="fa toggle-password" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="toggleConfirmPasswordVisibility()"></i>
+              </div>
               <small *ngIf="form.get('confirmPassword')?.invalid && (form.get('confirmPassword')?.touched || form.get('confirmPassword')?.dirty)" class="text-danger">
-                Las contraseñas deben coincidir.
+                <div *ngIf="form.get('confirmPassword')?.hasError('required')">Este campo es obligatorio.</div>
+                <div *ngIf="form.get('confirmPassword')?.hasError('match')">Las contraseñas deben coincidir.</div>
               </small>
             </div>
 
@@ -30,16 +39,32 @@
           </div>
         </div>
       </form>
-
-      <!-- Mensaje de error -->
-      <div *ngIf="errorMessage" class="error">
-        {{ errorMessage }}
-      </div>
-
-      <!-- Mensaje de éxito -->
-      <div *ngIf="successMessage" class="alert alert-success mt-3">
-        {{ successMessage }}
-      </div>
     </div>
   </div>
 </div>
+
+<!-- Modal de Éxito -->
+<ng-template #successModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">¡Éxito!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ successMessage }}</p>
+  </div>
+</ng-template>
+
+<!-- Modal de Error -->
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">¡Error!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ errorMessage }}</p>
+  </div>
+</ng-template>

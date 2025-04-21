@@ -3,7 +3,8 @@ import { NavBarraComponent } from '../nav-barra/nav-barra.component';
 import { BreadcrumbsComponent } from "../../breadcrumbs/breadcrumbs.component";
 import { PiePaginaComponent } from "../../pie-de-pagina/pie-pagina/pie-pagina.component";
 import { NgFor } from '@angular/common';
-import * as bootstrap from 'bootstrap';  // Importar bootstrap para usar el carrusel manualmente
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -39,16 +40,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   ];
 
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {}
 
   ngAfterViewInit(): void {
-    const carouselElement = document.querySelector('#carouselExample');
-    if (carouselElement) {
-      const carousel = new bootstrap.Carousel(carouselElement, {
-        interval: 5000, // Cambia el intervalo si lo deseas
-        ride: 'carousel', // Esto hace que el carrusel comience a moverse automáticamente
+    if (isPlatformBrowser(this.platformId)) {  // Verifica si estamos en el navegador
+      // Solo se carga Bootstrap en el navegador
+      import('bootstrap').then((bootstrap) => {
+        const carouselElement = document.querySelector('#carouselExample');
+        if (carouselElement) {
+          new bootstrap.Carousel(carouselElement, {
+            interval: 5000,
+            ride: 'carousel',
+          });
+        }
+      }).catch((error) => {
+        console.error("Error al cargar Bootstrap: ", error);
       });
     }
   }

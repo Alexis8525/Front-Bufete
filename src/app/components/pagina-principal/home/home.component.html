@@ -4,8 +4,7 @@
 <!-- Carrusel con intervalos personalizados para cada imagen -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner" style="height:80%; width:auto;">
-    <!-- Iteramos sobre los elementos del carrusel -->
-    <div *ngFor="let item of carouselItems; let i = index" 
+    <div *ngFor="let item of carouselItems; let i = index"
          class="carousel-item" [class.active]="i === 0" [attr.data-bs-interval]="item.interval">
       <img [src]="item.src" class="d-block w-100" alt="...">
       <div class="carousel-caption">
@@ -25,6 +24,7 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+
 
 <!-- Contenido del Bufete de Abogados -->
 <div class="container mt-5">

@@ -13,7 +13,6 @@
   </div>
 </ng-template>
 
-
 <div class="wrapper">
   <div class="main">
     <div class="container mt-5 login-container">
@@ -52,7 +51,6 @@
               </small>
             </div>
 
-
             <div class="text-end">
               <a [routerLink]="['/recuperar-contrasena']">¿Olvidaste tu contraseña?</a>
             </div>
@@ -69,7 +67,6 @@
               </small>
             </div>
 
-
             <!-- Botón de Ingreso -->
             <button type="submit" class="btn btn-primary btn-submit w-100 mt-3"
               [disabled]="loginForm.invalid || !captchaResolved">Ingresar</button>
@@ -84,19 +81,37 @@
       </form>
 
       <!-- Formulario OTP -->
-      <div *ngIf="show2FAVerification" class="otp-container">
-        <h5>Verificación en Dos Pasos</h5>
-        <p>Ingresa el código de 6 dígitos enviado a tu correo.</p>
+      <!-- Formulario OTP -->
+      <div *ngIf="show2FAVerification" class="card shadow border-0">
+        <div class="card-header text-center">
+          <h5>Verificación en Dos Pasos</h5>
+        </div>
+        <div class="card-body">
+          <p>Ingresa el código de 6 dígitos enviado a tu correo.</p>
 
-        <form [formGroup]="twoFactorForm" (ngSubmit)="verify2FA()">
-          <div class="form-group">
-            <label for="otp">Código OTP</label>
-            <input type="text" id="otp" class="form-control" formControlName="otp" />
-          </div>
+          <form [formGroup]="twoFactorForm" (ngSubmit)="verify2FA()">
+            <div class="form-group mb-4">
+              <label for="otp">Código OTP</label>
+              <input type="text" id="otp" class="form-control" formControlName="otp" />
 
-          <button type="submit" class="btn btn-primary mt-3">Verificar</button>
-        </form>
+              <!-- Mensajes de error para OTP -->
+              <small
+                *ngIf="twoFactorForm.get('otp')?.invalid && (twoFactorForm.get('otp')?.dirty || twoFactorForm.get('otp')?.touched)"
+                class="error-message">
+                <div *ngIf="twoFactorForm.get('otp')?.hasError('required')">Este campo es obligatorio.</div>
+                <div *ngIf="twoFactorForm.get('otp')?.hasError('minlength')">El código debe tener 6 dígitos.</div>
+                <div *ngIf="twoFactorForm.get('otp')?.hasError('maxlength')">El código debe tener 6 dígitos.</div>
+                <div *ngIf="twoFactorForm.get('otp')?.hasError('pattern')">El código solo puede contener números.</div>
+              </small>
+            </div>
+
+            <!-- Botón Verificar, habilitado solo cuando el formulario es válido -->
+            <button type="submit" class="btn btn-primary btn-submit w-100 mt-3"
+              [disabled]="!twoFactorForm.valid">Verificar</button>
+          </form>
+        </div>
       </div>
+
     </div>
   </div>
 </div>

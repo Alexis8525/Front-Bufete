@@ -18,13 +18,14 @@ import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
     NuevoClienteComponent,
     EditarClienteComponent,
     BreadcrumbsComponent
-],
+  ],
   templateUrl: './crud-cliente.component.html',
   styleUrls: ['./crud-cliente.component.css']
 })
 export class CrudClienteComponent implements OnInit {
   clientes: Cliente[] = [];
   clientesFiltrados: Cliente[] = [];
+  clientesPaginados: Cliente[] = [];
   modalEditarVisible: boolean = false;
   modalNuevoVisible: boolean = false;
   clienteSeleccionado: Cliente | null = null;
@@ -33,6 +34,11 @@ export class CrudClienteComponent implements OnInit {
   filtroNombre: string = '';
   filtroCorreo: string = '';
   filtroTelefono: string = '';
+
+  // Variables de paginación
+  paginaActual: number = 1;
+  clientesPorPagina: number = 8; // Puedes cambiar esto para mostrar más o menos clientes por página
+  totalPaginas: number = 0;
 
   constructor(
     public clienteService: ClienteService,
@@ -49,6 +55,7 @@ export class CrudClienteComponent implements OnInit {
       res => {
         this.clientes = res;
         this.clientesFiltrados = [...this.clientes];
+        this.calcularPaginas();
       },
       err => console.error('Error al obtener clientes:', err)
     );
@@ -62,6 +69,44 @@ export class CrudClienteComponent implements OnInit {
       const coincideTelefono = !this.filtroTelefono || (cliente.telefono.toLowerCase().includes(this.filtroTelefono.toLowerCase()));
       return coincideNombre && coincideCorreo && coincideTelefono;
     });
+    this.calcularPaginas(); // Recalcular páginas al aplicar filtro
+  }
+
+  // Calcular el total de páginas
+  calcularPaginas() {
+    this.totalPaginas = Math.ceil(this.clientesFiltrados.length / this.clientesPorPagina);
+    this.actualizarClientesPorPagina();
+  }
+
+  // Actualizar los clientes visibles según la página actual
+  actualizarClientesPorPagina() {
+    const inicio = (this.paginaActual - 1) * this.clientesPorPagina;
+    const fin = this.paginaActual * this.clientesPorPagina;
+    this.clientesPaginados = this.clientesFiltrados.slice(inicio, fin);
+  }
+
+  // Cambiar a la página anterior
+  cambiarPaginaAnterior() {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+      this.actualizarClientesPorPagina();
+    }
+  }
+
+  // Cambiar a la página siguiente
+  cambiarPaginaSiguiente() {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+      this.actualizarClientesPorPagina();
+    }
+  }
+
+  // Cambiar a una página específica
+  cambiarPagina(pagina: number) {
+    if (pagina >= 1 && pagina <= this.totalPaginas) {
+      this.paginaActual = pagina;
+      this.actualizarClientesPorPagina();
+    }
   }
 
   // Abrir modal para crear nuevo cliente

@@ -8,7 +8,7 @@ import { EspecialidadService } from '../../services/especialidad.service';
 import { FormsModule } from '@angular/forms';
 import { NuevoEmpleadoComponent } from '../modals/nuevo-empleado/nuevo-empleado.component';
 import { EditarEmpleadoComponent } from '../modals/editar-empleado/editar-empleado.component';
-import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-crud-empleado',
@@ -20,23 +20,29 @@ import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
     NuevoEmpleadoComponent,
     EditarEmpleadoComponent,
     BreadcrumbsComponent
-],
+  ],
   templateUrl: './crud-empleado.component.html',
   styleUrls: ['./crud-empleado.component.css']
 })
 export class CrudEmpleadoComponent implements OnInit {
   empleados: Empleado[] = [];
   empleadosFiltrados: Empleado[] = [];
+  empleadosPaginados: Empleado[] = [];
+
   modalEditarVisible: boolean = false;
   modalNuevoVisible: boolean = false;
   empleadoSeleccionado: Empleado | null = null;
 
-  // Variables de filtros
+  // Filtros
   filtroNombre: string = '';
   filtroCorreo: string = '';
   filtroTelefono: string = '';
   filtroRol: string = '';
   filtroEspecialidad: string = '';
+
+  // Paginación
+  paginaActual: number = 1;
+  itemsPorPagina: number = 6;
 
   constructor(
     public empleadoService: EmpleadoService,
@@ -54,27 +60,23 @@ export class CrudEmpleadoComponent implements OnInit {
     this.empleadoService.getEmpleados().subscribe(
       res => {
         this.empleados = res;
-        this.empleadosFiltrados = [...this.empleados];
+        this.filtrarEmpleados(); // Inicializa filtrado y paginación
       },
-      err => console.log(err)
+      err => console.error(err)
     );
   }
 
   getRoles() {
     this.rolService.getRoles().subscribe(
-      res => {
-        this.rolService.roles = res;
-      },
-      err => console.log(err)
+      res => this.rolService.roles = res,
+      err => console.error(err)
     );
   }
 
   getEspecialidades() {
     this.especialidadService.getEspecialidades().subscribe(
-      res => {
-        this.especialidadService.especialidades = res;
-      },
-      err => console.log(err)
+      res => this.especialidadService.especialidades = res,
+      err => console.error(err)
     );
   }
 
@@ -85,9 +87,31 @@ export class CrudEmpleadoComponent implements OnInit {
       const coincideTelefono = !this.filtroTelefono || empleado.telefono.toLowerCase().includes(this.filtroTelefono.toLowerCase());
       const coincideRol = !this.filtroRol || empleado.idRolFK?.toString() === this.filtroRol;
       const coincideEspecialidad = !this.filtroEspecialidad || empleado.idEspecialidadFK?.toString() === this.filtroEspecialidad;
-
       return coincideNombre && coincideCorreo && coincideTelefono && coincideRol && coincideEspecialidad;
     });
+
+    this.cambiarPagina(1);
+  }
+
+  // Paginación
+  get totalPaginas(): number {
+    return Math.ceil(this.empleadosFiltrados.length / this.itemsPorPagina);
+  }
+
+  get paginas(): number[] {
+    return Array.from({ length: this.totalPaginas }, (_, i) => i + 1);
+  }
+
+  cambiarPagina(pagina: number): void {
+    if (pagina < 1 || pagina > this.totalPaginas) return;
+    this.paginaActual = pagina;
+    const inicio = (pagina - 1) * this.itemsPorPagina;
+    const fin = inicio + this.itemsPorPagina;
+    this.empleadosPaginados = this.empleadosFiltrados.slice(inicio, fin);
+
+    // Scroll al inicio tras cambiar de página (opcional pero útil)
+    const topElement = document.querySelector('.titulo-empleados');
+    topElement?.scrollIntoView({ behavior: 'smooth' });
   }
 
   abrirModalNuevoEmpleado() {
@@ -123,7 +147,6 @@ export class CrudEmpleadoComponent implements OnInit {
     this.cerrarModalEditar();
   }
 
-  // Métodos para obtener el nombre del rol y la especialidad
   getRolNombre(idRol: number): string {
     const rol = this.rolService.roles.find(r => r.idRol === idRol);
     return rol ? rol.nombreRol : 'Sin Rol';

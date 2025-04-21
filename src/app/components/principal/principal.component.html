@@ -28,35 +28,45 @@
       <!-- Listado de citas -->
       <div class="row" *ngIf="!loading">
         <div class="col-md-4 mb-3" *ngFor="let cita of citasHoy">
-          <div class="card shadow-lg">
-            <div class="card-body">
-              <h5 class="card-title">
-                <i class="fa-solid fa-clock"></i> {{ cita.horaInicio }} - {{ cita.horaFinal }}
-              </h5>
-              <p class="card-text">
-                <ng-container *ngIf="usuario.rol === 1">
-                  <strong>Cliente:</strong> {{ cita.cliente }}<br>
-                  <strong>Abogado:</strong> {{ cita.abogado }}<br>
-                </ng-container>
-                <ng-container *ngIf="usuario.rol === 2">
-                  <strong>Cliente:</strong> {{ cita.cliente }}<br>
-                </ng-container>
-                <ng-container *ngIf="usuario.rol === 3">
-                  <strong>Abogado:</strong> {{ cita.abogado }}<br>
-                </ng-container>
-                <strong>Servicio:</strong> {{ cita.nombreServicio }}<br>
-                <strong>Motivo:</strong> {{ cita.motivo }}
-              </p>
-              <button
-                *ngIf="usuario.rol === 2"
-                (click)="atenderCita(cita.idCita)"
-                class="btn btn-primary"
-              >
-                Atender
-              </button>
+          <div class="card-wrapper"> <!-- Fondo dorado -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fa-solid fa-clock"></i>    
+                  {{ cita.horaInicio }} - {{ cita.horaFinal }}
+                </h5>
+              
+                <div class="info-cita">
+                  <div class="dato-cita">
+                    <span class="etiqueta">Cliente:</span>
+                    <span class="valor">{{ cita.cliente }}</span>
+                  </div>
+              
+                  <div class="dato-cita" *ngIf="usuario.rol === 1 || usuario.rol === 3">
+                    <span class="etiqueta">Abogado:</span>
+                    <span class="valor">{{ cita.abogado }}</span>
+                  </div>
+              
+                  <div class="dato-cita">
+                    <span class="etiqueta">Servicio:</span>
+                    <span class="valor">{{ cita.nombreServicio }}</span>
+                  </div>
+              
+                  <div class="dato-cita">
+                    <span class="etiqueta">Motivo:</span>
+                    <span class="valor">{{ cita.motivo }}</span>
+                  </div>
+                </div>
+              
+                <button *ngIf="usuario.rol === 2" (click)="atenderCita(cita.idCita)" class="btn btn-primary">
+                  Atender
+                </button>
+              </div>
+              
             </div>
           </div>
         </div>
+        
 
         <!-- Mensaje si no hay citas -->
         <div *ngIf="citasHoy.length === 0" class="text-center mt-5">

@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
     });
+    
   }
 
   ngOnInit(): void {}
@@ -147,8 +148,9 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         console.error('Código incorrecto:', error);
-        alert('Código inválido o expirado. Intenta nuevamente.');
-        this.twoFactorForm.reset();
+        this.errorMessage = 'Código inválido o expirado. Intenta nuevamente.';
+        this.openErrorModal(); // Abre el modal con el error
+      this.twoFactorForm.reset(); // Reseteamos el formulario OTP
       }
     );
   }
