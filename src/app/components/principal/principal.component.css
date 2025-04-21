@@ -1,119 +1,214 @@
+/* ========== ESTRUCTURA PRINCIPAL ========== */
 .wrapper {
-    display: flex; /* Asegura que los hijos se alineen horizontalmente */
-    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
-    overflow: hidden; /* Evita el desbordamiento del contenedor principal */
-  }
-  
-  app-barra-lateral {
-    height: 100vh; /* Asegura que la barra lateral ocupe toda la altura de la ventana */
-    flex-shrink: 0; /* Evita que la barra lateral se reduzca */
-  }
-  
-  .main {
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-    display: flex;
-    flex-direction: column; /* Permite que el contenido de la clase .p-3 se apile verticalmente */
-  }
-  
-  .p-3 {
-    background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
-    background-position: center; /* Centra la imagen en el contenedor */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
-    flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-    max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
-    background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
-    padding: 2rem; /* Añade algo de espacio alrededor del contenido */
-    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
-  }
-
- /* Encabezado principal */
-
- .titulo-empleados {
-  font-size: 1.5rem; /* Tamaño ajustado para evitar desbordamientos */
-  font-weight: 800; /* Muy en negrita */
-  color: #ffffff; /* Blanco puro */
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Sombra más contrastada */
-  margin: 20px 0; /* Margen superior e inferior */
-  text-align: center; /* Centrado */
-  padding: 10px 20px; /* Espaciado interno */
-  border-bottom: 4px solid #ffffff; /* Línea decorativa */
-  background: rgba(0, 31, 63, 0.85); /* Fondo azul translúcido */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra externa */
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* Estilos para el contenedor de búsqueda en la barra de navegación */
-.navbar .search-container {
+app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.main {
   flex-grow: 1;
-  max-width: 500px;
-  margin: 0 15px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Estilos responsivos */
-@media (max-width: 992px) {
-  .navbar .search-container {
-    max-width: 100%;
-    margin: 10px 15px;
-    order: 3;
-  }
-  
-  .navbar-brand {
-    order: 1;
-  }
-  
-  .navbar-toggler {
-    order: 2;
-  }
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.p-3 {
+  background-color: #f5f0e6;
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+  max-height: 100vh;
+  padding: 2rem;
+  overflow-y: auto;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* ========== TÍTULO ENCABEZADO ========== */
+.titulo-empleados {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  margin: 20px 0;
+  text-align: center;
+  padding: 10px 20px;
+  border-bottom: 4px solid #ffffff;
+  background: rgba(191, 145, 59, 0.85);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-/* Tarjetas */
+/* ========== CONTENEDOR DE CADA CITA (FONDO DORADO) ========== */
+.card-wrapper {
+  background: rgba(191, 145, 59, 0.8);
+  padding: 8px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.8s ease;
+}
+
+/* ========== TARJETA BLANCA INTERNA ========== */
 .card {
-  border-radius: 12px; /* Bordes redondeados */
-  border: 1px solid #e0e0e0; /* Borde claro */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-  margin: 20px auto; /* Margen para centrar y separar las tarjetas */
-  padding: 20px; /* Espaciado interno */
-  max-width: 600px; /* Limita el ancho para que no ocupe toda la pantalla */
-  background-color: #ffffff; /* Fondo blanco */
-  transition: transform 0.3s, box-shadow 0.3s; /* Transición suave */
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px); /* Efecto de elevación */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* ========== TÍTULO DENTRO DE LA TARJETA ========== */
 .card-title {
-  font-size: 1rem; /* Tamaño mayor para destacar el título */
+  font-size: 1.1rem;
   font-weight: bold;
-  color: #0e2238; /* Azul oscuro */
-  text-align: left; /* Alineado a la izquierda */
+  color: #0e2238;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
 }
 
+.card-title i {
+  color: #bf913b;
+
+}
+
+/* ========== TEXTO EN LA TARJETA ========== */
 .card-text {
   font-size: 1rem;
-  color: #666; /* Gris oscuro */
-  text-align: left; /* Alineado a la izquierda */
+  color: #333;
   margin-bottom: 15px;
 }
 
+/* ========== BOTÓN ========== */
 .card button {
-  background-color: #0e2238; /* Azul oscuro */
-  color: #ffffff;
+  background-color: #bf913b;
+  color: #fff;
   border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
+  border-radius: 6px;
+  padding: 12px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
+  width: 100%;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 100%; /* Botón a lo ancho */
 }
 
 .card button:hover {
-  background-color: #0056b3; /* Azul más claro */
-  transform: scale(1.05); /* Ligero zoom */
+  background-color: #a3762f;
+  transform: scale(1.01);
+}
+
+.card button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+.info-cita {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dato-cita {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+
+.etiqueta {
+  font-weight: 700;
+  color: #0e2238;
+  font-size: 1rem;
+  min-width: 100px;
+  margin-right: 10px;
+}
+
+.valor {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #333;
+  flex: 1;
+  word-break: break-word;
+}
+
+
+/* ========== ANIMACIÓN DE ENTRADA ========== */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 576px) {
+  .p-3 {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .titulo-empleados {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+  }
+
+  .card-wrapper {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+    margin: 10px 0;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
+
+  .card button {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-3 {
+    padding: 1.5rem;
+  }
+
+  .titulo-empleados {
+    font-size: 1.3rem;
+    padding: 8px 16px;
+  }
+
+  .card {
+    max-width: 100%;
+    margin: 15px 0;
+  }
 }

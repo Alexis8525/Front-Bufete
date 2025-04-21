@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../../services/usuario.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-restablecer-contrasena',
@@ -14,68 +15,93 @@ import { UsuarioService } from '../../../services/usuario.service';
 export class RestablecerContrasenaComponent implements OnInit {
 
   form: FormGroup;
-  token: string = '';
-  errorMessage: string = '';
-  successMessage: string = '';
+  token: string = ''; // Token recibido desde el enlace de recuperación de contraseña
+  errorMessage: string = ''; // Mensaje de error
+  successMessage: string = ''; // Mensaje de éxito
+  showPassword: boolean = false; // Controla la visibilidad de la nueva contraseña
+  showConfirmPassword: boolean = false; // Controla la visibilidad de la confirmación de contraseña
+
+  @ViewChild('successModal') successModal: any;
+  @ViewChild('errorModal') errorModal: any;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private modalService: NgbModal
   ) {
-    // Validación mínima para que no estén vacíos
     this.form = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]],
+      confirmPassword: ['', [Validators.required, this.matchPassword('password')]]
     });
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.token = params['token'];
-      console.log('Token recibido:', this.token);
+      this.token = params['token']; // Token obtenido de la URL
     });
   }
 
-  // Método de debug para imprimir el valor actual del formulario
-  debugForm(): void {
-    console.log('Valor actual del formulario:', this.form.value);
+  passwordValidator(control: any) {
+    const password = control.value;
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!pattern.test(password)) {
+      return { passwordStrength: true }; // Si no pasa la validación, retorna el error
+    }
+    return null; // Si pasa la validación, no hay errores
+  }
+
+  // Validación cruzada para la confirmación de la contraseña
+  matchPassword(passwordKey: string) {
+    return (control: any) => {
+      const password = control.root.get(passwordKey);
+      if (password && control.value !== password.value) {
+        return { match: true };  // Retorna el error si no coinciden
+      }
+      return null; // Si coinciden, no hay error
+    };
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   onSubmit(): void {
-    console.log('Formulario enviado');
-
     const { password, confirmPassword } = this.form.value;
 
-    console.log('Contraseña:', password);
-    console.log('Confirmar Contraseña:', confirmPassword);
-
-    if (password !== confirmPassword) {
-      this.errorMessage = 'Las contraseñas no coinciden';
-      console.log(this.errorMessage);
-      return;
-    }
-
+    // Si el formulario es inválido
     if (this.form.invalid) {
-      console.log('Formulario inválido');
-      this.errorMessage = 'Debes llenar correctamente ambos campos.';
+      this.errorMessage = 'Por favor, completa correctamente los campos';
       return;
     }
 
-    // Enviar al backend
+    // Llamada al servicio para restablecer la contraseña
     this.usuarioService.restablecerContrasena(this.token, password).subscribe({
       next: (res) => {
-        console.log('Respuesta del backend:', res);
         this.successMessage = '¡Contraseña restablecida con éxito!';
-        this.errorMessage = '';
-        setTimeout(() => this.router.navigate(['/login']), 2000);
+        this.errorMessage = ''; // Limpiar mensaje de error
+        this.openModal(this.successModal); // Abre el modal de éxito
+        
+        // Cerrar el modal antes de redirigir al login
+        setTimeout(() => {
+          this.modalService.dismissAll(); // Cierra todos los modales abiertos
+          this.router.navigate(['/login']); // Redirige al login
+        }, 2000); // Redirige después de 2 segundos
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Ocurrió un error';
         this.successMessage = '';
-        console.error('Error en restablecer:', err);
+        this.openModal(this.errorModal); // Abre el modal de error
       }
     });
+  }
+
+  openModal(content: any) {
+    this.modalService.open(content);  // Abre el modal de éxito o error
   }
 }
