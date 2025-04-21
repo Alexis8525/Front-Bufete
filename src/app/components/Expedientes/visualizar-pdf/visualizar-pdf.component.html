@@ -2,139 +2,207 @@
   <app-barra-lateral></app-barra-lateral>
 
   <div class="main">
-    <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+    <nav class="navbar navbar-expand-lg p-0" [class.hidden]="navbarHidden" style="background-color: #001f3f;">
       <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
-        <!-- Logo -->
         <a class="navbar-brand ms-3" href="/principal">
           <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
 
-        <form class="d-flex me-3">
-          <input 
-            class="form-control me-2" 
-            type="search" 
-            placeholder="Buscar expediente por número, nombre, cliente o abogado..." 
-            aria-label="Buscar"
-            [(ngModel)]="terminoBusqueda"
-            (input)="buscar()"
-            name="buscador"
-          >
-          <button class="btn btn-light" type="button" (click)="buscar()">
-            <i class="fa fa-search"></i>
-          </button>
-        </form>
+       <!-- En tu navbar (dentro del nav) -->
+<form class="d-flex search-form-container">
+  <div class="input-group search-box">
+    <input 
+      class="form-control search-input" 
+      type="search" 
+      placeholder="Buscar expediente..." 
+      aria-label="Buscar"
+      [(ngModel)]="terminoBusqueda"
+      (input)="buscar()"
+      name="buscador"
+    >
+    <button class="btn btn-search" type="button" (click)="buscar()" title="Buscar">
+      <i class="fa fa-search"></i>
+    </button>
+    <button class="btn btn-filter" type="button" (click)="toggleFiltros()" title="Filtros">
+      <i class="fa fa-filter"></i>
+    </button>
+  </div>
+</form>
       </div>
     </nav>
 
-    <div class="p-3">
+    <div class="p-3 expedientes-container">
       <app-breadcrumbs></app-breadcrumbs>
       
-      <!-- Botón para mostrar/ocultar filtros -->
-      <button class="btn btn-secondary mb-3" (click)="toggleFiltros()">
-        {{ mostrarFiltros ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
-      </button>
-      
-      <!-- Panel de filtros (inicialmente oculto) -->
-      <div class="filtros-container mb-4" [class.show]="mostrarFiltros">
-        <div class="card">
-          <div class="card-header">
-            <h3>Filtrar Expedientes</h3>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-4">
-                <label for="filtroEstado" class="form-label">Estado</label>
-                <select id="filtroEstado" class="form-select" [(ngModel)]="filtroEstado" (change)="aplicarFiltros()">
-                  <option value="">Todos</option>
-                  <option value="Prioridad Alta">Prioridad Alta</option>
-                  <option value="Archivado">Archivado</option>
-                  <option value="En Proceso">En Proceso</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label for="filtroFecha" class="form-label">Fecha de creación</label>
-                <input type="date" id="filtroFecha" class="form-control" [(ngModel)]="filtroFecha" (change)="aplicarFiltros()">
-              </div>
-              <div class="col-md-4">
-                <label for="filtroAbogado" class="form-label">Abogado</label>
-                <input type="text" id="filtroAbogado" class="form-control" placeholder="Filtrar por abogado" 
-                  [(ngModel)]="filtroAbogado" (input)="aplicarFiltros()">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Contador de resultados -->
-      <div class="alert alert-info" *ngIf="expedientesFiltrados.length > 0">
-        Mostrando {{ expedientesFiltrados.length }} de {{ expedientes.length }} expedientes
-      </div>
-      
-      <div class="card-container">
-        <div *ngFor="let expediente of expedientesFiltrados" class="card" 
-             [ngClass]="{'card-prioridad-alta': expediente.estado.toLowerCase() === 'prioridad alta'}"
-             (mouseenter)="onMouseEnter(expediente.idExpediente)"
-             (mouseleave)="onMouseLeave(expediente.idExpediente)">
-          <div class="card-header">
-            <h2>{{ expediente.nombreExpediente }} ({{ expediente.numeroExpediente }})</h2>
-          </div>
-          <div class="card-body">
-            <p>Fecha de creación: {{ expediente.fechaCreacion }}</p>
-            <p>Estado: <strong>{{ expediente.estado || 'Prioridad Alta' }}</strong></p>
-            <p>Descripción: <strong>{{ expediente.descripcion || 'Sin descripción' }}</strong></p>
-            <p>Datos del Abogado: <strong>{{ expediente.datosAbogado }}</strong></p>
-            <p>Datos del Cliente: <strong>{{ expediente.datosCliente }}</strong></p>
-          </div>
-          <div class="card-footer d-flex justify-content-end gap-2">
-            <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
-            <button class="btn-actualizar" (click)="actualizarExpediente(expediente.idExpediente)">Actualizar</button>
-            <button class="btn-eliminar" (click)="confirmarEliminacion(expediente.idExpediente)">Eliminar</button>
-          </div>
-          
-          <div class="card-detalles" *ngIf="expedienteHover === expediente.idExpediente">
-            <div class="detalles-contenido">
-              <h4>Detalles adicionales</h4>
-              <p><strong>Última actualización:</strong> {{ expediente.fechaCreacion  || 'No disponible' }}</p>
-              <p><strong>Próxima audiencia:</strong> {{ expediente.proximaAudiencia || 'No programada' }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="alert alert-warning" *ngIf="expedientesFiltrados.length === 0">
-        No se encontraron expedientes que coincidan con los criterios de búsqueda.
-      </div>
-    </div>
-    
-    <!-- Botón de "Ir arriba" - POSICIÓN CORRECTA (fuera del div.p-3) -->
-    <button *ngIf="mostrarBotonArriba" 
-            class="btn btn-scroll-top"
-            (click)="scrollToTop()"
-            title="Ir arriba">
-      <i class="fas fa-arrow-up"></i>
-    </button>
-  </div> <!-- Cierre del div.main -->
+      <!-- Alert Container -->
+      <div class="alert-container fixed-top mt-5 mx-3"></div>
 
-  <!-- Modal Reutilizado para Audiencias -->
-  <div class="modal fade" id="audienciaModal" tabindex="-1" aria-labelledby="audienciaModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="audienciaModalLabel">Programar Próxima Audiencia</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="fechaAudiencia" class="form-label">Fecha de la próxima audiencia</label>
-            <input type="date" class="form-control" id="fechaAudiencia" 
-                  [(ngModel)]="fechaAudiencia" name="fechaAudiencia">
+      <!-- Filtros avanzados como formulario -->
+      <div class="filtros-container" [class.show]="mostrarFiltros">
+        <div class="filtros-card">
+          <div class="filtro-item">
+            <label class="filtro-label">Estado</label>
+            <select class="filtro-select" [(ngModel)]="filtroEstado" name="filtroEstado">
+              <option value="">Todos</option>
+              <option value="En Proceso">En Proceso</option>
+              <option value="Archivado">Archivado</option>
+              <option value="Prioridad Alta">Prioridad Alta</option>
+            </select>
+          </div>
+      
+          <div class="filtro-item">
+            <label class="filtro-label">Fecha</label>
+            <input type="date" class="filtro-input" [(ngModel)]="filtroFecha" name="filtroFecha">
+          </div>
+      
+          <div class="filtro-item">
+            <label class="filtro-label">Abogado</label>
+            <input type="text" class="filtro-input" [(ngModel)]="filtroAbogado" 
+                   placeholder="Filtrar por abogado" name="filtroAbogado">
+          </div>
+      
+          <div class="filtro-botones">
+            <button class="btn-limpiar" (click)="limpiarFiltros()">Limpiar</button>
+            <button class="btn-aplicar" (click)="aplicarFiltros()">Aplicar Filtros</button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="cerrarModalAudiencia()">Cancelar</button>
-          <button type="button" class="btn btn-primary" (click)="guardarAudiencia()">Guardar</button>
+      </div>
+
+      <!-- No Results -->
+      <div *ngIf="!loading && expedientesFiltrados.length === 0" class="text-center my-5">
+        <div class="alert alert-info">
+          <i class="fa fa-info-circle me-2"></i>
+          No se encontraron expedientes con los criterios actuales.
+        </div>
+      </div>
+
+      <!-- Lista de Expedientes -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div *ngFor="let expediente of expedientesFiltrados" class="col">
+          <div class="card h-100" 
+               id="card-{{expediente.idExpediente}}"
+               (mouseenter)="onMouseEnter(expediente.idExpediente)"
+               (mouseleave)="onMouseLeave(expediente.idExpediente)">
+            <div class="card-header">
+              <h5 class="card-title mb-0">
+                {{ expediente.nombreExpediente }}
+                <span *ngIf="expediente.estado === 'prioritario'" class="badge bg-danger ms-2">Prioritario</span>
+              </h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text"><strong>Número:</strong> {{ expediente.numeroExpediente }}</p>
+              <p class="card-text"><strong>Cliente:</strong> {{ expediente.datosCliente.split(',')[0] }}</p>
+              <p class="card-text"><strong>Abogado:</strong> {{ expediente.datosAbogado.split(',')[0] }}</p>              
+              <p class="card-text"><strong>Fecha Creación:</strong> {{ (expediente.fechaCreacion | date) || 'No disponible' }}</p>
+              <p class="card-text"><strong>Última actualización:</strong> {{ expediente.ultimaActualizacion }}</p>
+              <p class="card-text"><strong>Próxima audiencia:</strong> {{ expediente.proximaAudiencia }}</p>
+              <p class="card-text"><strong>Estado:</strong> {{ expediente.estado }}</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between">
+              <button class="btn btn-outline-primary btn-sm" 
+                      (click)="abrirModal(expediente.documentoBase64)"
+                      title="Ver documento">
+                <i class="fa fa-file-pdf-o"></i> Ver PDF
+              </button>
+              
+              <div class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" 
+                        (click)="programarProximaAudiencia(expediente.idExpediente)"
+                        title="Programar audiencia">
+                  <i class="fa fa-calendar"></i>
+                </button>
+                
+                <button class="btn btn-outline-danger btn-sm" 
+                        (click)="confirmarEliminacion(expediente.idExpediente)"
+                        [disabled]="eliminandoExpediente[expediente.idExpediente]"
+                        title="Eliminar expediente">
+                  <i *ngIf="!eliminandoExpediente[expediente.idExpediente]" class="fa fa-trash"></i>
+                  <span *ngIf="eliminandoExpediente[expediente.idExpediente]" class="spinner-border spinner-border-sm"></span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Botón de scroll to top -->
+    <button class="btn btn-primary scroll-to-top" 
+            [class.visible]="mostrarBotonArriba" 
+            (click)="scrollToTop()"
+            title="Volver arriba">
+      <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- Modal para PDF -->
+    <ng-template #pdfModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">Documento del Expediente</h5>
+        <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+      </div>
+      <div class="modal-body">
+        <iframe *ngIf="pdfSrc" [src]="pdfSrc" width="100%" height="600px" style="border: none;"></iframe>
+        <div *ngIf="!pdfSrc" class="alert alert-warning">Documento no disponible</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cerrar</button>
+      </div>
+    </ng-template>
+
+    <!-- Modal para audiencias -->
+    <ng-template #audienciaModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">Audiencias del Expediente {{expedienteSeleccionado?.numeroExpediente}}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="fechaAudiencia" class="form-label">Próxima Audiencia</label>
+          <input type="datetime-local" class="form-control" id="fechaAudiencia" 
+                 [(ngModel)]="fechaAudiencia">
+        </div>
+
+        <button class="btn btn-primary" (click)="guardarAudiencia()">
+          Guardar Audiencia
+        </button>
+
+        <h6 class="mt-4">Audiencias Programadas</h6>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Sala</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let audiencia of audienciasFiltradas">
+                <td>{{audiencia.fechaHora | date:'medium'}}</td>
+                <td>{{audiencia.tipoAudiencia}}</td>
+                <td>{{audiencia.sala || 'No especificada'}}</td>
+                <td>
+                  <span [ngClass]="{
+                    'badge bg-primary': audiencia.estado === 'Programada',
+                    'badge bg-success': audiencia.estado === 'Realizada',
+                    'badge bg-warning': audiencia.estado === 'Aplazada',
+                    'badge bg-danger': audiencia.estado === 'Cancelada'
+                  }">
+                    {{audiencia.estado}}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="audienciasFiltradas.length === 0">
+                <td colspan="4" class="text-center">No hay audiencias programadas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cerrar</button>
+      </div>
+    </ng-template>
   </div>
 </div>

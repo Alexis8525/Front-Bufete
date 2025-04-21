@@ -1,220 +1,243 @@
-/* Estilos generales del wrapper */
+/* ============ ESTILOS BASE ============ */
 .wrapper {
   display: flex;
   height: 100vh;
-  overflow: hidden; /* Evita el desbordamiento */
-}
-
-.app-barra-lateral {
-  height: 100vh;
-  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .main {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-}
-
-.btn-scroll-top {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: #001f3f;
-  color: white;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: darken(#001f3f, 10%);
-    transform: translateY(-3px);
-  }
-
-  i {
-    font-size: 1.25rem;
-  }
-}
-.p-3 {
-  background-image: url('/imagenes/fondo1.jpg'); /* Ruta desde la raíz del servidor */
-  background-position: center; /* Centra la imagen en el contenedor */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
-  flex-grow: 1; /* Permite que el contenedor principal ocupe el espacio restante */
-  max-height: 100vh; /* Asegura que el contenido no exceda la altura de la ventana */
-  background-color: #fafbfe; /* Color de fondo igual al de la barra lateral */
-  padding: 2rem; /* Añade algo de espacio alrededor del contenido */
-  overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es muy grande */
-}
-/* Agrega esto a tu archivo SCSS existente */
-#audienciaModal {
-  .modal-header {
-    background-color: #001f3f;
-    color: white;
-    
-    .btn-close {
-      filter: invert(1);
-    }
-  }
-  
-  .modal-body {
-    padding: 20px;
-  }
-}
-
-/* Contenedor de las tarjetas */
-.card-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  position: relative; /* Contexto de posicionamiento para los tooltips */
-}
-
-/* Estilos base de las tarjetas */
-.card {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  flex: 1 1 calc(50% - 40px);
-  max-width: calc(50% - 40px);
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  box-sizing: border-box;
-  position: relative;
-  overflow: visible; /* Permite que el tooltip se muestre fuera de la tarjeta */
-  margin-bottom: 20px; /* Espacio para el tooltip */
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    z-index: 10; /* Asegura que la tarjeta hover esté sobre las demás */
-  }
-}
-
-/* Estilos para tarjetas de prioridad alta */
-.card-prioridad-alta {
-  background-color: #f6f1f1; /* Rojo claro */
-  border: 1px solid #918f8f; /* Borde rojo oscuro */
-
-  .card-header {
-    background-color: #b8b3b3; /* Color de fondo rojo en el header */
-    color: white; /* Texto blanco en el header */
-  }
-
-  .card-body {
-    color: #5a5a5a; /* Color de texto en el cuerpo de la tarjeta */
-  }
-}
-
-/* Partes de la tarjeta */
-.card-header {
-  h2 {
-    font-size: 1.5rem;
-    text-align: center;
-    color: #0e2238;
-  }
-}
-
-.card-body {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
   overflow-y: auto;
-  
-  p {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 10px;
-  }
+  background-color: rgba(250, 251, 254, 0.9); /* Fondo semitransparente para mejorar legibilidad */
 }
 
-.card-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 10px;
-}
-
-/* Tooltip de detalles */
-.card-detalles {
-  position: absolute;
-  bottom: calc(100% + 10px); /* Aparece arriba de la tarjeta */
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  width: 90%;
-  max-width: 300px;
-  background-color: rgba(15, 95, 175, 0.95);
-  color: rgb(9, 3, 65);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 20;
-  pointer-events: none;
-  
-  /* Triángulo indicador */
-  &::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 8px;
-    border-style: solid;
-    border-color: rgba(0, 31, 63, 0.95) transparent transparent transparent;
-  }
-  
-  h4 {
-    color: white;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-  }
-  
-  p {
-    color: #f70e0e;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-  }
-}
-
-/* Mostrar tooltip al hacer hover */
-.card:hover .card-detalles {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Estilos para los filtros */
+/* Contenedor principal de filtros */
 .filtros-container {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
   
   &.show {
     max-height: 500px;
     transition: max-height 0.5s ease-in;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
   }
 }
 
-/* Estilos para el scroll */
+/* Tarjeta de filtros */
+.filtros-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* Cada item del filtro */
+.filtro-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filtro-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.filtro-select, .filtro-input {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #f9f9f9;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: #001f3f;
+    box-shadow: 0 0 0 2px rgba(0, 31, 63, 0.1);
+    background-color: white;
+  }
+}
+
+/* Contenedor de botones */
+.filtro-botones {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* Botones */
+.btn-limpiar, .btn-aplicar {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-limpiar {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  
+  &:hover {
+    background-color: #e9e9e9;
+  }
+}
+
+.btn-aplicar {
+  background-color: #001f3f;
+  color: white;
+  border: 1px solid #001f3f;
+  
+  &:hover {
+    background-color: #003366;
+    border-color: #003366;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filtros-container.show {
+    padding: 1rem;
+  }
+  
+  .filtro-botones {
+    justify-content: space-between;
+  }
+}
+
+ /* Estilos para el contenedor del formulario */
+ .search-form-container {
+  margin-right: 1rem;
+  flex-grow: 1;
+  max-width: 600px;
+}
+
+/* Estilos para el cuadro de búsqueda */
+.search-box {
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Estilos para el input */
+.search-input {
+  border: none;
+  background: transparent;
+  color: #333;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  
+  &::placeholder {
+    color: #6c757d;
+    opacity: 1;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+/* Estilos para los botones */
+.btn-search, .btn-filter {
+  background: transparent;
+  color: #001f3f;
+  border: none;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: #003366;
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.btn-search {
+  border-right: 1px solid #e0e0e0;
+}
+
+/* Estilos para los filtros (manteniendo tu diseño actual pero mejorado) */
+.filtros-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+  
+  &.show {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .form-label {
+    font-weight: 600;
+    color: #495057;
+  }
+  
+  .form-control, .form-select {
+    border: 1px solid #ced4da;
+    
+    &:focus {
+      border-color: #001f3f;
+      box-shadow: 0 0 0 0.25rem rgba(0, 31, 63, 0.15);
+    }
+  }
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .search-form-container {
+    margin: 0.5rem 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .search-box {
+    width: 100%;
+  }
+}
+
 .p-3 {
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 2rem;
+  overflow-y: auto;
+  position: relative;
+  
+  /* Efecto de capa semitransparente para mejorar contraste */
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+  
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -233,113 +256,626 @@
   }
 }
 
-/* Botón flotante para ir arriba */
-.btn-ir-arriba {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+/* ============ NAVBAR ============ */
+.navbar {
+  transition: transform 0.3s ease;
+  z-index: 1020;
   background-color: #001f3f;
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 1000;
-  
-  &.visible {
-    opacity: 1;
-    visibility: visible;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  &.hidden {
+    transform: translateY(-100%);
   }
+}
+
+/* ============ FILTROS MEJORADOS ============ */
+.filtros-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  border: 1px solid #e0e0e0;
+  
+  &.show {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+    padding: 1rem;
+  }
+
+  .card {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    
+    .card-header {
+      background-color: #001f3f;
+      color: white;
+      border-radius: 6px 6px 0 0;
+      padding: 1rem;
+      border-bottom: none;
+      
+      h3 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+    }
+    
+    .card-body {
+      background-color: white;
+      border-radius: 0 0 6px 6px;
+      padding: 1.5rem;
+      
+      .form-label {
+        font-weight: 600;
+        color: #495057;
+      }
+      
+      .form-control, .form-select {
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s ease;
+        
+        &:focus {
+          border-color: #001f3f;
+          box-shadow: 0 0 0 0.25rem rgba(0, 31, 63, 0.25);
+        }
+      }
+    }
+  }
+}
+/* Estilos para las audiencias */
+.audiencia-card {
+  border-left: 4px solid;
+  margin-bottom: 1rem;
+  
+  &.programada {
+    border-left-color: #0d6efd; 
+  }
+  
+  &.realizada {
+    border-left-color: #198754;
+  }
+  
+  &.cancelada {
+    border-left-color: #dc3545;
+  }
+  
+  &.aplazada {
+    border-left-color: #ffc107;
+  }
+}
+
+/* Mejoras para la tabla de audiencias */
+.table-audiencias {
+  th {
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+  }
+  
+  tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+/* Estilos para el modal */
+.modal-audiencia {
+  .modal-dialog {
+    max-width: 800px;
+  }
+}
+
+/* ============ TARJETAS DE EXPEDIENTES ============ */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
+  overflow: visible;
   
   &:hover {
-    background-color: #003366;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index: 10;
   }
-}
 
-/* Estilos generales para títulos y texto */
-.p-3 {
-  h2, h3 {
-    font-size: 1.8rem;
-    color: #001f3f;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  p {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
+  & .header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1rem;
+    position: relative;
     
-    li {
-      background-color: #f9f9f9;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    h2 {
+      font-size: 1.3rem;
+      color: #001f3f;
+      margin: 0;
+      padding-right: 30px;
+    }
+    
+    .badge-prioridad {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+
+  &-body {
+    flex: 1;
+    padding: 1.25rem;
+    
+    p {
+      margin-bottom: 0.7rem;
+      font-size: 0.95rem;
+      
+      strong {
+        color: #495057;
+        font-weight: 600;
+      }
+    }
+  }
+
+  :is(-footer) {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  /* Estilos mejorados para prioridad */
+  .prioridad-alta  {
+    border-left: 4px solid #dc3545;
+    background-color: #fff9f9;
+    
+    .card-header {
+      background-color: #ffebee;
+    }
+    
+    .badge-prioridad {
+      background-color: #dc3545;
+      animation: pulse 2s infinite;
     }
   }
   
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #1500ff;
+  &-prioridad-media {
+    border-left: 4px solid #fd7e14;
+    background-color: #fff4e5;
+    
+    .card-header {
+      background-color: #ffe8cc;
+    }
+    
+    .badge-prioridad {
+      background-color: #fd7e14;
+    }
+  }
+  
+  &-prioridad-baja {
+    border-left: 4px solid #28a745;
+    background-color: #f0fff4;
+    
+    .card-header {
+      background-color: #e6ffed;
+    }
+    
+    .badge-prioridad {
+      background-color: #28a745;
+    }
+  }
+
+  &-detalles {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: 90%;
+    max-width: 300px;
+    background-color: rgba(0, 31, 63, 0.95);
     color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 20;
+    pointer-events: none;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 8px;
+      border-style: solid;
+      border-color: rgba(0, 31, 63, 0.95) transparent transparent transparent;
+    }
+    
+    h4 {
+      color: white;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      
+      i {
+        margin-right: 8px;
+      }
+    }
+    
+    p {
+      color: #f0f0f0;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      
+      i {
+        margin-right: 8px;
+        width: 20px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+/* Mostrar tooltip al hacer hover */
+.card:hover .card-detalles {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============ BOTONES MEJORADOS ============ */
+.btn {
+  &-primary {
+    background-color: #001f3f;
+    border-color: #001f3f;
+    transition: all 0.3s ease;
     
     &:hover {
-      background-color: #0056b3;
+      background-color: #003366;
+      border-color: #003366;
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &-secondary {
+    background-color: #6c757d;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: #5a6268;
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &-actualizar {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    
+    &:hover {
+      background-color: #138496;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    i {
+      font-size: 0.9rem;
+    }
+  }
+
+  &-eliminar {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    
+    &:hover {
+      background-color: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    i {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Botón de scroll mejorado */
+  &-scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #001f3f;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+    
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    &:hover {
+      background-color: #003366;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    &:active {
+      transform: translateY(0) scale(1);
+    }
+    
+    &::after {
+      content: '↑';
+      position: absolute;
+      font-size: 1.2rem;
+      font-weight: bold;
     }
   }
 }
 
-/* Estilos específicos para botones */
-button {
-  font-size: 16px;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button.btn-actualizar {
-  font-size: 16px;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Estilos para tablas */
-.table {
-  th, td {
-    vertical-align: middle;
+/* ============ BADGES MEJORADOS ============ */
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.4em 0.7em;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &-prioridad {
+    background-color: #dc3545;
+    color: white;
   }
-}
-
-
-
-/* Estilos para modales */
-.modal {
-  button {
-    background-color: #b30000;
+  
+  &-archivado {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  &-proceso {
+    background-color: #17a2b8;
     color: white;
   }
 }
+
+/* ============ ANIMACIONES ============ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+}
+
+.card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.5s ease forwards;
+  
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: $i * 0.1s;
+    }
+  }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 992px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .filtros-container {
+    &.show {
+      max-height: 600px;
+    }
+  }
+  
+  .card {
+    &-detalles {
+      width: 80%;
+      left: 10%;
+      transform: translateX(0) translateY(10px);
+      
+      &::after {
+        left: 50%;
+      }
+    }
+  }
+  
+  .card:hover .card-detalles {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .card-footer {
+    flex-direction: column;
+    gap: 8px;
+    
+    .btn {
+      width: 100%;
+    }
+  }
+  
+  .btn-scroll-top {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+}
+/* ============ FILTROS TRANSPARENTES ============ */
+.filtros-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: rgba(255, 255, 255, 0.85); /* Fondo semi-transparente */
+  backdrop-filter: blur(5px); /* Efecto de desenfoque para mejorar legibilidad */
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  &.show {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+    padding: 1.5rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #001f3f; /* Color oscuro para mejor contraste */
+    margin-bottom: 0.5rem;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  }
+  
+  .form-control, .form-select {
+    border: 1px solid rgba(0, 31, 63, 0.2);
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+    
+    &:focus {
+      border-color: #001f3f;
+      box-shadow: 0 0 0 0.25rem rgba(0, 31, 63, 0.15);
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+  }
+  
+  .btn-outline-secondary {
+    border-color: rgba(0, 31, 63, 0.5);
+    color: #001f3f;
+    background-color: rgba(255, 255, 255, 0.7);
+    
+    &:hover {
+      background-color: rgba(0, 31, 63, 0.8);
+      color: white;
+    }
+  }
+  
+  .btn-primary {
+    background-color: rgba(0, 31, 63, 0.9);
+    border-color: #001f3f;
+    
+    &:hover {
+      background-color: rgba(0, 51, 102, 0.9);
+      border-color: #003366;
+    }
+  }
+}
+
+/* Ajuste para el contenedor principal */
+.p-3 {
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 2rem;
+  overflow-y: auto;
+  position: relative;
+  
+  /* Capa semitransparente más sutil */
+  
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Tarjetas con fondo semi-transparente */
+.card {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* Resto de estilos de tarjetas... */
+}
+
+/* Prioridad Alta - Estilo más llamativo pero con transparencia */
+.card.prioridad-alta {
+  border-left: 6px solid #dc3545;
+  background-color: rgba(255, 245, 245, 0.9);
+  
+  .card-header {
+    background-color: rgba(255, 235, 238, 0.9);
+  }
+}
+
+/* En Proceso - Con transparencia */
+.card.en-proceso {
+  border-left: 6px solid #17a2b8;
+  background-color: rgba(240, 249, 255, 0.9);
+  
+  .card-header {
+    background-color: rgba(227, 242, 253, 0.9);
+  }
+}
+

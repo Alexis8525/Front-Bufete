@@ -39,66 +39,82 @@ export class UploadFileService {
     return throwError(() => new Error(mensajeError));
   }
 
-  actualizarUltimaModificacion(idExpediente: string, fecha: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/expedientes/${idExpediente}/ultima-actualizacion`, { fecha });
+  // Métodos nuevos para audiencias
+  programarAudiencia(idExpediente: string, audienciaData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${idExpediente}/audiencias`, audienciaData)
+      .pipe(catchError(this.manejarError));
+  }
+
+  obtenerAudiencias(idExpediente: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${idExpediente}/audiencias`)
+      .pipe(catchError(this.manejarError));
+  }
+
+  actualizarAudiencia(idExpediente: string, idAudiencia: string, audienciaData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${idExpediente}/audiencias/${idAudiencia}`, audienciaData)
+      .pipe(catchError(this.manejarError));
+  }
+
+  // Métodos existentes con mejoras
+  actualizarUltimaModificacion(idExpediente: string): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${idExpediente}/ultima-actualizacion`, {})
+      .pipe(catchError(this.manejarError));
   }
 
   actualizarProximaAudiencia(idExpediente: string, fecha: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/expedientes/${idExpediente}/proxima-audiencia`, { fecha });
-  }
+    return this.http.put(`${this.apiUrl}/${idExpediente}/proxima-audiencia`, { fecha })
+        .pipe(
+            catchError((error) => {
+                console.error('Error en actualizarProximaAudiencia:', error);
+                
+                if (error.status === 500 && error.error?.solution) {
+                    // Mostrar mensaje más útil al usuario
+                    return throwError(() => new Error(`
+                        Error de configuración: ${error.error.message}.
+                        ${error.error.solution}
+                    `));
+                }
+                
+                return this.manejarError(error);
+            })
+        );
+}
 
-  actualizarFechasExpediente(idExpediente: string, ultimaActualizacion: string, proximaAudiencia: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/expedientes/${idExpediente}/fechas`, {
-      ultimaActualizacion,
-      proximaAudiencia
-    });
-  }
-
+  // Resto de métodos existentes...
   crearExpediente(expedienteData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, expedienteData).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http.post(`${this.apiUrl}`, expedienteData)
+      .pipe(catchError(this.manejarError));
   }
 
-  // Obtener todos los expedientes
   obtenerExpedientes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http.get<any[]>(`${this.apiUrl}`)
+      .pipe(catchError(this.manejarError));
   }
 
-  // Eliminar expediente
   eliminarExpediente(id: string) {
-    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http.delete(`${this.apiUrl}/${id}`)
+      .pipe(catchError(this.manejarError));
   }
 
-  // Obtener documentos de expedientes
   getDocumentos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/documentos`).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http.get<any[]>(`${this.apiUrl}/documentos`)
+      .pipe(catchError(this.manejarError));
   }
 
   getExpedienteCompleto(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http.get<any[]>(`${this.apiUrl}`)
+      .pipe(catchError(this.manejarError));
   }
 
   subirDocumentos(idExpediente: number, documentos: { documentoBase64: string, idTipoDocumentoFK: number }[]): Observable<any> {
     return this.http.post(`${this.apiUrl}/subirDocumento`, {
-      idExpedienteFK: idExpediente, // El backend espera este nombre exacto
+      idExpedienteFK: idExpediente,
       documentos,
-    }).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    }).pipe(catchError(this.manejarError));
   }
 
   getHistorialExpedienteCompleto(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/historial-expedientes`).pipe(
-      catchError((error) => this.manejarError(error))
-    );
+    return this.http.get<any[]>(`${this.apiUrl}/historial-expedientes`)
+      .pipe(catchError(this.manejarError));
   }
 }

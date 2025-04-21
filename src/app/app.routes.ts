@@ -35,7 +35,7 @@ import { CalendarioCitasSecretariaComponent } from './components/calendario-cita
 // Expedientes
 import { UploadFileComponent } from './components/Expedientes/upload-file/upload-file.component';
 import { VisualizarPdfComponent } from './components/Expedientes/visualizar-pdf/visualizar-pdf.component';
-import { HistorialExpedienteComponent } from './components/historial-expediente/historial-expediente.component';
+import { HistorialExpedienteComponent } from './components/Expedientes/historial-expediente/historial-expediente.component';
 import { ExpedienteComponent } from './components/Expedientes/expediente/expediente.component';
 
 // Navegación
@@ -113,7 +113,7 @@ export const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes),
     NavbarComponent,
-    UploadFileComponent
+    UploadFileComponent,
   ],
   exports: [UploadFileComponent],
   providers: [NavigationHistoryService],
