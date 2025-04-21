@@ -1,5 +1,31 @@
 <app-nav-barra class="nav-barra"></app-nav-barra>
 
+<!-- Modal de Éxito -->
+<ng-template #successModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">¡Éxito!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ successMessage }}</p>
+  </div>
+</ng-template>
+
+<!-- Modal de Error -->
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">¡Error!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ errorMessage }}</p>
+  </div>
+</ng-template>
+
 <div class="wrapper">
   <div class="main">
     <div class="container mt-5 register-container">
@@ -9,58 +35,25 @@
             <h5>Registro de Cliente</h5>
           </div>
           <div class="card-body">
-            <!-- Nombre del Cliente -->
-            <div class="form-group mb-3">
-              <label for="nombreCliente" class="form-label">Nombre</label>
-              <input type="text" id="nombreCliente" class="form-control" formControlName="nombreCliente" placeholder="Nombre" />
-              <small *ngIf="registerForm.get('nombreCliente')?.invalid && (registerForm.get('nombreCliente')?.dirty || registerForm.get('nombreCliente')?.touched)" class="error-message">
-                <div *ngIf="registerForm.get('nombreCliente')?.hasError('required')">Este campo es obligatorio.</div>
-              </small>
-            </div>
+            <!-- Campos de texto -->
+            <div class="form-group mb-3" *ngFor="let campo of [
+              { id: 'nombreCliente', label: 'Nombre', tipo: 'text' },
+              { id: 'aPCliente', label: 'Apellido Paterno', tipo: 'text' },
+              { id: 'aMCliente', label: 'Apellido Materno', tipo: 'text' },
+              { id: 'direccion', label: 'Dirección', tipo: 'text' },
+              { id: 'correo', label: 'Correo Electrónico', tipo: 'email' },
+              { id: 'telefono', label: 'Teléfono', tipo: 'text' }
+            ]">
+              <label [for]="campo.id">{{ campo.label }}</label>
+              <input [id]="campo.id" [type]="campo.tipo" class="form-control" [formControlName]="campo.id"
+                [placeholder]="campo.label" />
 
-            <!-- Apellido Paterno -->
-            <div class="form-group mb-3">
-              <label for="aPCliente" class="form-label">Apellido Paterno</label>
-              <input type="text" id="aPCliente" class="form-control" formControlName="aPCliente" placeholder="Apellido Paterno" />
-              <small *ngIf="registerForm.get('aPCliente')?.invalid && (registerForm.get('aPCliente')?.dirty || registerForm.get('aPCliente')?.touched)" class="error-message">
-                <div *ngIf="registerForm.get('aPCliente')?.hasError('required')">Este campo es obligatorio.</div>
-              </small>
-            </div>
-
-            <!-- Apellido Materno -->
-            <div class="form-group mb-3">
-              <label for="aMCliente" class="form-label">Apellido Materno</label>
-              <input type="text" id="aMCliente" class="form-control" formControlName="aMCliente" placeholder="Apellido Materno" />
-              <small *ngIf="registerForm.get('aMCliente')?.invalid && (registerForm.get('aMCliente')?.dirty || registerForm.get('aMCliente')?.touched)" class="error-message">
-                <div *ngIf="registerForm.get('aMCliente')?.hasError('required')">Este campo es obligatorio.</div>
-              </small>
-            </div>
-
-            <!-- Dirección -->
-            <div class="form-group mb-3">
-              <label for="direccion" class="form-label">Dirección</label>
-              <input type="text" id="direccion" class="form-control" formControlName="direccion" placeholder="Dirección" />
-              <small *ngIf="registerForm.get('direccion')?.invalid && (registerForm.get('direccion')?.dirty || registerForm.get('direccion')?.touched)" class="error-message">
-                <div *ngIf="registerForm.get('direccion')?.hasError('required')">Este campo es obligatorio.</div>
-              </small>
-            </div>
-
-            <!-- Correo Electrónico -->
-            <div class="form-group mb-3">
-              <label for="correo" class="form-label">Correo Electrónico</label>
-              <input type="email" id="correo" class="form-control" formControlName="correo" placeholder="correo@ejemplo.com" />
-              <small *ngIf="registerForm.get('correo')?.invalid && (registerForm.get('correo')?.dirty || registerForm.get('correo')?.touched)" class="error-message">
-                <div *ngIf="registerForm.get('correo')?.hasError('required')">Este campo es obligatorio.</div>
-                <div *ngIf="registerForm.get('correo')?.hasError('email')">Correo electrónico no válido.</div>
-              </small>
-            </div>
-
-            <!-- Teléfono -->
-            <div class="form-group mb-3">
-              <label for="telefono" class="form-label">Teléfono</label>
-              <input type="text" id="telefono" class="form-control" formControlName="telefono" placeholder="Teléfono" />
-              <small *ngIf="registerForm.get('telefono')?.invalid && (registerForm.get('telefono')?.dirty || registerForm.get('telefono')?.touched)" class="error-message">
-                <div *ngIf="registerForm.get('telefono')?.hasError('required')">Este campo es obligatorio.</div>
+              <small class="error-message"
+                *ngIf="registerForm.get(campo.id)?.invalid && (registerForm.get(campo.id)?.touched || registerForm.get(campo.id)?.dirty)">
+                <div *ngIf="registerForm.get(campo.id)?.hasError('required')">Este campo es obligatorio.</div>
+                <div *ngIf="campo.id === 'correo' && registerForm.get(campo.id)?.hasError('email')">Correo no válido.</div>
+                <div *ngIf="campo.id === 'telefono' && registerForm.get(campo.id)?.hasError('invalidPhone')">El teléfono
+                  debe tener 10 dígitos numéricos.</div>
               </small>
             </div>
 
@@ -99,13 +92,15 @@
             <div class="form-group mb-3">
               <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
               <input type="password" id="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Reingrese la contraseña" />
-              <small *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched" class="error-message">
-                Las contraseñas no coinciden.
-              </small>
+              <small *ngIf="registerForm.hasError('passwordMismatch')" class="error-message">Las contraseñas no coinciden.</small>
             </div>
 
-            <!-- Botón de Registro -->
-            <button type="submit" class="btn btn-primary btn-submit w-100 mt-3" [disabled]="registerForm.invalid">Registrarse</button>
+            <!-- Botón -->
+            <button type="submit" class="btn btn-primary btn-submit w-100 mt-3"
+              [disabled]="registerForm.invalid || !captchaResolved">
+              Registrarse
+            </button>
+
           </div>
         </div>
       </form>

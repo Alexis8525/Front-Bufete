@@ -1,31 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NavBarraComponent } from '../nav-barra/nav-barra.component';
 import { RecaptchaModule } from 'ng-recaptcha';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Importa NgbModal
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.css'],
   standalone: true,
   imports: [
     CommonModule,
     RecaptchaModule,
     NavBarraComponent,
+    ReactiveFormsModule,
     RouterLink,
-    ReactiveFormsModule
   ],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  captchaResolved: boolean = false; 
+  captchaResolved: boolean = false;
   captchaToken: string = '';
   tempEmail: string = '';
   show2FAVerification: boolean = false;
   twoFactorForm: FormGroup;
+  showPassword: boolean = false; // Control de visibilidad de la contraseña
+  errorMessage: string = ''; // Mensaje de error para el modal
+
+  @ViewChild('errorModal') errorModal: any; // Definimos errorModal con ViewChild
 
   showPasswordRequirements = false;
   hasMinLength = false;
@@ -37,14 +47,18 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal // Inyectamos el servicio para el modal
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: [
+        '',
+        [Validators.required, Validators.minLength(8), this.passwordValidator],
+      ],
       recaptcha: ['', Validators.required],
     });
-    // Inicializar formulario de 2FA
+
     this.twoFactorForm = this.fb.group({
       otp: [
         '',
@@ -86,9 +100,18 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
+  // Validación de contraseña
+  passwordValidator(control: any) {
+    const password = control.value;
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!pattern.test(password)) {
+      return { passwordStrength: true };
+    }
+    return null;
+  }
+
   resolved(captchaResponse: string | null): void {
     if (captchaResponse) {
-      console.log(`Captcha resuelto: ${captchaResponse}`);
       this.captchaResolved = true;
       this.captchaToken = captchaResponse;
       this.loginForm.patchValue({ recaptcha: captchaResponse });
@@ -97,26 +120,49 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  // Función para alternar la visibilidad de la contraseña
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   login() {
     console.log('Formulario de login enviado:', this.loginForm.value);
-
+  
     if (this.loginForm.valid && this.captchaResolved) {
       const { email, password, recaptcha } = this.loginForm.value;
-
+  
       this.usuarioService.login(email, password, recaptcha).subscribe(
         (response: any) => {
           console.log('OTP enviado:', response);
-
-          // Redirige a la verificación 2FA sin cambiar de página
           this.tempEmail = email;
           this.show2FAVerification = true; // Muestra el formulario de OTP en la misma página
         },
         (error) => {
           console.error('Error al iniciar sesión:', error);
+          
+          // Verifica si el error tiene un mensaje del servidor
+          if (error.status === 401) {
+            this.errorMessage = 'Credenciales incorrectas, por favor intenta nuevamente.'; 
+          } else {
+            this.errorMessage = error.error.message || 'Error al iniciar sesión. Por favor, intenta nuevamente.';
+          }
+          
+          // Llama al método para abrir el modal con el error
+          this.openErrorModal();  
         }
       );
     } else {
-      alert('Completa el reCAPTCHA antes de iniciar sesión.');
+      this.errorMessage = 'Completa el reCAPTCHA antes de iniciar sesión.';
+      this.openErrorModal();  // Muestra el modal con el error.
+    }
+  }  
+
+  // Abre el modal de error
+  openErrorModal() {
+    if (this.errorModal) {
+      this.modalService.open(this.errorModal); // Pasa 'this.errorModal' como argumento
+    } else {
+      console.error('Error al intentar abrir el modal.');
     }
   }
 
@@ -127,7 +173,7 @@ export class LoginComponent implements OnInit {
     this.usuarioService.verifyOTP(this.tempEmail, otp).subscribe(
       (response: any) => {
         console.log('OTP verificado, respuesta del servidor:', response);
-        this.finalizarLogin(response); // Solo finaliza si el OTP es correcto
+        this.finalizarLogin(response);
       },
       (error) => {
         console.error('Código incorrecto:', error);
@@ -144,17 +190,17 @@ export class LoginComponent implements OnInit {
     } else {
       usuarioId = response.usuario.idCliente;
     }
-  
+
     localStorage.setItem('usuarioId', usuarioId.toString());
     localStorage.setItem('usuario', JSON.stringify(response.usuario));
-  
-    // Ver en consola lo que se guardó en localStorage
-    console.log('Usuario guardado en localStorage:', localStorage.getItem('usuario'));
-    console.log('UsuarioId guardado en localStorage:', localStorage.getItem('usuarioId'));
-  
+    localStorage.setItem('token', response.token);
+
+    // Extraer expiración del token
+    const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
+    localStorage.setItem('exp', (tokenPayload.exp * 1000).toString()); // en ms
+
     this.router.navigate(['/principal']);
   }
-  
 
   navigateToRegister() {
     this.router.navigate(['/register']);

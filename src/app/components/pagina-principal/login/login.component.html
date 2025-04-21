@@ -1,5 +1,19 @@
 <app-nav-barra class="nav-barra"></app-nav-barra>
 
+<!-- Modal de Error -->
+<ng-template #errorModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">¡Error!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{ errorMessage }}</p> <!-- Mostramos el mensaje de error -->
+  </div>
+</ng-template>
+
+
 <div class="wrapper">
   <div class="main">
     <div class="container mt-5 login-container">
@@ -19,18 +33,27 @@
                 <div *ngIf="email?.hasError('email')">Ingresa un email válido.</div>
               </small>
             </div>
-    
+
             <!-- Campo de Contraseña -->
             <!-- Campo de Contraseña -->
 <div class="form-group mb-4">
   <label for="password" class="form-label">Contraseña</label>
-  <input type="password" id="password" class="form-control" formControlName="password" placeholder="••••••••" 
+  <div class="input-wrapper">
+                <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
+                  formControlName="password" placeholder="••••••••" 
          (focus)="onPasswordFocus()" 
          (blur)="onPasswordBlur()"
          (input)="onPasswordInput($event)"/>
   
+                <i class="fa toggle-password" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                  (click)="togglePasswordVisibility()"></i>
+              </div>
   <small *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="error-message">
     <div *ngIf="password?.hasError('required')">Este campo es obligatorio.</div>
+                <div *ngIf="password?.hasError('minlength')">Debe tener al menos 8 caracteres.</div>
+                <div *ngIf="password?.hasError('passwordStrength')">
+                  Debe contener al menos 1 mayúscula, 1 minúscula y 1 número.
+                </div>
   </small>
 
   <div class="password-requirements mt-2" *ngIf="showPasswordRequirements">
@@ -57,29 +80,33 @@
   </div>
 </div>
 
+
             <div class="text-end">
               <a [routerLink]="['/recuperar-contrasena']">¿Olvidaste tu contraseña?</a>
             </div>
-
-            <div class="form-group mb-4">
-              <re-captcha 
-                (resolved)="resolved($event)" 
-                [siteKey]="'6LemDAArAAAAAHQnA85NNufejIN6awF7v8zS-Cu6'">
-              </re-captcha>
-              <small *ngIf="loginForm.get('recaptcha')?.invalid && (loginForm.get('recaptcha')?.dirty || loginForm.get('recaptcha')?.touched)" class="error-message">
+            <br>
+            <div class="form-group mb-4 recaptcha-wrapper">
+              <div class="recaptcha-container">
+                <re-captcha (resolved)="resolved($event)"
+                  [siteKey]="'6LemDAArAAAAAHQnA85NNufejIN6awF7v8zS-Cu6'"></re-captcha>
+              </div>
+              <small *ngIf="loginForm.get('recaptcha')?.invalid && 
+                            (loginForm.get('recaptcha')?.dirty || 
+                             loginForm.get('recaptcha')?.touched)" class="error-message">
                 <div>Por favor, verifica el reCAPTCHA.</div>
               </small>
-            </div>        
+            </div>
+
 
             <!-- Botón de Ingreso -->
             <button type="submit" class="btn btn-primary btn-submit w-100 mt-3"
-            [disabled]="loginForm.invalid || !captchaResolved">Ingresar</button>
-       
+              [disabled]="loginForm.invalid || !captchaResolved">Ingresar</button>
+
             <div class="mt-3 text-center register-link">
               <span>¿No tienes cuenta?</span>
               <a (click)="navigateToRegister()">Regístrate aquí</a>
             </div>
-    
+
           </div>
         </div>
       </form>
@@ -101,4 +128,3 @@
     </div>
   </div>
 </div>
-

@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 })
 export class CitaExpedienteService {
   private apiUrl = 'http://localhost:3000/citasExpediente';
+  //private apiUrl = 'https://fkgm057s-3000.usw3.devtunnels.ms/citasExpediente';
 
   constructor(private http: HttpClient) {}
 
