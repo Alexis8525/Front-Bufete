@@ -87,9 +87,10 @@
 
               <small class="error-message"
                 *ngIf="passwordErrors && (registerForm.get('pass')?.touched || registerForm.get('pass')?.dirty)">
-                <div *ngIf="passwordErrors.required">Este campo es obligatorio.</div>
-                <div *ngIf="passwordErrors.minlength">Mínimo 8 caracteres.</div>
-                <div *ngIf="passwordErrors.pattern">Debe cumplir con los requisitos de seguridad.</div>
+                <div *ngIf="passwordErrors?.['required']">Este campo es obligatorio.</div>
+                <div *ngIf="passwordErrors?.['minlength']">Mínimo 8 caracteres.</div>
+                <div *ngIf="passwordErrors?.['pattern']">Debe cumplir con los requisitos.</div>
+
               </small>
             </div>
 

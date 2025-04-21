@@ -62,6 +62,20 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  checkPasswordStrength(): void {
+    const password = this.registerForm.get('pass')?.value || '';
+    this.hasMinLength = password.length >= 8;
+    this.hasUpperCase = /[A-Z]/.test(password);
+    this.hasLowerCase = /[a-z]/.test(password);
+    this.hasNumber = /\d/.test(password);
+    this.hasSpecialChar = /[@$!%*?&]/.test(password);
+  }
+  
+  get passwordErrors(): ValidationErrors | null {
+    return this.registerForm.get('pass')?.errors || null;
+  }
+  
+
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
