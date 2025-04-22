@@ -347,6 +347,17 @@
   padding: 15px 0;
 }
 
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+  
+}
+
+
+
 .card {
   background-color: white;
   border: none;
@@ -658,9 +669,7 @@
       width: 100%;
     }
   }
-  
 
-  
   .search-input {
     padding: 0.75rem 0.7rem;
   }

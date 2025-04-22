@@ -113,9 +113,11 @@
 }
 
 .card-header h2 {
-  font-size: 1.25rem;
+  font-size: 1.4rem; 
+  font-weight: 700;
+  color: var(--primary-color);
+  font-family: 'Playfair Display', serif;
   margin: 0;
-  font-weight: 600;
 }
 
 .card-body {
