@@ -211,7 +211,6 @@ export class UploadFileComponent implements ExpedienteComponent{
             return;
           }
           this.expedienteDecorado = new ExpedienteConPrioridadDecorator(this.expedienteDecorado || this);
-          console.log('Decorador de prioridad aplicado.');
           window.location.reload();
           break;
   
@@ -221,7 +220,6 @@ export class UploadFileComponent implements ExpedienteComponent{
             return;
           }
           this.expedienteDecorado = new ExpedienteArchivadoDecorator(this.expedienteDecorado || this);
-          console.log('Decorador de archivado aplicado.');
           window.location.reload();
           break;
   
@@ -342,7 +340,6 @@ export class UploadFileComponent implements ExpedienteComponent{
     this.uploadFileService.crearExpediente(this.expediente).subscribe({
       next: (response: any) => {
         this.idExpedienteCreado = response.idExpediente;
-        console.log('Expediente creado:', response);
       },
       error: (err: any) => {
         console.error('Error al crear el expediente:', err);

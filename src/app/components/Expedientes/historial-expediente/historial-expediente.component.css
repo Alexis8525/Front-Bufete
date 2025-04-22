@@ -1,37 +1,97 @@
-/* Estilos generales para el wrapper */
-.wrapper {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
-  /* Estilos para la barra lateral */
-  .app-barra-lateral {
-    height: 100vh;
-    flex-shrink: 0;
-  }
-  
-  /* Estilos para el contenedor principal */
-  .main {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Estilos para la barra de navegación */
-  .navbar {
-    background-color: #001f3f;
-  }
-  
-  .navbar-brand img {
-    width: 200px;
-  }
+/* ============ VARIABLES ============ */
+:root {
+  --color-primary: #0e2238;
+  --color-secondary: #bf913b;
+  --color-light: #f5f0e6;
+  --color-dark: #001f3f;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+}
 
-  /* Estilos para las animaciones y efectos dinámicos */
+/* ============ ESTRUCTURA PRINCIPAL ============ */
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--color-light);
+  overflow: hidden;
+}
+
+.wrapper::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+
+/* ============ BUSCADOR ============ */
+.form-control {
+  width: 400px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.form-control:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 0.25rem rgba(191, 145, 59, 0.25);
+  outline: none;
+}
+
+.btn-light {
+  background-color: white;
+  border-radius: 30px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-light:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+/* ============ CONTENEDOR PRINCIPAL ============ */
+.p-3 {
+  padding: 2rem;
+  margin: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+}
+
+/* ============ TARJETAS DE EXPEDIENTES ============ */
 .card {
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-visible {
@@ -40,15 +100,73 @@
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
+.card-header {
+  background-color: var(--color-primary);
+  color: rgb(22, 21, 21);
+  border-radius: 10px 10px 0 0 !important;
+  padding: 1.25rem;
+  border-bottom: none;
+}
+
+.card-header h2 {
+  font-size: 1.25rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.card-body p {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.card-body strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.card-footer {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 0 0 10px 10px;
+}
+
+/* ============ BOTONES ============ */
+.btn-outline-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* ============ SCROLL TO TOP ============ */
 .scroll-to-top {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #001f3f;
+  background-color: var(--color-secondary);
   color: white;
   width: 50px;
   height: 50px;
@@ -60,6 +178,7 @@
   opacity: 0;
   transition: all 0.3s ease;
   z-index: 1000;
+  border: none;
 }
 
 .scroll-to-top.visible {
@@ -67,113 +186,75 @@
 }
 
 .scroll-to-top:hover {
-  background-color: #003366;
+  background-color: var(--color-primary);
   transform: scale(1.1);
 }
 
-.navbar {
-  transition: all 0.3s ease;
+/* ============ MODAL ============ */
+.modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.navbar.hidden {
-  transform: translateY(-100%);
+.modal-header {
+  background-color: var(--color-primary);
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Efecto para los elementos de búsqueda */
-.form-control:focus {
-  box-shadow: 0 0 0 0.25rem rgba(0, 31, 63, 0.25);
+.modal-title {
+  font-weight: 600;
 }
 
-.btn-light:hover {
-  background-color: #e2e6ea;
-}
-/* ... (estilos previos se mantienen) */
-
-.card-hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-/* Podemos simplificar los estilos hover ya que ahora los manejamos con clases */
-.card:hover {
-  /* Eliminamos las propiedades que ahora manejamos con card-hover */
-  cursor: pointer;
-}
-  
-  /* Estilos para el buscador */
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1200px) {
   .form-control {
-    width: 300px; /* Ancho del buscador */
+    width: 300px;
   }
-  
-  /* Estilos para el contenedor de las tarjetas */
-  .p-3 {
-    background-image: url('/imagenes/fondo1.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-  }
-  
-  /* Estilos para las tarjetas */
-  .card {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    margin-bottom: 20px;
-  }
-  
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  .card-header {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 15px;
+}
+
+@media (max-width: 992px) {
+  .form-control {
+    width: 250px;
   }
   
   .card-header h2 {
-    font-size: 1.5rem;
-    color: #001f3f;
-    font-weight: bold;
-    margin: 0;
-    text-align: center;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-3 {
+    margin: 0.75rem;
+    padding: 1.5rem;
+  }
+  
+  .form-control {
+    width: 200px;
+  }
+  
+  .navbar-brand img {
+    width: 160px;
+  }
+}
+
+@media (max-width: 576px) {
+  .form-control {
+    width: 150px;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .btn-light {
+    padding: 0.5rem 1rem;
+  }
+  
+  .card-header {
+    padding: 1rem;
   }
   
   .card-body {
-    padding: 20px;
+    padding: 1rem;
   }
-  
-  .card-body p {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  /* Estilos responsivos */
-  @media (max-width: 768px) {
-    .form-control {
-      width: 200px; /* Reducir el ancho del buscador en pantallas pequeñas */
-    }
-  
-    .card {
-      margin-bottom: 15px;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .form-control {
-      width: 150px; /* Reducir aún más el ancho del buscador en pantallas muy pequeñas */
-    }
-  
-    .card {
-      margin-bottom: 10px;
-    }
-  }
-  
+}
