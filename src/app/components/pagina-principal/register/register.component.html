@@ -62,28 +62,7 @@
               <input type="password" id="pass" class="form-control" formControlName="pass" placeholder="••••••••" 
                      (input)="checkPasswordStrength()" />
 
-              <div class="password-requirements mt-2">
-                <div class="requirement" [class.valid]="hasMinLength">
-                  <span class="requirement-icon">{{ hasMinLength ? '✓' : '•' }}</span>
-                  Mínimo 8 caracteres
-                </div>
-                <div class="requirement" [class.valid]="hasUpperCase">
-                  <span class="requirement-icon">{{ hasUpperCase ? '✓' : '•' }}</span>
-                  Al menos una mayúscula
-                </div>
-                <div class="requirement" [class.valid]="hasLowerCase">
-                  <span class="requirement-icon">{{ hasLowerCase ? '✓' : '•' }}</span>
-                  Al menos una minúscula
-                </div>
-                <div class="requirement" [class.valid]="hasNumber">
-                  <span class="requirement-icon">{{ hasNumber ? '✓' : '•' }}</span>
-                  Al menos un número
-                </div>
-                <div class="requirement" [class.valid]="hasSpecialChar">
-                  <span class="requirement-icon">{{ hasSpecialChar ? '✓' : '•' }}</span>
-                  Al menos un carácter especial (&#64;$!%*?&)
-                </div>
-              </div>
+              
 
               <small class="error-message"
                 *ngIf="passwordErrors && (registerForm.get('pass')?.touched || registerForm.get('pass')?.dirty)">
