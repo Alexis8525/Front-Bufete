@@ -92,7 +92,7 @@
             <div class="card-body">
               <p class="card-text"><strong>Número:</strong> {{ expediente.numeroExpediente }}</p>
               <p class="card-text"><strong>Cliente:</strong> {{ expediente.datosCliente.split(',')[0] }}</p>
-              <p class="card-text"><strong>Abogado:</strong> {{ expediente.datosAbogado.split(',')[0] }}</p>              
+              <p class="card-text"><strong>Datos del Abogado:</strong> {{ expediente.datosAbogado }}</p>         
               <p class="card-text"><strong>Fecha Creación:</strong> {{ (expediente.fechaCreacion | date) || 'No disponible' }}</p>
               <p class="card-text"><strong>Última actualización:</strong> {{ expediente.ultimaActualizacion }}</p>
               <p class="card-text"><strong>Próxima audiencia:</strong> {{ expediente.proximaAudiencia }}</p>

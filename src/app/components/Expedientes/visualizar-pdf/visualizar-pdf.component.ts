@@ -238,19 +238,27 @@ get fechaFiltro(): string {
 
   private mapearExpedientes(expedientes: any[]): any[] {
     return expedientes.map(expediente => {
-        let datosAbogado = { nombreEmpleado: '', aPEmpleado: '', aMEmpleado: '', licencia: '', telefono: '' };
-        try {
-            if (expediente.datosAbogado) {
-                datosAbogado = typeof expediente.datosAbogado === 'string' ? 
-                    JSON.parse(expediente.datosAbogado) : 
-                    expediente.datosAbogado;
-            }
-        } catch (e) {
-            console.error('Error al parsear datosAbogado:', e);
+      let datosAbogado = { 
+        nombreAbogado: '', 
+        aPAbogado: '', 
+        aMAbogado: '', 
+        licencia: '', 
+        telefono: '',
+        correo: ''
+    };
+    
+    try {
+        if (expediente.datosAbogado) {
+            datosAbogado = typeof expediente.datosAbogado === 'string' ? 
+                JSON.parse(expediente.datosAbogado) : 
+                expediente.datosAbogado;
         }
+    } catch (e) {
+        console.error('Error al parsear datosAbogado:', e);
+    }
 
-        const datosAbogadoConcatenados = `${datosAbogado.nombreEmpleado || ''} ${datosAbogado.aPEmpleado || ''} ${datosAbogado.aMEmpleado || ''}`;
-
+    const datosAbogadoConcatenados = `${datosAbogado.nombreAbogado || ''} ${datosAbogado.aPAbogado || ''} ${datosAbogado.aMAbogado || ''}`;
+    const infoAbogado = `Licencia: ${datosAbogado.licencia || 'N/A'} | Tel: ${datosAbogado.telefono || 'N/A'}`;
         let datosCliente = { nombreCliente: '', aPCliente: '', aMCliente: '', direccion: '', telefono: '', correo: '' };
         try {
             if (expediente.datosCliente) {
@@ -279,6 +287,7 @@ get fechaFiltro(): string {
         return {
             ...expediente,
             datosAbogado: datosAbogadoConcatenados,
+            infoAbogado: infoAbogado,
             datosCliente: datosClienteConcatenados,
             fechaCreacion,
             ultimaActualizacion,
