@@ -19,8 +19,8 @@ import { ContancosComponent } from './components/pagina-principal/contancos/cont
 import { MapaSitioComponent } from './components/pagina-principal/mapa-sitio/mapa-sitio.component';
 
 // Gestión
-import { CrudEmpleadoComponent } from './components/crud-empleado/crud-empleado.component';
-import { CrudClienteComponent } from './components/crud-cliente/crud-cliente.component';
+import { CrudEmpleadoComponent } from './components/cruds/crud-empleado/crud-empleado.component';
+import { CrudClienteComponent } from './components/cruds/crud-cliente/crud-cliente.component';
 import { GestionHorarioComponent } from './components/gestion-horario/gestion-horario.component';
 import { GestionPagoComponent } from './components/gestion-pago/gestion-pago.component';
 import { GestionCitaComponent } from './components/gestion-cita/gestion-cita.component';
@@ -28,9 +28,9 @@ import { GestionCitaComponent } from './components/gestion-cita/gestion-cita.com
 // Citas
 import { SolicitudCitaComponent } from './components/solicitud-cita/solicitud-cita.component';
 import { RegistroCitasComponent } from './components/registro-citas/registro-citas.component';
-import { CalendarioCitasClienteComponent } from './components/calendario-citas-cliente/calendario-citas-cliente.component';
-import { CalendarioCitasAbogadoComponent } from './components/calendario-citas-abogado/calendario-citas-abogado.component';
-import { CalendarioCitasSecretariaComponent } from './components/calendario-citas-secretaria/calendario-citas-secretaria.component';
+import { CalendarioCitasClienteComponent } from './components/calendarios/calendario-citas-cliente/calendario-citas-cliente.component';
+import { CalendarioCitasAbogadoComponent } from './components/calendarios/calendario-citas-abogado/calendario-citas-abogado.component';
+import { CalendarioCitasSecretariaComponent } from './components/calendarios/calendario-citas-secretaria/calendario-citas-secretaria.component';
 
 // Expedientes
 import { UploadFileComponent } from './components/Expedientes/upload-file/upload-file.component';
@@ -52,58 +52,55 @@ import { PaymentRequiredComponent } from './components/pages/payment-required/pa
 import { NavigationHistoryService } from './services/navigation-history.service';
 
 export const routes: Routes = [
-  // ✅ Ruta por defecto: redirige a home
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
-  // Páginas principales
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'recuperar-contrasena', component: RecuperacionContraseñaComponent },
-  { path: 'restablecer-contrasena/:token', component: RestablecerContrasenaComponent },
-  { path: 'restablecer', component: RestablecerContrasenaComponent},
-  { path: 'principal', component: PrincipalComponent },
-  { path: 'settings', component: SettingsComponent },
+  /** SIN INICIAR SESIÓN */
+  { path: 'home', component: HomeComponent, data: { breadcrumb: 'Inicio' } },
+  { path: 'principal-conocenos', component: ConocenosComponent, data: { breadcrumb: 'Conócenos' } },
+  { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumb: 'Servicios' } },
+  { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumb: 'Contáctanos' } },
+  { path: 'mapa-sitio', component: MapaSitioComponent, data: { breadcrumb: 'Mapa del Sitio' } },
 
-  // Informativas
-  { path: 'principal-conocenos', component: ConocenosComponent },
-  { path: 'principal-servicios', component: ServiciosComponent },
-  { path: 'principal-contactos', component: ContancosComponent },
-  { path: 'mapa-sitio', component: MapaSitioComponent },
+  { path: 'login', component: LoginComponent, data: { breadcrumb: 'Iniciar Sesión' } },
+  { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Registro' } },
+  { path: 'recuperar-contrasena', component: RecuperacionContraseñaComponent, data: { breadcrumb: 'Recuperar Contraseña' } },
+  { path: 'restablecer-contrasena/:token', component: RestablecerContrasenaComponent, data: { breadcrumb: 'Restablecer Contraseña' } },
+  { path: 'restablecer', component: RestablecerContrasenaComponent, data: { breadcrumb: 'Restablecer Contraseña' } },
 
-  // Gestión
-  { path: 'empleado', component: CrudEmpleadoComponent },
-  { path: 'gestion-cliente', component: CrudClienteComponent },
-  { path: 'gestion-horario', component: GestionHorarioComponent },
-  { path: 'gestion-pago', component: GestionPagoComponent },
-  { path: 'gestion-cita', component: GestionCitaComponent },
+  /** CON INICIO DE SESIÓN */
 
-  // Citas
-  { path: 'cita', component: SolicitudCitaComponent },
-  { path: 'citasRegistro', component: RegistroCitasComponent },
-  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent },
-  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent },
-  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent },
+  { path: 'principal', component: PrincipalComponent, data: { breadcrumb: 'Panel Principal' } },
+  { path: 'settings', component: SettingsComponent, data: { breadcrumb: 'Configuración' } },
 
-  // Expedientes
-  { path: 'crear-expediente', component: UploadFileComponent },
-  { path: 'visualizar-expediente', component: VisualizarPdfComponent },
-  { path: 'historial-expedientes', component: HistorialExpedienteComponent },
-  { path: 'expediente/:idExpediente', component: ExpedienteComponent },
+  { path: 'empleado', component: CrudEmpleadoComponent, data: { breadcrumb: 'Gestión Empleados' } },
+  { path: 'gestion-cliente', component: CrudClienteComponent, data: { breadcrumb: 'Gestión Clientes' } },
+  { path: 'gestion-horario', component: GestionHorarioComponent, data: { breadcrumb: 'Gestión Horarios' } },
+  { path: 'gestion-pago', component: GestionPagoComponent, data: { breadcrumb: 'Gestión Pagos' } },
+  { path: 'gestion-cita', component: GestionCitaComponent, data: { breadcrumb: 'Gestión Citas' } },
 
-  // Barra y navegación
-  { path: 'barra', component: BarraLateralComponent },
-  { path: 'navbar', component: NavbarComponent },
+  { path: 'cita', component: SolicitudCitaComponent, data: { breadcrumb: 'Solicitar Cita' } },
+  { path: 'citasRegistro', component: RegistroCitasComponent, data: { breadcrumb: 'Registro de Citas' } },
+  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent, data: { breadcrumb: 'Calendario Cliente' } },
+  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent, data: { breadcrumb: 'Calendario Abogado' } },
+  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent, data: { breadcrumb: 'Calendario Secretaria' } },
+
+  { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumb: 'Crear Expediente' } },
+  { path: 'visualizar-expediente', component: VisualizarPdfComponent, data: { breadcrumb: 'Visualizar PDF' } },
+  { path: 'historial-expedientes', component: HistorialExpedienteComponent, data: { breadcrumb: 'Historial Expedientes' } },
+  { path: 'expediente/:idExpediente', component: ExpedienteComponent, data: { breadcrumb: 'Detalle Expediente' } },
+
+  { path: 'barra', component: BarraLateralComponent, data: { breadcrumb: 'Barra Lateral' } },
+  { path: 'navbar', component: NavbarComponent, data: { breadcrumb: 'Navegación' } },
 
   // Errores
-  { path: 'error/400', component: BadRequestComponent },
-  { path: 'error/402', component: PaymentRequiredComponent },
-  { path: 'error/403', component: ForbiddenComponent },
+  { path: 'error/400', component: BadRequestComponent, data: { breadcrumb: 'Error 400' } },
+  { path: 'error/402', component: PaymentRequiredComponent, data: { breadcrumb: 'Error 402' } },
+  { path: 'error/403', component: ForbiddenComponent, data: { breadcrumb: 'Error 403' } },
 
   // Ruta comodín
-  { path: '**', component: NotFoundComponent }
-  
+  { path: '**', component: NotFoundComponent, data: { breadcrumb: 'Página No Encontrada' } }
 ];
+
 
 @NgModule({
   declarations: [],

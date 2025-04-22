@@ -1,65 +1,116 @@
 <div class="modal fade show d-block" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+
+      <!-- HEADER -->
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalNuevoEmpleadoLabel">Nuevo Empleado</h1>
+        <h5 class="modal-title">Agregar nuevo empleado</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal.emit()"></button>
       </div>
+
+      <!-- BODY -->
       <div class="modal-body">
-        <form #agregarEmpleadoForm="ngForm" (ngSubmit)="onSubmit(agregarEmpleadoForm)">
+        <form [formGroup]="agregarEmpleadoForm" (ngSubmit)="onSubmit()">
+          
+          <!-- NOMBRE -->
           <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" id="nombre" class="form-control" required [(ngModel)]="empleado.nombreEmpleado" name="nombre">
+            <label for="nombreEmpleado" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreEmpleado" formControlName="nombreEmpleado" />
+            <div class="text-danger" *ngIf="agregarEmpleadoForm.get('nombreEmpleado')?.touched && agregarEmpleadoForm.get('nombreEmpleado')?.invalid">
+              Este campo es obligatorio.
+            </div>
           </div>
+
+          <!-- APELLIDOS -->
           <div class="mb-3">
-            <label for="apellidoP" class="form-label">Apellido Paterno</label>
-            <input type="text" id="apellidoP" class="form-control" required [(ngModel)]="empleado.aPEmpleado" name="apellidoP">
+            <label for="aPEmpleado" class="form-label">Apellido Paterno</label>
+            <input type="text" class="form-control" id="aPEmpleado" formControlName="aPEmpleado" />
+            <div class="text-danger" *ngIf="agregarEmpleadoForm.get('aPEmpleado')?.touched && agregarEmpleadoForm.get('aPEmpleado')?.invalid">
+              Este campo es obligatorio.
+            </div>
           </div>
+
           <div class="mb-3">
-            <label for="apellidoM" class="form-label">Apellido Materno</label>
-            <input type="text" id="apellidoM" class="form-control" [(ngModel)]="empleado.aMEmpleado" name="apellidoM">
+            <label for="aMEmpleado" class="form-label">Apellido Materno</label>
+            <input type="text" class="form-control" id="aMEmpleado" formControlName="aMEmpleado" />
           </div>
+
+          <!-- CORREO -->
           <div class="mb-3">
-            <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
-            <input type="date" id="fechaIngreso" class="form-control" required [(ngModel)]="empleado.fechaIngreso" name="fechaIngreso">
+            <label for="correo" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correo" formControlName="correo" />
+            <div class="text-danger" *ngIf="agregarEmpleadoForm.get('correo')?.touched && agregarEmpleadoForm.get('correo')?.invalid">
+              <div *ngIf="agregarEmpleadoForm.get('correo')?.hasError('required')">Campo obligatorio.</div>
+              <div *ngIf="agregarEmpleadoForm.get('correo')?.hasError('email')">Correo inválido.</div>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="numeroLicencia" class="form-label">Número de Licencia</label>
-            <input type="text" id="numeroLicencia" class="form-control" [(ngModel)]="empleado.numeroLicencia" name="numeroLicencia">
-          </div>
-          <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="email" id="correo" class="form-control" required [(ngModel)]="empleado.correo" name="correo">
-          </div>
+
+          <!-- TELÉFONO -->
           <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" id="telefono" class="form-control" required [(ngModel)]="empleado.telefono" name="telefono">
+            <input type="text" class="form-control" id="telefono" formControlName="telefono" />
+            <div class="text-danger" *ngIf="agregarEmpleadoForm.get('telefono')?.touched && agregarEmpleadoForm.get('telefono')?.invalid">
+              Ingresa un teléfono válido (10 dígitos).
+            </div>
           </div>
+
+          <!-- FECHA INGRESO -->
           <div class="mb-3">
-            <label for="contrasena" class="form-label">Contraseña</label>
-            <input type="password" id="contrasena" class="form-control" required [(ngModel)]="empleado.pass" name="contrasena">
+            <label for="fechaIngreso" class="form-label">Fecha de Ingreso</label>
+            <input type="date" class="form-control" id="fechaIngreso" formControlName="fechaIngreso" />
+            <div class="text-danger" *ngIf="agregarEmpleadoForm.get('fechaIngreso')?.touched && agregarEmpleadoForm.get('fechaIngreso')?.invalid">
+              Este campo es obligatorio.
+            </div>
           </div>
+
+          <!-- CONTRASEÑA -->
           <div class="mb-3">
-            <label for="rol" class="form-label">Rol</label>
-            <select id="rol" class="form-select" required [(ngModel)]="empleado.idRolFK" name="rol">
-              <option value="">Seleccionar Rol</option>
+            <label for="pass" class="form-label">Contraseña</label>
+            <div class="input-wrapper">
+              <input [type]="showPassword ? 'text' : 'password'" id="pass" class="form-control" formControlName="pass" placeholder="••••••••" />
+              <i class="fa toggle-password" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
+            </div>
+            <small class="text-danger" *ngIf="agregarEmpleadoForm.get('pass')?.touched && agregarEmpleadoForm.get('pass')?.invalid">
+              <div *ngIf="agregarEmpleadoForm.get('pass')?.hasError('required')">Campo obligatorio.</div>
+              <div *ngIf="agregarEmpleadoForm.get('pass')?.hasError('minlength')">Mínimo 8 caracteres.</div>
+              <div *ngIf="agregarEmpleadoForm.get('pass')?.hasError('passwordStrength')">Debe tener al menos una mayúscula, minúscula y número.</div>
+            </small>
+          </div>
+
+          <!-- CONFIRMAR CONTRASEÑA -->
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+            <div class="input-wrapper">
+              <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control" formControlName="confirmPassword" placeholder="Repite tu contraseña" />
+              <i class="fa toggle-password" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="toggleConfirmPasswordVisibility()"></i>
+            </div>
+            <small class="text-danger" *ngIf="agregarEmpleadoForm.hasError('passwordMismatch')">Las contraseñas no coinciden.</small>
+          </div>
+
+          <!-- ROL -->
+          <div class="mb-3">
+            <label for="idRolFK" class="form-label">Rol</label>
+            <select id="idRolFK" class="form-select" formControlName="idRolFK">
+              <option value="">Selecciona un rol</option>
               <option *ngFor="let rol of roles" [value]="rol.idRol">{{ rol.nombreRol }}</option>
             </select>
           </div>
+
+          <!-- ESPECIALIDAD -->
           <div class="mb-3">
-            <label for="especialidad" class="form-label">Especialidad</label>
-            <select id="especialidad" class="form-select" required [(ngModel)]="empleado.idEspecialidadFK" name="especialidad">
-              <option value="">Seleccionar Especialidad</option>
-              <option *ngFor="let especialidad of especialidades" [value]="especialidad.idEspecialidad">
-                {{ especialidad.nombreEspecialidad }}
-              </option>
+            <label for="idEspecialidadFK" class="form-label">Especialidad</label>
+            <select id="idEspecialidadFK" class="form-select" formControlName="idEspecialidadFK">
+              <option value="">Selecciona una especialidad</option>
+              <option *ngFor="let esp of especialidades" [value]="esp.idEspecialidad">{{ esp.nombreEspecialidad }}</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary">Guardar empleado</button>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="cerrarModal.emit()">Cerrar</button>
+
+        <!-- FOOTER CON BOTONES -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cerrarModal.emit()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="agregarEmpleadoForm.invalid" (click)="onSubmit()">Guardar</button>
+        </div>
       </div>
     </div>
   </div>

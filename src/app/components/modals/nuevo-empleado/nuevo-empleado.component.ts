@@ -1,43 +1,66 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+  ValidationErrors,
+  AbstractControl,
+} from '@angular/forms';
 import { EspecialidadService } from '../../../services/especialidad.service';
 import { RolService } from '../../../services/rol.service';
 import { Empleado } from '../../../models/empleados';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-nuevo-empleado',
   templateUrl: './nuevo-empleado.component.html',
   styleUrls: ['./nuevo-empleado.component.css'],
   standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule
-  ]
+  imports: [ReactiveFormsModule, CommonModule],
 })
 export class NuevoEmpleadoComponent implements OnInit {
   @Output() crear = new EventEmitter<Empleado>();
   @Output() cerrarModal = new EventEmitter<void>();
 
-  empleado: Empleado = {
-    fechaIngreso: '',
-    correo: '',
-    nombreEmpleado: '',
-    aPEmpleado: '',
-    aMEmpleado: '',
-    telefono: '',
-    pass: '',
-    idRolFK: 0,
-    idEspecialidadFK: 0,
-  };
+  @ViewChild('errorModal') errorModal: any;
+  errorMessage: string = '';
 
-  especialidades: any[] = []; // Array para almacenar especialidades
-  roles: any[] = []; // Array para almacenar roles
+  agregarEmpleadoForm: FormGroup;
+  especialidades: any[] = [];
+  roles: any[] = [];
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
   constructor(
     public especialidadService: EspecialidadService,
-    public rolService: RolService
-  ) {}
+    public rolService: RolService,
+    private modalService: NgbModal
+  ) {
+    this.agregarEmpleadoForm = new FormGroup(
+      {
+        nombreEmpleado: new FormControl('', Validators.required),
+        aPEmpleado: new FormControl('', Validators.required),
+        aMEmpleado: new FormControl(''),
+        fechaIngreso: new FormControl('', Validators.required),
+        correo: new FormControl('', [Validators.required, Validators.email]),
+        telefono: new FormControl('', [
+          Validators.required,
+          Validators.pattern('^[0-9]{10}$'),
+        ]),
+        pass: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+          this.passwordStrengthValidator,
+        ]),
+        confirmPassword: new FormControl('', Validators.required),
+        idRolFK: new FormControl('', Validators.required),
+        idEspecialidadFK: new FormControl('', Validators.required),
+      },
+      this.passwordMatchValidator
+    );
+  }
 
   ngOnInit(): void {
     this.cargarEspecialidades();
@@ -46,25 +69,47 @@ export class NuevoEmpleadoComponent implements OnInit {
 
   cargarEspecialidades() {
     this.especialidadService.getEspecialidades().subscribe(
-      (res) => {
-        this.especialidades = res; // Asigna las especialidades a la variable local
-      },
-      (err) => console.error('Error al cargar especialidades:', err)
+      res => (this.especialidades = res),
+      err => console.error('Error al cargar especialidades:', err)
     );
   }
 
   cargarRoles() {
     this.rolService.getRoles().subscribe(
-      (res) => {
-        this.roles = res; // Asigna los roles a la variable local
-      },
-      (err) => console.error('Error al cargar roles:', err)
+      res => (this.roles = res),
+      err => console.error('Error al cargar roles:', err)
     );
   }
 
-  onSubmit(form: NgForm) {
-    this.crear.emit(this.empleado);
-    form.reset();
-    this.cerrarModal.emit(); // Cierra el modal después de crear
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.value;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+    return regex.test(password) ? null : { passwordStrength: true };
+  }
+
+  passwordMatchValidator(formGroup: AbstractControl): ValidationErrors | null {
+    const password = formGroup.get('pass')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
+
+  onSubmit() {
+    if (this.agregarEmpleadoForm.valid) {
+      const nuevoEmpleado = this.agregarEmpleadoForm.value;
+      this.crear.emit(nuevoEmpleado);
+      this.agregarEmpleadoForm.reset();
+    } else {
+      this.errorMessage = 'Por favor completa correctamente el formulario.';
+      this.modalService.open(this.errorModal);
+      setTimeout(() => this.modalService.dismissAll(), 3000);
+    }
   }
 }

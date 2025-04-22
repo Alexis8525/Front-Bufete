@@ -1,42 +1,48 @@
-.breadcrumb {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}
-
-.breadcrumb h1 {
-  margin: 0 0 15px 0;
-  color: #343a40;
-  font-size: 1.5em;
-  font-weight: bold;
+.breadcrumb-box {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  margin: 20px auto;
+  display: inline-block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #bf913b;
 }
 
 .breadcrumb-list {
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   padding: 0;
   margin: 0;
-  list-style: none;
 }
 
 .breadcrumb-item {
   display: flex;
   align-items: center;
-  font-size: 1em;
-  color: #007bff;
+  font-size: 1rem;
+  margin-right: 10px;
+  color: #bf913b;
+}
+
+.separator::before {
+  content: '›';
+  margin: 0 8px;
+  font-weight: bold;
+  color: #bf913b;
 }
 
 .breadcrumb-item a {
+  color: #bf913b;
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
   color: #007bff;
   transition: color 0.2s;
 }
 
 .breadcrumb-item a:hover {
+  color: #a3762f;
   text-decoration: underline;
   color: #0056b3;
 }
@@ -50,4 +56,5 @@
 .breadcrumb-item .active {
   color: #6c757d;
   font-weight: bold;
+  color: #bf913b;
 }

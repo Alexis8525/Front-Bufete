@@ -15,7 +15,7 @@
             <input
               type="number"
               id="idCliente"
-              [(ngModel)]="cliente.idCliente"
+              [(ngModel)]="cliente['idCliente']"
               name="idCliente"
               class="form-control"
               readonly
@@ -28,11 +28,14 @@
             <input
               type="text"
               id="nombreCliente"
-              [(ngModel)]="cliente.nombreCliente"
+              [(ngModel)]="cliente['nombreCliente']"
               name="nombreCliente"
               class="form-control"
               required
             />
+            <div *ngIf="form.controls['nombreCliente']?.invalid && form.controls['nombreCliente']?.touched" class="text-danger">
+              El nombre es obligatorio.
+            </div>
           </div>
 
           <!-- Apellido Paterno -->
@@ -41,11 +44,14 @@
             <input
               type="text"
               id="aPCliente"
-              [(ngModel)]="cliente.aPCliente"
+              [(ngModel)]="cliente['aPCliente']"
               name="aPCliente"
               class="form-control"
               required
             />
+            <div *ngIf="form.controls['aPCliente']?.invalid && form.controls['aPCliente']?.touched" class="text-danger">
+              El apellido paterno es obligatorio.
+            </div>
           </div>
 
           <!-- Apellido Materno -->
@@ -54,7 +60,7 @@
             <input
               type="text"
               id="aMCliente"
-              [(ngModel)]="cliente.aMCliente"
+              [(ngModel)]="cliente['aMCliente']"
               name="aMCliente"
               class="form-control"
             />
@@ -66,11 +72,14 @@
             <input
               type="text"
               id="direccion"
-              [(ngModel)]="cliente.direccion"
+              [(ngModel)]="cliente['direccion']"
               name="direccion"
               class="form-control"
               required
             />
+            <div *ngIf="form.controls['direccion']?.invalid && form.controls['direccion']?.touched" class="text-danger">
+              La dirección es obligatoria.
+            </div>
           </div>
 
           <!-- Correo -->
@@ -79,11 +88,16 @@
             <input
               type="email"
               id="correo"
-              [(ngModel)]="cliente.correo"
+              [(ngModel)]="cliente['correo']"
               name="correo"
               class="form-control"
               required
+              email
             />
+            <div *ngIf="form.controls['correo']?.invalid && form.controls['correo']?.touched" class="text-danger">
+              <div *ngIf="form.controls['correo']?.errors?.['required']">El correo es obligatorio.</div>
+              <div *ngIf="form.controls['correo']?.errors?.['email']">Correo electrónico inválido.</div>
+            </div>
           </div>
 
           <!-- Teléfono -->
@@ -92,16 +106,21 @@
             <input
               type="tel"
               id="telefono"
-              [(ngModel)]="cliente.telefono"
+              [(ngModel)]="cliente['telefono']"
               name="telefono"
               class="form-control"
               required
+              pattern="^\d{10}$"
             />
+            <div *ngIf="form.controls['telefono']?.invalid && form.controls['telefono']?.touched" class="text-danger">
+              <div *ngIf="form.controls['telefono']?.errors?.['required']">El teléfono es obligatorio.</div>
+              <div *ngIf="form.controls['telefono']?.errors?.['pattern']">Teléfono inválido, debe tener 10 dígitos.</div>
+            </div>
           </div>
 
           <!-- Botones de Acción -->
           <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary me-2">Guardar Cambios</button>
+            <button type="submit" class="btn btn-primary me-2" [disabled]="form.invalid">Guardar Cambios</button>
             <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
           </div>
         </form>

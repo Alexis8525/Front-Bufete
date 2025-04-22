@@ -79,7 +79,7 @@ app-barra-lateral {
 }
 
 .filtros-content select:focus {
-  border-color: #001f3f;
+  border-color: #bf913b; /* Cambiado a dorado */
   outline: none;
 }
 
@@ -106,7 +106,7 @@ app-barra-lateral {
 }
 
 .header button {
-  background-color: #001f3f;
+  background-color: #bf913b; /* Cambiado a dorado */
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -117,7 +117,7 @@ app-barra-lateral {
 }
 
 .header button:hover {
-  background-color: #004080;
+  background-color: #a3762f; /* Dorado más oscuro */
 }
 
 .header h2 {
@@ -136,7 +136,7 @@ table {
 
 /* Cabeceras de los días */
 th {
-  background-color: #001f3f;
+  background-color: #bf913b; /* Cambiado a dorado */
   color: #fff;
   font-weight: bold;
   padding: 10px;
@@ -169,8 +169,8 @@ td {
 
 /* Día actual */
 .dia-actual {
-  border: 2px solid blue;
-  background-color: rgba(0, 0, 255, 0.1);
+  border: 2px solid #bf913b; /* Dorado */
+  background-color: rgba(191, 145, 59, 0.1);
   border-radius: 5px;
 }
 
@@ -233,7 +233,6 @@ td {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #ffcccc; /* Rojo */
 }
-
 
 /* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
 body, h2, th, td, button {

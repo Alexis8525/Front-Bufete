@@ -46,6 +46,7 @@ export class EditarClienteComponent implements OnInit {
       return;
     }
 
+    // Aquí podrías agregar validaciones adicionales si es necesario
     this.clienteService.actualizarCliente(this.cliente).subscribe(
       res => {
         console.log('Cliente actualizado exitosamente', res);

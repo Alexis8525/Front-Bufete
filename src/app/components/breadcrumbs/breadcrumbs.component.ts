@@ -11,63 +11,57 @@ import { filter } from 'rxjs';
   imports: [CommonModule, RouterModule],
 })
 export class BreadcrumbsComponent implements OnInit {
+  @Input() parts: { label: string, url: string }[] = [];
   @Input() activePage: string = '';
-  breadcrumbs: Array<{ label: string, url: string }> = [];
-  homeBreadcrumb: { label: string, url: string };
   private isBrowser: boolean;
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-    this.homeBreadcrumb = this.getHomeBreadcrumb();
   }
 
   ngOnInit(): void {
+    this.updateBreadcrumbs();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
-      });
-    
-    // Inicializar breadcrumbs
-    this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
+      .subscribe(() => this.updateBreadcrumbs());
   }
 
-  private createBreadcrumbs(
-    route: ActivatedRoute, 
-    url: string = '', 
-    breadcrumbs: Array<{ label: string, url: string }> = []
-  ): Array<{ label: string, url: string }> {
-    const children: ActivatedRoute[] = route.children;
+  private updateBreadcrumbs(): void {
+    this.parts = [];
+    let fullPath = '';
+    let currentRoute: ActivatedRoute | null = this.route.root;
 
-    if (children.length === 0) {
-      return breadcrumbs;
+    while (currentRoute) {
+      if (currentRoute.routeConfig && currentRoute.snapshot.data['breadcrumb']) {
+        const path = currentRoute.routeConfig.path || '';
+        const cleanPath = path.split('/:')[0]; // Quita los parámetros dinámicos
+        fullPath += '/' + cleanPath;
+        this.parts.push({
+          label: currentRoute.snapshot.data['breadcrumb'],
+          url: fullPath
+        });
+      }
+      currentRoute = currentRoute.firstChild;
     }
 
-    for (const child of children) {
-      const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
-      if (routeURL !== '') {
-        url += `/${routeURL}`;
-      }
+    const usuarioAutenticado = this.isBrowser
+      ? localStorage.getItem('usuario') !== null
+      : false;
 
-      const label = child.snapshot.data['breadcrumbLabel'];
-      if (label) {
-        breadcrumbs.push({ label, url });
-      }
-
-      return this.createBreadcrumbs(child, url, breadcrumbs);
-    }
-
-    return breadcrumbs;
-  }
-
-  private getHomeBreadcrumb(): { label: string, url: string } {
-    const isAuthenticated = this.isBrowser ? localStorage.getItem('usuario') !== null : false;
-    return isAuthenticated 
-      ? { label: 'Principal', url: '/principal' } 
+    const primerBreadcrumb = usuarioAutenticado
+      ? { label: 'Principal', url: '/principal' }
       : { label: 'Inicio', url: '/home' };
+
+    if (this.parts.length === 0 || this.parts[0].label !== primerBreadcrumb.label) {
+      this.parts.unshift(primerBreadcrumb);
+    }
+
+    this.activePage = this.parts.length > 0
+      ? this.parts[this.parts.length - 1].label
+      : '';
   }
 }

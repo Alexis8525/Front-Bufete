@@ -1,19 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Empleado } from '../../../models/empleados';
 import { EmpleadoService } from '../../../services/empleado.service';
-import { EspecialidadService } from '../../../services/especialidad.service'; // Importa el servicio de especialidades
+import { EspecialidadService } from '../../../services/especialidad.service';
 import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-editar-empleado',
   templateUrl: './editar-empleado.component.html',
   styleUrls: ['./editar-empleado.component.css'],
   standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule
-  ]
+  imports: [FormsModule, CommonModule]
 })
 export class EditarEmpleadoComponent implements OnInit {
   @Input() empleado: Empleado = {
@@ -26,23 +24,26 @@ export class EditarEmpleadoComponent implements OnInit {
     pass: '',
     idRolFK: 0,
     idEspecialidadFK: 0
-  }; 
+  };
 
-  @Output() empleadoActualizado = new EventEmitter<void>(); // Evento de actualización
-  @Output() cerrarModal = new EventEmitter<void>(); // Evento para cerrar el modal
+  @Output() empleadoActualizado = new EventEmitter<void>();
+  @Output() cerrarModal = new EventEmitter<void>();
 
-  especialidades: any[] = []; // Array para almacenar las especialidades disponibles
+  @ViewChild('successModal') successModal: any;
+  @ViewChild('errorModal') errorModal: any;
+
+  especialidades: any[] = [];
 
   constructor(
     private empleadoService: EmpleadoService,
-    private especialidadService: EspecialidadService // Inyecta el servicio de especialidades
+    private especialidadService: EspecialidadService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.cargarEspecialidades(); // Carga las especialidades al iniciar el componente
+    this.cargarEspecialidades();
   }
 
-  // Método para cargar las especialidades
   cargarEspecialidades(): void {
     this.especialidadService.getEspecialidades().subscribe(
       res => {
@@ -52,24 +53,33 @@ export class EditarEmpleadoComponent implements OnInit {
     );
   }
 
-  // Método para actualizar el empleado
   actualizarEmpleado(form: NgForm): void {
-    if (this.empleado) {
+    if (form.valid) {
       this.empleadoService.actualizarEmpleado(this.empleado).subscribe(
         res => {
-          console.log('Empleado actualizado exitosamente', res);
-          this.empleadoActualizado.emit(); // Emite evento para actualizar la lista de empleados
-          this.cerrarModal.emit(); // Emite evento para cerrar el modal
+          this.empleadoActualizado.emit();
+          this.cerrarModal.emit();
+
+          // Mostrar modal de éxito en el padre si está definido
+          const parent = window as any;
+          if (parent.successModalGlobal) {
+            this.modalService.open(parent.successModalGlobal);
+            setTimeout(() => this.modalService.dismissAll(), 3000);
+          }
         },
         err => {
           console.error('Error al actualizar empleado:', err);
-          alert('Error al actualizar empleado: ' + err.message);
+
+          const parent = window as any;
+          if (parent.errorModalGlobal) {
+            this.modalService.open(parent.errorModalGlobal);
+            setTimeout(() => this.modalService.dismissAll(), 3000);
+          }
         }
       );
     }
   }
 
-  // Método para cerrar el modal sin guardar cambios
   cancelarEdicion(): void {
     this.cerrarModal.emit();
   }
