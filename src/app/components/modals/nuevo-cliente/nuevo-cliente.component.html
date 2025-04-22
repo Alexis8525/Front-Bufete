@@ -10,13 +10,19 @@
           <!-- Nombre del Cliente -->
           <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" id="nombre" class="form-control" required [(ngModel)]="cliente.nombreCliente" name="nombre">
+            <input type="text" id="nombre" class="form-control" required [(ngModel)]="cliente.nombreCliente" name="nombre" #nombre="ngModel">
+            <div *ngIf="nombre.invalid && nombre.touched" class="text-danger">
+              Nombre es obligatorio.
+            </div>
           </div>
 
           <!-- Apellido Paterno -->
           <div class="mb-3">
             <label for="apellidoP" class="form-label">Apellido Paterno</label>
-            <input type="text" id="apellidoP" class="form-control" required [(ngModel)]="cliente.aPCliente" name="apellidoP">
+            <input type="text" id="apellidoP" class="form-control" required [(ngModel)]="cliente.aPCliente" name="apellidoP" #apellidoP="ngModel">
+            <div *ngIf="apellidoP.invalid && apellidoP.touched" class="text-danger">
+              Apellido Paterno es obligatorio.
+            </div>
           </div>
 
           <!-- Apellido Materno -->
@@ -28,32 +34,61 @@
           <!-- Dirección -->
           <div class="mb-3">
             <label for="direccion" class="form-label">Dirección</label>
-            <input type="text" id="direccion" class="form-control" [(ngModel)]="cliente.direccion" name="direccion">
+            <input type="text" id="direccion" class="form-control" [(ngModel)]="cliente.direccion" name="direccion" #direccion="ngModel">
+            <div *ngIf="direccion.invalid && direccion.touched" class="text-danger">
+              Dirección es obligatoria.
+            </div>
           </div>
 
           <!-- Correo -->
           <div class="mb-3">
             <label for="correo" class="form-label">Correo</label>
-            <input type="email" id="correo" class="form-control" required [(ngModel)]="cliente.correo" name="correo">
+            <input type="email" id="correo" class="form-control" required [(ngModel)]="cliente.correo" name="correo" #correo="ngModel">
+            <div *ngIf="correo.invalid && correo.touched" class="text-danger">
+              <div *ngIf="correo.errors?.['required']">El correo es obligatorio.</div>
+              <div *ngIf="correo.errors?.['email']">Correo electrónico inválido.</div>
+            </div>
           </div>
 
           <!-- Teléfono -->
           <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" id="telefono" class="form-control" required [(ngModel)]="cliente.telefono" name="telefono">
+            <input type="tel" id="telefono" class="form-control" required [(ngModel)]="cliente.telefono" name="telefono" #telefono="ngModel" pattern="^\d{10}$">
+            <div *ngIf="telefono.invalid && telefono.touched" class="text-danger">
+              Teléfono inválido, debe tener 10 dígitos.
+            </div>
           </div>
 
           <!-- Contraseña -->
           <div class="mb-3">
             <label for="contrasena" class="form-label">Contraseña</label>
-            <input type="password" id="contrasena" class="form-control" required [(ngModel)]="cliente.pass" name="contrasena">
+            <div class="input-wrapper">
+              <input [type]="showPassword ? 'text' : 'password'" id="contrasena" class="form-control" required [(ngModel)]="cliente.pass" name="contrasena" #contrasena="ngModel" minlength="8">
+              <i class="fa toggle-password" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
+            </div>
+            <div *ngIf="contrasena.invalid && contrasena.touched" class="text-danger">
+              <div *ngIf="contrasena.errors?.['required']">La contraseña es obligatoria.</div>
+              <div *ngIf="contrasena.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</div>
+            </div>
+          </div>
+
+          <!-- Confirmar Contraseña -->
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+            <div class="input-wrapper">
+              <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control" required [(ngModel)]="confirmPassword" name="confirmPassword" #confirmPassword="ngModel">
+              <i class="fa toggle-password" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="toggleConfirmPasswordVisibility()"></i>
+            </div>
+            <div *ngIf="confirmPassword.invalid && confirmPassword.touched" class="text-danger">
+              Las contraseñas no coinciden.
+            </div>
           </div>
 
           <!-- Botón de Enviar -->
-          <button type="submit" class="btn btn-primary">Guardar Cliente</button>
         </form>
       </div>
       <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="agregarClienteForm.invalid">Guardar Cliente</button>
         <button type="button" class="btn btn-secondary" (click)="cerrarModal.emit()">Cerrar</button>
       </div>
     </div>

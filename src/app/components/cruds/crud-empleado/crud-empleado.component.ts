@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
-import { Empleado } from '../../models/empleados';
-import { EmpleadoService } from '../../services/empleado.service';
-import { RolService } from '../../services/rol.service';
-import { EspecialidadService } from '../../services/especialidad.service';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NuevoEmpleadoComponent } from '../modals/nuevo-empleado/nuevo-empleado.component';
-import { EditarEmpleadoComponent } from '../modals/editar-empleado/editar-empleado.component';
-import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { Empleado } from '../../../models/empleados';
+import { EmpleadoService } from '../../../services/empleado.service';
+import { RolService } from '../../../services/rol.service';
+import { EspecialidadService } from '../../../services/especialidad.service';
+import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
+import { NuevoEmpleadoComponent } from '../../modals/nuevo-empleado/nuevo-empleado.component';
+import { EditarEmpleadoComponent } from '../../modals/editar-empleado/editar-empleado.component';
+import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-crud-empleado',
@@ -44,10 +46,18 @@ export class CrudEmpleadoComponent implements OnInit {
   paginaActual: number = 1;
   itemsPorPagina: number = 6;
 
+  // Modales
+  @ViewChild('successModal') successModal: any;
+  @ViewChild('errorModal') errorModal: any;
+  successMessage: string = '';
+  errorMessage: string = '';
+
   constructor(
     public empleadoService: EmpleadoService,
     public rolService: RolService,
-    public especialidadService: EspecialidadService
+    public especialidadService: EspecialidadService,
+    private modalService: NgbModal,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +70,7 @@ export class CrudEmpleadoComponent implements OnInit {
     this.empleadoService.getEmpleados().subscribe(
       res => {
         this.empleados = res;
-        this.filtrarEmpleados(); // Inicializa filtrado y paginación
+        this.filtrarEmpleados();
       },
       err => console.error(err)
     );
@@ -93,7 +103,6 @@ export class CrudEmpleadoComponent implements OnInit {
     this.cambiarPagina(1);
   }
 
-  // Paginación
   get totalPaginas(): number {
     return Math.ceil(this.empleadosFiltrados.length / this.itemsPorPagina);
   }
@@ -109,9 +118,10 @@ export class CrudEmpleadoComponent implements OnInit {
     const fin = inicio + this.itemsPorPagina;
     this.empleadosPaginados = this.empleadosFiltrados.slice(inicio, fin);
 
-    // Scroll al inicio tras cambiar de página (opcional pero útil)
-    const topElement = document.querySelector('.titulo-empleados');
-    topElement?.scrollIntoView({ behavior: 'smooth' });
+    if (isPlatformBrowser(this.platformId)) {
+      const topElement = document.querySelector('.titulo-empleados');
+      topElement?.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   abrirModalNuevoEmpleado() {
@@ -137,8 +147,26 @@ export class CrudEmpleadoComponent implements OnInit {
       res => {
         this.getEmpleados();
         this.cerrarModalNuevoEmpleado();
+
+        this.successMessage = 'Empleado registrado con éxito.';
+        this.modalService.open(this.successModal);
+        setTimeout(() => this.modalService.dismissAll(), 3000);
       },
-      err => console.error('Error al crear empleado:', err)
+      err => {
+        console.error('Error al crear empleado:', err);
+
+        if (
+          err.status === 500 &&
+          err.error.message?.toLowerCase().includes('duplicate')
+        ) {
+          this.errorMessage = 'El correo ya está registrado. Usa otro diferente.';
+        } else {
+          this.errorMessage = 'Hubo un error al registrar el empleado.';
+        }
+
+        this.modalService.open(this.errorModal);
+        setTimeout(() => this.modalService.dismissAll(), 3000);
+      }
     );
   }
 

@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
-import { Cliente } from '../../models/cliente';
-import { ClienteService } from '../../services/cliente.service';
+import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
+import { Cliente } from '../../../models/cliente';
+import { ClienteService } from '../../../services/cliente.service';
 import { FormsModule } from '@angular/forms';
-import { NuevoClienteComponent } from '../modals/nuevo-cliente/nuevo-cliente.component';
-import { EditarClienteComponent } from '../modals/editar-cliente/editar-cliente.component';
-import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
+import { NuevoClienteComponent } from '../../modals/nuevo-cliente/nuevo-cliente.component';
+import { EditarClienteComponent } from '../../modals/editar-cliente/editar-cliente.component';
+import { BreadcrumbsComponent } from "../../breadcrumbs/breadcrumbs.component";
 
 @Component({
   selector: 'app-crud-cliente',
@@ -37,7 +37,7 @@ export class CrudClienteComponent implements OnInit {
 
   // Variables de paginación
   paginaActual: number = 1;
-  clientesPorPagina: number = 8; // Puedes cambiar esto para mostrar más o menos clientes por página
+  clientesPorPagina: number = 9; // Puedes cambiar esto para mostrar más o menos clientes por página
   totalPaginas: number = 0;
 
   constructor(

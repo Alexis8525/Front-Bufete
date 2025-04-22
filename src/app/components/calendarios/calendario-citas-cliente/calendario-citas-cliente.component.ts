@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
+import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CitaService } from '../../services/cita.service';
-import { FechaCita } from '../../models/fechas-citas';
+import { CitaService } from '../../../services/cita.service';
+import { FechaCita } from '../../../models/fechas-citas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DetalleCitaClienteComponent } from '../modals/detalle-cita-cliente/detalle-cita-cliente.component';
-import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
+import { DetalleCitaClienteComponent } from '../../modals/detalle-cita-cliente/detalle-cita-cliente.component';
+import { BreadcrumbsComponent } from "../../breadcrumbs/breadcrumbs.component";
 
 interface FechaCitaExtendida extends FechaCita {
   date: number;

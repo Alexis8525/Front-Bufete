@@ -33,39 +33,16 @@ app-barra-lateral {
 
 /* ========== ENCABEZADO ========== */
 .titulo-clientes {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: #ffffff;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
   margin: 20px 0;
   text-align: center;
   padding: 10px 20px;
-  border-bottom: 4px solid #ffffff;
   background: rgba(191, 145, 59, 0.85);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* ========== TITULO Y BOTÓN CON FLEX ========== */
-.row.mb-4.align-items-center {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.row.mb-4.align-items-center button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  background-color: #4CAF50;  /* Color de fondo más acorde con el diseño */
-  color: #fff;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.row.mb-4.align-items-center button:hover {
-  background-color: #45a049;
-  transform: scale(1.05);  /* Aumenta el tamaño al pasar el ratón */
 }
 
 /* ========== FILTROS ========== */
@@ -112,7 +89,15 @@ app-barra-lateral {
   outline: none;
 }
 
-/* ========== TARJETAS DE CLIENTES ESTILO CITAS ========== */
+/* ========== EFECTO HOVER EN TARJETAS ========== */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-color: #bf913b;
+}
+
+/* ========== TARJETAS DE CLIENTES ========== */
 .card-wrapper {
   background: rgba(191, 145, 59, 0.8);
   padding: 10px;
@@ -152,6 +137,11 @@ app-barra-lateral {
 
 .card-text strong {
   color: #0e2238;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: center;
 }
 
 .card button {
@@ -202,6 +192,28 @@ app-barra-lateral {
 .page-item .page-link:hover {
   background-color: #f0e0b4;
   color: #0e2238;
+}
+
+/* ========== BOTÓN NUEVO CLIENTE ========== */
+.btn-nuevo-empleado {
+  background-color: #bf913b;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 10px 24px;
+  font-size: 1rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-nuevo-empleado:hover {
+  background-color: #a3762f;
+  transform: scale(1.05);
 }
 
 /* ========== ANIMACIÓN ========== */

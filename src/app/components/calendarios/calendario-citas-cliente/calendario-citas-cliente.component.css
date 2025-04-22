@@ -79,7 +79,7 @@ app-barra-lateral {
 }
 
 .filtros-content select:focus {
-  border-color: #001f3f;
+  border-color: #bf913b; /* Cambiado a dorado */
   outline: none;
 }
 
@@ -106,7 +106,7 @@ app-barra-lateral {
 }
 
 .header button {
-  background-color: #001f3f;
+  background-color: #bf913b; /* Cambiado a dorado */
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -117,7 +117,7 @@ app-barra-lateral {
 }
 
 .header button:hover {
-  background-color: #004080;
+  background-color: #a3762f; /* Dorado más oscuro */
 }
 
 .header h2 {
@@ -136,7 +136,7 @@ table {
 
 /* Cabeceras de los días */
 th {
-  background-color: #001f3f;
+  background-color: #bf913b; /* Cambiado a dorado */
   color: #fff;
   font-weight: bold;
   padding: 10px;
@@ -169,8 +169,8 @@ td {
 
 /* Día actual */
 .dia-actual {
-  border: 2px solid blue;
-  background-color: rgba(0, 0, 255, 0.1);
+  border: 2px solid #bf913b; /* Dorado */
+  background-color: rgba(191, 145, 59, 0.1);
   border-radius: 5px;
 }
 
@@ -192,72 +192,77 @@ td {
   background-color: #ffc107;
 }
 
-/* Citas canceladas */
-.appointment-cancelada {
-  background-color: #ffcccc;
-  color: #a94442;
+/* Citas programadas */
+.appointment-programada {
+  display: block;
+  background-color: #ffdd57;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para el contenedor de filtros y leyenda */
+/* Citas completadas */
+.appointment-completada {
+  display: block;
+  background-color: #c8e6c9; /* Verde */
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Citas canceladas */
+.appointment-cancelada {
+  display: block;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-top: 5px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffcccc; /* Rojo */
+}
+
+/* Ajustes de la fuente y sombra de texto para mejorar la legibilidad */
+body, h2, th, td, button {
+  font-family: 'Arial', sans-serif;
+  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Agrupación de filtros y leyenda en una columna */
 .filtros-leyenda {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
   max-width: 250px;
 }
 
-/* Estilos de la caja de filtros */
-.filtros {
-  background: rgba(255, 255, 255, 0.85);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.filtros h3 {
-  font-size: 1.25em;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.filtros label {
-  font-weight: bold;
-  color: #333;
-  margin-top: 10px;
-}
-
-.filtros select {
-  width: 100%;
-  padding: 5px;
-  font-size: 1em;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-top: 5px;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
-}
-
-.filtros select:focus {
-  border-color: #001f3f;
-  outline: none;
-}
-
-/* Estilos de la caja de leyenda */
+/* Estilos de leyenda */
 .leyenda {
   padding: 10px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
   width: 100%;
 }
 
 .leyenda h4 {
+  margin-bottom: 10px;
   font-size: 1.1em;
   color: #333;
-  margin-bottom: 10px;
 }
 
 .leyenda-item {
@@ -285,7 +290,6 @@ td {
 .color-box.cancelada {
   background-color: #ffcccc;
 }
-
 
 /* Responsividad: Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {

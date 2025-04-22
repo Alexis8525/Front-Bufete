@@ -13,7 +13,6 @@ import { filter } from 'rxjs';
 export class BreadcrumbsComponent implements OnInit {
   @Input() parts: { label: string, url: string }[] = [];
   @Input() activePage: string = '';
-  url: string[] = [];
   private isBrowser: boolean;
 
   constructor(
@@ -33,15 +32,18 @@ export class BreadcrumbsComponent implements OnInit {
 
   private updateBreadcrumbs(): void {
     this.parts = [];
-    let fullPath = '/home';
+    let fullPath = '';
     let currentRoute: ActivatedRoute | null = this.route.root;
 
     while (currentRoute) {
-      const label = currentRoute.snapshot.data['breadcrumbLabel'];
-      if (label) {
-        const segment = currentRoute.snapshot.url.map(seg => seg.path).join('/');
-        fullPath += '/' + segment;
-        this.parts.push({ label, url: fullPath });
+      if (currentRoute.routeConfig && currentRoute.snapshot.data['breadcrumb']) {
+        const path = currentRoute.routeConfig.path || '';
+        const cleanPath = path.split('/:')[0]; // Quita los parámetros dinámicos
+        fullPath += '/' + cleanPath;
+        this.parts.push({
+          label: currentRoute.snapshot.data['breadcrumb'],
+          url: fullPath
+        });
       }
       currentRoute = currentRoute.firstChild;
     }
@@ -51,21 +53,15 @@ export class BreadcrumbsComponent implements OnInit {
       : false;
 
     const primerBreadcrumb = usuarioAutenticado
-      ? { label: 'Principal', url: '/' }
-      : { label: 'Inicio', url: '/' };
+      ? { label: 'Principal', url: '/principal' }
+      : { label: 'Inicio', url: '/home' };
 
     if (this.parts.length === 0 || this.parts[0].label !== primerBreadcrumb.label) {
       this.parts.unshift(primerBreadcrumb);
     }
 
-    let accumulatedPath = '';
-    this.url = this.parts.map((part, index) => {
-      if (index === 0) {
-        accumulatedPath = '';
-      } else {
-        accumulatedPath += '/' + part.label.toLowerCase().replace(/\s/g, '-');
-      }
-      return accumulatedPath;
-    });
+    this.activePage = this.parts.length > 0
+      ? this.parts[this.parts.length - 1].label
+      : '';
   }
 }
