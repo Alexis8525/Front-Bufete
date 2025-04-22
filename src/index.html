@@ -31,3 +31,41 @@
   <script src="https://www.paypal.com/sdk/js?client-id=AccpnJqfG0WHwnJXjaVRPMxkBOGZN1vMKwQIK9BpNxZOdZPSMZfxZpxu3SEm4FF1CKB1UuYdgm7cGdwP&currency=MXN"></script>
 </body>
 </html>
+
+<script>
+  // Polyfill para smooth scroll
+  if (!('scrollBehavior' in document.documentElement.style)) {
+    Object.defineProperty(Element.prototype, 'scrollTo', {
+      value: function scrollTo(options) {
+        if (options !== Object(options)) {
+          throw new TypeError('Options must be an object');
+        }
+        var left = options.left || 0;
+        var top = options.top || 0;
+        var behavior = options.behavior || 'auto';
+        
+        if (behavior === 'smooth') {
+          var start = window.scrollY || window.pageYOffset;
+          var change = top - start;
+          var startTime = performance.now();
+          var duration = 500;
+          
+          var animateScroll = function(currentTime) {
+            var elapsed = currentTime - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            var easeInOutQuad = progress < 0.5 
+              ? 2 * progress * progress 
+              : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+            window.scrollTo(0, start + change * easeInOutQuad);
+            if (progress < 1) {
+              requestAnimationFrame(animateScroll);
+            }
+          };
+          requestAnimationFrame(animateScroll);
+        } else {
+          window.scrollTo(left, top);
+        }
+      }
+    });
+  }
+</script>

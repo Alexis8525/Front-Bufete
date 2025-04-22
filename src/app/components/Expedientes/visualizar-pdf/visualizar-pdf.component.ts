@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID, HostListener, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, HostListener, ViewChild, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { UploadFileService } from '../../../services/upload-file.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { BarraLateralComponent } from '../../barra-lateral/barra-lateral.component';
@@ -37,7 +37,7 @@ export class VisualizarPdfComponent implements OnInit {
   terminoBusqueda: string = '';
   mostrarFiltros: boolean = false;
   expedienteHover: number | null = null;
-  mostrarBotonArriba: boolean = false;
+  mostrarBotonArriba: boolean = true;
   navbarHidden: boolean = false;
   
   // Loading states
@@ -57,12 +57,18 @@ export class VisualizarPdfComponent implements OnInit {
   audiencias: any[] = [];
   audienciasFiltradas: any[] = [];
 
+  // Añade estas propiedades a tu clase
+  private lastScrollPosition = 0;
+  scrollThreshold = 300; // Pixeles que debe bajar para mostrar el botón
+  hideNavbarThreshold = 50; // Pixeles de diferencia para ocultar/mostrar navbar
+
   constructor(
     private uploadFileService: UploadFileService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private sanitizer: DomSanitizer,
     private modalService: NgbModal,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -74,6 +80,11 @@ export class VisualizarPdfComponent implements OnInit {
       console.log('Datos de expedientes:', data);
     });
   }
+  checkScroll() {
+    throw new Error('Method not implemented.');
+  }
+
+  
 
   loadInitialData(): void {
     if (!this.loaded) {
@@ -136,24 +147,55 @@ export class VisualizarPdfComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    this.checkScroll();
+onWindowScroll(event: Event) {
+  if (isPlatformBrowser(this.platformId)) {
+    // Usa múltiples métodos para máxima compatibilidad
+    const currentScrollPosition = window.pageYOffset || 
+                                document.documentElement.scrollTop || 
+                                document.body.scrollTop || 
+                                0;
+    
+    this.mostrarBotonArriba = currentScrollPosition > this.scrollThreshold;
+    this.cd.detectChanges();
+    
+    // Debug
+    console.log('Scroll position:', currentScrollPosition);
+    console.log('Mostrar botón:', this.mostrarBotonArriba);
   }
+}
 
-  checkScroll() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.mostrarBotonArriba = window.scrollY > 300;
-    }
-  }
-
-  scrollToTop() {
-    if (isPlatformBrowser(this.platformId)) {
+// Mejora la función scrollToTop
+scrollToTop(): void {
+  if (isPlatformBrowser(this.platformId)) {
+    try {
+      // Opción 1: Usando el método nativo con smooth behavior
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
+      
+      // Opción 2: Alternativa para navegadores más antiguos
+      if ('scrollBehavior' in document.documentElement.style) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Fallback para navegadores que no soportan smooth scroll
+        const scrollStep = -window.scrollY / (500 / 15);
+        const scrollInterval = setInterval(() => {
+          if (window.scrollY !== 0) {
+            window.scrollBy(0, scrollStep);
+          } else {
+            clearInterval(scrollInterval);
+          }
+        }, 15);
+      }
+    } catch (e) {
+      console.error('Error en scrollToTop:', e);
+      // Fallback más básico
+      window.scrollTo(0, 0);
     }
   }
+}
+  
 
   toggleFiltros() {
     this.mostrarFiltros = !this.mostrarFiltros;
