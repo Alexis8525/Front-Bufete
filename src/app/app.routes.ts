@@ -50,6 +50,7 @@ import { PaymentRequiredComponent } from './components/pages/payment-required/pa
 
 // Servicio
 import { NavigationHistoryService } from './services/navigation-history.service';
+import { AuthGuard } from './guards/guard/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -69,25 +70,24 @@ export const routes: Routes = [
 
   /** CON INICIO DE SESIÓN */
 
-  { path: 'principal', component: PrincipalComponent, data: { breadcrumb: 'Panel Principal' } },
-  { path: 'settings', component: SettingsComponent, data: { breadcrumb: 'Configuración' } },
+  { path: 'principal', component: PrincipalComponent, data: { breadcrumb: 'Panel Principal' }, canActivate:[AuthGuard] },
+  { path: 'settings', component: SettingsComponent, data: { breadcrumb: 'Configuración' }, canActivate:[AuthGuard]  },
 
-  { path: 'empleado', component: CrudEmpleadoComponent, data: { breadcrumb: 'Gestión Empleados' } },
-  { path: 'gestion-cliente', component: CrudClienteComponent, data: { breadcrumb: 'Gestión Clientes' } },
-  { path: 'gestion-horario', component: GestionHorarioComponent, data: { breadcrumb: 'Gestión Horarios' } },
-  { path: 'gestion-pago', component: GestionPagoComponent, data: { breadcrumb: 'Gestión Pagos' } },
-  { path: 'gestion-cita', component: GestionCitaComponent, data: { breadcrumb: 'Gestión Citas' } },
+  { path: 'empleado', component: CrudEmpleadoComponent, data: { breadcrumb: 'Gestión Empleados' }, canActivate:[AuthGuard] },  { path: 'gestion-cliente', component: CrudClienteComponent, data: { breadcrumb: 'Gestión Clientes' }, canActivate:[AuthGuard]  },
+  { path: 'gestion-horario', component: GestionHorarioComponent, data: { breadcrumb: 'Gestión Horarios' }, canActivate:[AuthGuard]  },
+  { path: 'gestion-pago', component: GestionPagoComponent, data: { breadcrumb: 'Gestión Pagos' }, canActivate:[AuthGuard]  },
+  { path: 'gestion-cita', component: GestionCitaComponent, data: { breadcrumb: 'Gestión Citas' }, canActivate:[AuthGuard]  },
 
-  { path: 'cita', component: SolicitudCitaComponent, data: { breadcrumb: 'Solicitar Cita' } },
-  { path: 'citasRegistro', component: RegistroCitasComponent, data: { breadcrumb: 'Registro de Citas' } },
-  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent, data: { breadcrumb: 'Calendario Cliente' } },
-  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent, data: { breadcrumb: 'Calendario Abogado' } },
-  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent, data: { breadcrumb: 'Calendario Secretaria' } },
+  { path: 'cita', component: SolicitudCitaComponent, data: { breadcrumb: 'Solicitar Cita' }, canActivate:[AuthGuard]  },
+  { path: 'citasRegistro', component: RegistroCitasComponent, data: { breadcrumb: 'Registro de Citas' }, canActivate:[AuthGuard]  },
+  { path: 'calendario-cliente', component: CalendarioCitasClienteComponent, data: { breadcrumb: 'Calendario Cliente' }, canActivate:[AuthGuard]  },
+  { path: 'calendario-abogado', component: CalendarioCitasAbogadoComponent, data: { breadcrumb: 'Calendario Abogado' }, canActivate:[AuthGuard]  },
+  { path: 'calendario-secretaria', component: CalendarioCitasSecretariaComponent, data: { breadcrumb: 'Calendario Secretaria' }, canActivate:[AuthGuard]  },
 
-  { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumb: 'Crear Expediente' } },
-  { path: 'visualizar-expediente', component: VisualizarPdfComponent, data: { breadcrumb: 'Visualizar PDF' } },
-  { path: 'historial-expedientes', component: HistorialExpedienteComponent, data: { breadcrumb: 'Historial Expedientes' } },
-  { path: 'expediente/:idExpediente', component: ExpedienteComponent, data: { breadcrumb: 'Detalle Expediente' } },
+  { path: 'crear-expediente', component: UploadFileComponent, data: { breadcrumb: 'Crear Expediente' }, canActivate:[AuthGuard]  },
+  { path: 'visualizar-expediente', component: VisualizarPdfComponent, data: { breadcrumb: 'Visualizar PDF' }, canActivate:[AuthGuard]  },
+  { path: 'historial-expedientes', component: HistorialExpedienteComponent, data: { breadcrumb: 'Historial Expedientes' }, canActivate:[AuthGuard]  },
+  { path: 'expediente/:idExpediente', component: ExpedienteComponent, data: { breadcrumb: 'Detalle Expediente' }, canActivate:[AuthGuard]  },
 
   { path: 'barra', component: BarraLateralComponent, data: { breadcrumb: 'Barra Lateral' } },
   { path: 'navbar', component: NavbarComponent, data: { breadcrumb: 'Navegación' } },
