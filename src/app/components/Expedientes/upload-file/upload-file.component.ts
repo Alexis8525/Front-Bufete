@@ -42,7 +42,7 @@ export class UploadFileComponent implements ExpedienteComponent{
   
   expediente: any = {
     numeroExpediente: '',
-    estado: '',
+    estado: 'En Proceso',
     nombreServicio: '',
     descrpcion: '',
     datosAbogado: {
@@ -90,6 +90,8 @@ export class UploadFileComponent implements ExpedienteComponent{
 
   cargando = false;
   errorCarga: string | null = null;
+
+  expedienteCreado = false;
   
 
   constructor(
@@ -202,33 +204,15 @@ export class UploadFileComponent implements ExpedienteComponent{
       }
     );
   }
+  
   aplicarDecorador(tipo: string): void {
-    try {
-      switch (tipo) {
-        case 'prioridad':
-          if (this.expedienteDecorado instanceof ExpedienteConPrioridadDecorator) {
-            console.warn('El expediente ya está decorado con prioridad.');
-            return;
-          }
-          this.expedienteDecorado = new ExpedienteConPrioridadDecorator(this.expedienteDecorado || this);
-          window.location.reload();
-          break;
-  
-        case 'archivado':
-          if (this.expedienteDecorado instanceof ExpedienteArchivadoDecorator) {
-            console.warn('El expediente ya está decorado como archivado.');
-            return;
-          }
-          this.expedienteDecorado = new ExpedienteArchivadoDecorator(this.expedienteDecorado || this);
-          window.location.reload();
-          break;
-  
-        default:
-          console.error('Tipo de decorador no válido.');
-      }
-      this.expedienteDecorado?.crearExpediente();
-    } catch (error) {
-      console.error('Error al aplicar decorador:', error);
+    switch (tipo) {
+      case 'prioridad':
+        this.expediente.estado = 'Prioridad Alta';
+        break;
+      case 'archivado':
+        this.expediente.estado = 'Archivado';
+        break;
     }
   }
    
@@ -332,22 +316,27 @@ export class UploadFileComponent implements ExpedienteComponent{
   
 
   crearExpediente() {
+    if (this.cargando) return;
+    
     if (!this.expediente.idClienteFK || !this.expediente.idEmpleadoFK) {
       console.error('Debe seleccionar un cliente y un abogado antes de crear el expediente.');
       return;
     }
   
+    this.cargando = true; // Activa el estado de carga
+  
     this.uploadFileService.crearExpediente(this.expediente).subscribe({
       next: (response: any) => {
         this.idExpedienteCreado = response.idExpediente;
+        this.cargando = false; // Desactiva el estado de carga
+        this.cargarExpedientes(); // Recarga la lista de expedientes
       },
       error: (err: any) => {
         console.error('Error al crear el expediente:', err);
+        this.cargando = false; // Desactiva el estado de carga
       }
     });
   }
-  
-  
   
 
   // subirDocumentos() {
@@ -389,15 +378,13 @@ export class UploadFileComponent implements ExpedienteComponent{
 
   onSubmit() {
     if (!this.expediente.numeroExpediente || !this.expediente.nombreServicio) {
-      alert('Por favor, complete el número de expediente y el nombre del servicio antes de continuar.');
+      alert('Complete los campos requeridos');
       return;
     }
   
-    const confirmacion = confirm('¿Está seguro de que desea crear este expediente?');
-    if (!confirmacion) {
-      return;
-    }
+    const confirmacion = confirm('¿Crear expediente?');
+    if (!confirmacion) return;
   
-    this.crearExpediente();
-  }  
+    this.crearExpediente(); // Siempre usa el método base, los decoradores ya modificaron el estado
+  }
 }
