@@ -3,7 +3,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
-
 @Component({
   selector: 'app-barra-lateral',
   standalone: true,
@@ -25,11 +24,12 @@ export class BarraLateralComponent {
   constructor(
     private renderer: Renderer2, 
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router:Router
+    private router: Router
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);  // Verifica si estamos en el navegador
     this.rol = this.getRol();  // Obtiene el ID del rol del usuario
   }
+
   toggleSidebar(): void {
     // Solo ejecutar este código si estamos en el navegador
     if (this.isBrowser) {
@@ -42,7 +42,7 @@ export class BarraLateralComponent {
       this.isExpanded = !this.isExpanded; // Alternar el estado
     }
   }
- 
+
   private getRol(): number | null {
     if (this.isBrowser) { // Verifica si estamos en el navegador
       const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
@@ -64,11 +64,15 @@ export class BarraLateralComponent {
     return this.rol === 1;
   }
 
+  // Función de logout
   logout(): void {
     if (this.isBrowser) {
-      localStorage.removeItem('usuario'); // Eliminar el usuario de localStorage
-      this.router.navigate(['/login']); // Redirigir a la página de login
+      localStorage.removeItem('usuario'); // Elimina el usuario de localStorage
+      localStorage.removeItem('token'); // Elimina el token (si lo tienes almacenado)
+      localStorage.removeItem('exp'); // Elimina el tiempo de expiración del token (si lo tienes)
+
+      // Redirige al usuario a la página de login
+      this.router.navigate(['/login']);
     }
   }
-  
 }
