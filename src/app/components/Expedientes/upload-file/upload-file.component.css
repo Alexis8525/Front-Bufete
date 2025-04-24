@@ -89,15 +89,17 @@ app-barra-lateral {
   background-color: white;
 }
 
+
 .form-group {
   margin-bottom: 1.5rem;
+  background-color: rgb(224, 160, 9);
 }
 
 /* ========== TABLAS ========== */
 .table-responsive {
   overflow-x: auto;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(227, 6, 6, 0.1);
 }
 
 .table th {
@@ -167,6 +169,8 @@ app-barra-lateral {
 
 .form-group {
   margin-bottom: 1.5rem;
+  background-color: white;
+  margin-top: #bf913b;
 }
 
 /* ========== TABLAS ========== */
@@ -176,64 +180,89 @@ app-barra-lateral {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.table {
-  th {
+.badge {
+  &-primary {
     background-color: #0e2238;
     color: white;
-    font-weight: 600;
-    padding: 1rem;
   }
-  
-  td {
-    padding: 0.75rem 1rem;
-    vertical-align: middle;
+
+  &-success {
+    background-color: #28a745;
+    color: white;
   }
-  
+
+  &-warning {
+    background-color: #D4AF37; /* Dorado para advertencias */
+    color: #0e2238;
+  }
+
+  &-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+}
+
+
+/* ========== TABLA CON DETALLES DORADOS ========== */
+.table {
+  th {
+    background: linear-gradient(to right, #0e2238, #1a3658); /* Fondo azul oscuro */
+    color: white;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #D4AF37; /* Línea dorada bajo los headers */
+    }
+  }
+
   tr:hover {
-    background-color: rgba(191, 145, 59, 0.1);
+    background-color: rgba(226, 176, 13, 0.867); /* Fondo muy suave dorado al pasar mouse */
   }
 }
 
 /* ========== BOTONES ========== */
 .btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-right: 0.5rem;
-  border: none;
-  
   &-primary {
-    background-color: #bf913b;
-    color: white;
+    background-color: #D4AF37; /* Dorado clásico */
+    color: #0e2238; /* Texto azul oscuro para contraste */
+    border: 1px solid #B8860B; /* Borde dorado oscuro */
     
     &:hover {
-      background-color: #a3762f;
-      transform: translateY(-2px);
+      background-color: #B8860B; /* Dorado más oscuro al pasar el mouse */
+      color: white;
+      box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
     }
   }
-  
-  &-secondary {
-    background-color: #6c757d;
-    color: white;
-    
-    &:hover {
-      background-color: #5a6268;
-    }
-  }
-  
-  &-warning {
-    background-color: #ffc107;
-    color: #0e2238;
-    
-    &:hover {
-      background-color: #e0a800;
-    }
-  }
-  
+
   &-submit {
-    width: 100%;
-    background-color: #0e2238;
+    background: linear-gradient(to right, #D4AF37, #F5D073); /* Degradado dorado */
+    color: #0e2238;
+    font-weight: 700;
+    border: none;
+    
+    &:hover {
+      background: linear-gradient(to right, #B8860B, #D4AF37);
+      color: white;
+    }
+  }
+
+  &-danger {
+    background-color: #dc3545; /* Rojo para acciones peligrosas */
+    color: white;
+    
+    &:hover {
+      background-color: #c82333;
+    }
+  }
+
+  &-secondary {
+    background-color: #0e2238; /* Azul oscuro */
     color: white;
     
     &:hover {
@@ -262,6 +291,192 @@ app-barra-lateral {
   &-expediente {
     background-color: rgba(255, 248, 225, 0.7);
     border-left: 4px solid #ffc107;
+  }
+}
+
+/* ========== ESTILOS PARA TABLA DE EXPEDIENTES ========== */
+.expedientes-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border: none;
+}
+
+.expedientes-card .card-header {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5D073 100%);
+  color: #0e2238;
+  padding: 1.25rem 1.5rem;
+  border-bottom: none;
+}
+
+.expedientes-card .card-header h4 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.5rem;
+  border-bottom: none;
+  color: #0e2238;
+}
+
+.expedientes-card .card-body {
+  padding: 1.5rem;
+}
+
+/* Tabla de expedientes */
+.expedientes-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.expedientes-table thead th {
+  background: linear-gradient(to right, #D4AF37, #B8860B);
+  color: #0e2238;
+  font-weight: 700;
+  padding: 1rem;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.expedientes-table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.expedientes-table tbody tr:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+.expedientes-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  vertical-align: middle;
+}
+
+/* Badges de estado */
+.badge-estado {
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.badge-prioridad-alta {
+  background-color: #D4AF37;
+  color: #0e2238;
+}
+
+.badge-archivado {
+  background-color: #6c757d;
+  color: white;
+}
+
+.badge-en-proceso {
+  background-color: #0e2238;
+  color: white;
+}
+
+/* Botones de acción */
+.btn-accion {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-detalle {
+  background-color: #D4AF37;
+  color: #0e2238;
+  border: 1px solid #B8860B;
+}
+
+.btn-detalle:hover {
+  background-color: #B8860B;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+}
+
+.btn-eliminar {
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #c82333;
+}
+
+.btn-eliminar:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Botón de recargar */
+.btn-recargar {
+  background-color: #0e2238;
+  color: #D4AF37;
+  border: 1px solid #0e2238;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+}
+
+.btn-recargar:hover {
+  background-color: #1a3658;
+  color: #F5D073;
+}
+
+/* Spinner */
+.spinner-border.text-primary {
+  color: #D4AF37 !important;
+}
+
+/* Alertas */
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-left: 4px solid #dc3545;
+  color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .expedientes-table thead {
+    display: none;
+  }
+  
+  .expedientes-table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+  }
+  
+  .expedientes-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  }
+  
+  .expedientes-table tbody td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #0e2238;
+    margin-right: 1rem;
+  }
+  
+  .btn-accion {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .acciones-container {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 
@@ -337,24 +552,4 @@ h4 {
   .section {
     padding: 1rem;
   }
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.spinner-container {
-  background: white;
-  padding: 2rem;
-  border-radius: 5px;
-  text-align: center;
 }

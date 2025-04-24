@@ -7,34 +7,32 @@
         <a class="navbar-brand ms-3" href="/principal">
           <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
         </a>
-
-        
-
-       <!-- En tu navbar (dentro del nav) -->
-<form class="d-flex search-form-container">
-  <div class="input-group search-box">
-    <input 
-      class="form-control search-input" 
-      type="search" 
-      placeholder="Buscar expediente..." 
-      aria-label="Buscar"
-      [(ngModel)]="terminoBusqueda"
-      (input)="buscar()"
-      name="buscador"
-    >
-    <button class="btn btn-search" type="button" (click)="buscar()" title="Buscar">
-      <i class="fa fa-search"></i>
-    </button>
-    <button class="btn btn-filter" type="button" (click)="toggleFiltros()" title="Filtros">
-      <i class="fa fa-filter"></i>
-    </button>
-  </div>
-</form>
       </div>
     </nav>
 
     <div class="p-3 expedientes-container">
       <app-breadcrumbs></app-breadcrumbs>
+
+             <!-- En tu navbar (dentro del nav) -->
+      <form class="d-flex search-form-container">
+        <div class="input-group search-box">
+          <input 
+            class="form-control search-input" 
+            type="search" 
+            placeholder="Buscar expediente..." 
+            aria-label="Buscar"
+            [(ngModel)]="terminoBusqueda"
+            (input)="buscar()"
+            name="buscador"
+          >
+          <button class="btn btn-search" type="button" (click)="buscar()" title="Buscar">
+            <i class="fa fa-search"></i>
+          </button>
+          <button class="btn btn-filter" type="button" (click)="toggleFiltros()" title="Filtros">
+            <i class="fa fa-filter"></i>
+          </button>
+        </div>
+      </form>
       
       <!-- Alert Container -->
       <div class="alert-container fixed-top mt-5 mx-3"></div>

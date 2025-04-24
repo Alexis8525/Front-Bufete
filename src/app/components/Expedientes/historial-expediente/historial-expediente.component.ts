@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from "../../navbar/navbar.component";
 
 declare var bootstrap: any;
 
@@ -17,9 +18,9 @@ declare var bootstrap: any;
     BarraLateralComponent,
     CommonModule,
     FormsModule,
-    BreadcrumbsComponent,
-    RouterModule
-  ],
+    RouterModule,
+    BreadcrumbsComponent
+],
   templateUrl: './historial-expediente.component.html',
   styleUrls: ['./historial-expediente.component.css'],
 })

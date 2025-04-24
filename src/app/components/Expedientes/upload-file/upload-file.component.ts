@@ -329,7 +329,8 @@ export class UploadFileComponent implements ExpedienteComponent{
       next: (response: any) => {
         this.idExpedienteCreado = response.idExpediente;
         this.cargando = false; // Desactiva el estado de carga
-        this.cargarExpedientes(); // Recarga la lista de expedientes
+        window.location.reload(); // Recarga la lista de expedientes
+
       },
       error: (err: any) => {
         console.error('Error al crear el expediente:', err);
