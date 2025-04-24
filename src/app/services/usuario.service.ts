@@ -10,8 +10,8 @@ import { catchError } from 'rxjs';
 export class UsuarioService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  URL_API = 'http://localhost:3000/usuarios/';
-  //URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/usuarios/';
+  //URL_API = 'http://localhost:3000/usuarios/';
+  URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/usuarios/';
 
   public usuario: Usuario = {
     idUsuario: 0,
@@ -59,6 +59,17 @@ export class UsuarioService {
       token,
       nuevaContrasena,
     });
+  }
+
+  isLoggedIn(): boolean {
+    // Verifica si estamos en el navegador
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const token = localStorage.getItem('token');
+      if (token && !this.isTokenExpired()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   isTokenExpired(): boolean {

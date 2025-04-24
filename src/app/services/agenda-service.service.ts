@@ -9,8 +9,8 @@ export class AgendaService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost:3000/agendas/';
-  //URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/agendas/';
+  //URL_API = 'http://localhost:3000/agendas/';
+  URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/agendas/';
 
   public agenda: Agenda = {
     idAgenda: 0,

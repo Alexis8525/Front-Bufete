@@ -19,7 +19,6 @@ import { BreadcrumbsComponent } from "../breadcrumbs/breadcrumbs.component";
     BarraLateralComponent,
     CommonModule,
     FormsModule,
-    SeleccionHorasComponent,
     BreadcrumbsComponent
 ]
 })
