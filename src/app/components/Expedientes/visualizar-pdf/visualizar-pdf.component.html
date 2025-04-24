@@ -99,11 +99,7 @@
               <p class="card-text"><strong>Estado:</strong> {{ expediente.estado }}</p>
             </div>
             <div class="card-footer bg-transparent d-flex justify-content-between">
-              <button class="btn btn-outline-primary btn-sm" 
-                      (click)="abrirModal(expediente.documentoBase64)"
-                      title="Ver documento">
-                <i class="fa fa-file-pdf-o"></i> Ver PDF
-              </button>
+              <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
               
               <div class="btn-group">
                 <button class="btn btn-outline-secondary btn-sm" 

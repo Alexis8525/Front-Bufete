@@ -92,7 +92,21 @@ export class UploadFileComponent implements ExpedienteComponent{
   errorCarga: string | null = null;
 
   expedienteCreado = false;
+
+  nombreDelExpediente: string = '';
+
+  serviciosDisponibles: string[] = [
+    'Asesoría Legal',
+    'Redacción de Contratos',
+    'Juicio Civil',
+    'Juicio Penal',
+    'Divorcio',
+    'Testamentos',
+    'Registro de Marca',
+    'Defensa Laboral'
+  ];
   
+
 
   constructor(
     private http: HttpClient,
@@ -106,6 +120,7 @@ export class UploadFileComponent implements ExpedienteComponent{
     this.cargarClientes();  // Cargar los clientes al inicializar el componente
     this.cargarAbogado();  // Cargar los abogados
     this.cargarExpedientes();
+    console.log(this.crearExpediente)
   }
 
   cargarExpedientes(): void {
@@ -127,19 +142,43 @@ export class UploadFileComponent implements ExpedienteComponent{
 
   mostrarFormularioNuevo(): void {
     this.mostrarFormulario = true;
-    this.resetearFormulario();
+    this.resetearExpediente();
   }
 
-  resetearFormulario(): void {
-    this.nuevoExpediente = {
-      nombreExpediente: '',
+  resetearExpediente() {
+    this.expediente = {
       numeroExpediente: '',
-      descripcion: '',
       estado: 'En Proceso',
-      datosAbogado: {},
-      datosCliente: {}
+      nombreServicio: '',
+      descrpcion: '',
+      datosAbogado: {
+        nombreEmpleado: '',
+        aPEmpleado: '',
+        aMEmpleado: '',
+        numeroLicencia: '',
+        telfono: '',
+        correo: ''
+      },
+      datosCliente: {
+        nombreCliente: '',
+        aPCliente: '',
+        aMCliente: '',  
+        direccion: '',
+        telefono: '',
+        correo: ''
+      },
+      fechaApertura: new Date().toISOString(),
+      idClienteFK: 100006,
+      idEmpleadoFK: 1007,
     };
+  
+    this.clienteSeleccionado = null;
+    this.AbogadoSeleccionado = null;
+    this.clienteDatos = null;
+    this.AbogadoDatos = null;
+    this.idExpedienteCreado = null;
   }
+  
 
   agregarExpediente(nuevoExpediente: any): void {
     this.cargando = true;
@@ -317,27 +356,28 @@ export class UploadFileComponent implements ExpedienteComponent{
 
   crearExpediente() {
     if (this.cargando) return;
-    
+  
     if (!this.expediente.idClienteFK || !this.expediente.idEmpleadoFK) {
       console.error('Debe seleccionar un cliente y un abogado antes de crear el expediente.');
       return;
     }
   
-    this.cargando = true; // Activa el estado de carga
+    this.cargando = true;
   
     this.uploadFileService.crearExpediente(this.expediente).subscribe({
       next: (response: any) => {
         this.idExpedienteCreado = response.idExpediente;
-        this.cargando = false; // Desactiva el estado de carga
-        window.location.reload(); // Recarga la lista de expedientes
-
+        this.expedientes.unshift(response); // Opcional si quieres mostrarlo al inicio
+        this.resetearExpediente(); // ← aquí haces el reset
+        this.cargando = false;
       },
       error: (err: any) => {
         console.error('Error al crear el expediente:', err);
-        this.cargando = false; // Desactiva el estado de carga
+        this.cargando = false;
       }
     });
   }
+  
   
 
   // subirDocumentos() {

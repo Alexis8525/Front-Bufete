@@ -72,21 +72,19 @@ app-barra-lateral {
 }
 
 /* ========== COMPONENTES DE FORMULARIO ========== */
-.form-control, 
-.form-select {
+.form-control, .form-select {
   padding: 0.75rem 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   background-color: #f9f9f9;
   transition: all 0.3s ease;
-}
-
-.form-control:focus, 
-.form-select:focus {
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 0 0.25rem rgba(191, 145, 59, 0.25);
-  background-color: white;
+  
+  &:focus {
+    border-color: #bf913b;
+    box-shadow: 0 0 0 0.25rem rgba(191, 145, 59, 0.25);
+    background-color: white;
+  }
 }
 
 
