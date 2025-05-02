@@ -10,6 +10,7 @@ import { ServicioService } from '../../services/servicio.service';
 import { Cita } from '../../models/cita';
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-solicitud-cita',
@@ -45,7 +46,8 @@ export class SolicitudCitaComponent implements OnInit {
     public citaService: CitaService,
     public clienteService: ClienteService,
     public servicioService: ServicioService,
-    private router: Router  // Inyectamos el router para redirección
+    private router: Router,
+    private localStorageService: LocalStorageService,
   ) {}
 
   ngOnInit() {
@@ -60,7 +62,7 @@ export class SolicitudCitaComponent implements OnInit {
 
   getUserId(): number | null {
     if (typeof window !== 'undefined') {
-      const usuarioId = localStorage.getItem('usuarioId');
+      const usuarioId = this.localStorageService.getItem('usuarioId');
       return usuarioId ? parseInt(usuarioId, 10) : null;
     }
     return null;

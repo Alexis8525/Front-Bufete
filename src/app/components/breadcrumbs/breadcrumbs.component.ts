@@ -2,6 +2,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -18,6 +19,7 @@ export class BreadcrumbsComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private localStorageService: LocalStorageService,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -49,7 +51,7 @@ export class BreadcrumbsComponent implements OnInit {
     }
 
     const usuarioAutenticado = this.isBrowser
-      ? localStorage.getItem('usuario') !== null
+      ? this.localStorageService.getItem('usuario') !== null
       : false;
 
     const primerBreadcrumb = usuarioAutenticado
