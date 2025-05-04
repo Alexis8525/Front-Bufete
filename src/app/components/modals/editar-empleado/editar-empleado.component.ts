@@ -59,7 +59,7 @@ export class EditarEmpleadoComponent implements OnInit {
         res => {
           this.empleadoActualizado.emit();
           this.cerrarModal.emit();
-
+  
           // Mostrar modal de éxito en el padre si está definido
           const parent = window as any;
           if (parent.successModalGlobal) {
@@ -69,7 +69,7 @@ export class EditarEmpleadoComponent implements OnInit {
         },
         err => {
           console.error('Error al actualizar empleado:', err);
-
+  
           const parent = window as any;
           if (parent.errorModalGlobal) {
             this.modalService.open(parent.errorModalGlobal);
@@ -77,8 +77,10 @@ export class EditarEmpleadoComponent implements OnInit {
           }
         }
       );
+    } else {
+      console.log('Formulario no válido');
     }
-  }
+  }  
 
   cancelarEdicion(): void {
     this.cerrarModal.emit();

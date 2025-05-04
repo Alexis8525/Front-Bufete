@@ -70,6 +70,14 @@ export class CrudEmpleadoComponent implements OnInit {
     this.empleadoService.getEmpleados().subscribe(
       res => {
         this.empleados = res;
+        
+        // Ordenar los empleados por fecha de ingreso de más reciente a más antigua
+        this.empleados.sort((a, b) => {
+          const fechaA = new Date(a.fechaIngreso);
+          const fechaB = new Date(b.fechaIngreso);
+          return fechaB.getTime() - fechaA.getTime(); // Orden descendente
+        });
+
         this.filtrarEmpleados();
       },
       err => console.error(err)

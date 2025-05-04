@@ -8,82 +8,70 @@
 
       <div class="modal-body">
         <form #form="ngForm" (ngSubmit)="actualizarEmpleado(form)">
+          <!-- Nombre -->
           <div class="form-group">
             <label for="nombreEmpleado">Nombre</label>
-            <input
-              type="text"
-              id="nombreEmpleado"
-              [(ngModel)]="empleado.nombreEmpleado"
-              name="nombreEmpleado"
-              class="form-control"
-              required
-            />
+            <input type="text" id="nombreEmpleado" [(ngModel)]="empleado.nombreEmpleado" name="nombreEmpleado"
+              class="form-control" required #nombreEmpleado="ngModel" />
+            <div *ngIf="nombreEmpleado.invalid && nombreEmpleado.touched" class="text-danger">
+              Nombre es obligatorio.
+            </div>
           </div>
 
+          <!-- Apellido Paterno -->
           <div class="form-group">
             <label for="aPEmpleado">Apellido Paterno</label>
-            <input
-              type="text"
-              id="aPEmpleado"
-              [(ngModel)]="empleado.aPEmpleado"
-              name="aPEmpleado"
-              class="form-control"
-              required
-            />
+            <input type="text" id="aPEmpleado" [(ngModel)]="empleado.aPEmpleado" name="aPEmpleado" class="form-control"
+              required #aPEmpleado="ngModel" />
+            <div *ngIf="aPEmpleado.invalid && aPEmpleado.touched" class="text-danger">
+              Apellido Paterno es obligatorio.
+            </div>
           </div>
 
+          <!-- Apellido Materno -->
           <div class="form-group">
             <label for="aMEmpleado">Apellido Materno</label>
-            <input
-              type="text"
-              id="aMEmpleado"
-              [(ngModel)]="empleado.aMEmpleado"
-              name="aMEmpleado"
-              class="form-control"
-            />
+            <input type="text" id="aMEmpleado" [(ngModel)]="empleado.aMEmpleado" name="aMEmpleado"
+              class="form-control" />
           </div>
 
+          <!-- Correo -->
           <div class="form-group">
             <label for="correo">Correo</label>
-            <input
-              type="email"
-              id="correo"
-              [(ngModel)]="empleado.correo"
-              name="correo"
-              class="form-control"
-              required
-            />
+            <input type="email" id="correo" [(ngModel)]="empleado.correo" name="correo" class="form-control" required
+              email #correo="ngModel" />
+            <div *ngIf="correo.invalid && correo.touched" class="text-danger">
+              Correo es obligatorio y debe ser válido.
+            </div>
           </div>
 
+          <!-- Teléfono -->
           <div class="form-group">
             <label for="telefono">Teléfono</label>
-            <input
-              type="tel"
-              id="telefono"
-              [(ngModel)]="empleado.telefono"
-              name="telefono"
-              class="form-control"
-              required
-            />
+            <input type="tel" id="telefono" [(ngModel)]="empleado.telefono" name="telefono" class="form-control"
+              required pattern="^[0-9]{10}$" #telefono="ngModel" />
+            <div *ngIf="telefono.invalid && telefono.touched" class="text-danger">
+              Teléfono es obligatorio y debe tener 10 dígitos.
+            </div>
           </div>
 
+          <!-- Especialidad -->
           <div class="form-group">
             <label for="idEspecialidadFK">Especialidad</label>
-            <select
-              id="idEspecialidadFK"
-              [(ngModel)]="empleado.idEspecialidadFK"
-              name="idEspecialidadFK"
-              class="form-control"
-              required
-            >
+            <select id="idEspecialidadFK" [(ngModel)]="empleado.idEspecialidadFK" name="idEspecialidadFK"
+              class="form-control" required #idEspecialidadFK="ngModel">
               <option *ngFor="let especialidad of especialidades" [value]="especialidad.idEspecialidad">
                 {{ especialidad.nombreEspecialidad }}
               </option>
             </select>
+            <div *ngIf="idEspecialidadFK.invalid && idEspecialidadFK.touched" class="text-danger">
+              Especialidad es obligatoria.
+            </div>
           </div>
 
+          <!-- Modal Footer -->
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Guardar cambios</button>
             <button type="button" class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
           </div>
         </form>

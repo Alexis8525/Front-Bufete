@@ -1,0 +1,78 @@
+/* Contenedor del modal */
+.exp-modal-content {
+    background-color: #ffffff;
+    border: 0px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    overflow: hidden;
+    animation: fadeIn 0.4s ease;
+  }
+  
+  /* Encabezado */
+  .exp-modal-header {
+    background-color: #0e2238; /* Azul oscuro */
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+  
+  /* Cuerpo */
+  .exp-modal-body {
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 1.15rem;
+    color: #333;
+  }
+  
+  /* Footer / Botones */
+  .exp-modal-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    background-color: #fafafa;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  /* Botón Sí */
+  button.btn-primary {
+    background-color: #BF913B;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  button.btn-primary:hover {
+    background-color: #a3762f;
+    transform: scale(1.05);
+  }
+  
+  /* Botón No */
+  button.btn-secondary {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  button.btn-secondary:hover {
+    background-color: #c7c7c7;
+    transform: scale(1.05);
+  }
+  
+  /* Animación de entrada */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  

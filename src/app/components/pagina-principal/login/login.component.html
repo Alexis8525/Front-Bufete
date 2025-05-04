@@ -13,6 +13,22 @@
   </div>
 </ng-template>
 
+<!-- Modal de sesión cerrada -->
+<ng-template #modalSesionExpirada let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Sesión finalizada</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Por seguridad, tu sesión ha sido cerrada por inactividad o expiración del tiempo.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close()">Entendido</button>
+  </div>
+</ng-template>
+
 <div class="wrapper">
   <div class="main">
     <div class="container mt-5 login-container">

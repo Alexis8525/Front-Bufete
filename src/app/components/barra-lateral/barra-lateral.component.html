@@ -87,10 +87,10 @@
       </li>
     </ul>
     <div class="sidebar-footer">
-      <a href="" class="sidebar-link" (click)="logout()">
+      <a [routerLink]="['/login']" class="sidebar-link" (click)="logout()">
         <i class="lni lni-exit"></i>
         <span>Logout</span>
       </a>
-    </div>    
+    </div>      
   </aside>
 </div>

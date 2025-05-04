@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
 import { RecaptchaModule } from 'ng-recaptcha';
 
 
-registerLocaleData(localeEs);
+registerLocaleData(localeEs, 'es-MX');
 
 @NgModule({
   

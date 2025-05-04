@@ -1,19 +1,29 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SesionService } from './services/sesion.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'front-bufete';
-  private sesionService = inject(SesionService); 
+  isLoading: boolean = true;
+
+  constructor(private sesionService: SesionService) {}
 
   ngOnInit() {
-    this.sesionService.iniciarVerificacion();
+    this.isLoading = false;
+  }
+
+  ngOnDestroy(): void {
+    this.sesionService.limpiarTemporizadores(); // <- esto cancela timers activos
   }
 }

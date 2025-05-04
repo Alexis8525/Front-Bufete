@@ -6,11 +6,10 @@ import { AbogadoCitasStrategy } from '../../patterns/strategies/abogado-citas-st
 import { ClienteCitasStrategy } from '../../patterns/strategies/cliente-citas-strategy';
 import { CitasContext } from '../../patterns/strategies/citas-context';
 import { FechaCita } from '../../models/fechas-citas';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { SecretariaCitasStrategy } from '../../patterns/strategies/secretaria-citas-strategy';
 import { CitaAdaptada } from '../../models/cita-adaptada';
-import { formatDate } from '@angular/common';
 import { ConcreteComponent } from '../../patterns/decorators/concrete-component';
 import { RoleValidationDecorator } from '../../patterns/decorators/role-validation-decorator';
 import { StateUpdateDecorator } from '../../patterns/decorators/state-update-decorator';
@@ -33,7 +32,7 @@ import { NavigationHistoryService } from '../../services/navigation-history.serv
     BreadcrumbsComponent,
     FormsModule,
     RouterModule,
-    BarraBusquedaHomeComponent // Agregar el componente de búsqueda
+    BarraBusquedaHomeComponent
   ],
 })
 export class PrincipalComponent implements OnInit {
@@ -42,27 +41,22 @@ export class PrincipalComponent implements OnInit {
   loading: boolean = true;
   usuario: any = {};
 
-  // Elimina las palabras clave ya que ahora están en BarraBusquedaHomeComponent
-
   constructor(
     private citaService: CitaService,
     private servicioService: ServicioService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private navService: NavigationHistoryService
+    private navService: NavigationHistoryService,
   ) {}
 
   ngOnInit(): void {
-    if (!this.localStorageService.isBrowser()) {
-      return;
-    }
+    if (!this.localStorageService.isBrowser()) return;
 
     this.usuario = JSON.parse(this.localStorageService.getItem('usuario') || '{}');
     const userId = parseInt(this.localStorageService.getItem('usuarioId') || '0', 10);
-
     const citasContext = new CitasContext<CitaAdaptada>();
 
-    if (this.usuario.rol === 1) { // Secretaria
+    if (this.usuario.rol === 1) {
       citasContext.setStrategy(
         new SecretariaCitasStrategy(this.citaService, (citas) => {
           const citasFiltradas = this.filtrarCitasDelDia(citas);
@@ -70,7 +64,7 @@ export class PrincipalComponent implements OnInit {
           this.loading = false;
         })
       );
-    } else if (this.usuario.rol === 2) { // Abogado
+    } else if (this.usuario.rol === 2) {
       citasContext.setStrategy(
         new AbogadoCitasStrategy(this.citaService, (citas) => {
           const citasFiltradas = this.filtrarCitasDelDia(citas);
@@ -78,7 +72,7 @@ export class PrincipalComponent implements OnInit {
           this.loading = false;
         })
       );
-    } else if (this.usuario.rol === 3) { // Cliente
+    } else if (this.usuario.rol === 3) {
       citasContext.setStrategy(
         new ClienteCitasStrategy(this.citaService, (citas) => {
           const citasFiltradas = this.filtrarCitasDelDia(citas);
@@ -94,8 +88,6 @@ export class PrincipalComponent implements OnInit {
         this.loading = false;
       });
   }
-
-  // Elimina el método buscarGlobal() ya que está en BarraBusquedaHomeComponent
 
   filtrarCitasDelDia(citas: CitaAdaptada[]): CitaAdaptada[] {
     const hoy = new Date();
@@ -125,8 +117,10 @@ export class PrincipalComponent implements OnInit {
   }
 
   extraerHora(hora: string | Date): string {
-    const date = typeof hora === 'string' ? new Date(hora) : hora;
-    return formatDate(date, 'h:mm a', 'en-US');
+    if (typeof hora === 'string') {
+      return hora.slice(11, 16); // Extrae formato HH:mm directamente sin afectar zona horaria
+    }
+    return formatDate(hora, 'HH:mm', 'es-MX');
   }
 
   atenderCita(idCita: number | undefined): void {
@@ -149,9 +143,8 @@ export class PrincipalComponent implements OnInit {
   logout(): void {
     this.router.navigate(['/home']).then(success => {
       if (success) {
-        window.location.reload(); // Recargar para limpiar el estado
+        window.location.reload();
       } else {
-        // Si /home falla, intentar con /inicio
         this.router.navigate(['/inicio']).then(() => window.location.reload());
       }
     });

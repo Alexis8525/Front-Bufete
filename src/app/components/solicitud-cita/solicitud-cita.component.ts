@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { ServicioService } from '../../services/servicio.service';
 import { Cita } from '../../models/cita';
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { Router } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-solicitud-cita',
@@ -38,21 +40,29 @@ export class SolicitudCitaComponent implements OnInit {
   horarioSeleccionadoId: number | null = null;
   isSubmitting: boolean = false;  // Variable para controlar el estado de envío
 
+  mensajeExito: string = '';  // Variable para mostrar mensaje de éxito
+
   constructor(
     public citaService: CitaService,
     public clienteService: ClienteService,
     public servicioService: ServicioService,
+    private router: Router,
+    private localStorageService: LocalStorageService,
   ) {}
 
   ngOnInit() {
     const userId = this.getUserId();
-    this.getClienteById(userId);
-    this.getServicios();
+    if (userId) {
+      this.getClienteById(userId);
+      this.getServicios();
+    } else {
+      this.router.navigate(['/login']);  // Si no hay usuario logueado, redirigir a login
+    }
   }
 
   getUserId(): number | null {
     if (typeof window !== 'undefined') {
-      const usuarioId = localStorage.getItem('usuarioId');
+      const usuarioId = this.localStorageService.getItem('usuarioId');
       return usuarioId ? parseInt(usuarioId, 10) : null;
     }
     return null;
@@ -220,15 +230,20 @@ export class SolicitudCitaComponent implements OnInit {
 
     this.citaService.crearCitaConTransaccion(citaData).subscribe({
       next: () => {
+        // Limpiar el formulario
         this.limpiarFormulario();
-        alert('La cita se ha guardado correctamente.');
-        location.reload();  // Recargar la página después de guardar la cita
+
+        // Mostrar mensaje de éxito en lugar de redirigir
+        this.mensajeExito = 'La cita se ha guardado correctamente.';
+        
       },
       error: (err) => {
         console.error('Error al crear la cita:', err);
+        this.mensajeExito = 'Ocurrió un error al guardar la cita. Intenta nuevamente.';
       },
       complete: () => {
-        this.isSubmitting = false;  // Reactivar el botón después de finalizar la solicitud
+        // Reactivar el botón después de finalizar la solicitud
+        this.isSubmitting = false;
       }
     });
   }

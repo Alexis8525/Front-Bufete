@@ -2,6 +2,7 @@ import { Component, ElementRef, Renderer2, ViewChild, Inject, PLATFORM_ID } from
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-barra-lateral',
@@ -24,7 +25,8 @@ export class BarraLateralComponent {
   constructor(
     private renderer: Renderer2, 
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService, // Inyecta el servicio aquí
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);  // Verifica si estamos en el navegador
     this.rol = this.getRol();  // Obtiene el ID del rol del usuario
@@ -67,9 +69,9 @@ export class BarraLateralComponent {
   // Función de logout
   logout(): void {
     if (this.isBrowser) {
-      localStorage.removeItem('usuario'); // Elimina el usuario de localStorage
-      localStorage.removeItem('token'); // Elimina el token (si lo tienes almacenado)
-      localStorage.removeItem('exp'); // Elimina el tiempo de expiración del token (si lo tienes)
+      this.localStorageService.removeItem('usuario'); // Elimina el usuario de localStorage
+      this.localStorageService.removeItem('token'); // Elimina el token (si lo tienes almacenado)
+      this.localStorageService.removeItem('exp'); // Elimina el tiempo de expiración del token (si lo tienes)
 
       // Redirige al usuario a la página de login
       this.router.navigate(['/login']);

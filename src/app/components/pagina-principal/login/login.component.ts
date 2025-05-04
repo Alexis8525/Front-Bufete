@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { NavBarraComponent } from '../nav-barra/nav-barra.component';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Importa NgbModal
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -25,17 +26,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; // Importa NgbModal
     RouterLink,
   ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   loginForm: FormGroup;
   captchaResolved: boolean = false;
   captchaToken: string = '';
   tempEmail: string = '';
   show2FAVerification: boolean = false;
   twoFactorForm: FormGroup;
-  showPassword: boolean = false; // Control de visibilidad de la contraseña
-  errorMessage: string = ''; // Mensaje de error para el modal
-
-  @ViewChild('errorModal') errorModal: any; // Definimos errorModal con ViewChild
+  showPassword: boolean = false;
+  errorMessage: string = '';
 
   showPasswordRequirements = false;
   hasMinLength = false;
@@ -44,11 +43,15 @@ export class LoginComponent implements OnInit {
   hasNumber = false;
   hasSpecialChar = false;
 
+  @ViewChild('errorModal') errorModal: any;
+  @ViewChild('modalSesionExpirada') modalSesionExpirada!: TemplateRef<any>;
+
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private router: Router,
-    private modalService: NgbModal // Inyectamos el servicio para el modal
+    private modalService: NgbModal,
+    private localStorageService: LocalStorageService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -65,11 +68,28 @@ export class LoginComponent implements OnInit {
         [Validators.required, Validators.minLength(6), Validators.maxLength(6)],
       ],
     });
-    
   }
 
   ngOnInit(): void {}
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const reason = this.localStorageService.getItem('logoutReason');
+      if (reason === 'expirada') {
+        this.mostrarModalSesionExpirada();
+        this.localStorageService.removeItem('logoutReason');
+      }
+    });
+  }
+
+  mostrarModalSesionExpirada() {
+    console.log('🔔 Abriendo modal de sesión expirada');
+    this.modalService.open(this.modalSesionExpirada, {
+      backdrop: 'static',
+      keyboard: false,
+    });
+  }
+  
   checkPasswordStrength(password: string) {
     this.hasMinLength = password.length >= 8;
     this.hasUpperCase = /[A-Z]/.test(password);
@@ -180,7 +200,7 @@ export class LoginComponent implements OnInit {
         console.error('Código incorrecto:', error);
         this.errorMessage = 'Código inválido o expirado. Intenta nuevamente.';
         this.openErrorModal(); // Abre el modal con el error
-      this.twoFactorForm.reset(); // Reseteamos el formulario OTP
+        this.twoFactorForm.reset(); // Reseteamos el formulario OTP
       }
     );
   }
@@ -193,18 +213,18 @@ export class LoginComponent implements OnInit {
       usuarioId = response.usuario.idCliente;
     }
 
-    localStorage.setItem('usuarioId', usuarioId.toString());
-    localStorage.setItem('usuario', JSON.stringify(response.usuario));
-    localStorage.setItem('token', response.token);
+    this.localStorageService.setItem('usuarioId', usuarioId.toString());
+    this.localStorageService.setItem('usuario', JSON.stringify(response.usuario));
+    this.localStorageService.setItem('token', response.token);
 
     // Extraer expiración del token
     const tokenPayload = JSON.parse(atob(response.token.split('.')[1]));
-    localStorage.setItem('exp', (tokenPayload.exp * 1000).toString()); // en ms
-
+    this.localStorageService.setItem('exp', (tokenPayload.exp * 1000).toString()); // en ms
     this.router.navigate(['/principal']);
   }
 
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
+
 }

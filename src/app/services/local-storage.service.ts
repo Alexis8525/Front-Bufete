@@ -7,7 +7,7 @@ export class LocalStorageService {
   private mockStorage: { [key: string]: string } = {};
 
   // Verifica si estamos en el navegador o en un entorno de servidor
-  isBrowser(): boolean {
+  public isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
 
@@ -26,13 +26,15 @@ export class LocalStorageService {
   }
 
   // Guardar valor en localStorage o mockStorage
-  setItem(key: string, value: string): void {
+  setItem(key: string, value: string | object): void {
+    const valueToStore = typeof value === 'object' ? JSON.stringify(value) : value;
+
     if (this.isBrowser()) {
-      localStorage.setItem(key, value);
-      console.log(`localStorage: Se guardó la clave "${key}" con el valor: ${value}`);
+      localStorage.setItem(key, valueToStore);
+      console.log(`localStorage: Se guardó la clave "${key}" con el valor: ${valueToStore}`);
     } else {
       console.warn(`localStorage no está disponible. Guardando en mockStorage la clave: ${key}`);
-      this.mockStorage[key] = value;
+      this.mockStorage[key] = valueToStore;
     }
   }
 

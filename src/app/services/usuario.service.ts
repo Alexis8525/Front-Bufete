@@ -3,15 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';  // Asegúrate de importar el servicio
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private localStorageService: LocalStorageService  // Inyecta el servicio de LocalStorage
+  ) {}
 
   //URL_API = 'http://localhost:3000/usuarios/';
-  URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/usuarios/';
+  URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/usuarios/'
 
   public usuario: Usuario = {
     idUsuario: 0,
@@ -42,8 +47,8 @@ export class UsuarioService {
   }
 
   login(email: string, password: string, recaptcha: string) {
-    return this.http.post(`${this.URL_API}login`, { email, password, recaptcha });
-  }
+    return this.http.post<any>(`${this.URL_API}login`, { email, password, recaptcha });
+  }  
 
   verifyOTP(email: string, otp: string) {
     return this.http.post(`${this.URL_API}verify-otp`, { email, otp });
@@ -62,19 +67,16 @@ export class UsuarioService {
   }
 
   isLoggedIn(): boolean {
-    // Verifica si estamos en el navegador
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const token = localStorage.getItem('token');
-      if (token && !this.isTokenExpired()) {
-        return true;
-      }
+    const token = this.localStorageService.getItem('token');
+    if (token && !this.isTokenExpired()) {
+      return true;  // Si hay token y no está expirado, el usuario está logueado
     }
-    return false;
+    return false;  // Si no hay token o ha expirado, no está logueado
   }
 
   isTokenExpired(): boolean {
-    const exp = localStorage.getItem('exp');
-    if (!exp) return true;
-    return Date.now() > parseInt(exp, 10);
+    const exp = this.localStorageService.getItem('exp');
+    if (!exp) return true;  // Si no hay fecha de expiración, consideramos que ha expirado
+    return Date.now() > parseInt(exp, 10);  // Compara la fecha de expiración con el tiempo actual
   }
 }

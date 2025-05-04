@@ -1,29 +1,30 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UsuarioService } from '../../services/usuario.service';  // Asegúrate de importar el servicio adecuado
+import { SesionService } from '../../services/sesion.service';  // Importar el servicio de sesión
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+  constructor(private sesionService: SesionService, private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    
-    // Si el usuario no está logueado y no estamos en la página de login, redirige al login
-    if (this.usuarioService.isLoggedIn()) {
-      return true;  // Si está logueado, permite el acceso
-    } else {
-      // Redirige al login si no está logueado
-      if (state.url !== '/login') {
-        this.router.navigate(['/login']);
-      }
-      return false;  // Bloquea el acceso si no está logueado
-    }
+    // Verificar si la sesión está activa
+    return new Promise((resolve) => {
+      this.sesionService.iniciarVerificacion().then((isAuthenticated) => {
+        if (isAuthenticated) {
+          return resolve(true);  // Si la sesión está activa, permite el acceso
+        } else {
+          // Si la sesión está expirada, redirigir al login
+          this.router.navigate(['/login']);
+          return resolve(false);  // Bloquea el acceso
+        }
+      });
+    });
   }
 }

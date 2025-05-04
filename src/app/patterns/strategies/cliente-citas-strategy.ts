@@ -16,6 +16,7 @@ export class ClienteCitasStrategy implements CitasStrategy<CitaAdaptada> {
       // Adaptar los datos para el cliente
       const citasAdaptadas: CitaAdaptada[] = citas.map(cita => ({
         idCita: cita.idCita,
+        cliente: `${cita.nombreCliente} ${cita.aPCliente} ${cita.aMCliente}`, // <-- AÑADIR ESTO
         abogado: `${cita.abogadoNombre} ${cita.abogadoApellidoPaterno} ${cita.abogadoApellidoMaterno}`, // Visible solo para cliente
         horaInicio: cita.horaInicio,
         horaFinal: cita.horaFinal,

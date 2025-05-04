@@ -1,7 +1,7 @@
 <app-nav-barra></app-nav-barra>
 <app-breadcrumbs></app-breadcrumbs>
 
-<!-- Carrusel con intervalos personalizados para cada imagen -->
+<!-- Carrusel -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner" style="height:80%; width:auto;">
     <div *ngFor="let item of carouselItems; let i = index"
@@ -13,52 +13,79 @@
       </div>
     </div>
   </div>
-
-  <!-- Controles del carrusel -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
+    <span class="visually-hidden">Anterior</span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
+    <span class="visually-hidden">Siguiente</span>
   </button>
 </div>
 
-
-<!-- Contenido del Bufete de Abogados -->
+<!-- Información del bufete -->
 <div class="container mt-5">
   <h2 class="text-center">LEX VARGAS</h2>
   <h3 class="text-center">Bufete de Abogados</h3>
-  <p class="text-center">
-    Firma de Abogados en México
-  </p>
-
-  <!-- Fila con tres columnas -->
+  <p class="text-center">Firma de Abogados en México</p>
   <div class="row">
     <div class="col-12">
       <p class="text-justify">
-        Fundado en 1975, LexVargas es uno de los despachos de abogados más reconocidos de México, ofreciendo servicios integrales y especializados.
+        Fundado en 1975, LexVargas es uno de los despachos de abogados más reconocidos de México.
       </p>
-    </div>
-
-    <div class="col-12 col-md-6">
-      <p class="text-justify">
-        Hemos asesorado al sector público en la privatización de empresas y servicios, incluyendo los dos primeros proyectos de asociación público-privada en México.
-      </p> 
     </div>
     <div class="col-12 col-md-6">
       <p class="text-justify">
-        En LexVargas, nuestro éxito se basa en una combinación de amplia experiencia y habilidades versátiles de una nueva generación de abogados.
+        Hemos asesorado al sector público en la privatización de empresas y servicios.
       </p>
     </div>
-
-    <div class="col-12">
+    <div class="col-12 col-md-6">
       <p class="text-justify">
-        Colaboramos estrechamente con nuestros clientes para combinar conocimientos y experiencia, asegurando resultados óptimos.
+        Nuestro éxito se basa en experiencia y habilidades versátiles de nuestra generación de abogados.
       </p>
     </div>
   </div>
+</div>
+
+<!-- Reseñas -->
+<div class="container mt-5 mb-4">
+  <h2 class="text-center mb-4">Lo que dicen nuestros clientes</h2>
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let review of resenas">
+      <div class="card h-100 shadow rounded-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ review.nombre }}</h5>
+          <p class="card-text">"{{ review.comentario }}"</p>
+        </div>
+        <div class="card-footer bg-transparent border-top-0">
+          <small class="text-warning">{{ obtenerEstrellas(review.estrellas) }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div #contenedorResenas></div> <!-- Contenedor para el mensaje de confirmación -->
+</div>
+
+<!-- Formulario reseñas -->
+<div class="container mb-5">
+  <h4 class="mb-3">Deja tu reseña</h4>
+  <form (ngSubmit)="agregarResena()">
+    <div class="mb-3">
+      <textarea class="form-control" placeholder="Escribe tu reseña"
+                [(ngModel)]="nuevaResena.comentario" name="comentario" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+      <input type="email" class="form-control" placeholder="Tu correo"
+             [(ngModel)]="nuevaResena.correo" name="correo" required>
+    </div>
+    <div class="mb-3">
+      <label>Calificación:</label>
+      <select class="form-select" [(ngModel)]="nuevaResena.estrellas" name="estrellas">
+        <option *ngFor="let star of [5,4,3,2,1]" [value]="star">{{ star }} estrella(s)</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success">Enviar</button>
+  </form>
 </div>
 
 <app-pie-pagina></app-pie-pagina>

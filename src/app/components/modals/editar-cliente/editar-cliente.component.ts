@@ -1,8 +1,7 @@
-// editar-cliente.component.ts
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Cliente } from '../../../models/cliente'; // Asegúrate de que la ruta sea correcta
 import { ClienteService } from '../../../services/cliente.service';
-import { NgForm, FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -43,10 +42,10 @@ export class EditarClienteComponent implements OnInit {
   // Método para actualizar el cliente
   actualizarCliente(form: NgForm): void {
     if (form.invalid) {
+      // Si el formulario es inválido, no se envía la solicitud de actualización
       return;
     }
 
-    // Aquí podrías agregar validaciones adicionales si es necesario
     this.clienteService.actualizarCliente(this.cliente).subscribe(
       res => {
         console.log('Cliente actualizado exitosamente', res);

@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ServicioService } from '../../../services/servicio.service';
 import { Servicio } from '../../../models/servicio';
 import { BreadcrumbsComponent } from "../../breadcrumbs/breadcrumbs.component";
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 interface FechaCitaExtendida extends FechaCita {
   date: number;
@@ -63,6 +64,7 @@ export class CalendarioCitasAbogadoComponent implements OnInit {
     public citaService: CitaService,
     public modalService: NgbModal,
     public servicioService: ServicioService,
+    private localStorageService: LocalStorageService,
   ) { 
     const fecha = new Date();
     this.mesActual = fecha.getMonth();
@@ -88,7 +90,7 @@ export class CalendarioCitasAbogadoComponent implements OnInit {
 
   getUserId(): number | null {
     if (typeof window !== 'undefined') {
-      const usuarioId = localStorage.getItem('usuarioId');
+      const usuarioId = this.localStorageService.getItem('usuarioId');
       return usuarioId ? parseInt(usuarioId, 10) : null;
     }
     return null;
