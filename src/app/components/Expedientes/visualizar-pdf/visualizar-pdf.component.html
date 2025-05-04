@@ -79,20 +79,27 @@
       <!-- Lista de Expedientes -->
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div *ngFor="let expediente of expedientesFiltrados" class="col">
-          <div class="card h-100" 
-               id="card-{{expediente.idExpediente}}"
-               (mouseenter)="onMouseEnter(expediente.idExpediente)"
-               (mouseleave)="onMouseLeave(expediente.idExpediente)">
+          <div class="card h-100 position-relative" 
+              id="card-{{expediente.idExpediente}}"
+              (mouseenter)="onMouseEnter(expediente.idExpediente)"
+              (mouseleave)="onMouseLeave(expediente.idExpediente)">
             <div class="card-header">
+              <span *ngIf="expediente.nuevo"
+                    class="position-absolute top-0 start-0 translate-middle-y bg-success text-white text-xs fw-bold px-2 py-1 rounded-end shadow"
+                    style="margin-top: 0.5rem; margin-left: 0.5rem; z-index: 10;">
+                Expediente Creado recientemente 
+              </span>
+
               <h5 class="card-title mb-0">
                 {{ expediente.nombreExpediente }}
                 <span *ngIf="expediente.estado === 'prioritario'" class="badge bg-danger ms-2">Prioritario</span>
               </h5>
             </div>
+            
             <div class="card-body">
               <p class="card-text"><strong>Número:</strong> {{ expediente.numeroExpediente }}</p>
               <p class="card-text"><strong>Cliente:</strong> {{ expediente.datosCliente.split(',')[0] }}</p>
-              <p class="card-text"><strong>Datos del Abogado:</strong> {{ expediente.datosAbogado }}</p>         
+              <p class="card-text"><strong>Abogado:</strong> {{ expediente.datosAbogado }}</p>       
               <p class="card-text"><strong>Fecha Creación:</strong> {{ (expediente.fechaCreacion | date) || 'No disponible' }}</p>
               <p class="card-text"><strong>Última actualización:</strong> {{ expediente.ultimaActualizacion }}</p>
               <p class="card-text"><strong>Próxima audiencia:</strong> {{ expediente.proximaAudiencia }}</p>
@@ -203,7 +210,7 @@
   </div>
 </div>
 
-<button *ngIf="mostrarBotonArriba"
+<!-- <button *ngIf="mostrarBotonArriba"
         (click)="scrollToTop()"
         style="
           position: fixed;
@@ -221,4 +228,4 @@
         "
         title="Ir arriba">
   ↑
-</button>
+</button> -->

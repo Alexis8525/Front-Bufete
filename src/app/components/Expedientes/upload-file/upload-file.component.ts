@@ -105,8 +105,8 @@ export class UploadFileComponent implements ExpedienteComponent{
     'Registro de Marca',
     'Defensa Laboral'
   ];
-  
 
+  AbogadoAsignado: Empleado | null = null;
 
   constructor(
     private http: HttpClient,
@@ -120,12 +120,51 @@ export class UploadFileComponent implements ExpedienteComponent{
     this.cargarClientes();  // Cargar los clientes al inicializar el componente
     this.cargarAbogado();  // Cargar los abogados
     this.cargarExpedientes();
+    this.cargarAbogadoLogueado()
     console.log(this.crearExpediente)
+  }
+
+  cargarAbogadoLogueado(): void {
+    const usuarioId = this.getUserId();
+    
+    if (usuarioId) {
+      this.empleadiService.getEmpleadoById(usuarioId).subscribe(
+        (abogado: Empleado) => {
+          this.AbogadoAsignado = abogado;
+          this.expediente.idEmpleadoFK = abogado.idEmpleado;
+          
+          // Llenar automáticamente los datos del abogado en el expediente
+          this.expediente.datosAbogado = {
+            nombreEmpleado: abogado.nombreEmpleado,
+            aPEmpleado: abogado.aPEmpleado,
+            aMEmpleado: abogado.aMEmpleado,
+            numeroLicencia: abogado.numeroLicencia || 'No registrada',
+            telfono: abogado.telefono || 'Sin teléfono',
+            correo: abogado.correo
+          };
+          
+          console.log('Datos del abogado cargados:', this.AbogadoAsignado);
+        },
+        (error) => {
+          console.error('Error al cargar abogado:', error);
+          // Manejar el error adecuadamente
+        }
+      );
+    } else {
+      console.error('No se encontró ID de usuario en localStorage');
+    }
+  }
+
+  getUserId(): number | null {
+    if (typeof window !== 'undefined') {
+      const usuarioId = localStorage.getItem('usuarioId');
+      return usuarioId ? parseInt(usuarioId, 10) : null;
+    }
+    return null;
   }
 
   cargarExpedientes(): void {
     this.cargando = true;
-    this.errorCarga = null;
     
     this.uploadFileService.obtenerExpedientes().subscribe({
       next: (data) => {
@@ -133,9 +172,9 @@ export class UploadFileComponent implements ExpedienteComponent{
         this.cargando = false;
       },
       error: (err) => {
-        this.errorCarga = 'Error al cargar expedientes. Intente nuevamente.';
-        this.cargando = false;
         console.error(err);
+        this.cargando = false;
+        // Puedes mostrar un toast o mensaje flotante en lugar de usar el alert
       }
     });
   }
@@ -253,6 +292,7 @@ export class UploadFileComponent implements ExpedienteComponent{
         this.expediente.estado = 'Archivado';
         break;
     }
+    // No necesitamos recargar toda la lista, el cambio se verá al crear el expediente
   }
    
   cargarClientes(): void {
@@ -279,11 +319,14 @@ export class UploadFileComponent implements ExpedienteComponent{
             telefono: data.telefono,
             correo: data.correo
           };
-          this.expediente.nombreExpediente = `${data.nombreCliente} ${data.aPCliente} ${data.aMCliente}`;
+          
+          // Generar nombre y número de expediente
+          const nombreCompleto = `${data.nombreCliente} ${data.aPCliente} ${data.aMCliente}`;
+          const añoActual = new Date().getFullYear();
+          
+          this.expediente.nombreExpediente = nombreCompleto;
+          this.expediente.numeroExpediente = `EXP-${data.idCliente}-${añoActual}`;
           this.expediente.idClienteFK = data.idCliente;
-  
-          // Generar número de expediente automáticamente
-          this.expediente.numeroExpediente = `EXP-${data.idCliente}-${new Date().getFullYear()}`;
         },
         (error) => {
           console.error('Error al obtener los datos del cliente', error);
@@ -366,9 +409,21 @@ export class UploadFileComponent implements ExpedienteComponent{
   
     this.uploadFileService.crearExpediente(this.expediente).subscribe({
       next: (response: any) => {
+        console.log('Respuesta del servidor:', response); // Verifica la estructura de datos
+        
+        // Asegúrate que el objeto tenga las propiedades correctas
+        const nuevoExpediente = {
+          idExpediente: response.idExpediente,
+          numeroExpediente: response.numeroExpediente || this.expediente.numeroExpediente,
+          nombreExpediente: response.nombreExpediente || this.expediente.nombreExpediente,
+          estado: response.estado || this.expediente.estado,
+          fechaCreacion: response.fechaCreacion || new Date().toISOString()
+        };
+  
+        this.expedientes.unshift(nuevoExpediente);
         this.idExpedienteCreado = response.idExpediente;
-        this.expedientes.unshift(response); // Opcional si quieres mostrarlo al inicio
-        this.resetearExpediente(); // ← aquí haces el reset
+        this.mostrarMensajeExito();
+        this.resetearExpediente();
         this.cargando = false;
       },
       error: (err: any) => {
@@ -377,7 +432,15 @@ export class UploadFileComponent implements ExpedienteComponent{
       }
     });
   }
-  
+  private mostrarMensajeExito() {
+    const mensaje = this.expediente.estado === 'Prioridad Alta' ? 
+      'Expediente creado con prioridad alta' :
+      this.expediente.estado === 'Archivado' ?
+      'Expediente archivado creado' :
+      'Expediente creado exitosamente';
+    
+    alert(mensaje);
+  }
   
 
   // subirDocumentos() {

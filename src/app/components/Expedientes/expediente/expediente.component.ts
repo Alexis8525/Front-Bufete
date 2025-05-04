@@ -118,25 +118,55 @@ export class ExpedienteComponent implements OnInit {
       return;
     }
   
-    const nuevaParte = { ...this.nuevaParte };
-    if (nuevaParte.tipoParte === 'Demandante') {
-      this.demandantes.push(nuevaParte);
-    } else if (nuevaParte.tipoParte === 'Demandado') {
-      this.demandados.push(nuevaParte);
-    } else if (nuevaParte.tipoParte === 'Tercero Relacionado') {
-      this.terceros.push(nuevaParte);
-    }
+    // Asegurarse de que idExpedienteFK está asignado
+    this.nuevaParte.idExpedienteFK = this.idExpediente;
   
-    alert('Parte agregada exitosamente.');
+    // Convertir a string si es necesario
+    const idExpedienteStr = this.idExpediente.toString();
+  
+    this.expedienteService.agregarParte(idExpedienteStr, {
+      demandantes: this.nuevaParte.tipoParte === 'Demandante' ? [this.nuevaParte] : [],
+      demandados: this.nuevaParte.tipoParte === 'Demandado' ? [this.nuevaParte] : [],
+      terceros: this.nuevaParte.tipoParte === 'Tercero' ? [this.nuevaParte] : []
+    }).subscribe({
+      next: () => {
+        alert('Parte agregada exitosamente.');
+        this.resetFormularioParte();
+        this.getPartesRelacionadas();
+      },
+      error: (err) => {
+        console.error('Error al agregar parte:', err);
+        alert('Error al agregar parte');
+      }
+    });
   }
+  
+  resetFormularioParte() {
+    this.nuevaParte = {
+      tipoParte: '',
+      nombreCompleto: '',
+      identificacionOficial: '',
+      domicilio: '',
+      telefono: '',
+      correo: '',
+      representanteLegalNombre: ''
+    }}
+    
+  
 
-  guardarPartes() {
-    this.expedienteService.agregarParte(this.idExpediente, { demandantes: this.demandantes, demandados: this.demandados, terceros: this.terceros })
-      .subscribe({
+    guardarPartes() {
+      // Convertir idExpediente a string si es necesario
+      const idExpedienteStr = this.idExpediente.toString();
+      
+      this.expedienteService.agregarParte(idExpedienteStr, { 
+        demandantes: this.demandantes, 
+        demandados: this.demandados, 
+        terceros: this.terceros 
+      }).subscribe({
         next: () => alert('Partes guardadas exitosamente.'),
         error: (err) => console.error('Error al guardar partes:', err),
       });
-  }
+    }
   
   
   getInformacionGeneral() {
@@ -163,18 +193,19 @@ export class ExpedienteComponent implements OnInit {
 
   // Obtener las partes relacionadas del expediente
   getPartesRelacionadas() {
-    this.expedienteService.getPartesPorExpediente(this.idExpediente).subscribe(
-      (data) => {
-        this.demandantes = data.filter((parte) => parte.tipoParte === 'Demandante');
-        this.demandados = data.filter((parte) => parte.tipoParte === 'Demandado');
-        this.terceros = data.filter((parte) => parte.tipoParte === 'Tercero Relacionado');
-      },
-      (error) => {
-        console.error('Error al cargar partes relacionadas:', error);
-      }
-    );
+    this.expedienteService.getPartesPorExpediente(this.idExpediente)
+      .subscribe({
+        next: (data) => {
+          // Asumiendo que el backend devuelve un objeto con las partes separadas
+          this.demandantes = data.demandantes || [];
+          this.demandados = data.demandados || [];
+          this.terceros = data.terceros || [];
+        },
+        error: (error) => {
+          console.error('Error al cargar partes relacionadas:', error);
+        }
+      });
   }
-
   // Método para formatear la fecha
   formatearFecha(fecha: string): string {
     return fecha.split('T')[0]; // Extrae solo la parte de la fecha (YYYY-MM-DD)

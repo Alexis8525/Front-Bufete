@@ -1,38 +1,33 @@
 .wrapper {
     display: flex;
     height: 100vh;
-    overflow: hidden; /* Evita el desbordamiento */
-  }
-  
-  .app-barra-lateral {
-    height: 100vh;
-    flex-shrink: 0;
+    overflow: hidden;
+    background-color: var(--light-bg);
+    font-family: 'Montserrat', sans-serif;
+    position: relative; /* Esto podría afectar al fixed */
+    transform: none; /* Algunas transformaciones afectan el fixed */
   }
   
   .main {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    background-color: rgba(248, 249, 250, 0.95);
   }
-
-.navbar {
-    background-color: #001f3f;
-    color: #fff;
-    padding: 0.75rem 1rem;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-brand img {
-    max-height: 50px;
-}
 
 /* Content Wrapper */
 .p-3 {
-    flex-grow: 1;
-    background-color: #f4f6f9;
-    padding: 2rem;
-    overflow-y: auto;
-    border-top: 1px solid #dcdcdc;
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  overflow-y: auto;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  position: relative;
+  min-height: calc(100vh - 4rem); 
 }
 
 /* Cards */
@@ -55,7 +50,7 @@
 }
 
 .nav-link {
-    color: #495057;
+    color: #575549;
     margin-right: 5px;
     border: 1px solid transparent;
     border-radius: 0.25rem 0.25rem 0 0;
@@ -65,8 +60,8 @@
 
 .nav-link.active {
     color: #fff;
-    background-color: #001f3f;
-    border-color: #001f3f #001f3f #dee2e6;
+    background-color: #bf913b;
+    border-color: #bf913b #bf913b #dee2e6;
 }
 
 .nav-link:hover {
@@ -96,7 +91,7 @@ button {
 }
 
 button:hover {
-    background-color: #003a6b;
+    background-color: #bf913b;
 }
 
 /* Form Controls */
@@ -124,7 +119,7 @@ button:hover {
 }
 
 .table th {
-    background-color: #001f3f;
+    background-color: #bf913b;
     color: #fff;
     padding: 0.75rem;
     text-align: left;

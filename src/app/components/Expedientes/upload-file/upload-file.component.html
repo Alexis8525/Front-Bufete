@@ -41,28 +41,42 @@
         </div>
       </div>
 
-      <!-- Selección de Abogado -->
-      <div class="form-group mb-4">
-        <label for="abogado">Selecciona al Abogado:</label>
-        <select [(ngModel)]="AbogadoSeleccionado" name="abogado" required class="form-control" (change)="cargarDatosAbogado()">
-          <option *ngFor="let abogado of Abogado" [value]="abogado.idEmpleado">
-            {{ abogado.nombreEmpleado }} {{ abogado.aPEmpleado }} {{ abogado.aMEmpleado }}
-          </option>
-        </select>
-      </div>
-
-      <!-- Datos del Abogado -->
-      <div *ngIf="AbogadoDatos" class="section abogado-section">
-        <h4>Datos del Abogado</h4>
-        <div class="form-group">
-          <label for="telefonoAbogado">Teléfono:</label>
-          <input type="text" [(ngModel)]="AbogadoDatos.telefono" readonly class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="correoAbogado">Correo Electrónico:</label>
-          <input type="text" [(ngModel)]="AbogadoDatos.correo" readonly class="form-control">
-        </div>
-      </div>
+      <!-- Sección de Abogado (mostrar datos del abogado logueado) -->
+<div class="section abogado-section">
+  <h4>Datos del Abogado Responsable</h4>
+  
+  <div *ngIf="AbogadoAsignado" class="datos-abogado">
+    <div class="form-group">
+      <label>Nombre:</label>
+      <input type="text" 
+             [value]="AbogadoAsignado.nombreEmpleado + ' ' + AbogadoAsignado.aPEmpleado + ' ' + AbogadoAsignado.aMEmpleado" 
+             class="form-control" readonly>
+    </div>
+    
+    <div class="form-group">
+      <label>Teléfono:</label>
+      <input type="text" [value]="AbogadoAsignado.telefono || 'No registrado'" 
+             class="form-control" readonly>
+    </div>
+    
+    <div class="form-group">
+      <label>Correo:</label>
+      <input type="text" [value]="AbogadoAsignado.correo" 
+             class="form-control" readonly>
+    </div>
+    
+    <div class="form-group" *ngIf="AbogadoAsignado.numeroLicencia">
+      <label>Número de Licencia:</label>
+      <input type="text" [value]="AbogadoAsignado.numeroLicencia" 
+             class="form-control" readonly>
+    </div>
+  </div>
+  
+  <div *ngIf="!AbogadoAsignado" class="alert alert-warning">
+    No se encontraron datos del abogado.
+  </div>
+</div>
+      
 
       <!-- Formulario de Expediente -->
       <div class="section expediente-section">
@@ -145,79 +159,53 @@
       </div>
 
       <!-- Lista de expedientes existentes -->
-      <div class="expedientes-card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <h4>Expedientes Registrados</h4>
-          <button class="btn btn-recargar" (click)="cargarExpedientes()" [disabled]="cargando">
-            <i class="fas fa-sync-alt" [class.fa-spin]="cargando"></i> 
-            {{ cargando ? 'Cargando...' : 'Recargar' }}
-          </button>
-        </div>
-        
-        <div class="card-body">
-          <!-- Mensaje de error -->
-          <div *ngIf="errorCarga" class="alert alert-danger">
-            {{ errorCarga }}
-            <button class="btn btn-sm btn-link" (click)="cargarExpedientes()">Reintentar</button>
-          </div>
-          
-          <!-- Spinner durante carga -->
-          <div *ngIf="cargando && expedientes.length === 0" class="text-center py-4">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Cargando...</span>
-            </div>
-            <p class="mt-2">Cargando expedientes...</p>
-          </div>
-          
-          <!-- Tabla de resultados -->
-          <div *ngIf="!cargando || expedientes.length > 0" class="table-responsive">
-            <table class="expedientes-table">
-              <!-- Cabecera de tabla -->
-              <thead>
-                <tr>
-                  <th>Número</th>
-                  <th>Nombre</th>
-                  <th>Estado</th>
-                  <th>Fecha Creación</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              
-              <!-- Cuerpo de tabla -->
-              <tbody>
-                <tr *ngFor="let expediente of expedientes">
-                  <td data-label="Número">{{ expediente.numeroExpediente }}</td>
-                  <td data-label="Nombre">{{ expediente.nombreExpediente }}</td>
-                  <td data-label="Estado">
-                    <span class="badge-estado" [ngClass]="{
-                      'badge-prioridad-alta': expediente.estado === 'Prioridad Alta',
-                      'badge-archivado': expediente.estado === 'Archivado',
-                      'badge-en-proceso': expediente.estado === 'En Proceso'
-                    }">
-                      {{ expediente.estado }}
-                    </span>
-                  </td>
-                  <td data-label="Fecha Creación">{{ expediente.fechaCreacion | date:'dd/MM/yyyy' }}</td>
-                  <td data-label="Acciones">
-                    <div class="d-flex gap-2 acciones-container">
-                      <a [routerLink]="['/visualizar-expediente']" 
-                         class="btn btn-detalle">
-                        <i class="fas fa-eye"></i> Detalle
-                      </a>
-                      <button class="btn btn-eliminar" 
-                              (click)="eliminarExpediente(expediente.idExpediente)"
-                              [disabled]="cargando">
-                        <i class="fas fa-trash"></i> 
-                        {{ cargando ? 'Eliminando...' : 'Eliminar' }}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <!-- Lista de expedientes existentes - Versión simplificada -->
+<div class="expedientes-card">
+  <div class="card-header">
+    <h4>Expedientes Registrados</h4>
+  </div>
+  
+  <div class="card-body">
+    <!-- Spinner durante carga inicial -->
+    <div *ngIf="cargando && expedientes.length === 0" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
       </div>
+      <p class="mt-2">Cargando expedientes...</p>
+    </div>
+    
+    <!-- Tabla de resultados -->
+    <div *ngIf="!cargando || expedientes.length > 0" class="table-responsive">
+      <!-- Tabla de expedientes -->
+<table class="expedientes-table">
+  <thead>
+    <tr>
+      <th>Número</th>
+      <th>Nombre</th>
+      <th>Estado</th>
+      <th>Fecha Creación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let expediente of expedientes">
+      <td>{{ expediente.numeroExpediente || 'N/A' }}</td>
+      <td>{{ expediente.nombreExpediente || 'N/A' }}</td>
+      <td>
+        <span class="badge-estado" [ngClass]="{
+          'badge-prioridad-alta': expediente.estado === 'Prioridad Alta',
+          'badge-archivado': expediente.estado === 'Archivado',
+          'badge-en-proceso': expediente.estado === 'En Proceso'
+        }">
+          {{ expediente.estado || 'N/A' }}
+        </span>
+      </td>
+      <td>{{ (expediente.fechaCreacion | date:'dd/MM/yyyy') || 'N/A' }}</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 </div>

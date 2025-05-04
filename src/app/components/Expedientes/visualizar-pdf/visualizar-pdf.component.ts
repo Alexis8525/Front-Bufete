@@ -78,8 +78,27 @@ export class VisualizarPdfComponent implements OnInit {
     // Temporal: Verificar estructura de datos
     this.uploadFileService.getExpedienteCompleto().subscribe(data => {
       console.log('Datos de expedientes:', data);
+      this.resaltarExpedientesRecientes();
     });
   }
+
+  private resaltarExpedientesRecientes(): void {
+    // En tu componente.ts
+this._expedientesCache.forEach(expediente => {
+  const fechaCreacion = expediente.fechaCreacion ? new Date(expediente.fechaCreacion) : null;
+  if (fechaCreacion) {
+    const hoy = new Date();
+    const diferenciaDias = Math.floor(
+      (hoy.getTime() - fechaCreacion.getTime()) / (1000 * 60 * 60 * 24)
+    );
+    expediente.nuevo = diferenciaDias <= 1;
+  } else {
+    expediente.nuevo = false;
+  }
+});
+  }
+  
+
   checkScroll() {
     throw new Error('Method not implemented.');
   }
@@ -109,6 +128,10 @@ export class VisualizarPdfComponent implements OnInit {
         this._expedientesCache = this.mapearExpedientes(response);
         this.expedientesFiltrados = [...this._expedientesCache];
         this.loaded = true;
+
+        setTimeout(() => {
+    this.resaltarExpedientesRecientes();
+  }, 0);
       }),
       catchError(error => {
         console.error('Error al obtener expedientes:', error);
@@ -254,12 +277,12 @@ scrollToTop(): void {
     }
   
     // Filtro por fecha
-    if (this.filtroFecha) {
-      resultados = resultados.filter(e => {
-        const fechaExpediente = e.fechaCreacion?.split('T')[0] || '';
-        return fechaExpediente === this.fechaFiltro;
-      });
-    }
+    // Filtro por fecha (si quieres mantener la fecha como dd/mm/yyyy)
+if (this.filtroFecha) {
+  const fechaFiltroFormateada = new Date(this.filtroFecha).toLocaleDateString();
+  resultados = resultados.filter(e => e.fechaCreacion === fechaFiltroFormateada);
+}
+
   
     // Filtro por abogado
     if (this.filtroAbogado) {
@@ -270,6 +293,7 @@ scrollToTop(): void {
     }
     
     this.expedientesFiltrados = resultados;
+    setTimeout(() => this.resaltarExpedientesRecientes(), 0);
   }
   
 
@@ -278,68 +302,83 @@ get fechaFiltro(): string {
   return this.filtroFecha ? new Date(this.filtroFecha).toISOString().split('T')[0] : '';
 }
 
-  private mapearExpedientes(expedientes: any[]): any[] {
-    return expedientes.map(expediente => {
-      let datosAbogado = { 
-        nombreAbogado: '', 
-        aPAbogado: '', 
-        aMAbogado: '', 
-        licencia: '', 
-        telefono: '',
-        correo: ''
+private mapearExpedientes(expedientes: any[]): any[] {
+  return expedientes.map(expediente => {
+    // Procesamiento de datos del abogado
+    let datosAbogado = { 
+      nombreEmpleado: '', 
+      aPEmpleado: '', 
+      aMEmpleado: '', 
+      numeroLicencia: '', 
+      telefono: '',
+      correo: ''
+    };
+
+    try {
+      if (expediente.datosAbogado) {
+        // Si es string, parsear a objeto
+        if (typeof expediente.datosAbogado === 'string') {
+          datosAbogado = JSON.parse(expediente.datosAbogado);
+        } else {
+          datosAbogado = expediente.datosAbogado;
+        }
+      }
+    } catch (e) {
+      console.error('Error al parsear datosAbogado:', e);
+    }
+
+    // Crear string legible para mostrar
+    const abogadoDisplay = datosAbogado.nombreEmpleado ? 
+      ` ${datosAbogado.nombreEmpleado} ${datosAbogado.aPEmpleado} ${datosAbogado.aMEmpleado}` : 
+      'Abogado no asignado';
+
+    // Procesamiento de datos del cliente (similar)
+    let datosCliente = { 
+      nombreCliente: '', 
+      aPCliente: '', 
+      aMCliente: '', 
+      direccion: '', 
+      telefono: '', 
+      correo: '' 
     };
     
     try {
-        if (expediente.datosAbogado) {
-            datosAbogado = typeof expediente.datosAbogado === 'string' ? 
-                JSON.parse(expediente.datosAbogado) : 
-                expediente.datosAbogado;
-        }
+      if (expediente.datosCliente) {
+        datosCliente = typeof expediente.datosCliente === 'string' ? 
+          JSON.parse(expediente.datosCliente) : 
+          expediente.datosCliente;
+      }
     } catch (e) {
-        console.error('Error al parsear datosAbogado:', e);
+      console.error('Error al parsear datosCliente:', e);
     }
 
-    const datosAbogadoConcatenados = `${datosAbogado.nombreAbogado || ''} ${datosAbogado.aPAbogado || ''} ${datosAbogado.aMAbogado || ''}`;
-    const infoAbogado = `Licencia: ${datosAbogado.licencia || 'N/A'} | Tel: ${datosAbogado.telefono || 'N/A'}`;
-        let datosCliente = { nombreCliente: '', aPCliente: '', aMCliente: '', direccion: '', telefono: '', correo: '' };
-        try {
-            if (expediente.datosCliente) {
-                datosCliente = typeof expediente.datosCliente === 'string' ? 
-                    JSON.parse(expediente.datosCliente) : 
-                    expediente.datosCliente;
-            }
-        } catch (e) {
-            console.error('Error al parsear datosCliente:', e);
-        }
+    const clienteDisplay = datosCliente.nombreCliente ? 
+      `Cliente: ${datosCliente.nombreCliente} ${datosCliente.aPCliente} ${datosCliente.aMCliente}` : 
+      'Cliente no asignado';
 
-        const datosClienteConcatenados = `${datosCliente.nombreCliente || ''} ${datosCliente.aPCliente || ''} ${datosCliente.aMCliente || ''}`;
+    // Formatear fechas
+    const formatDate = (dateString: string) => {
+      if (!dateString) return 'No disponible';
+      const date = new Date(dateString);
+      return isNaN(date.getTime()) ? dateString : date.toLocaleDateString();
+    };
+    
 
-        const fechaCreacion = expediente.fechaCreacion ? 
-            new Date(expediente.fechaCreacion).toLocaleDateString() : 
-            'No disponible';
-            
-        const ultimaActualizacion = expediente.ultimaActualizacion ? 
-            new Date(expediente.ultimaActualizacion).toLocaleDateString() : 
-            'No disponible';
-            
-        const proximaAudiencia = expediente.proximaAudiencia ? 
-            new Date(expediente.proximaAudiencia).toLocaleDateString() : 
-            'No programada';
-
-        return {
-            ...expediente,
-            datosAbogado: datosAbogadoConcatenados,
-            infoAbogado: infoAbogado,
-            datosCliente: datosClienteConcatenados,
-            fechaCreacion,
-            ultimaActualizacion,
-            proximaAudiencia,
-            datosAbogadoRaw: datosAbogado,
-            datosClienteRaw: datosCliente,
-            audiencias: expediente.audiencias || []
-        };
-    });
-  }
+    return {
+      ...expediente,
+      datosAbogado: abogadoDisplay,
+      datosAbogadoRaw: datosAbogado, // Guardamos el objeto completo por si acaso
+      datosCliente: clienteDisplay,
+      datosClienteRaw: datosCliente,
+      fechaCreacion: formatDate(expediente.fechaCreacion),
+      ultimaActualizacion: formatDate(expediente.ultimaActualizacion),
+      proximaAudiencia: expediente.proximaAudiencia ? 
+        formatDate(expediente.proximaAudiencia) : 
+        'No programada',
+      audiencias: expediente.audiencias || []
+    };
+  });
+}
 
   private mostrarErrorCarga(): void {
     if (isPlatformBrowser(this.platformId)) {

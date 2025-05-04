@@ -9,10 +9,6 @@
   background-size: cover;
 }
 
-app-barra-lateral {
-  height: 100vh;
-  flex-shrink: 0;
-}
 
 .main {
   flex-grow: 1;

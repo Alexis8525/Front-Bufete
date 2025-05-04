@@ -363,6 +363,11 @@
   padding: 15px 0;
 }
 
+.card {
+  height: 400px; /* Ajusta la altura fija de las tarjetas */
+}
+
+
 .card-title {
   font-size: 1.4rem;
   font-weight: 700;
