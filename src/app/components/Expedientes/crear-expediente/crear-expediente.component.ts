@@ -27,8 +27,8 @@ import { RouterModule } from '@angular/router';
     BreadcrumbsComponent,
     RouterModule
   ],
-  templateUrl: './upload-file.component.html',
-  styleUrls: ['./upload-file.component.scss'],
+  templateUrl: './crear-expediente.component.html',
+  styleUrls: ['./crear-expediente.component.scss'],
 })
 export class UploadFileComponent implements ExpedienteComponent{
   expedienteDecorado: ExpedienteComponent | null = null;

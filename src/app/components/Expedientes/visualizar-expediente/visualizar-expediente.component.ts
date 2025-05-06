@@ -21,8 +21,8 @@ import { of } from 'rxjs';
     RouterModule,
     BreadcrumbsComponent
   ],
-  templateUrl: './visualizar-pdf.component.html',
-  styleUrls: ['./visualizar-pdf.component.scss']
+  templateUrl: './visualizar-expediente.component.html',
+  styleUrls: ['./visualizar-expediente.component.scss']
 })
 export class VisualizarPdfComponent implements OnInit {
   @ViewChild('pdfModal') pdfModal!: ElementRef;
@@ -83,19 +83,31 @@ export class VisualizarPdfComponent implements OnInit {
   }
 
   private resaltarExpedientesRecientes(): void {
-    // En tu componente.ts
-this._expedientesCache.forEach(expediente => {
-  const fechaCreacion = expediente.fechaCreacion ? new Date(expediente.fechaCreacion) : null;
-  if (fechaCreacion) {
     const hoy = new Date();
-    const diferenciaDias = Math.floor(
-      (hoy.getTime() - fechaCreacion.getTime()) / (1000 * 60 * 60 * 24)
-    );
-    expediente.nuevo = diferenciaDias <= 1;
-  } else {
-    expediente.nuevo = false;
-  }
-});
+    
+    this._expedientesCache.forEach(expediente => {
+      try {
+        if (expediente.fechaCreacion) {
+          const fechaCreacion = new Date(expediente.fechaCreacion);
+          
+          if (!isNaN(fechaCreacion.getTime())) {
+            const diferenciaDias = Math.floor(
+              (hoy.getTime() - fechaCreacion.getTime()) / (1000 * 60 * 60 * 24)
+            );
+            expediente.nuevo = diferenciaDias <= 0;
+          } else {
+            expediente.nuevo = false;
+          }
+        } else {
+          expediente.nuevo = false;
+        }
+      } catch (e) {
+        console.error('Error al procesar fecha:', e);
+        expediente.nuevo = false;
+      }
+    });
+    
+    this.cd.detectChanges();
   }
   
 
@@ -116,6 +128,7 @@ this._expedientesCache.forEach(expediente => {
   cargarExpedientes(forceReload: boolean = false): void {
     if (this._expedientesCache.length > 0 && !forceReload) {
       this.expedientesFiltrados = [...this._expedientesCache];
+      this.resaltarExpedientesRecientes();
       this.loaded = true;
       return;
     }
@@ -131,7 +144,7 @@ this._expedientesCache.forEach(expediente => {
 
         setTimeout(() => {
     this.resaltarExpedientesRecientes();
-  }, 0);
+  }, 1);
       }),
       catchError(error => {
         console.error('Error al obtener expedientes:', error);
@@ -293,7 +306,7 @@ if (this.filtroFecha) {
     }
     
     this.expedientesFiltrados = resultados;
-    setTimeout(() => this.resaltarExpedientesRecientes(), 0);
+    this.resaltarExpedientesRecientes();
   }
   
 
@@ -370,12 +383,14 @@ private mapearExpedientes(expedientes: any[]): any[] {
       datosAbogadoRaw: datosAbogado, // Guardamos el objeto completo por si acaso
       datosCliente: clienteDisplay,
       datosClienteRaw: datosCliente,
-      fechaCreacion: formatDate(expediente.fechaCreacion),
+      fechaCreacion: expediente.fechaCreacion,
+      fechaCreacionFormatted: formatDate(expediente.fechaCreacion),
       ultimaActualizacion: formatDate(expediente.ultimaActualizacion),
       proximaAudiencia: expediente.proximaAudiencia ? 
         formatDate(expediente.proximaAudiencia) : 
         'No programada',
-      audiencias: expediente.audiencias || []
+      audiencias: expediente.audiencias || [],
+      nuevo: false
     };
   });
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadFileComponent } from './upload-file.component';
+import { VisualizarPdfComponent } from './visualizar-expediente.component';
 
-describe('UploadFileComponent', () => {
-  let component: UploadFileComponent;
-  let fixture: ComponentFixture<UploadFileComponent>;
+describe('VisualizarPdfComponent', () => {
+  let component: VisualizarPdfComponent;
+  let fixture: ComponentFixture<VisualizarPdfComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UploadFileComponent]
+      imports: [VisualizarPdfComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UploadFileComponent);
+    fixture = TestBed.createComponent(VisualizarPdfComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

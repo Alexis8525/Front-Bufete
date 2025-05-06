@@ -33,8 +33,8 @@ import { CalendarioCitasAbogadoComponent } from './components/calendarios/calend
 import { CalendarioCitasSecretariaComponent } from './components/calendarios/calendario-citas-secretaria/calendario-citas-secretaria.component';
 
 // Expedientes
-import { UploadFileComponent } from './components/Expedientes/upload-file/upload-file.component';
-import { VisualizarPdfComponent } from './components/Expedientes/visualizar-pdf/visualizar-pdf.component';
+import { UploadFileComponent } from './components/Expedientes/crear-expediente/crear-expediente.component';
+import { VisualizarPdfComponent } from './components/Expedientes/visualizar-expediente/visualizar-expediente.component';
 import { HistorialExpedienteComponent } from './components/Expedientes/historial-expediente/historial-expediente.component';
 import { ExpedienteComponent } from './components/Expedientes/expediente/expediente.component';
 
