@@ -1,105 +1,143 @@
+<!-- MODAL ÉXITO -->
+<ng-template #successModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header success">
+      <h4 class="modal-title"></h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+        &times;
+      </button>
+    </div>
+    <div class="modal-body">
+      <i class="fas fa-check-circle text-success"></i>
+      <p class="mt-2">{{ successMessage }}</p>
+    </div>
+  </div>
+</ng-template>
+
+<!-- MODAL ERROR -->
+<ng-template #errorModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header error">
+      <h4 class="modal-title">¡Error!</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+        &times;
+      </button>
+    </div>
+    <div class="modal-body">
+      <i class="fas fa-times-circle text-danger"></i>
+      <p class="mt-2">{{ errorMessage }}</p>
+    </div>
+  </div>
+</ng-template>
+
+
 <div class="wrapper">
-  <app-barra-lateral></app-barra-lateral>
-  <div class="main">
-    <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
-      <div class="container-fluid p-0">
-        <a class="navbar-brand" href="/principal">
-          <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
-        </a>
-      </div>
-    </nav>
-
-    <div class="p-3">
-      <app-breadcrumbs></app-breadcrumbs>
-
-      <div class="cuerpo">
-        <!-- ENCABEZADO: TITULO Y BOTÓN -->
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <h2 class="titulo-empleados">Clientes</h2>
-            <button type="button" class="btn-nuevo-empleado" (click)="abrirModalNuevoCliente()">
-              <i class="fas fa-user-plus"></i> Nuevo Cliente
-            </button>
-          </div>
+    <app-barra-lateral></app-barra-lateral>
+    <div class="main">
+      <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+        <div class="container-fluid p-0">
+          <a class="navbar-brand" href="/principal">
+            <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+          </a>
         </div>
+      </nav>
 
-        <!-- FILTROS -->
-        <div class="filtros-container filtros">
-          <h3>Filtros de Clientes</h3>
-          <div class="filtros-content">
-            <div class="form-group">
-              <label for="filtroNombre">Nombre del Cliente:</label>
-              <input type="text" id="filtroNombre" class="form-control filtro-input"
-                     [(ngModel)]="filtroNombre" (input)="filtrarClientes()" placeholder="Buscar por nombre...">
-            </div>
-            <div class="form-group">
-              <label for="filtroCorreo">Correo del Cliente:</label>
-              <input type="text" id="filtroCorreo" class="form-control filtro-input"
-                     [(ngModel)]="filtroCorreo" (input)="filtrarClientes()" placeholder="Buscar por correo...">
-            </div>
-            <div class="form-group">
-              <label for="filtroTelefono">Teléfono del Cliente:</label>
-              <input type="text" id="filtroTelefono" class="form-control filtro-input"
-                     [(ngModel)]="filtroTelefono" (input)="filtrarClientes()" placeholder="Buscar por teléfono...">
+      <div class="p-3">
+        <app-breadcrumbs></app-breadcrumbs>
+
+        <div class="cuerpo">
+          <!-- ENCABEZADO: TITULO Y BOTÓN -->
+          <div class="row mb-4 align-items-center">
+            <div class="col-md-12 d-flex justify-content-between align-items-center">
+              <h2 class="titulo-clientes">Clientes</h2>
+              <button type="button" class="btn-nuevo-empleado" (click)="abrirModalNuevoCliente()">
+                <i class="fas fa-user-plus"></i> Nuevo Cliente
+              </button>
             </div>
           </div>
-        </div>
 
-        <!-- TARJETAS DE CLIENTES -->
-        <div class="row">
-          <div class="col-md-4 d-flex mb-4" *ngFor="let itemC of clientesPaginados">
-            <div class="card-wrapper w-100">
-              <div class="card text-center d-flex flex-column justify-content-between h-100">
-                <div class="card-body">
-                  <h5 class="card-title"><strong>{{ itemC.nombreCliente }} {{ itemC.aPCliente }} {{ itemC.aMCliente }}</strong></h5>
-                  <div class="card-text text-start mt-3">
-                    <p><strong>Correo:</strong> {{ itemC.correo }}</p>
-                    <p><strong>Teléfono:</strong> {{ itemC.telefono }}</p>
-                    <p><strong>Dirección:</strong> {{ itemC.direccion || 'N/A' }}</p>
+          <!-- FILTROS -->
+          <div class="filtros-container filtros">
+            <h3>Filtros de Clientes</h3>
+            <div class="filtros-content">
+              <div class="form-group">
+                <label for="filtroNombre">Nombre del Cliente:</label>
+                <input type="text" id="filtroNombre" class="form-control filtro-input"
+                      [(ngModel)]="filtroNombre" (input)="filtrarClientes()" placeholder="Buscar por nombre...">
+              </div>
+              <div class="form-group">
+                <label for="filtroCorreo">Correo del Cliente:</label>
+                <input type="text" id="filtroCorreo" class="form-control filtro-input"
+                      [(ngModel)]="filtroCorreo" (input)="filtrarClientes()" placeholder="Buscar por correo...">
+              </div>
+              <div class="form-group">
+                <label for="filtroTelefono">Teléfono del Cliente:</label>
+                <input type="text" id="filtroTelefono" class="form-control filtro-input"
+                      [(ngModel)]="filtroTelefono" (input)="filtrarClientes()" placeholder="Buscar por teléfono...">
+              </div>
+            </div>
+          </div>
+
+          <!-- TARJETAS DE CLIENTES -->
+          <div class="row">
+            <div class="col-md-4 d-flex mb-4" *ngFor="let itemC of clientesPaginados">
+              <div class="card-wrapper w-100">
+                <div class="card text-center d-flex flex-column justify-content-between h-100">
+                  <div class="card-body">
+                    <h5 class="card-title"><strong>{{ itemC.nombreCliente }} {{ itemC.aPCliente }} {{ itemC.aMCliente }}</strong></h5>
+                    <div class="card-text text-start mt-3">
+                      <p><strong>Correo:</strong> {{ itemC.correo }}</p>
+                      <p><strong>Teléfono:</strong> {{ itemC.telefono }}</p>
+                      <p><strong>Dirección:</strong> {{ itemC.direccion || 'N/A' }}</p>
+                    </div>
                   </div>
-                </div>
-                <div class="card-footer bg-transparent border-0">
-                  <button type="button" class="btn-editar-empleado" (click)="abrirModalEditar(itemC)">
-                    <i class="fas fa-pen"></i> Editar
-                  </button>
+                  <div class="card-footer bg-transparent border-0 text-center">
+                    <button type="button" class="btn-editar-empleado me-2" (click)="abrirModalEditar(itemC)">
+                      <i class="fas fa-pen"></i> Editar
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="itemC.idCliente !== undefined && eliminarCliente(itemC.idCliente)">
+                      <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                  </div>
+                  
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- PAGINACIÓN -->
+          <div class="d-flex justify-content-center mt-4">
+            <nav>
+              <ul class="pagination">
+                <li class="page-item" [class.disabled]="paginaActual === 1">
+                  <a class="page-link" (click)="cambiarPaginaAnterior()">Anterior</a>
+                </li>
+                <li class="page-item" *ngFor="let pagina of [].constructor(totalPaginas); let i = index"
+                    [class.active]="paginaActual === (i + 1)">
+                  <a class="page-link" (click)="cambiarPagina(i + 1)">{{ i + 1 }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="paginaActual === totalPaginas">
+                  <a class="page-link" (click)="cambiarPaginaSiguiente()">Siguiente</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <!-- MODALES -->
+          <app-nuevo-cliente
+            *ngIf="modalNuevoVisible"
+            (crear)="crearCliente($event)"
+            (cerrarModal)="cerrarModalNuevoCliente()">
+          </app-nuevo-cliente>
+
+          <app-editar-cliente
+  *ngIf="modalEditarVisible && clienteSeleccionado"
+  [cliente]="clienteSeleccionado"
+  (clienteActualizado)="onClienteActualizado($event)"
+  (cerrarModal)="cerrarModalEditar()">
+</app-editar-cliente>
+
         </div>
-
-        <!-- PAGINACIÓN -->
-        <div class="d-flex justify-content-center mt-4">
-          <nav>
-            <ul class="pagination">
-              <li class="page-item" [class.disabled]="paginaActual === 1">
-                <a class="page-link" (click)="cambiarPaginaAnterior()">Anterior</a>
-              </li>
-              <li class="page-item" *ngFor="let pagina of [].constructor(totalPaginas); let i = index"
-                  [class.active]="paginaActual === (i + 1)">
-                <a class="page-link" (click)="cambiarPagina(i + 1)">{{ i + 1 }}</a>
-              </li>
-              <li class="page-item" [class.disabled]="paginaActual === totalPaginas">
-                <a class="page-link" (click)="cambiarPaginaSiguiente()">Siguiente</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <!-- MODALES -->
-        <app-nuevo-cliente
-          *ngIf="modalNuevoVisible"
-          (crear)="crearCliente($event)"
-          (cerrarModal)="cerrarModalNuevoCliente()">
-        </app-nuevo-cliente>
-
-        <app-editar-cliente
-          *ngIf="modalEditarVisible && clienteSeleccionado"
-          [cliente]="clienteSeleccionado"
-          (clienteActualizado)="onClienteActualizado()"
-          (cerrarModal)="cerrarModalEditar()">
-        </app-editar-cliente>
       </div>
     </div>
   </div>
-</div>

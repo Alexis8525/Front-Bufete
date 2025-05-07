@@ -12,29 +12,36 @@ export class SecretariaCitasStrategy implements CitasStrategy<CitaAdaptada> {
   async loadCitas(userId: number): Promise<CitaAdaptada[]> {
     try {
       const citas = await lastValueFrom(this.citaService.getCitasBySecretaria());
-
+  
+      // Imprime las citas recibidas desde el backend
+      console.log("Citas recibidas desde el backend:", citas);
+  
       // Adaptar los datos para el rol de secretaria
-      const citasAdaptadas: CitaAdaptada[] = citas.map(cita => ({
-        idCita: cita.idCita,
-        cliente: `${cita.nombreCliente} ${cita.aPCliente} ${cita.aMCliente}`, // Visible para secretaria
-        abogado: `${cita.abogadoNombre} ${cita.abogadoApellidoPaterno} ${cita.abogadoApellidoMaterno}`, // Visible para secretaria
-        horaInicio: cita.horaInicio,
-        horaFinal: cita.horaFinal,
-        nombreServicio: cita.nombreServicio,
-        motivo: cita.motivo,
-        fechaCita: cita.fechaCita, // Necesario para filtrado
-        estadoCita: cita.estadoCita, // Necesario para filtrado
-      }));
-      
-
+      const citasAdaptadas: CitaAdaptada[] = citas.map(cita => {
+        // Imprime cada cita antes de la adaptación
+        console.log("Cita antes de la adaptación:", cita);
+  
+        return {
+          idCita: cita.idCita,
+          cliente: `${cita.nombreCliente || ''} ${cita.aPCliente || ''} ${cita.aMCliente || ''}`.trim(), // Concatenación segura
+          abogado: `${cita.abogadoNombre} ${cita.abogadoApellidoPaterno} ${cita.abogadoApellidoMaterno}`, // Visible para secretaria
+          horaInicio: cita.horaInicio,
+          horaFinal: cita.horaFinal,
+          nombreServicio: cita.nombreServicio,
+          motivo: cita.motivo,
+          fechaCita: cita.fechaCita, // Necesario para filtrado
+          estadoCita: cita.estadoCita, // Necesario para filtrado
+        };
+      });
+  
       // Llama al callback con los datos adaptados
       this.onCitasLoaded(citasAdaptadas);
-
+  
       // Retorna las citas adaptadas
       return citasAdaptadas;
     } catch (error) {
       console.error('Error al cargar citas para secretaria:', error);
       throw error;
     }
-  }
+  }  
 }

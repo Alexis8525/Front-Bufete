@@ -28,7 +28,7 @@ export class EditarClienteComponent implements OnInit {
     idRolFK: 0
   };
 
-  @Output() clienteActualizado = new EventEmitter<void>(); // Evento de actualización
+  @Output() clienteActualizado = new EventEmitter<Cliente>(); // ✅ Tipo correcto
   @Output() cerrarModal = new EventEmitter<void>(); // Evento para cerrar el modal
 
   constructor(
@@ -42,15 +42,14 @@ export class EditarClienteComponent implements OnInit {
   // Método para actualizar el cliente
   actualizarCliente(form: NgForm): void {
     if (form.invalid) {
-      // Si el formulario es inválido, no se envía la solicitud de actualización
       return;
     }
 
     this.clienteService.actualizarCliente(this.cliente).subscribe(
       res => {
         console.log('Cliente actualizado exitosamente', res);
-        this.clienteActualizado.emit(); // Emite evento para actualizar la lista de clientes
-        this.cerrarModal.emit(); // Emite evento para cerrar el modal
+        this.clienteActualizado.emit(this.cliente); // ✅ Emitimos el cliente actualizado
+        this.cerrarModal.emit(); // ✅ Cerramos el modal
       },
       err => {
         console.error('Error al actualizar cliente:', err);
