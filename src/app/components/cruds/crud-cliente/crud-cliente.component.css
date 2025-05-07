@@ -103,7 +103,7 @@ app-barra-lateral {
   padding: 10px;
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  animation: fadeInUp 0.8s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
 }
 
@@ -215,6 +215,79 @@ app-barra-lateral {
   background-color: #a3762f;
   transform: scale(1.05);
 }
+
+/* ========= ESTILOS PARA MODALES DE CLIENTE ========= */
+
+/* Contenedor principal */
+.modal-content {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+  max-width: 500px;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Encabezado éxito */
+.modal-header.success {
+  background-color: #0e2238; /* Azul oscuro */
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Encabezado error */
+.modal-header.error {
+  background-color: #b02a37; /* Rojo Bootstrap */
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Íconos grandes */
+.modal-body i {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Botón de cierre */
+.close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: white;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 /* ========== ANIMACIÓN ========== */
 @keyframes fadeInUp {

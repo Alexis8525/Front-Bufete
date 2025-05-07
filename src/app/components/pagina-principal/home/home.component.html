@@ -51,20 +51,24 @@
 <div class="container mt-5 mb-4">
   <h2 class="text-center mb-4">Lo que dicen nuestros clientes</h2>
   <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let review of resenas">
+    <div class="col-md-4 mb-4" *ngFor="let review of resenas; let i = index">
       <div class="card h-100 shadow rounded-3">
         <div class="card-body">
           <h5 class="card-title">{{ review.nombre }}</h5>
           <p class="card-text">"{{ review.comentario }}"</p>
         </div>
-        <div class="card-footer bg-transparent border-top-0">
+        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
           <small class="text-warning">{{ obtenerEstrellas(review.estrellas) }}</small>
+          <button class="btn btn-sm btn-outline-danger" (click)="darLikeResena(i)">
+            ❤️ {{ review.likes }}
+          </button>
         </div>
       </div>
     </div>
   </div>
   <div #contenedorResenas></div> <!-- Contenedor para el mensaje de confirmación -->
 </div>
+
 
 <!-- Formulario reseñas -->
 <div class="container mb-5">
@@ -88,4 +92,11 @@
   </form>
 </div>
 
+<!-- Botón Cita -->
+<a href="login" class="btn btn-primary btn-solicitar-cita" role="button">
+  Solicitar Cita
+</a>
+
+
 <app-pie-pagina></app-pie-pagina>
+

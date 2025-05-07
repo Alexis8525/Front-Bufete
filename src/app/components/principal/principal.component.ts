@@ -59,11 +59,12 @@ export class PrincipalComponent implements OnInit {
     if (this.usuario.rol === 1) {
       citasContext.setStrategy(
         new SecretariaCitasStrategy(this.citaService, (citas) => {
+          console.log("Datos de citas en el componente:", citas);  // Imprime los datos que llegan al componente
           const citasFiltradas = this.filtrarCitasDelDia(citas);
-          this.citasHoy = this.normalizarHorasCitas(citasFiltradas);
-          this.loading = false;
+            this.citasHoy = this.normalizarHorasCitas(citasFiltradas);
+            this.loading = false;
         })
-      );
+    );    
     } else if (this.usuario.rol === 2) {
       citasContext.setStrategy(
         new AbogadoCitasStrategy(this.citaService, (citas) => {

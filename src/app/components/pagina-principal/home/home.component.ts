@@ -63,10 +63,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
       description: 'Atención personalizada y resultados efectivos.',
       interval: 7000
     }
-  ];  
+  ];
 
-  // Reseñas
-  resenas: { nombre: string; comentario: string; estrellas: number }[] = [];
+  // Reseñas con contador de likes
+  resenas: { nombre: string; comentario: string; estrellas: number; likes: number }[] = [];
   nuevaResena = { comentario: '', correo: '', estrellas: 5 };
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private renderer: Renderer2) {}
@@ -75,12 +75,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (isPlatformBrowser(this.platformId)) {
       const resenasGuardadas = localStorage.getItem('resenas');
       if (resenasGuardadas) {
-        this.resenas = JSON.parse(resenasGuardadas);
+        this.resenas = JSON.parse(resenasGuardadas).map((r: any) => ({
+          ...r,
+          likes: r.likes ?? 0
+        }));
       } else {
         this.resenas = [
-          { nombre: 'Cristina Herrera', comentario: 'Excelente atención legal.', estrellas: 5 },
-          { nombre: 'Ernesto P.', comentario: 'Muy profesionales.', estrellas: 4 },
-          { nombre: 'Fernanda Ríos', comentario: 'Atención rápida y efectiva.', estrellas: 5 }
+          { nombre: 'Cristina Herrera', comentario: 'Excelente atención legal.', estrellas: 5, likes: 23 },
+          { nombre: 'Ernesto Pérez', comentario: 'Muy profesionales.', estrellas: 4, likes: 10 },
+          { nombre: 'Fernanda Ríos', comentario: 'Atención rápida y efectiva.', estrellas: 5, likes: 18 }
         ];
         localStorage.setItem('resenas', JSON.stringify(this.resenas));
       }
@@ -101,7 +104,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Función para agregar la reseña
   agregarResena(): void {
     const { comentario, correo, estrellas } = this.nuevaResena;
 
@@ -110,23 +112,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Verificar si el correo existe en el arreglo de clientes
     const clienteExistente = this.clientes.find(cliente => cliente.correo === correo);
 
     if (clienteExistente) {
-      // Si el correo es válido, agregar la reseña
       const nombreCompleto = `${clienteExistente.nombreCliente} ${clienteExistente.aPCliente} ${clienteExistente.aMCliente}`;
-      const nueva = { nombre: nombreCompleto, comentario, estrellas };
+      const nueva = { nombre: nombreCompleto, comentario, estrellas, likes: 0 };
       this.resenas.unshift(nueva);
       localStorage.setItem('resenas', JSON.stringify(this.resenas));
 
-      // Limpiar el formulario
       this.nuevaResena = { comentario: '', correo: '', estrellas: 5 };
-
-      // Llamar a la función para mostrar el mensaje de confirmación
       this.mostrarMensajeConfirmacion();
     } else {
-      // Si el correo no es válido, mostrar un mensaje de error
       alert('Correo no registrado. Debes estar registrado para dejar una reseña.');
     }
   }
@@ -135,22 +131,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
     return '⭐️'.repeat(n);
   }
 
-  // Manipulamos el DOM directamente para mostrar un mensaje de éxito
   mostrarMensajeConfirmacion(): void {
     const contenedor = this.contenedorResenas.nativeElement;
-
-    // Crear el mensaje
     const mensaje = this.renderer.createElement('div');
     this.renderer.addClass(mensaje, 'alert');
     this.renderer.addClass(mensaje, 'alert-success');
     this.renderer.setProperty(mensaje, 'innerText', '¡Reseña agregada con éxito!');
-
-    // Agregar el mensaje al contenedor
     this.renderer.appendChild(contenedor, mensaje);
-
-    // Eliminar el mensaje después de 3 segundos
     setTimeout(() => {
       this.renderer.removeChild(contenedor, mensaje);
     }, 3000);
+  }
+
+  // ✅ Nueva función para dar like a una reseña individual
+  darLikeResena(index: number): void {
+    this.resenas[index].likes++;
+    localStorage.setItem('resenas', JSON.stringify(this.resenas));
   }
 }

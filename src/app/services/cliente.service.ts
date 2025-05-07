@@ -10,8 +10,8 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  URL_API = 'http://localhost:3000/clientes/';
-  //URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/clientes/';
+  //URL_API = 'http://localhost:3000/clientes/';
+  URL_API = 'https://fkgm057s-3000.usw3.devtunnels.ms/clientes/';
 
 
   public cliente: Cliente = {
@@ -34,9 +34,10 @@ export class ClienteService {
   }
 
   // Crear un nuevo cliente
-  crearCliente(cliente: Cliente) {
-    return this.http.post(this.URL_API, cliente);
+  crearCliente(cliente: Cliente): Observable<Cliente> {
+    return this.http.post<Cliente>(this.URL_API, cliente);
   }
+  
 
   // Actualizar un empleado existente
   actualizarCliente(cliente: Cliente): Observable<Cliente> {
@@ -45,8 +46,10 @@ export class ClienteService {
 
   // Eliminar cliente
   eliminarCliente(idCliente: number) {
-    return this.http.delete(this.URL_API + idCliente);
+    return this.http.delete(`${this.URL_API}${idCliente}`);
   }
+  
+  
 
   // Obtener cliente por ID
   getClienteById(idCliente: number) {
