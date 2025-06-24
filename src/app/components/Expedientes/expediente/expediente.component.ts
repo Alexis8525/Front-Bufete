@@ -66,6 +66,8 @@ export class ExpedienteComponent implements OnInit {
   };
   citasCompletadas: any[] = [];
 
+  enMantenimiento: boolean = true;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private expedienteService: ExpedienteService,
@@ -329,6 +331,12 @@ export class ExpedienteComponent implements OnInit {
   }
 
   subirDocumentos() {
+    if (this.enMantenimiento) {
+      // Si está en mantenimiento, no se realiza la carga
+      alert('El sistema está en mantenimiento. No se puede subir documentos en este momento.');
+      return;
+    }
+    
     if (!this.expedienteSeleccionado) {
       alert('Por favor, selecciona un expediente antes de continuar.');
       return;

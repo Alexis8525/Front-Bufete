@@ -228,25 +228,54 @@
               <div class="row">
                 <div class="col-md-6 col-12 mb-3">
                   <label for="identificacionOficial" class="form-label">Identificación Oficial</label>
-                  <input id="identificacionOficial" [(ngModel)]="nuevaParte.identificacionOficial" name="identificacionOficial" type="text" class="form-control" required>
+                  <input id="identificacionOficial" [(ngModel)]="nuevaParte.identificacionOficial" 
+                         name="identificacionOficial" type="text" class="form-control" required
+                         pattern="[0-9]{10,20}" #identificacionOficial="ngModel"
+                         [class.is-invalid]="identificacionOficial.invalid && (identificacionOficial.dirty || identificacionOficial.touched)">
+                  <div *ngIf="identificacionOficial.errors?.['required']" class="invalid-feedback">
+                    La identificación oficial es requerida
+                  </div>
+                  <div *ngIf="identificacionOficial.errors?.['pattern']" class="invalid-feedback">
+                    La identificación debe contener solo números (10-20 dígitos)
+                  </div>
                 </div>
-
+              
                 <div class="col-md-6 col-12 mb-3">
                   <label for="domicilio" class="form-label">Domicilio</label>
-                  <input id="domicilio" [(ngModel)]="nuevaParte.domicilio" name="domicilio" type="text" class="form-control" required>
+                  <input id="domicilio" [(ngModel)]="nuevaParte.domicilio" name="domicilio" 
+                         type="text" class="form-control" required minlength="10" maxlength="200"
+                         #domicilio="ngModel"
+                         [class.is-invalid]="domicilio.invalid && (domicilio.dirty || domicilio.touched)">
+                  <div *ngIf="domicilio.errors?.['required']" class="invalid-feedback">
+                    El domicilio es requerido
+                  </div>
+                  <div *ngIf="domicilio.errors?.['minlength']" class="invalid-feedback">
+                    El domicilio debe tener al menos 10 caracteres
+                  </div>
                 </div>
               </div>
               
-              <div class="row">
-                <div class="col-md-6 col-12 mb-3">
-                  <label for="telefono" class="form-label">Teléfono</label>
-                  <input id="telefono" [(ngModel)]="nuevaParte.telefono" name="telefono" type="text" class="form-control">
-                </div>
-                <div class="col-md-6 col-12 mb-3">
-                  <label for="correo" class="form-label">Correo Electrónico</label>
-                  <input id="correo" [(ngModel)]="nuevaParte.correo" name="correo" type="email" class="form-control">
+              <div class="col-md-6 col-12 mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input id="telefono" [(ngModel)]="nuevaParte.telefono" name="telefono" 
+                       type="text" class="form-control" pattern="[0-9]{10,15}"
+                       #telefono="ngModel"
+                       [class.is-invalid]="telefono.invalid && (telefono.dirty || telefono.touched)">
+                <div *ngIf="telefono.errors?.['pattern']" class="invalid-feedback">
+                  Ingrese un teléfono válido (10-15 dígitos)
                 </div>
               </div>
+
+
+                <div class="col-md-6 col-12 mb-3">
+                  <label for="correo" class="form-label">Correo Electrónico</label>
+                  <input id="correo" [(ngModel)]="nuevaParte.correo" name="correo" 
+                         type="email" class="form-control" #correo="ngModel"
+                         [class.is-invalid]="correo.invalid && (correo.dirty || correo.touched)">
+                  <div *ngIf="correo.errors?.['email']" class="invalid-feedback">
+                    Ingrese un correo electrónico válido
+                  </div>
+                </div>
               
               <div class="text-end">
                 <button type="submit" class="btn btn-primary" [disabled]="!parteForm.form.valid">
@@ -301,65 +330,71 @@
         </div>
         
         <!-- Documentación Legal -->
-        <div class="tab-pane fade" id="documentos" role="tabpanel" aria-labelledby="documentos-tab">
-          <h2 class="mb-4">Documentación Legal</h2>
-        
-          <div *ngIf="expediente" class="mb-4">
-            <h3>Expediente:</h3>
-            <p>({{ expediente.nombreExpediente }}) - (Numero: {{ expediente.numeroExpediente }})</p>
-          </div>
-          
-          <div class="row">
-            <div class="col-md-6 col-12 mb-3">
-              <label for="categoriaSelect" class="form-label">Seleccionar Categoría</label>
-              <select id="categoriaSelect" class="form-select"
-                [(ngModel)]="categoriaSeleccionada" (change)="onCategoriaChange()" required>
-                <option *ngFor="let categoria of categoriasDocumentos" [ngValue]="categoria">
-                  {{ categoria.nombreCategoria }}
-                </option>
-              </select>
-            </div>
-            
-            <div class="col-md-6 col-12 mb-3">
-              <label for="subCategoriaSelect" class="form-label">Seleccionar Subcategoría</label>
-              <select id="subCategoriaSelect" class="form-select"
-                [(ngModel)]="subCategoriaSeleccionada" [disabled]="!subcategoriasDocumentos.length" required>
-                <option *ngFor="let subcategoria of subcategoriasDocumentos" [ngValue]="subcategoria">
-                  {{ subcategoria.nombreSubCategoria }}
-                </option>
-              </select>
-            </div>
-          </div>
-          
-          <!-- Carga de archivo -->
-          <div *ngIf="categoriaSeleccionada && subCategoriaSeleccionada" class="mb-4">
-            <label for="file" class="form-label">Seleccionar Archivo:</label>
-            <input type="file" id="file" class="form-control" (change)="onFileSelected($event)" />
-          </div>
+        <!-- Documentación Legal -->
+<div class="tab-pane fade" id="documentos" role="tabpanel" aria-labelledby="documentos-tab">
+  <h2 class="mb-4">Documentación Legal</h2>
 
-          <!-- Botones de acción -->
-          <div class="button-group">
-            <button class="btn btn-primary" 
-              (click)="subirDocumentos()" 
-              [disabled]="archivos.length === 0 || !expedienteSeleccionado">
-              Subir Documentos
-            </button>
-            <button class="btn btn-secondary" (click)="resetearFormulario()">
-              Resetear
-            </button>
-          </div>
+  <div *ngIf="expediente" class="mb-4">
+    <h3>Expediente:</h3>
+    <p>({{ expediente.nombreExpediente }}) - (Número: {{ expediente.numeroExpediente }})</p>
+  </div>
 
-          <!-- Archivos seleccionados -->
-          <div *ngIf="archivos.length > 0" class="archivos-list">
-            <h3>Archivos Listos para Subir:</h3>
-            <ul class="list-group">
-              <li *ngFor="let archivo of archivos" class="list-group-item">
-                Documento: {{ archivo.idSubCategoriaFK }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
-              </li>
-            </ul>
-          </div>        
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-6 col-12 mb-3">
+      <label for="categoriaSelect" class="form-label">Seleccionar Categoría</label>
+      <select id="categoriaSelect" class="form-select"
+        [(ngModel)]="categoriaSeleccionada" (change)="onCategoriaChange()" required>
+        <option *ngFor="let categoria of categoriasDocumentos" [ngValue]="categoria">
+          {{ categoria.nombreCategoria }}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-6 col-12 mb-3">
+      <label for="subCategoriaSelect" class="form-label">Seleccionar Subcategoría</label>
+      <select id="subCategoriaSelect" class="form-select"
+        [(ngModel)]="subCategoriaSeleccionada" [disabled]="!subcategoriasDocumentos.length" required>
+        <option *ngFor="let subcategoria of subcategoriasDocumentos" [ngValue]="subcategoria">
+          {{ subcategoria.nombreSubCategoria }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Carga de archivo -->
+  <div *ngIf="categoriaSeleccionada && subCategoriaSeleccionada" class="mb-4">
+    <label for="file" class="form-label">Seleccionar Archivo:</label>
+    <input type="file" id="file" class="form-control" (change)="onFileSelected($event)" />
+  </div>
+
+  <!-- Alerta de mantenimiento -->
+  <div *ngIf="enMantenimiento" class="alert alert-warning" role="alert">
+    El sistema está en mantenimiento. El botón de "Subir Documentos" no está disponible en este momento.
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="button-group">
+    <button class="btn btn-primary" 
+      (click)="subirDocumentos()" 
+      [disabled]="archivos.length === 0 || !expedienteSeleccionado || enMantenimiento">
+      Subir Documentos
+    </button>
+    <button class="btn btn-secondary" (click)="resetearFormulario()">
+      Resetear
+    </button>
+  </div>
+
+  <!-- Archivos seleccionados -->
+  <div *ngIf="archivos.length > 0" class="archivos-list">
+    <h3>Archivos Listos para Subir:</h3>
+    <ul class="list-group">
+      <li *ngFor="let archivo of archivos" class="list-group-item">
+        Documento: {{ archivo.idSubCategoriaFK }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
+      </li>
+    </ul>
+  </div>
+</div>
+
       
       <div class="card-footer d-flex justify-content-end gap-2 mt-4">
         <a [routerLink]="['/visualizar-expediente']" class="btn btn-primary">

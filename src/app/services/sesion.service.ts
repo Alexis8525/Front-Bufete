@@ -17,9 +17,9 @@ export class SesionService {
   private sessionExtended = false;
   private verificacionActiva = false;
 
-  private readonly TIEMPO_MOSTRAR_MODAL = 10 * 60 * 1000; // 5 minutos
-  private readonly TIEMPO_CERRAR_SESION = 15 * 60 * 1000; // 7 minutos
-  private readonly TIEMPO_INACTIVIDAD = 5 * 60 * 1000;   // 3 minutos
+  private readonly TIEMPO_MOSTRAR_MODAL = 1 * 60 * 1000; // 5 minutos
+  private readonly TIEMPO_CERRAR_SESION = 1 * 60 * 1000; // 7 minutos
+  private readonly TIEMPO_INACTIVIDAD = 1 * 60 * 1000;   // 3 minutos
 
   constructor(
     private router: Router,
