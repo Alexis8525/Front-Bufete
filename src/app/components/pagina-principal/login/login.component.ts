@@ -27,6 +27,7 @@ import { LocalStorageService } from '../../../services/local-storage.service';
   ],
 })
 export class LoginComponent implements OnInit, AfterViewInit {
+  @ViewChild('modalPolitica') modalPolitica!: TemplateRef<any>;
   loginForm: FormGroup;
   captchaResolved: boolean = false;
   captchaToken: string = '';
@@ -42,6 +43,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   hasLowerCase = false;
   hasNumber = false;
   hasSpecialChar = false;
+  politicaAceptada: boolean = false;
+
 
   @ViewChild('errorModal') errorModal: any;
   @ViewChild('modalSesionExpirada') modalSesionExpirada!: TemplateRef<any>;
@@ -147,8 +150,20 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   login() {
+    // Primero verificar si ya aceptó la política
+    if (!this.politicaAceptada) {
+      const modalRef = this.modalService.open(this.modalPolitica, {
+        backdrop: 'static',
+        keyboard: false
+      });
+      
+      // Aquí nos aseguramos de no continuar con el login
+      return;
+    }
+    
+    // Solo si la política está aceptada, continuar con el login normal
     console.log('Formulario de login enviado:', this.loginForm.value);
-  
+      
     if (this.loginForm.valid && this.captchaResolved) {
       const { email, password, recaptcha } = this.loginForm.value;
   
@@ -156,27 +171,50 @@ export class LoginComponent implements OnInit, AfterViewInit {
         (response: any) => {
           console.log('OTP enviado:', response);
           this.tempEmail = email;
-          this.show2FAVerification = true; // Muestra el formulario de OTP en la misma página
+          this.show2FAVerification = true;
         },
         (error) => {
           console.error('Error al iniciar sesión:', error);
-          
-          // Verifica si el error tiene un mensaje del servidor
-          if (error.status === 401) {
-            this.errorMessage = 'Credenciales incorrectas, por favor intenta nuevamente.'; 
-          } else {
-            this.errorMessage = error.error.message || 'Error al iniciar sesión. Por favor, intenta nuevamente.';
-          }
-          
-          // Llama al método para abrir el modal con el error
-          this.openErrorModal();  
+          this.errorMessage = error.status === 401
+            ? 'Credenciales incorrectas, por favor intenta nuevamente.'
+            : error.error.message || 'Error al iniciar sesión. Por favor, intenta nuevamente.';
+          this.openErrorModal();
         }
       );
     } else {
       this.errorMessage = 'Completa el reCAPTCHA antes de iniciar sesión.';
-      this.openErrorModal();  // Muestra el modal con el error.
+      this.openErrorModal();
     }
-  }  
+  }
+  
+  aceptarPolitica(modalRef: any) {
+    this.politicaAceptada = true;
+    modalRef.close();
+    
+    // Ahora ejecutamos el login directamente sin volver a verificar
+    if (this.loginForm.valid && this.captchaResolved) {
+      const { email, password, recaptcha } = this.loginForm.value;
+  
+      this.usuarioService.login(email, password, recaptcha).subscribe(
+        (response: any) => {
+          console.log('OTP enviado:', response);
+          this.tempEmail = email;
+          this.show2FAVerification = true;
+        },
+        (error) => {
+          console.error('Error al iniciar sesión:', error);
+          this.errorMessage = error.status === 401
+            ? 'Credenciales incorrectas, por favor intenta nuevamente.'
+            : error.error.message || 'Error al iniciar sesión. Por favor, intenta nuevamente.';
+          this.openErrorModal();
+        }
+      );
+    } else {
+      this.errorMessage = 'Completa el reCAPTCHA antes de iniciar sesión.';
+      this.openErrorModal();
+    }
+  }
+  
 
   // Abre el modal de error
   openErrorModal() {

@@ -64,6 +64,7 @@
           <div class="filtro-botones">
             <button class="btn-limpiar" (click)="limpiarFiltros()">Limpiar</button>
             <button class="btn-aplicar" (click)="aplicarFiltros()">Aplicar Filtros</button>
+            
           </div>
         </div>
       </div>
@@ -105,25 +106,37 @@
               <p class="card-text"><strong>Próxima audiencia:</strong> {{ expediente.proximaAudiencia }}</p>
               <p class="card-text"><strong>Estado:</strong> {{ expediente.estado }}</p>
             </div>
-            <div class="card-footer bg-transparent d-flex justify-content-between">
-              <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
-              
-              <div class="btn-group">
-                <button class="btn btn-outline-secondary btn-sm" 
-                        (click)="programarProximaAudiencia(expediente.idExpediente)"
-                        title="Programar audiencia">
-                  <i class="fa fa-calendar"></i>
-                </button>
-                
-                <button class="btn btn-outline-danger btn-sm" 
-                        (click)="confirmarEliminacion(expediente.idExpediente)"
-                        [disabled]="eliminandoExpediente[expediente.idExpediente]"
-                        title="Eliminar expediente">
-                  <i *ngIf="!eliminandoExpediente[expediente.idExpediente]" class="fa fa-trash"></i>
-                  <span *ngIf="eliminandoExpediente[expediente.idExpediente]" class="spinner-border spinner-border-sm"></span>
-                </button>
+            <div class="card-footer bg-transparent d-flex flex-column gap-2">
+              <div class="d-flex justify-content-between">
+                <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
+            
+                <div class="btn-group">
+                  <button class="btn btn-outline-secondary btn-sm" 
+                          (click)="programarProximaAudiencia(expediente.idExpediente)"
+                          title="Programar audiencia">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+            
+                  <button class="btn btn-outline-danger btn-sm" 
+                          (click)="confirmarEliminacion(expediente.idExpediente)"
+                          [disabled]="eliminandoExpediente[expediente.idExpediente]"
+                          title="Eliminar expediente">
+                    <i *ngIf="!eliminandoExpediente[expediente.idExpediente]" class="fa fa-trash"></i>
+                    <span *ngIf="eliminandoExpediente[expediente.idExpediente]" class="spinner-border spinner-border-sm"></span>
+                  </button>
+                </div>
               </div>
+            
+              <!-- Botón para cerrar expediente -->
+              <button 
+                class="btn btn-warning btn-sm"
+                (click)="cerrarExpediente(expediente.idExpediente)"
+                [disabled]="expediente.estadoExpediente === 'Archivado'"
+              >
+                {{ expediente.estadoExpediente === 'Archivado' ? 'Expediente Cerrado' : 'Cerrar expediente' }}
+              </button>
             </div>
+            
           </div>
         </div>
       </div>

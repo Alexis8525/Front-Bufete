@@ -75,6 +75,151 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
 }
+/* Estilos específicos para el modal de política */
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  padding: 1rem 1.5rem;
+}
+
+.modal-header .modal-title {
+  color: #2c3e50;
+  font-weight: 600;
+  margin: 0;
+}
+
+.modal-header .btn-close {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  color: #495057;
+  line-height: 1.6;
+}
+
+.modal-body h6 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-body p {
+  margin-bottom: 1rem;
+}
+
+.modal-body strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.modal-footer .btn {
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.modal-footer .btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+.modal-footer .btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2472a4;
+}
+
+/* Scroll personalizado para el contenido de la política */
+/* Contenedor de los botones (si decides mantenerlos fuera de modal-footer) */
+.modal-body + .btn {
+  margin: 15px;
+}
+
+/* Estilos base para ambos botones */
+.modal-body + .btn,
+.modal-footer .btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Botón "No acepto" (Secundario) */
+.btn-secondary {
+  background-color: #f0f0f0;
+  color: #555;
+  margin-right: 10px;
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* Botón "Acepto y continuar" (Primario) */
+.btn-primary {
+  background-color: #2c58a0; /* Azul corporativo */
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1a3d7a;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+/* Efecto al hacer clic */
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Si prefieres alinear los botones a la derecha */
+.modal-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+  border-top: 1px solid #eee;
+  margin-top: 15px;
+}
+
+/* Versión responsive para pantallas pequeñas */
+@media (max-width: 576px) {
+  .modal-body + .btn,
+  .modal-footer .btn {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .btn-secondary {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
 
 /* Navbar */
 .nav-barra {

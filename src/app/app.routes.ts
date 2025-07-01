@@ -12,6 +12,7 @@ import { RestablecerContrasenaComponent } from './components/pagina-principal/re
 import { PrincipalComponent } from './components/principal/principal.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
+
 // Informativas
 import { ConocenosComponent } from './components/pagina-principal/conocenos/conocenos.component';
 import { ServiciosComponent } from './components/pagina-principal/servicios/servicios.component';
@@ -51,6 +52,7 @@ import { PaymentRequiredComponent } from './components/pages/payment-required/pa
 // Servicio
 import { NavigationHistoryService } from './services/navigation-history.service';
 import { AuthGuard } from './guards/auth/auth.guard';
+import { PoliticasComponent } from './components/pie-de-pagina/politicas/politicas.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -61,6 +63,7 @@ export const routes: Routes = [
   { path: 'principal-servicios', component: ServiciosComponent, data: { breadcrumb: 'Servicios' } },
   { path: 'principal-contactos', component: ContancosComponent, data: { breadcrumb: 'Contáctanos' } },
   { path: 'mapa-sitio', component: MapaSitioComponent, data: { breadcrumb: 'Mapa del Sitio' } },
+  { path: 'politica-privacidad', component: PoliticasComponent, data: { breadcrumb: 'Pilitica de privacidad' } },
 
   { path: 'login', component: LoginComponent, data: { breadcrumb: 'Iniciar Sesión' } },
   { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Registro' } },

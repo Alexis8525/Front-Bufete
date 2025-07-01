@@ -82,6 +82,41 @@ export class VisualizarPdfComponent implements OnInit {
     });
   }
 
+  cerrarExpediente(idExpediente: number): void {
+    const confirmado = confirm('¿Estás seguro de cerrar este expediente? Será marcado como "Archivado"');
+    
+    if (!confirmado) return;
+  
+    this.loading = true;
+    
+    this.uploadFileService.cerrarExpediente(idExpediente).subscribe({
+      next: (response) => {
+        if (response.success) {
+          const index = this._expedientesCache.findIndex(e => e.idExpediente === idExpediente);
+          if (index !== -1) {
+            this._expedientesCache[index].estadoExpediente = 'Archivado';
+            this._expedientesCache[index].fechaCierre = new Date().toISOString();
+            this._expedientesCache[index].ultimaActualizacion = new Date().toISOString();
+            this.expedientesFiltrados = [...this._expedientesCache];
+          }
+          this.mostrarAlerta(response.message, 'success');
+        } else {
+          this.mostrarAlerta(response.message, 'warning');
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error al cerrar expediente:', error);
+        this.mostrarAlerta(
+          error.message || 'Error al cerrar el expediente', 
+          'danger'
+        );
+        this.loading = false;
+      }
+    });
+  }
+  
+
   private resaltarExpedientesRecientes(): void {
     const hoy = new Date();
     
@@ -112,7 +147,10 @@ export class VisualizarPdfComponent implements OnInit {
   
 
   checkScroll() {
-    throw new Error('Method not implemented.');
+    if (isPlatformBrowser(this.platformId)) {
+      this.mostrarBotonArriba = window.scrollY > this.scrollThreshold;
+      this.cd.detectChanges();
+    }
   }
 
   
