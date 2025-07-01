@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component';
-
+import { IncidentPlanModalComponent } from '../incident-plan-modal/incident-plan-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-settings',
   standalone: true,
@@ -18,7 +19,7 @@ import { BarraLateralComponent } from '../barra-lateral/barra-lateral.component'
 })
 export class SettingsComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private dialog: MatDialog) {}
 
   editProfile(): void {
     this.router.navigate(['/edit-profile']);
@@ -30,5 +31,12 @@ export class SettingsComponent {
 
   configureNotifications(): void {
     this.router.navigate(['/notifications']);
+  }
+  showIncidentResponsePlan(): void {
+    this.dialog.open(IncidentPlanModalComponent, {
+      width: '800px',
+      maxHeight: '90vh',
+      panelClass: 'incident-plan-modal'
+    });
   }
 }
