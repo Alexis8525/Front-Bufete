@@ -1,8 +1,6 @@
-<nav>
-    <ul>
-      <li>
-        <a routerLinkActive="active" routerLink="/login"> Login</a>
-      </li>
-    </ul>
-</nav>
-<router-outlet></router-outlet>
+<div *ngIf="isLoading" class="loading-spinner">
+  <!-- Aquí puedes poner un spinner o mensaje de carga -->
+  Cargando...
+</div>
+
+<router-outlet *ngIf="!isLoading"></router-outlet>

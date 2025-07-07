@@ -1,0 +1,397 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-image: url('/imagenes/edificio.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Contenedor general */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Contenedor de login con fondo personalizado */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  background-color: #f5f0e6; /* color dorado claro/beige */
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Tarjeta (formulario login) */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Encabezado */
+.card-header {
+  background-color: #BF913B; /* dorado fuerte */
+  color: #ffffff;
+  border-radius: 12px 12px 0 0;
+  padding: 15px;
+  text-align: center;
+}
+
+.card-header h5 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* Campos */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #001f3f;
+}
+
+input.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input.form-control:focus {
+  border-color: #BF913B;
+  outline: none;
+  box-shadow: 0 0 5px rgba(191, 145, 59, 0.5);
+}
+
+/* Icono del ojo */
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input.form-control {
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
+
+.toggle-password:hover {
+  color: #001f3f;
+}
+
+/* Errores */
+.error-message {
+  color: #d9534f;
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+
+small.error-message {
+  display: block;
+}
+
+/* Botón */
+.btn-submit {
+  background-color: #BF913B;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #a3762f;
+  transform: scale(1.01);
+}
+
+.btn-submit:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Enlaces */
+.text-end a {
+  font-size: 0.9em;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.text-end a:hover {
+  text-decoration: underline;
+}
+
+.register-link {
+  color: #333;
+  font-size: 0.9em;
+}
+
+.register-link a {
+  color: #0056b3;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+p {
+  margin-top: 15px;
+}
+
+/* Estilo del Modal */
+.modal-content {
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  max-width: 400px; /* Tamaño máximo del modal */
+  width: 85%; /* Ajuste dinámico del ancho */
+  overflow: hidden; /* Evitar contenido extra fuera del modal */
+}
+
+/* Estilo del Header (Encabezado) del Modal */
+.modal-header {
+  background-color: #003366; /* Azul oscuro */
+  color: white; /* Letras blancas */
+  text-align: right;
+  padding: 8px 15px; /* Espaciado ajustado */
+  border-radius: 8px 8px 0 0; /* Bordes redondeados solo arriba */
+}
+
+.modal-header h4 {
+  margin: 0;
+  font-size: 18px; /* Reducido el tamaño del título */
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: white; /* Color blanco para el ícono de cerrar */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-left: auto; /* Alineado a la derecha */
+}
+
+.modal-header button:hover {
+  color: #a3762f; /* Color dorado al pasar el ratón */
+}
+
+/* Estilo del Cuerpo del Modal */
+.modal-body {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.modal-body h5 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366; /* Azul para el título */
+  margin-bottom: 10px;
+}
+
+.modal-body p {
+  font-size: 14px; /* Tamaño del texto */
+  color: #555; /* Color más suave para el texto */
+  margin-bottom: 15px;
+}
+
+/* Pie de Modal (Botón Cerrar) - Ya no es necesario */
+.modal-footer {
+  display: none; /* Eliminamos el pie del modal */
+}
+
+/* Estilos para el Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Fondo difuso */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out; /* Transición suave */
+}
+
+/* Animación de Fade In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive - Ajustes en pantallas pequeñas */
+@media (max-width: 576px) {
+  .modal-content {
+    width: 90%;
+    max-width: 320px; /* Ajustado para pantallas pequeñas */
+    padding: 15px;
+  }
+
+  .modal-body h5 {
+    font-size: 16px;
+  }
+
+  .modal-body p {
+    font-size: 14px;
+  }
+}
+
+/* Responsividad para pantallas grandes */
+@media (min-width: 992px) {
+  .login-container {
+    max-width: 500px; /* Máximo ancho para pantallas grandes */
+  }
+
+  .btn-submit {
+    font-size: 1.1rem; /* Botón más grande en pantallas grandes */
+  }
+}
+
+/* Responsividad para pantallas medianas (tablets) */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 25px; /* Asegurar que haya un padding adecuado */
+  }
+
+  .btn-submit {
+    font-size: 1rem; /* Ajuste en botones */
+  }
+
+  .wrapper {
+    padding: 40px 15px; /* Espaciado reducido para pantallas más pequeñas */
+  }
+
+  .card-header h5 {
+    font-size: 1.3rem; /* Título de la tarjeta ajustado */
+  }
+}
+
+/* Responsividad para pantallas móviles */
+@media (max-width: 576px) {
+  .login-container {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  h5 {
+    font-size: 1.2rem;
+  }
+
+  .btn-submit {
+    font-size: 0.95rem;
+  }
+
+  .register-link,
+  .text-end a {
+    font-size: 0.85rem;
+  }
+
+  input.form-control {
+    font-size: 14px;
+  }
+
+  .toggle-password {
+    font-size: 16px;
+  }
+
+  .g-recaptcha {
+    transform: scale(0.93);
+  }
+
+  /* Ajustes en el modal para móviles */
+  .modal-content {
+    width: 90%;
+    max-width: 320px;
+  }
+
+  .modal-body h5 {
+    font-size: 16px;
+  }
+
+  .modal-body p {
+    font-size: 14px;
+  }
+}
+
+
+/* Botón "Volver al Login" con estilo refinado y el azul #001f3f */
+.btn-volver {
+  background: linear-gradient(145deg, #001f3f, #003366); /* Gradiente de azul oscuro */
+  color: white;
+  font-size: 1rem;
+  font-weight: 700; /* Negrita para hacerlo más prominente */
+  border-radius: 50px; /* Bordes completamente redondeados para un estilo moderno */
+  border: 1px solid transparent;
+  padding: 12px 30px; /* Espaciado interno más generoso */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra para darle un efecto de elevación */
+  margin-top: 15px;
+  width: 100%; /* Ancho ajustable */
+}
+
+.btn-volver:hover {
+  background: linear-gradient(145deg, #003366, #00224d); /* Colores más intensos al pasar el ratón */
+  transform: translateY(-3px); /* Eleva el botón al pasar el ratón */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Aumenta la sombra para dar la sensación de elevación */
+}
+
+.btn-volver:focus {
+  outline: none; /* Elimina el borde azul del focus */
+}
+
+/* En pantallas pequeñas, ajustar el ancho */
+@media (max-width: 576px) {
+  .btn-volver {
+    width: 90%; /* Ajusta el ancho para pantallas móviles */
+    padding: 12px 25px; /* Asegura un buen tamaño en pantallas pequeñas */
+  }
+}

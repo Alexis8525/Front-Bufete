@@ -1,0 +1,103 @@
+<app-nav-barra></app-nav-barra>
+<app-breadcrumbs></app-breadcrumbs>
+
+<div class="container mt-5">
+  <h1 class="text-center fw-bold">Nuestros Servicios</h1>
+
+  <p class="lead text-center mb-4">
+    En nuestro despacho jurídico, ofrecemos una amplia gama de servicios especializados en diversas áreas del derecho,
+    brindando atención personalizada, asesoría profesional y soluciones eficaces. Selecciona una categoría para explorar
+    los servicios disponibles.
+  </p>
+
+  <!-- Botones para mostrar/ocultar secciones -->
+  <div class="text-center mb-5">
+    <button class="btn-categoria" [class.active]="seccionesVisibles.includes('civil')" (click)="toggleSeccion('civil')">Derecho Civil</button>
+    <button class="btn-categoria" [class.active]="seccionesVisibles.includes('comercial')" (click)="toggleSeccion('comercial')">Derecho Comercial</button>
+    <button class="btn-categoria" [class.active]="seccionesVisibles.includes('ambiental')" (click)="toggleSeccion('ambiental')">Derecho Ambiental</button>
+    <button class="btn-categoria" [class.active]="seccionesVisibles.includes('intelectual')" (click)="toggleSeccion('intelectual')">Propiedad Intelectual</button>
+    <button class="btn-categoria" [class.active]="seccionesVisibles.includes('fiscal')" (click)="toggleSeccion('fiscal')">Derecho Fiscal</button>
+  </div>
+
+  <!-- Secciones -->
+  <div *ngIf="seccionesVisibles.includes('civil')" id="civil" class="fade-section">
+    <h3 class="text-center fw-bold mb-4">Derecho Civil</h3>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let servicio of serviciosCivil">
+        <div class="card tarjeta-servicio mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ servicio.titulo }}</h5>
+            <p class="card-text">{{ servicio.descripcion }}</p>
+            <p class="precio">{{ servicio.precio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="seccionesVisibles.includes('comercial')" id="comercial" class="fade-section">
+    <h3 class="text-center fw-bold mb-4">Derecho Comercial</h3>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let servicio of serviciosComercial">
+        <div class="card tarjeta-servicio mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ servicio.titulo }}</h5>
+            <p class="card-text">{{ servicio.descripcion }}</p>
+            <p class="precio">{{ servicio.precio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="seccionesVisibles.includes('ambiental')" id="ambiental" class="fade-section">
+    <h3 class="text-center fw-bold mb-4">Derecho Ambiental</h3>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let servicio of serviciosAmbiental">
+        <div class="card tarjeta-servicio mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ servicio.titulo }}</h5>
+            <p class="card-text">{{ servicio.descripcion }}</p>
+            <p class="precio">{{ servicio.precio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="seccionesVisibles.includes('intelectual')" id="intelectual" class="fade-section">
+    <h3 class="text-center fw-bold mb-4">Propiedad Intelectual</h3>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let servicio of serviciosIntelectual">
+        <div class="card tarjeta-servicio mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ servicio.titulo }}</h5>
+            <p class="card-text">{{ servicio.descripcion }}</p>
+            <p class="precio">{{ servicio.precio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="seccionesVisibles.includes('fiscal')" id="fiscal" class="fade-section">
+    <h3 class="text-center fw-bold mb-4">Derecho Fiscal</h3>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let servicio of serviciosFiscal">
+        <div class="card tarjeta-servicio mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ servicio.titulo }}</h5>
+            <p class="card-text">{{ servicio.descripcion }}</p>
+            <p class="precio">{{ servicio.precio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="login" class="btn btn-primary btn-solicitar-cita" role="button">
+  Solicitar Cita
+</a>
+
+<app-pie-pagina></app-pie-pagina>

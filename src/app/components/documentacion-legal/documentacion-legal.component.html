@@ -1,0 +1,57 @@
+<div class="documentacion-legal">
+  <h2>Documentación Legal</h2>
+
+  <!-- Selección de expediente -->
+  <div class="form-group">
+    <label for="expediente">Seleccionar Expediente:</label>
+    <select id="expediente" [(ngModel)]="expedienteSeleccionado">
+      <option *ngFor="let expediente of expedientes" [ngValue]="expediente">
+        {{ expediente.nombreExpediente }} - {{ expediente.numeroExpediente }} (ID: {{ expediente.idExpediente }})
+      </option>
+    </select>
+  </div>
+
+  <!-- Selección de categoría -->
+  <div class="form-group">
+    <label for="categoria">Seleccionar Categoría:</label>
+    <select id="categoria" [(ngModel)]="categoriaSeleccionada" (change)="onCategoriaChange()">
+      <option *ngFor="let categoria of categoriasDocumentos" [ngValue]="categoria">
+        {{ categoria.nombreCategoria }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Selección de subcategoría -->
+  <div class="form-group" *ngIf="categoriaSeleccionada">
+    <label for="subcategoria">Seleccionar Subcategoría:</label>
+    <select id="subcategoria" [(ngModel)]="subCategoriaSeleccionada">
+      <option *ngFor="let subcategoria of subcategoriasDocumentos" [ngValue]="subcategoria">
+        {{ subcategoria.nombreSubCategoria }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Carga de archivo -->
+  <div class="form-group" *ngIf="categoriaSeleccionada && subCategoriaSeleccionada">
+    <label for="file">Seleccionar Archivo:</label>
+    <input type="file" id="file" (change)="onFileSelected($event)" />
+  </div>
+
+  <!-- Botones de acción -->
+  <div class="button-group">
+    <button (click)="subirDocumentos()" [disabled]="archivos.length === 0 || !expedienteSeleccionado">
+      Subir Documentos
+    </button>
+    <button (click)="resetearFormulario()">Resetear</button>
+  </div>
+
+  <!-- Archivos seleccionados -->
+  <div class="archivos-list" *ngIf="archivos.length > 0">
+    <h3>Archivos Listos para Subir:</h3>
+    <ul>
+      <li *ngFor="let archivo of archivos">
+        Documento: {{ archivo.nombreSubCategoria }}, Tamaño: {{ archivo.documentoBase64.length | number }} bytes
+      </li>
+    </ul>
+  </div>
+</div>

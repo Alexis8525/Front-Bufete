@@ -1,0 +1,521 @@
+/* ========== ESTRUCTURA PRINCIPAL ========== */
+.wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.p-3 {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 1.5rem auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  max-width: 1200px;
+  width: calc(100% - 3rem);
+  max-height: calc(100vh - 3rem);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.p-3::-webkit-scrollbar {
+  width: 8px;
+}
+
+.p-3::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.p-3::-webkit-scrollbar-thumb {
+  background-color: #bf913b;
+  border-radius: 4px;
+}
+
+.p-3::-webkit-scrollbar-thumb:hover {
+  background-color: #a3762f;
+}
+
+/* ========== COMPONENTES DE FORMULARIO ========== */
+.form-control, .form-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #bf913b;
+  box-shadow: 0 0 0 0.25rem rgba(191, 145, 59, 0.25);
+  background-color: white;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  background-color: rgb(224, 160, 9);
+}
+
+/* ========== TABLAS ========== */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(227, 6, 6, 0.1);
+}
+
+.table th {
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.table td {
+  padding: 0.75rem 1rem;
+  vertical-align: middle;
+}
+
+.table tr:hover {
+  background-color: rgba(191, 145, 59, 0.1);
+}
+
+/* Agrega esto a tu archivo de estilos */
+.form-control.is-invalid {
+  border-color: #dc3545;
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: #dc3545;
+}
+
+.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Estilo para contador de caracteres */
+.form-text.text-muted {
+  font-size: 0.8rem;
+  color: #6c757d !important;
+}
+
+/* ========== FORMULARIOS Y CONTROLES ========== */
+.form-control, .form-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #bf913b;
+  box-shadow: 0 0 0 0.25rem rgba(191, 145, 59, 0.25);
+  background-color: white;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  background-color: white;
+  margin-top: #bf913b;
+}
+
+/* ========== TABLAS ========== */
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.badge-primary {
+  background-color: #0e2238;
+  color: white;
+}
+
+.badge-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge-warning {
+  background-color: #D4AF37; /* Dorado para advertencias */
+  color: #0e2238;
+}
+
+.badge-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* ========== TABLA CON DETALLES DORADOS ========== */
+.table th {
+  background: linear-gradient(to right, #0e2238, #1a3658); /* Fondo azul oscuro */
+  color: white;
+  position: relative;
+}
+
+.table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #D4AF37; /* Línea dorada bajo los headers */
+}
+
+.table tr:hover {
+  background-color: rgba(226, 176, 13, 0.867); /* Fondo muy suave dorado al pasar mouse */
+}
+
+/* ========== BOTONES ========== */
+.btn-primary {
+  background-color: #D4AF37; /* Dorado clásico */
+  color: #0e2238; /* Texto azul oscuro para contraste */
+  border: 1px solid #B8860B; /* Borde dorado oscuro */
+}
+
+.btn-primary:hover {
+  background-color: #B8860B; /* Dorado más oscuro al pasar el mouse */
+  color: white;
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+}
+
+.btn-submit {
+  background: linear-gradient(to right, #D4AF37, #F5D073); /* Degradado dorado */
+  color: #0e2238;
+  font-weight: 700;
+  border: none;
+}
+
+.btn-submit:hover {
+  background: linear-gradient(to right, #B8860B, #D4AF37);
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545; /* Rojo para acciones peligrosas */
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-secondary {
+  background-color: #0e2238; /* Azul oscuro */
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #1a3658;
+}
+
+/* ========== SECCIONES ========== */
+.section {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-cliente {
+  background-color: rgba(232, 245, 233, 0.7);
+  border-left: 4px solid #28a745;
+}
+
+.section-abogado {
+  background-color: rgba(227, 242, 253, 0.7);
+  border-left: 4px solid #17a2b8;
+}
+
+.section-expediente {
+  background-color: rgba(255, 248, 225, 0.7);
+  border-left: 4px solid #ffc107;
+}
+
+/* ========== ESTILOS PARA TABLA DE EXPEDIENTES ========== */
+.expedientes-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  border: none;
+}
+
+.expedientes-card .card-header {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5D073 100%);
+  color: #0e2238;
+  padding: 1.25rem 1.5rem;
+  border-bottom: none;
+}
+
+.expedientes-card .card-header h4 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.5rem;
+  border-bottom: none;
+  color: #0e2238;
+}
+
+.expedientes-card .card-body {
+  padding: 1.5rem;
+}
+
+/* Tabla de expedientes */
+.expedientes-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.expedientes-table thead th {
+  background: linear-gradient(to right, #D4AF37, #B8860B);
+  color: #0e2238;
+  font-weight: 700;
+  padding: 1rem;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.expedientes-table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.expedientes-table tbody tr:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+.expedientes-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  vertical-align: middle;
+}
+
+/* Badges de estado */
+.badge-estado {
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.badge-prioridad-alta {
+  background-color: #D4AF37;
+  color: #0e2238;
+}
+
+.badge-archivado {
+  background-color: #6c757d;
+  color: white;
+}
+
+.badge-en-proceso {
+  background-color: #0e2238;
+  color: white;
+}
+
+/* Botones de acción */
+.btn-accion {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-detalle {
+  background-color: #D4AF37;
+  color: #0e2238;
+  border: 1px solid #B8860B;
+}
+
+.btn-detalle:hover {
+  background-color: #B8860B;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+}
+
+.btn-eliminar {
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #c82333;
+}
+
+.btn-eliminar:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Botón de recargar */
+.btn-recargar {
+  background-color: #0e2238;
+  color: #D4AF37;
+  border: 1px solid #0e2238;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+}
+
+.btn-recargar:hover {
+  background-color: #1a3658;
+  color: #F5D073;
+}
+
+/* Spinner */
+.spinner-border.text-primary {
+  color: #D4AF37 !important;
+}
+
+/* Alertas */
+.alert-danger {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-left: 4px solid #dc3545;
+  color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .expedientes-table thead {
+    display: none;
+  }
+  
+  .expedientes-table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+  }
+  
+  .expedientes-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  }
+  
+  .expedientes-table tbody td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #0e2238;
+    margin-right: 1rem;
+  }
+  
+  .btn-accion {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .acciones-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ========== BADGES ========== */
+.badge {
+  padding: 0.5em 0.75em;
+  font-size: 0.875em;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.badge-primary {
+  background-color: #0e2238;
+}
+
+.badge-success {
+  background-color: #28a745;
+}
+
+.badge-warning {
+  background-color: #ffc107;
+  color: #0e2238;
+}
+
+.badge-danger {
+  background-color: #dc3545;
+}
+
+/* ========== TÍTULOS ========== */
+h4 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0e2238;
+  border-bottom: 2px solid #bf913b;
+  padding-bottom: 0.5rem;
+}
+
+/* ========== TARJETAS ========== */
+.card {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background-color: #0e2238;
+  color: white;
+  border-radius: 10px 10px 0 0 !important;
+  padding: 1rem 1.5rem;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .p-3 {
+    padding: 1.5rem;
+    margin: 0.75rem;
+    max-height: calc(100vh - 1.5rem);
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+  }
+  
+  .section {
+    padding: 1rem;
+  }
+}

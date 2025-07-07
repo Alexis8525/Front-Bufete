@@ -1,0 +1,301 @@
+/* ============ FUENTES Y VARIABLES DE COLOR ============ */
+
+:root {
+  --primary-color: #1a3a6a;
+  --secondary-color: #d4af37;
+  --accent-color: #e63946;
+  --light-bg: #f8f9fa;
+  --dark-text: #2d3748;
+  --light-text: #f8f9fa;
+  --gray-border: #e2e8f0;
+  --success-color: #38a169;
+  --warning-color: #dd6b20;
+  --danger-color: #e53e3e;
+  --transition-speed: 0.3s;
+}
+
+/* ============ ESTRUCTURA PRINCIPAL ============ */
+.wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--light-bg);
+  font-family: 'Montserrat', sans-serif;
+  position: relative; /* Esto podría afectar al fixed */
+  overflow: hidden; /* Esto ocultaría el botón */
+  transform: none; /* Algunas transformaciones afectan el fixed */
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(248, 249, 250, 0.95);
+}
+
+.buscador-form {
+  margin-bottom: 2rem; /* o lo que consideres apropiado */
+}
+
+/* ============ BUSCADOR ============ */
+.form-control {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+}
+
+.form-control:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 0.25rem rgba(191, 145, 59, 0.25);
+  outline: none;
+}
+
+.btn-light {
+  background-color: white;
+  border-radius: 30px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-light:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+/* ============ CONTENEDOR PRINCIPAL ============ */
+.p-3 {
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; /* Esta es la clave para fijar la imagen */
+  padding: 2rem;
+  overflow-y: auto;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  position: relative;
+  min-height: calc(100vh - 4rem); /* Asegura que ocupe toda la altura */
+  
+  /* Capa semitransparente para mejor legibilidad */
+  &::before {
+    content: '';
+    position: fixed; /* Cambiado de absolute a fixed */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+  }
+  
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Estilos de scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(241, 241, 241, 0.2);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #b38f2b;
+  }
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+  .p-3 {
+    background-attachment: scroll; /* Desactiva el fixed en móviles para mejor rendimiento */
+    padding: 1rem;
+    
+    &::before {
+      position: absolute; /* Vuelve a absolute en móviles */
+    }
+  }
+}
+
+/* ============ TARJETAS DE EXPEDIENTES ============ */
+.card {
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(223, 5, 5, 0.1);
+  transition: all var(--transition-speed) ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--secondary-color);
+    transition: all var(--transition-speed) ease;
+  }
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    
+    &::after {
+      height: 8px;
+    }
+    
+    .card-header h2 {
+      color: var(--secondary-color);
+    }
+  }
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}}
+
+.card-header {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+  background-color: #bf913b; /* Fondo dorado */
+  color: #f6f4f0; /* Contraste blanco */
+  border-radius: 10px 10px 0 0 !important;
+  padding: 1.25rem;
+  border-bottom: none;
+}
+
+.card-header h2 {
+  font-size: 1.4rem; 
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+  color: rgb(249, 248, 241); /* Asegurar contraste con dorado */
+}
+
+/* Eliminamos clases innecesarias de visibilidad */
+.card-visible {
+  opacity: 1;
+  transform: none;
+}
+/* ============ BOTONES ============ */
+.btn-outline-primary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* ============ SCROLL TO TOP ============ */
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--color-secondary);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  border: none;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+}
+
+.scroll-to-top:hover {
+  background-color: var(--color-primary);
+  transform: scale(1.1);
+}
+
+/* ============ MODAL ============ */
+.modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  background-color: var(--color-primary);
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1200px) {
+  .form-control {
+    width: 300px;
+  }
+}
+
+@media (max-width: 992px) {
+  .form-control {
+    width: 250px;
+  }
+  
+  .card-header h2 {
+    font-size: 1.1rem;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .form-control {
+    width: 150px;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .btn-light {
+    padding: 0.5rem 1rem;
+  }
+  
+  .card-header {
+    padding: 1rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+}

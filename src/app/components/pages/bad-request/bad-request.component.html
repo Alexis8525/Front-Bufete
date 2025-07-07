@@ -1,0 +1,8 @@
+<div class="error-page">
+    <h1>400 - Bad Request</h1>
+    <img src="assets/pictures/error.png" alt="Error" width="200" class="error-image">
+    <p>La solicitud no pudo ser procesada debido a un error en la petición.</p>
+    <button (click)="volver()" class="btn btn-primary">Volver a la página anterior</button>
+    <a [routerLink]="['/home']" class="btn btn-secondary">Ir a la página de inicio</a>
+  </div>
+  

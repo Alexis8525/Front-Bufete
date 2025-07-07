@@ -1,0 +1,12 @@
+<div class="breadcrumb-box">
+  <ul class="breadcrumb-list">
+    <li *ngFor="let item of parts; let i = index" [ngClass]="{ 'breadcrumb-item': true, 'separator': i > 0 }">
+      <ng-container *ngIf="i !== parts.length - 1">
+        <a [routerLink]="item.url">{{ item.label }}</a>
+      </ng-container>
+      <ng-container *ngIf="i === parts.length - 1">
+        <span class="active">{{ item.label }}</span>
+      </ng-container>
+    </li>
+  </ul>
+</div>

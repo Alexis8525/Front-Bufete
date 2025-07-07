@@ -1,0 +1,10 @@
+/* Encabezado de la tarjeta */
+.card-header {
+  background-color: #0e2238; /* Color principal: azul oscuro */
+  color: #ffffff;
+  font-size: 1.25em;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 8px 8px 0 0;
+  text-align: center;
+}

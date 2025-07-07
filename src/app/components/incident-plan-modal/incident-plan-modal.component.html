@@ -1,0 +1,159 @@
+<div class="modal-container">
+    <div class="modal-header">
+      <h2>Plan de Respuesta ante Incidentes</h2>
+      <button mat-icon-button (click)="close()" aria-label="Cerrar">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  
+    <div class="modal-content">
+      <h1>Plan de Respuesta ante Incidentes de Seguridad</h1>
+      
+      <h2>1. Detección del Incidente</h2>
+      <ul>
+        <li>Monitoreo continuo de:
+          <ul>
+            <li>Logs de errores en el backend</li>
+            <li>Intentos de acceso no autorizados</li>
+            <li>Comportamientos anómalos en el tráfico de red</li>
+            <li>Actividad inusual en cuentas privilegiadas</li>
+          </ul>
+        </li>
+        <li>Herramientas utilizadas: [Listar herramientas específicas si las hay]</li>
+        <li>Umbrales de alerta: [Definir qué se considera anormal]</li>
+      </ul>
+  
+      <h2>2. Clasificación y Priorización</h2>
+      <ul>
+        <li>Criterios de severidad:
+          <ul>
+            <li><strong>Nivel 1</strong>: Crítico (afecta a todos los usuarios)</li>
+            <li><strong>Nivel 2</strong>: Alto (afecta a muchos usuarios)</li>
+            <li><strong>Nivel 3</strong>: Medio (afecta limitadamente)</li>
+            <li><strong>Nivel 4</strong>: Bajo (impacto mínimo)</li>
+          </ul>
+        </li>
+        <li>Matriz de respuesta según severidad</li>
+      </ul>
+  
+      <h2>3. Notificación</h2>
+      <ul>
+        <li><strong>Responsable de seguridad</strong>: Roberto Díaz Galindo</li>
+        <li>Equipo de respuesta: [Listar miembros del equipo si existe]</li>
+        <li>Contactos alternos: [Incluir suplentes]</li>
+        <li>Tiempo de notificación:
+          <ul>
+            <li>Incidentes críticos: 15 minutos</li>
+            <li>Incidentes altos: 30 minutos</li>
+            <li>Otros: 1 hora</li>
+          </ul>
+        </li>
+        <li>Canales de comunicación: [Slack, email, teléfono, etc.]</li>
+        <li>Partes interesadas externas (si aplica):
+          <ul>
+            <li>Autoridades regulatorias</li>
+            <li>Clientes afectados</li>
+            <li>Proveedores</li>
+          </ul>
+        </li>
+      </ul>
+  
+      <h2>4. Contención</h2>
+      <ul>
+        <li>Estrategias:
+          <ul>
+            <li>Corto plazo: Aislar sistemas afectados</li>
+            <li>Largo plazo: Implementar controles temporales</li>
+          </ul>
+        </li>
+        <li>Acciones específicas:
+          <ul>
+            <li>Desconexión de servicios afectados</li>
+            <li>Revocación de credenciales</li>
+            <li>Cambio de contraseñas</li>
+            <li>Bloqueo de direcciones IP maliciosas</li>
+          </ul>
+        </li>
+      </ul>
+  
+      <h2>5. Investigación y Análisis</h2>
+      <ul>
+        <li>Recopilación de evidencia:
+          <ul>
+            <li>Logs relevantes</li>
+            <li>Volcados de memoria</li>
+            <li>Capturas de pantalla</li>
+          </ul>
+        </li>
+        <li>Herramientas forenses: [Listar si existen]</li>
+        <li>Cadena de custodia para evidencia</li>
+      </ul>
+  
+      <h2>6. Erradicación</h2>
+      <ul>
+        <li>Eliminación completa de:
+          <ul>
+            <li>Malware</li>
+            <li>Backdoors</li>
+            <li>Cuentas comprometidas</li>
+          </ul>
+        </li>
+        <li>Actualizaciones:
+          <ul>
+            <li>Parches de seguridad</li>
+            <li>Dependencias vulnerables</li>
+          </ul>
+        </li>
+        <li>Reconfiguración de sistemas</li>
+      </ul>
+  
+      <h2>7. Recuperación</h2>
+      <ul>
+        <li>Procedimientos:
+          <ul>
+            <li>Restauración desde backups verificados</li>
+            <li>Reemplazo de hardware comprometido</li>
+            <li>Revisión de integridad de datos</li>
+          </ul>
+        </li>
+        <li>Criterios para considerar completada la recuperación</li>
+        <li>Monitoreo post-recuperación</li>
+      </ul>
+  
+      <h2>8. Comunicación Post-Incidente</h2>
+      <ul>
+        <li>Comunicados internos</li>
+        <li>Comunicados a clientes (si aplica)</li>
+        <li>Reportes a autoridades (según regulaciones)</li>
+      </ul>
+  
+      <h2>9. Lecciones Aprendidas</h2>
+      <ul>
+        <li>Revisión formal del incidente</li>
+        <li>Identificación de causa raíz</li>
+        <li>Actualización de:
+          <ul>
+            <li>Documentación</li>
+            <li>Procedimientos</li>
+            <li>Controles de seguridad</li>
+          </ul>
+        </li>
+        <li>Plan de implementación de mejoras</li>
+        <li>Fechas límite para correcciones</li>
+      </ul>
+  
+      <h2>Anexos</h2>
+      <ul>
+        <li>Lista de contactos clave</li>
+        <li>Plantillas de reportes</li>
+        <li>Checklist de respuesta</li>
+        <li>Procedimientos técnicos detallados</li>
+        <li>Referencias legales y regulatorias</li>
+      </ul>
+    </div>
+  
+    <div class="modal-footer">
+      <button mat-raised-button color="primary" (click)="close()">Cerrar</button>
+    </div>
+  </div>
+  

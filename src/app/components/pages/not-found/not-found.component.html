@@ -1,0 +1,27 @@
+<div class="error-container">
+  <div class="error-content">
+    <div class="error-animation">
+      <div class="error-404">404</div>
+      <img src="assets/pictures/error.png" alt="Error" class="error-image floating">
+    </div>
+    
+    <h1 class="error-title">¡Ups! Página no encontrada</h1>
+    
+    <p class="error-message">
+      La página que buscas podría haber sido eliminada, haber cambiado de nombre o está temporalmente inaccesible.
+    </p>
+    
+    <div class="error-buttons">
+      <button (click)="volver()" class="btn btn-primary pulse">
+        ← Volver atrás
+      </button>
+      <a [routerLink]="['/home']" class="btn btn-secondary pulse">
+        🏠 Ir al inicio
+      </a>
+    </div>
+    
+    <div class="error-footer">
+      <p>¿Necesitas ayuda? <a href="/contacto">Contáctanos</a></p>
+    </div>
+  </div>
+</div>

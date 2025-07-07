@@ -1,0 +1,214 @@
+/* ========== ESTRUCTURA PRINCIPAL ========== */
+.wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== CONTENEDOR PRINCIPAL ========== */
+.p-3 {
+  background-color: #f5f0e6;
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+  max-height: 100vh;
+  padding: 2rem;
+  overflow-y: auto;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== TÍTULO ENCABEZADO ========== */
+.titulo-empleados {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+  margin: 20px 0;
+  text-align: center;
+  padding: 10px 20px;
+  border-bottom: 4px solid #ffffff;
+  background: rgba(191, 145, 59, 0.85);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== CONTENEDOR DE CADA CITA (FONDO DORADO) ========== */
+.card-wrapper {
+  background: rgba(191, 145, 59, 0.8);
+  padding: 8px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.8s ease;
+}
+
+/* ========== TARJETA BLANCA INTERNA ========== */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== TÍTULO DENTRO DE LA TARJETA ========== */
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #0e2238;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.card-title i {
+  color: #bf913b;
+
+}
+
+/* ========== TEXTO EN LA TARJETA ========== */
+.card-text {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* ========== BOTÓN ========== */
+.card button {
+  background-color: #bf913b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.card button:hover {
+  background-color: #a3762f;
+  transform: scale(1.01);
+}
+
+.card button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+.info-cita {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dato-cita {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+
+.etiqueta {
+  font-weight: 700;
+  color: #0e2238;
+  font-size: 1rem;
+  min-width: 100px;
+  margin-right: 10px;
+}
+
+.valor {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #333;
+  flex: 1;
+  word-break: break-word;
+}
+
+
+/* ========== ANIMACIÓN DE ENTRADA ========== */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 576px) {
+  .p-3 {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .titulo-empleados {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+  }
+
+  .card-wrapper {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+    margin: 10px 0;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
+
+  .card button {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .p-3 {
+    padding: 1.5rem;
+  }
+
+  .titulo-empleados {
+    font-size: 1.3rem;
+    padding: 8px 16px;
+  }
+
+  .card {
+    max-width: 100%;
+    margin: 15px 0;
+  }
+}

@@ -1,0 +1,96 @@
+<div class="wrapper">
+  <aside id="sidebar" #sidebar>
+    <div class="d-flex">
+      <button class="toggle-btn" type="button" (click)="toggleSidebar()">
+        <i class="lni lni-menu"></i>
+      </button>
+    </div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-item">
+        <a [routerLink]="['/principal']" class="sidebar-link">
+          <i class="lni lni-home"></i>
+          <span>Home</span>
+        </a>
+      </li>      
+
+      <li class="sidebar-item" *ngIf="isSecretaria()">
+        <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+           data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+           <i class="lni lni-user"></i>
+           <span>Usuarios</span>
+        </a>
+        <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+          <li class="sidebar-item">
+            <a [routerLink]="['/empleado']" class="sidebar-link">Empleados</a>
+          </li>
+          <li class="sidebar-item">
+            <a [routerLink]="['/gestion-cliente']" class="sidebar-link">Clientes</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="sidebar-item" *ngIf="isSecretaria()">
+        <a [routerLink]="['/gestion-horario']" class="sidebar-link">
+          <i class="lni lni-timer"></i> 
+          <span>Horarios</span>
+        </a>
+      </li>
+
+      <li class="sidebar-item" *ngIf="isCliente() || isAbogado() || isSecretaria()">
+        <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+           data-bs-target="#citas" aria-expanded="false" aria-controls="citas">
+           <i class="fa-regular fa-calendar"></i>
+           <span>Citas</span>
+        </a>
+        <ul id="citas" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+          <li class="sidebar-item" *ngIf="isCliente()">
+            <a [routerLink]="['/cita']" class="sidebar-link">Nueva cita</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isCliente()">
+            <a [routerLink]="['/calendario-cliente']" class="sidebar-link">Citas programadas</a>
+          </li>
+          
+          <!-- Solo muestra este bloque si el rol es de Abogado -->
+          <li class="sidebar-item" *ngIf="isAbogado()">
+            <a [routerLink]="['/calendario-abogado']" class="sidebar-link">Citas programadas Abogado</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isSecretaria()">
+            <a [routerLink]="['/crear-expediente']" class="sidebar-link">Crear Expediente</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isSecretaria()">
+            <a [routerLink]="['/calendario-secretaria']" class="sidebar-link">Citas programadas Abogado</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isAbogado()">
+            <a [routerLink]="['/crear-expediente']" class="sidebar-link">Crear Expediente</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isAbogado()">
+            <a [routerLink]="['/visualizar-expediente']" class="sidebar-link">Ver expedientes</a>
+          </li>
+          <li class="sidebar-item" *ngIf="isAbogado()">
+            <a [routerLink]="['/historial-expedientes']" class="sidebar-link">Papelera</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="sidebar-item" *ngIf="isCliente()">
+        <a [routerLink]="['/reseñas']" class="sidebar-link">
+          <i class="lni lni-comment-alt"></i>
+          <span>Reseñas</span>
+        </a>
+      </li>
+      
+      <li class="sidebar-item">
+        <a [routerLink]="['/settings']" class="sidebar-link">
+          <i class="lni lni-cog"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      <a [routerLink]="['/login']" class="sidebar-link" (click)="logout()">
+        <i class="lni lni-exit"></i>
+        <span>Logout</span>
+      </a>
+    </div>      
+  </aside>
+</div>

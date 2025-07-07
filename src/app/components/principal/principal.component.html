@@ -1,0 +1,78 @@
+<div class="wrapper">
+  <app-barra-lateral></app-barra-lateral>
+
+  <div class="main">
+    <!-- Barra de navegación con la barra de búsqueda global -->
+    <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+      <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
+        <!-- Logo -->
+        <a class="navbar-brand ms-3" href="/home">
+          <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+        </a>
+
+        <!-- Reemplaza el formulario de búsqueda antiguo por el componente mejorado -->
+        <app-barra-busqueda-home></app-barra-busqueda-home>
+      </div>
+    </nav>
+
+    <div class="p-3">
+      <app-breadcrumbs></app-breadcrumbs>
+
+      <h2 class="titulo-empleados">Citas del Día - {{ fechaActual | date: 'fullDate':'':'es-MX' }}</h2>
+
+      <!-- Mensaje de carga -->
+      <div *ngIf="loading" class="text-center mt-5">
+        <p style="color: #FFFFFF;">Cargando citas...</p>
+      </div>
+
+      <!-- Listado de citas -->
+      <div class="row" *ngIf="!loading">
+        <div class="col-md-4 mb-3" *ngFor="let cita of citasHoy">
+          <div class="card-wrapper"> <!-- Fondo dorado -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fa-solid fa-clock"></i>    
+                  {{ cita.horaInicio }} - {{ cita.horaFinal }}
+                </h5>
+              
+                <div class="info-cita">
+                  <div class="dato-cita">
+                    <span class="etiqueta">Cliente:</span>
+                    <span class="valor">{{ cita.cliente }}</span>
+                  </div>
+              
+                  <div class="dato-cita" *ngIf="usuario.rol === 1 || usuario.rol === 3">
+                    <span class="etiqueta">Abogado:</span>
+                    <span class="valor">{{ cita.abogado }}</span>
+                  </div>
+              
+                  <div class="dato-cita">
+                    <span class="etiqueta">Servicio:</span>
+                    <span class="valor">{{ cita.nombreServicio }}</span>
+                  </div>
+              
+                  <div class="dato-cita">
+                    <span class="etiqueta">Motivo:</span>
+                    <span class="valor">{{ cita.motivo }}</span>
+                  </div>
+                </div>
+              
+                <button *ngIf="usuario.rol === 2" (click)="atenderCita(cita.idCita)" class="btn btn-primary">
+                  Atender
+                </button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        
+
+        <!-- Mensaje si no hay citas -->
+        <div *ngIf="citasHoy.length === 0" class="text-center mt-5">
+          <p style="color: #FFFFFF;">No hay citas programadas para hoy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

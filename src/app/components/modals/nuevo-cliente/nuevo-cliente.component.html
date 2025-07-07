@@ -1,0 +1,118 @@
+<div class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form #agregarClienteForm="ngForm" (ngSubmit)="onSubmit(agregarClienteForm)">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Nuevo Cliente</h1>
+          <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModalEmit()"></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-control" name="nombre"
+                   required [(ngModel)]="cliente.nombreCliente" #nombre="ngModel"
+                   [class.is-invalid]="nombre.invalid && (nombre.dirty || nombre.touched)">
+            <div class="invalid-feedback" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+              Nombre es obligatorio.
+            </div>
+          </div>
+
+          <!-- Apellido Paterno -->
+          <div class="mb-3">
+            <label for="apellidoP" class="form-label">Apellido Paterno</label>
+            <input type="text" id="apellidoP" class="form-control" name="apellidoP"
+                   required [(ngModel)]="cliente.aPCliente" #apellidoP="ngModel"
+                   [class.is-invalid]="apellidoP.invalid && (apellidoP.dirty || apellidoP.touched)">
+            <div class="invalid-feedback" *ngIf="apellidoP.invalid && (apellidoP.dirty || apellidoP.touched)">
+              Apellido paterno es obligatorio.
+            </div>
+          </div>
+
+          <!-- Apellido Materno -->
+          <div class="mb-3">
+            <label for="apellidoM" class="form-label">Apellido Materno</label>
+            <input type="text" id="apellidoM" class="form-control"
+                   [(ngModel)]="cliente.aMCliente" name="apellidoM">
+          </div>
+
+          <!-- Dirección -->
+          <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" id="direccion" class="form-control" name="direccion"
+                   required [(ngModel)]="cliente.direccion" #direccion="ngModel"
+                   [class.is-invalid]="direccion.invalid && (direccion.dirty || direccion.touched)">
+            <div class="invalid-feedback" *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)">
+              Dirección es obligatoria.
+            </div>
+          </div>
+
+          <!-- Correo -->
+          <div class="mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input type="email" id="correo" class="form-control" name="correo"
+                   required [(ngModel)]="cliente.correo" #correo="ngModel"
+                   [class.is-invalid]="correo.invalid && (correo.dirty || correo.touched)">
+            <div class="invalid-feedback" *ngIf="correo.invalid && (correo.dirty || correo.touched)">
+              <div *ngIf="correo.errors?.['required']">Correo es obligatorio.</div>
+              <div *ngIf="correo.errors?.['email']">Correo inválido.</div>
+            </div>
+          </div>
+
+          <!-- Teléfono -->
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="tel" id="telefono" class="form-control" name="telefono"
+                   required pattern="^\d{10}$" [(ngModel)]="cliente.telefono" #telefono="ngModel"
+                   [class.is-invalid]="telefono.invalid && (telefono.dirty || telefono.touched)">
+            <div class="invalid-feedback" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">
+              Teléfono inválido, debe tener 10 dígitos.
+            </div>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="mb-3">
+            <label for="pass" class="form-label">Contraseña</label>
+            <div class="input-wrapper">
+              <input [type]="showPassword ? 'text' : 'password'" id="pass" class="form-control"
+                     name="pass" required minlength="8"
+                     [(ngModel)]="cliente.pass" #pass="ngModel"
+                     (ngModelChange)="validarCoincidenciaContrasena()"
+                     [class.is-invalid]="pass.invalid && (pass.dirty || pass.touched)">
+              <i class="fa toggle-password" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                 (click)="togglePasswordVisibility()"></i>
+            </div>
+            <div class="invalid-feedback" *ngIf="pass.invalid && (pass.dirty || pass.touched)">
+              La contraseña debe tener al menos 8 caracteres.
+            </div>
+          </div>
+
+          <!-- Confirmar contraseña -->
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+            <div class="input-wrapper">
+              <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
+                     class="form-control" name="confirmPassword" required
+                     [(ngModel)]="confirmPassword" #confirmPasswordRef="ngModel"
+                     (ngModelChange)="validarCoincidenciaContrasena()"
+                     [class.is-invalid]="!contrasenaCoincide && confirmPassword">
+              <i class="fa toggle-password" [ngClass]="showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'"
+                 (click)="toggleConfirmPasswordVisibility()"></i>
+            </div>
+            <div class="invalid-feedback" *ngIf="!contrasenaCoincide && confirmPassword">
+              Las contraseñas no coinciden.
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="agregarClienteForm.invalid || !contrasenaCoincide">
+            Guardar Cliente
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="cerrarModalEmit()">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

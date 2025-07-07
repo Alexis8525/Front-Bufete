@@ -1,0 +1,227 @@
+<div class="wrapper">
+  <app-barra-lateral></app-barra-lateral>
+  
+
+  <div class="main">
+    <nav class="navbar navbar-expand-lg" style="background-color: #001f3f;">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/principal">
+          <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+        </a>
+      </div>
+    </nav>
+    <app-breadcrumbs></app-breadcrumbs>
+
+    <div class="p-3 container">
+      
+      <!-- Selección de Cliente -->
+      <div class="form-group mb-4">
+        <label for="cliente">Selecciona al Cliente:</label>
+        <select [(ngModel)]="clienteSeleccionado" name="cliente" required class="form-control" (change)="cargarDatosCliente()">
+          <option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
+            {{ cliente.nombreCliente }} {{ cliente.aPCliente }} {{ cliente.aMCliente }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Datos del Cliente -->
+      <div *ngIf="clienteDatos" class="section cliente-section">
+        <h4>Datos del Cliente</h4>
+        <div class="form-group">
+          <label for="emailCliente">Correo Electrónico:</label>
+          <input type="text" [(ngModel)]="clienteDatos.correo" readonly class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="telefonoCliente">Teléfono:</label>
+          <input type="text" [(ngModel)]="clienteDatos.telefono" readonly class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="direccionCliente">Dirección:</label>
+          <input type="text" [(ngModel)]="clienteDatos.direccion" readonly class="form-control">
+        </div>
+      </div>
+
+      <!-- Sección de Abogado (mostrar datos del abogado logueado) -->
+<div class="section abogado-section">
+  <h4>Datos del Abogado Responsable</h4>
+  
+  <div *ngIf="AbogadoAsignado" class="datos-abogado">
+    <div class="form-group">
+      <label>Nombre:</label>
+      <input type="text" 
+             [value]="AbogadoAsignado.nombreEmpleado + ' ' + AbogadoAsignado.aPEmpleado + ' ' + AbogadoAsignado.aMEmpleado" 
+             class="form-control" readonly>
+    </div>
+    
+    <div class="form-group">
+      <label>Teléfono:</label>
+      <input type="text" [value]="AbogadoAsignado.telefono || 'No registrado'" 
+             class="form-control" readonly>
+    </div>
+    
+    <div class="form-group">
+      <label>Correo:</label>
+      <input type="text" [value]="AbogadoAsignado.correo" 
+             class="form-control" readonly>
+    </div>
+    
+    <div class="form-group" *ngIf="AbogadoAsignado.numeroLicencia">
+      <label>Número de Licencia:</label>
+      <input type="text" [value]="AbogadoAsignado.numeroLicencia" 
+             class="form-control" readonly>
+    </div>
+  </div>
+  
+  <div *ngIf="!AbogadoAsignado" class="alert alert-warning">
+    No se encontraron datos del abogado.
+  </div>
+</div>
+      
+
+      <!-- Formulario de Expediente -->
+      <div class="section expediente-section">
+        <h4 class="datosAbogados">Datos del Expediente</h4>
+        <form *ngIf="!idExpedienteCreado" (ngSubmit)="onSubmit()" class="">
+          <div class="form-group">
+            <label for="nombre">Nombre del Expediente:</label>
+            <input type="text" [(ngModel)]="expediente.nombreExpediente" name="nombre" required class="form-control" readonly>
+          </div>
+          <div class="form-group">
+            <label for="numero">Número de Expediente:</label>
+            <input type="text" [(ngModel)]="expediente.numeroExpediente" name="numero" required class="form-control" readonly>
+          </div>
+          
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea [(ngModel)]="expediente.descripcion" name="descripcion" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="servicio">Nombre del Servicio:</label>
+            <select [(ngModel)]="expediente.nombreServicio" name="servicio" required class="form-control">
+              <option value="" disabled selected>Seleccione un servicio</option>
+              <option *ngFor="let servicio of serviciosDisponibles" [value]="servicio">
+                {{ servicio }}
+              </option>
+            </select>
+            
+          </div>
+          <!-- Botón Asignar Prioridad -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#prioridadModal">
+  Asignar Prioridad
+</button>
+        <div class="modal fade" id="prioridadModal" tabindex="-1" aria-labelledby="prioridadModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="prioridadModalLabel">Asignar Prioridad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <p>¿Deseas asignar prioridad a este expediente?</p>
+                <p>Esta acción cambiará el estado del expediente a "Prioridad Alta".</p>
+                <button class="btn btn-primary" (click)="aplicarDecorador('prioridad')">Sí, asignar prioridad</button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón Archivar Expediente -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#archivadoModal">
+          Archivar Expediente
+        </button>
+        <div class="modal fade" id="archivadoModal" tabindex="-1" aria-labelledby="archivadoModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="archivadoModalLabel">Archivar Expediente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              </div>
+              <div class="modal-body">
+                <p>¿Estás seguro de que deseas archivar este expediente?</p>
+                <p>Esta acción cambiará el estado del expediente a "Archivado".</p>
+                <button class="btn btn-primary" (click)="aplicarDecorador('archivado')" data-bs-dismiss="modal">
+                  Sí, archivar expediente
+                </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón Crear Expediente (mantener verde) -->
+        <button type="button" class="btn btn-success btn-submit" (click)="onSubmit()">Crear Expediente</button>
+        </form>
+      </div>
+
+      <!-- Lista de expedientes existentes -->
+      <!-- Lista de expedientes existentes - Versión simplificada -->
+<div class="expedientes-card">
+  <div class="card-header">
+    <h4>Expedientes Registrados</h4>
+  </div>
+  
+  <div class="card-body">
+    <!-- Spinner durante carga inicial -->
+    <div *ngIf="cargando && expedientes.length === 0" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2">Cargando expedientes...</p>
+    </div>
+    
+    <!-- Tabla de resultados -->
+    <div *ngIf="!cargando || expedientes.length > 0" class="table-responsive">
+      <!-- Tabla de expedientes -->
+<table class="expedientes-table">
+  <thead>
+    <tr>
+      <th>Número</th>
+      <th>Nombre</th>
+      <th>Estado</th>
+      <th>Fecha Creación</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let expediente of expedientes">
+      <td>{{ expediente.numeroExpediente || 'N/A' }}</td>
+      <td>{{ expediente.nombreExpediente || 'N/A' }}</td>
+      <td>
+        <span class="badge-estado" [ngClass]="{
+          'badge-prioridad-alta': expediente.estado === 'Prioridad Alta',
+          'badge-archivado': expediente.estado === 'Archivado',
+          'badge-en-proceso': expediente.estado === 'En Proceso'
+        }">
+          {{ expediente.estado || 'N/A' }}
+        </span>
+      </td>
+      <td>{{ (expediente.fechaCreacion | date:'dd/MM/yyyy') || 'N/A' }}</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<ng-template #modalEliminar let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Confirmar Eliminación</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p>¿Está seguro que desea eliminar el expediente <strong>{{ expedienteAEliminar?.nombreExpediente }}</strong>?</p>
+    <p class="text-danger">Esta acción no se puede deshacer.</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" class="btn-danger" (click)="confirmarEliminacion()">Eliminar</button>
+  </div>
+</ng-template>

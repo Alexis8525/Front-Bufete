@@ -1,0 +1,111 @@
+<div class="wrapper">
+  <app-barra-lateral></app-barra-lateral>
+
+  <div class="main">
+    <nav class="navbar navbar-expand-lg p-0" style="background-color: #001f3f;">
+      <div class="container-fluid p-0">
+        <a class="navbar-brand" href="/principal">
+          <img src="logo/logoLexVargasV.png" alt="LexVargas Logo" width="200" class="d-inline-block align-text-top">
+        </a>
+      </div>
+    </nav>
+
+
+    <div class="p-3">
+
+      <app-breadcrumbs></app-breadcrumbs>
+
+      <!-- Contenedor principal para organizar los filtros y el calendario en dos columnas -->
+      <div class="contenedor-principal">
+
+        <!-- Nuevo contenedor para agrupar filtros y leyenda -->
+        <div class="filtros-leyenda">
+          <!-- Sección para los filtros -->
+          <div class="filtros">
+            <div class="filtros-header">
+              <h3>Filtros</h3>
+            </div>
+            <div class="filtros-content">
+              <label for="filtroServicio">Servicio:</label>
+              <select id="filtroServicio" [(ngModel)]="filtroServicio" (change)="filtrarCitas()">
+                <option value="">Todos los Servicios</option>
+                <option *ngFor="let servicio of servicios" [value]="servicio.idServicio">
+                  {{ servicio.nombreServicio }}
+                </option>
+              </select>
+            </div>
+            <div class="filtros-content">
+              <label for="filtroCliente">Cliente:</label>
+              <select id="filtroCliente" [(ngModel)]="filtroCliente" (change)="filtrarCitas()">
+                <option value="">Todos los Clientes</option>
+                <option *ngFor="let cliente of clientes" [value]="cliente">
+                  {{ cliente }}
+                </option>
+              </select>
+            </div>
+            <div class="filtros-content">
+              <label for="filtroEstado">Estado de la Cita:</label>
+              <select id="filtroEstado" [(ngModel)]="filtroEstado" (change)="filtrarCitas()">
+                <option value="">Todos los Estados</option>
+                <option value="programada">Programada</option>
+                <option value="completada">Completada</option>
+                <option value="cancelada">Cancelada</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Leyenda debajo de los filtros -->
+          <div class="leyenda">
+            <h4>Leyenda</h4>
+            <div class="leyenda-item">
+              <span class="color-box programada"></span>
+              <span>Programada</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="color-box completada"></span>
+              <span>Completada</span>
+            </div>
+            <div class="leyenda-item">
+              <span class="color-box cancelada"></span>
+              <span>Cancelada</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenedor del calendario en el lado derecho -->
+        <div class="calendario">
+          <div class="header">
+            <button (click)="cambiarMes(-1)">Anterior</button>
+            <h2>{{ nombreMesActual }} {{ anioActual }}</h2>
+            <button (click)="cambiarMes(1)">Siguiente</button>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th *ngFor="let dia of nombresDias">{{ dia }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fila of [0, 1, 2, 3, 4, 5]">
+                <td *ngFor="let dia of diasDelMes.slice(fila * 7, fila * 7 + 7)">
+                  <div *ngIf="dia !== null" class="day-cell"
+                    [ngClass]="{'dia-actual': dia === hoy.dia && mesActual === hoy.mes && anioActual === hoy.anio}">
+                    {{ dia }}
+                    <div *ngFor="let cita of tieneCitas(dia)" class="appointment-tooltip" [ngClass]="{
+    'appointment-cancelada': cita.estadoCita === 'cancelada',
+    'appointment-completada': cita.estadoCita === 'completada',
+    'appointment-tooltip': cita.estadoCita === 'programada'
+  }" (click)="openCitaModal(cita)">
+                      <p>{{ cita.description }}</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

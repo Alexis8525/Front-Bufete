@@ -1,0 +1,197 @@
+/* Estilos generales para el contenedor */
+.wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+app-barra-lateral {
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fondo del contenido principal */
+.p-3 {
+  background-image: url('/imagenes/fondo1.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-grow: 1;
+  max-height: 100vh;
+  background-color: rgba(250, 251, 254, 0.9);
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Estilos para el calendario */
+.calendario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+/* Cabecera del calendario */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #FFFFFF; /* Dorado fuerte */
+  color: #BF913B; /* Texto blanco */
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+/* Tabla del calendario */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Cabeceras de las columnas */
+th,
+td {
+  border: 1px solid #ccc;
+  width: 14.28%;
+  height: 40px;
+  text-align: center;
+}
+
+/* Estilos para las cabeceras */
+th {
+  background-color: #BF913B; /* Dorado fuerte */
+  color: #ffffff; /* Texto blanco */
+  font-weight: bold;
+  padding: 12px;
+  text-align: center;
+  border-radius: 8px 8px 0 0; /* Bordes redondeados en la parte superior */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para las celdas de la tabla */
+td {
+  background-color: #ffffff;
+  color: #333;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+/* Estilo de hover para las celdas */
+td:hover {
+  background-color: #f5f0e6; /* Beige suave al hacer hover */
+  cursor: pointer;
+}
+
+/* Estilo para el día activo */
+td.active {
+  background-color: #BF913B; /* Dorado fuerte */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Estilo para los días inhabilitados */
+td.disabled {
+  background-color: #f0f0f0;
+  color: #bbb;
+}
+
+/* Estilos generales para los botones */
+button {
+  background-color: #BF913B; /* Dorado fuerte */
+  color: #ffffff; /* Texto blanco */
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: #a3762f; /* Dorado más oscuro */
+  transform: scale(1.05);
+}
+
+/* Botón "Siguiente" */
+button.siguiente {
+  background-color: #4CAF50; /* Verde para el botón siguiente */
+}
+
+button.siguiente:hover {
+  background-color: #45a049; /* Verde más oscuro */
+}
+
+/* Botón "Anterior" */
+button.anterior {
+  background-color: #f44336; /* Rojo para el botón anterior */
+}
+
+button.anterior:hover {
+  background-color: #e53935; /* Rojo más oscuro */
+}
+
+/* Responsividad: Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .contenedor-principal {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .filtros {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .calendario {
+    max-width: 100%;
+  }
+
+  .header h2 {
+    font-size: 1.25em;
+  }
+
+  .filtros-content {
+    width: 100%;
+  }
+
+  .filtros-content label,
+  .filtros-content select {
+    width: 100%;
+  }
+}
+
+/* Responsividad para pantallas aún más pequeñas (móviles) */
+@media (max-width: 480px) {
+  .header button {
+    padding: 6px 12px;
+  }
+
+  .header h2 {
+    font-size: 1em;
+  }
+
+  td, th {
+    padding: 8px;
+  }
+
+  .appointment-tooltip {
+    font-size: 0.75em;
+  }
+
+  .filtros {
+    padding: 10px;
+  }
+}

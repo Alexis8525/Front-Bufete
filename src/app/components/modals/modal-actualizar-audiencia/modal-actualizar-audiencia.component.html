@@ -1,0 +1,10 @@
+<div class="card-footer d-flex justify-content-end gap-2">
+    <a [routerLink]="['/expediente', expediente.idExpediente]" class="btn btn-primary">Ver más</a>
+    <button class="btn btn-warning" (click)="actualizarExpediente(expediente.idExpediente)">Actualizar</button>
+    <button class="btn btn-info" (click)="programarProximaAudiencia(expediente.idExpediente)"
+            title="Programar próxima audiencia">
+      <i class="fa fa-calendar"></i>
+    </button>
+    <button class="btn btn-danger" (click)="confirmarEliminacion(expediente.idExpediente)">Eliminar</button>
+  </div>
+  
