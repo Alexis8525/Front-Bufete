@@ -9,6 +9,9 @@ import { SesionModalService } from './sesion-modal.service';
   providedIn: 'root',
 })
 export class SesionService {
+  obtenerRolUsuario(): string {
+    return this.localStorageService.getItem('rol') || '';
+  }
   private timeout: any;
   private extensionTimeout: any;
   private actividadTimeout: any;
