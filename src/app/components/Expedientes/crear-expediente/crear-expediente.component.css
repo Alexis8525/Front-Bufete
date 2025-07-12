@@ -47,40 +47,6 @@
   background-color: #a3762f;
 }
 
-/* ========== COMPONENTES DE FORMULARIO ========== */
-.form-control, .form-select {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: #f9f9f9;
-  transition: all 0.3s ease;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: #bf913b;
-  box-shadow: 0 0 0 0.25rem rgba(191, 145, 59, 0.25);
-  background-color: white;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-  background-color: rgb(224, 160, 9);
-}
-
-/* ========== TABLAS ========== */
-.table-responsive {
-  overflow-x: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(227, 6, 6, 0.1);
-}
-
-.table th {
-  background-color: var(--color-primary);
-  color: white;
-  font-weight: 600;
-  padding: 1rem;
-}
 
 .table td {
   padding: 0.75rem 1rem;
@@ -452,23 +418,6 @@
   font-size: 0.875em;
   font-weight: 600;
   border-radius: 10px;
-}
-
-.badge-primary {
-  background-color: #0e2238;
-}
-
-.badge-success {
-  background-color: #28a745;
-}
-
-.badge-warning {
-  background-color: #ffc107;
-  color: #0e2238;
-}
-
-.badge-danger {
-  background-color: #dc3545;
 }
 
 /* ========== TÍTULOS ========== */

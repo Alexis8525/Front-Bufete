@@ -73,7 +73,7 @@ export class NuevoClienteComponent implements OnInit {
 
   // Envío del formulario
   onSubmit(form: NgForm): void {
-    if (form.invalid || !this.contrasenaCoincide) {
+    if (form.invalid ?? !this.contrasenaCoincide) {
       return;
     }
 

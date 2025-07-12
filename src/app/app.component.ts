@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'front-bufete';
   isLoading: boolean = true;
 
-  constructor(private sesionService: SesionService) {}
+constructor(private readonly sesionService: SesionService) {}
 
   ngOnInit() {
     this.isLoading = false;

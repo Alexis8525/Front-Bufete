@@ -10,8 +10,6 @@ import { Cliente } from '../../../models/cliente';
 import { EmpleadoService } from '../../../services/empleado.service';
 import { Empleado } from '../../../models/empleados';
 import { ExpedienteComponent } from '../../../decoradores/decoradorExpedinete/expediente.component';
-import { ExpedienteConPrioridadDecorator } from '../../../decoradores/decoradorExpedinete/expediente-con-prioridad.decorador';
-import { ExpedienteArchivadoDecorator } from '../../../decoradores/decoradorExpedinete/expediente-archivado.decorador';
 import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
@@ -109,7 +107,7 @@ export class UploadFileComponent implements ExpedienteComponent{
   AbogadoAsignado: Empleado | null = null;
 
   constructor(
-    private http: HttpClient,
+    private readonly http: HttpClient,
     private uploadFileService: UploadFileService,
     private clienteService: ClienteService,
     private empleadiService: EmpleadoService,
@@ -138,8 +136,8 @@ export class UploadFileComponent implements ExpedienteComponent{
             nombreEmpleado: abogado.nombreEmpleado,
             aPEmpleado: abogado.aPEmpleado,
             aMEmpleado: abogado.aMEmpleado,
-            numeroLicencia: abogado.numeroLicencia || 'No registrada',
-            telfono: abogado.telefono || 'Sin teléfono',
+            numeroLicencia: abogado.numeroLicencia ?? 'No registrada',
+            telfono: abogado.telefono ?? 'Sin teléfono',
             correo: abogado.correo
           };
           
@@ -414,10 +412,10 @@ export class UploadFileComponent implements ExpedienteComponent{
         // Asegúrate que el objeto tenga las propiedades correctas
         const nuevoExpediente = {
           idExpediente: response.idExpediente,
-          numeroExpediente: response.numeroExpediente || this.expediente.numeroExpediente,
-          nombreExpediente: response.nombreExpediente || this.expediente.nombreExpediente,
-          estado: response.estado || this.expediente.estado,
-          fechaCreacion: response.fechaCreacion || new Date().toISOString()
+          numeroExpediente: response.numeroExpediente ?? this.expediente.numeroExpediente,
+          nombreExpediente: response.nombreExpediente ?? this.expediente.nombreExpediente,
+          estado: response.estado ?? this.expediente.estado,
+          fechaCreacion: response.fechaCreacion ?? new Date().toISOString()
         };
   
         this.expedientes.unshift(nuevoExpediente);
@@ -433,14 +431,19 @@ export class UploadFileComponent implements ExpedienteComponent{
     });
   }
   private mostrarMensajeExito() {
-    const mensaje = this.expediente.estado === 'Prioridad Alta' ? 
-      'Expediente creado con prioridad alta' :
-      this.expediente.estado === 'Archivado' ?
-      'Expediente archivado creado' :
-      'Expediente creado exitosamente';
-    
+    let mensaje = '';
+  
+    if (this.expediente.estado === 'Prioridad Alta') {
+      mensaje = 'Expediente creado con prioridad alta';
+    } else if (this.expediente.estado === 'Archivado') {
+      mensaje = 'Expediente archivado creado';
+    } else {
+      mensaje = 'Expediente creado exitosamente';
+    }
+  
     alert(mensaje);
   }
+  
   
 
   // subirDocumentos() {

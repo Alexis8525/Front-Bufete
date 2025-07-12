@@ -7,9 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
-import { NavbarComponent } from "../../navbar/navbar.component";
-
-declare var bootstrap: any;
+declare const bootstrap: any;
 
 @Component({
   selector: 'app-historial-expediente',

@@ -8,11 +8,10 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-forbidden',
   standalone: true,
   imports: [
-    BarraLateralComponent,
     CommonModule,
     FormsModule,
     RouterModule
-  ],
+],
   templateUrl: './forbidden.component.html',
   styleUrl: './forbidden.component.css'
 })
